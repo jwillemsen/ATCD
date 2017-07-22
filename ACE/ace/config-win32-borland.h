@@ -9,14 +9,6 @@
 #error Use config-win32.h in config.h instead of this header
 #endif /* ACE_CONFIG_WIN32_H */
 
-#define ACE_HAS_CUSTOM_EXPORT_MACROS 1
-#define ACE_Proper_Export_Flag __declspec (dllexport)
-#define ACE_Proper_Import_Flag __declspec (dllimport)
-#define ACE_EXPORT_SINGLETON_DECLARATION(T) template class __declspec (dllexport) T
-#define ACE_EXPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) template class __declspec (dllexport) SINGLETON_TYPE<CLASS, LOCK>;
-#define ACE_IMPORT_SINGLETON_DECLARATION(T) template class __declspec (dllimport) T
-#define ACE_IMPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) template class __declspec (dllimport) SINGLETON_TYPE <CLASS, LOCK>;
-
 // In later versions of C++Builder we will prefer inline functions by
 // default. The debug configuration of ACE is built with functions
 // out-of-line, so when linking your application against a debug ACE
@@ -53,6 +45,17 @@
 #else
 # define ACE_HAS_BCC32
 #endif
+
+#if defined (ACE_HAS_BCC32)
+# define ACE_HAS_CUSTOM_EXPORT_MACROS 1
+# define ACE_Proper_Export_Flag __declspec (dllexport)
+# define ACE_Proper_Import_Flag __declspec (dllimport)
+# define ACE_EXPORT_SINGLETON_DECLARATION(T) template class __declspec (dllexport) T
+# define ACE_EXPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) template class __declspec (dllexport) SINGLETON_TYPE<CLASS, LOCK>;
+# define ACE_IMPORT_SINGLETON_DECLARATION(T) template class __declspec (dllimport) T
+# define ACE_IMPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) template class __declspec (dllimport) SINGLETON_TYPE <CLASS, LOCK>;
+#endif
+
 
 #if defined (ACE_HAS_BCC64)
 // Use 32bit pre processor because cpp64 doesn't have the same

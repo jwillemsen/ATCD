@@ -57,21 +57,20 @@
 #if defined (_WIN64)
 # define ACE_HAS_BCC64
 #else
-# define ACE_HAS_BCC32
+# ifdef __clang__
+#  define ACE_HAS_BCC32C
+# else
+#  define ACE_HAS_BCC32
+# endif
 #endif
 
-#if defined (ACE_HAS_BCC64)
 // Use 32bit pre processor because cpp64 doesn't have the same
 // options
-# define ACE_CC_PREPROCESSOR "CPP32.EXE"
-#else
-# define ACE_CC_PREPROCESSOR "CPP32.EXE"
-#endif
+#define ACE_CC_PREPROCESSOR "CPP32.EXE"
 
-# include "ace/config-win32-common.h"
+#include "ace/config-win32-common.h"
 
-# define ACE_WSTRING_HAS_USHORT_SUPPORT 1
-# define ACE_HAS_DIRENT
+#define ACE_HAS_DIRENT
 
 #define ACE_USES_STD_NAMESPACE_FOR_STDC_LIB 1
 

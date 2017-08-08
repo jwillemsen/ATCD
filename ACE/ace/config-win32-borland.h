@@ -14,8 +14,14 @@
 #define ACE_Proper_Import_Flag __declspec (dllimport)
 #define ACE_EXPORT_SINGLETON_DECLARATION(T) template class __declspec (dllexport) T
 #define ACE_EXPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) template class __declspec (dllexport) SINGLETON_TYPE<CLASS, LOCK>;
+#ifdef __clang__
+#define ACE_IMPORT_SINGLETON_DECLARATION(T) extern template class T
+#define ACE_IMPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) extern template class SINGLETON_TYPE <CLASS, LOCK>;
+#else
 #define ACE_IMPORT_SINGLETON_DECLARATION(T) template class __declspec (dllimport) T
 #define ACE_IMPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) template class __declspec (dllimport) SINGLETON_TYPE <CLASS, LOCK>;
+#endif
+
 
 // In later versions of C++Builder we will prefer inline functions by
 // default. The debug configuration of ACE is built with functions

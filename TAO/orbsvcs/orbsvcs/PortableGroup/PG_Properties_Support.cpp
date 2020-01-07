@@ -42,9 +42,10 @@ void TAO::PG_Properties_Support::set_default_properties (const PortableGroup::Pr
 PortableGroup::Properties *
 TAO::PG_Properties_Support::get_default_properties ()
 {
-  PortableGroup::Properties_var result;
-  ACE_NEW_THROW_EX ( result, PortableGroup::Properties(), CORBA::NO_MEMORY());
-  this->default_properties_->export_properties (*result);
+  PortableGroup::Properties* result_tmp = 0;
+  ACE_NEW_THROW_EX (result_tmp, PortableGroup::Properties(), CORBA::NO_MEMORY());
+  PortableGroup::Properties_var result = result_tmp;
+  this->default_properties_->export_properties (result.inout ());
   return result._retn ();
 }
 
@@ -64,7 +65,7 @@ TAO::PG_Properties_Support::set_type_properties (
   TAO::PG_Property_Set_var typeid_properties;
   if ( 0 != this->properties_map_.find (type_id, typeid_properties))
   {
-    TAO::PG_Property_Set *props;
+    TAO::PG_Property_Set *props = 0;
     ACE_NEW_THROW_EX (props,
                       TAO::PG_Property_Set (overrides,
                                             this->default_properties_),
@@ -80,15 +81,16 @@ PortableGroup::Properties *
 TAO::PG_Properties_Support::get_type_properties (
     const char *type_id)
 {
-  PortableGroup::Properties_var result;
-  ACE_NEW_THROW_EX (result, PortableGroup::Properties(), CORBA::NO_MEMORY ());
+  PortableGroup::Properties* result_tmp = 0;
+  ACE_NEW_THROW_EX (result_tmp, PortableGroup::Properties(), CORBA::NO_MEMORY ());
+  PortableGroup::Properties_var result = result_tmp;
 
   ACE_GUARD_RETURN (TAO_SYNCH_MUTEX, guard, this->internals_, 0);
 
   TAO::PG_Property_Set_var typeid_properties;
-  if ( 0 != this->properties_map_.find (type_id, typeid_properties))
+  if (0 != this->properties_map_.find (type_id, typeid_properties))
   {
-    typeid_properties->export_properties (*result);
+    typeid_properties->export_properties (result.inout ());
   }
   return result._retn ();
 }

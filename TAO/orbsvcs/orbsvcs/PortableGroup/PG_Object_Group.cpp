@@ -475,7 +475,7 @@ TAO::PG_Object_Group::get_properties (
     PortableGroup::Properties_var & result) const
 {
   ACE_GUARD (TAO_SYNCH_MUTEX, guard, this->internals_);
-  this->properties_.export_properties(*result);
+  this->properties_.export_properties(result.inout ());
 }
 
 
@@ -707,7 +707,7 @@ TAO::PG_Object_Group::create_member (
            ++factory_pos)
         {
           const PortableGroup::FactoryInfo & factory_info =
-            (*factories)[factory_pos];
+            factories[factory_pos];
           if (factory_info.the_location == the_location)
             {
               // @@ should we merge the_criteria with
@@ -785,7 +785,7 @@ TAO::PG_Object_Group::create_members (size_t count)
       while (members_.current_size () < count && factory_pos < factory_count)
         {
           const PortableGroup::FactoryInfo & factory_info =
-            (*factories)[factory_pos];
+            factories[factory_pos];
           const PortableGroup::Location & factory_location =
             factory_info.the_location;
           if (0 != this->members_.find (factory_location))

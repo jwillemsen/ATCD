@@ -133,7 +133,6 @@ namespace TAO
      * This method is intended to be used to implement the PropertyManager::get_*_properties
      * methods.  If you want to access the properties for any purpose other than exporting
      * them across a CORBA interface, it is much more efficient to use the find interface.
-     *
      */
     void export_properties(PortableGroup::Properties & property_set) const;
 

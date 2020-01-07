@@ -288,7 +288,7 @@ void TAO::PG_FactoryRegistry::register_factory (
   if (this->registry_.find(role, role_info) != 0)
     {
       ORBSVCS_DEBUG(( LM_DEBUG,
-                  "%s: adding new role: %s:%s\n",
+                  "%C: adding new role: %C:%C\n",
                   this->identity_.c_str(), role, type_id));
 
       // Note the 5.  It's a guess about the number of factories
@@ -317,7 +317,7 @@ void TAO::PG_FactoryRegistry::register_factory (
       if (info.the_location == factory_info.the_location)
         {
           ORBSVCS_ERROR(( LM_ERROR,
-                      "%s: Attempt to register duplicate location %s for role: %s\n" ,
+                      "%C: Attempt to register duplicate location %C for role: %C\n" ,
                       this->identity_.c_str(),
                       static_cast<const char *> (info.the_location[0].id),
           role));
@@ -334,7 +334,7 @@ void TAO::PG_FactoryRegistry::register_factory (
   }
 
   ORBSVCS_DEBUG(( LM_DEBUG,
-    "%s: Added factory: [%d] %s@%s\n",
+    "%C: Added factory: [%d] %C@%C\n",
       this->identity_.c_str(),
       static_cast<int> (length + 1),
       role,
@@ -364,7 +364,7 @@ void TAO::PG_FactoryRegistry::unregister_factory (
         found = 1;
 
         ORBSVCS_ERROR(( LM_INFO,
-          "%s: Unregistering  factory %s@%s\n",
+          "%C: Unregistering  factory %C@%C\n",
             this->identity_.c_str(),
             role,
             static_cast<const char *> (location[0].id)
@@ -386,7 +386,7 @@ void TAO::PG_FactoryRegistry::unregister_factory (
           if (this->registry_.unbind (role) == 0)
           {
             ORBSVCS_DEBUG(( LM_INFO,
-              "%s: No more factories registered for %s\n",
+              "%C: No more factories registered for %C\n",
               this->identity_.c_str(),
               role
               ));
@@ -395,7 +395,7 @@ void TAO::PG_FactoryRegistry::unregister_factory (
           else
           {
             ORBSVCS_ERROR ((LM_ERROR,
-              "%s: LOGIC ERROR AT " __FILE__ " (%d): Entry to be deleted disappeared\n",
+              "%C: LOGIC ERROR AT " __FILE__ " (%d): Entry to be deleted disappeared\n",
               this->identity_.c_str(),
               __LINE__));
           }
@@ -406,7 +406,7 @@ void TAO::PG_FactoryRegistry::unregister_factory (
   else
   {
     ORBSVCS_ERROR(( LM_ERROR,
-      "%s, Attempt to unregister factory for unknown role %s\n",
+      "%C, Attempt to unregister factory for unknown role %C\n",
       this->identity_.c_str(),
       role
       ));
@@ -419,7 +419,7 @@ void TAO::PG_FactoryRegistry::unregister_factory (
   if (registry_.current_size() == 0 && quit_state_ == LIVE)
   {
     ORBSVCS_ERROR(( LM_INFO,
-      "%s is idle\n",
+      "%C is idle\n",
       identity()
       ));
     if (quit_on_idle_)
@@ -442,7 +442,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_role (
   if (this->registry_.unbind(role, role_info) == 0)
   {
     ORBSVCS_DEBUG(( LM_DEBUG,
-      "%s: Unregistering all factories for role %s\n",
+      "%C: Unregistering all factories for role %C\n",
       this->identity_.c_str(),
       role
       ));
@@ -452,7 +452,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_role (
   else
   {
     ORBSVCS_ERROR(( LM_INFO,
-      "%s: Unregister_factory_by_role: unknown role: %s\n",
+      "%C: Unregister_factory_by_role: unknown role: %C\n",
       this->identity_.c_str(),
       role
       ));
@@ -464,7 +464,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_role (
   if (registry_.current_size() == 0 && quit_state_ == LIVE)
   {
     ORBSVCS_ERROR(( LM_INFO,
-      "%s is idle\n",
+      "%C is idle\n",
       identity()
       ));
     if (quit_on_idle_)
@@ -496,7 +496,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
     RoleInfo * role_info =  entry.int_id_;
 
     PortableGroup::FactoryInfos & infos = role_info->infos_;
-    // ORBSVCS_ERROR((LM_INFO,  "unregister_factory_by_location: Checking role %s\n", role.c_str()  ));
+    // ORBSVCS_ERROR((LM_INFO,  "unregister_factory_by_location: Checking role %C\n", role.c_str()  ));
 
     int found = 0;
     CORBA::ULong length = infos.length();
@@ -507,7 +507,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
       {
 
         ORBSVCS_ERROR((LM_INFO,
-          "%s: Unregister_factory_by_location: Removing: [%d] %s@%s\n",
+          "%C: Unregister_factory_by_location: Removing: [%d] %C@%C\n",
           this->identity_.c_str(),
           static_cast<int> (nInfo),
           role.c_str(),
@@ -519,7 +519,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
           while (nInfo + 1 < length)
           {
             ORBSVCS_ERROR((LM_INFO,
-              "%s: Unregister_factory_by_location: Move: [%d] %s to [%d]\n",
+              "%C: Unregister_factory_by_location: Move: [%d] %C to [%d]\n",
               this->identity_.c_str(),
               (int)nInfo + 1, role.c_str(), (int)nInfo
               ));
@@ -527,7 +527,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
             nInfo += 1;
           }
           ORBSVCS_ERROR((LM_INFO,
-            "%s: unregister_factory_by_location: New length [%d] %s\n",
+            "%C: unregister_factory_by_location: New length [%d] %C\n",
             this->identity_.c_str(),
             (int)nInfo, role.c_str()
             ));
@@ -536,7 +536,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
         else
         {
           ORBSVCS_ERROR((LM_INFO,
-            "%s: Removed all entries for %s\n",
+            "%C: Removed all entries for %C\n",
             this->identity_.c_str(),
             role.c_str()
             ));
@@ -553,7 +553,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
   for (size_t nRole = 0; nRole < emptyRoles.size(); ++nRole)
   {
     ORBSVCS_ERROR((LM_INFO,
-      "%s: Remove role %s\n",
+      "%C: Remove role %C\n",
       this->identity_.c_str(),
       emptyRoles[nRole].c_str()
       ));
@@ -565,7 +565,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
     else
     {
       ORBSVCS_ERROR ((LM_ERROR,
-        "%s: LOGIC ERROR AT " __FILE__ " (%d): Role to be deleted disappeared\n",
+        "%C: LOGIC ERROR AT " __FILE__ " (%d): Role to be deleted disappeared\n",
         this->identity_.c_str(),
         __LINE__));
     }
@@ -575,7 +575,7 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
   if (registry_.current_size() == 0 && quit_state_ == LIVE)
   {
     ORBSVCS_ERROR(( LM_INFO,
-      "%s is idle\n",
+      "%C is idle\n",
       identity()
       ));
     if (quit_on_idle_)
@@ -594,28 +594,26 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
 {
   METHOD_ENTRY(TAO::PG_FactoryRegistry::list_factories_by_role);
 
-  // allocate stucture to be returned.
-  PortableGroup::FactoryInfos_var result = 0;
-  ACE_NEW_THROW_EX (result, ::PortableGroup::FactoryInfos(),
-    CORBA::NO_MEMORY (TAO::VMCID, CORBA::COMPLETED_NO));
-
-
+  PortableGroup::FactoryInfos* result = 0;
   RoleInfo * role_info = 0;
+
   if (this->registry_.find(role, role_info) == 0)
   {
-    type_id =  CORBA::string_dup(role_info->type_id_.c_str());
-    (*result) = role_info->infos_;
+    type_id = CORBA::string_dup(role_info->type_id_.c_str());
+    ACE_NEW_THROW_EX (result, ::PortableGroup::FactoryInfos(role_info->infos_),
+      CORBA::NO_MEMORY (TAO::VMCID, CORBA::COMPLETED_NO));
   }
   else
   {
     type_id = CORBA::string_dup("");
-    ORBSVCS_ERROR(( LM_INFO,
-      "%s: list_factories_by_role: unknown role %s\n",
+    ACE_NEW_THROW_EX (result, ::PortableGroup::FactoryInfos(),
+      CORBA::NO_MEMORY (TAO::VMCID, CORBA::COMPLETED_NO));
+    ORBSVCS_ERROR((LM_ERROR,
+      "%C: list_factories_by_role: unknown role %C\n",
       this->identity_.c_str(),
-      role
-      ));
+      role));
   }
-  METHOD_RETURN(TAO::PG_FactoryRegistry::list_factories_by_role) result._retn();
+  METHOD_RETURN(TAO::PG_FactoryRegistry::list_factories_by_role) result;
 }
 
 ::PortableGroup::FactoryInfos * TAO::PG_FactoryRegistry::list_factories_by_location (
@@ -623,13 +621,13 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
   )
 {
   METHOD_ENTRY(TAO::PG_FactoryRegistry::list_factories_by_location);
-  ::PortableGroup::FactoryInfos_var result;
+  ::PortableGroup::FactoryInfos* result_tmp = 0;
   ACE_NEW_THROW_EX (
-    result,
+    result_tmp,
     ::PortableGroup::FactoryInfos(
       static_cast<CORBA::ULong> (this->registry_.current_size())),
     CORBA::NO_MEMORY (TAO::VMCID, CORBA::COMPLETED_NO));
-
+  ::PortableGroup::FactoryInfos_var result = result_tmp;
 
   size_t result_length = 0;
 
@@ -643,17 +641,17 @@ void TAO::PG_FactoryRegistry::unregister_factory_by_location (
 
     PortableGroup::FactoryInfos & found_infos = role_info->infos_;
     // iterate through the entry for this type
-    int found = 0;
+    bool found = false;
     CORBA::ULong length = found_infos.length();
     for (CORBA::ULong nInfo = 0u; !found && nInfo < length; ++nInfo)
     {
       PortableGroup::FactoryInfo & info = found_infos[nInfo];
       if (info.the_location == location)
       {
-        found = 1;
+        found = true;
         result_length += 1;
         result->length (static_cast<CORBA::ULong> (result_length));
-        (*result)[static_cast<CORBA::ULong> (result_length-1u)] = info;
+        result[static_cast<CORBA::ULong> (result_length-1u)] = info;
       }
     }
   }

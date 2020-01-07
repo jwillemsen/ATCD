@@ -380,8 +380,9 @@ PortableGroup::Properties *
 TAO_FT_Naming_Manager::get_properties (
     PortableGroup::ObjectGroup_ptr object_group)
 {
-  PortableGroup::Properties_var result;
-  ACE_NEW_THROW_EX (result, PortableGroup::Properties(), CORBA::NO_MEMORY ());
+  PortableGroup::Properties* result_tmp = 0;
+  ACE_NEW_THROW_EX (result_tmp, PortableGroup::Properties(), CORBA::NO_MEMORY ());
+  PortableGroup::Properties_var result = result_tmp;
 
   TAO::PG_Object_Group * group = 0;
   if (this->group_factory_.find_group (object_group, group))

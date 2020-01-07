@@ -174,15 +174,14 @@ namespace TAO
 
     const char *str = 0;
 
-    (*param)[0].argument >>= str;
-    (*param)[1].argument >>= this->object_group_ref_version_;
-    (*param)[2].argument >>= CORBA::Any::to_boolean(this->is_primary_);
+    param[0].argument >>= str;
+    param[1].argument >>= this->object_group_ref_version_;
+    param[2].argument >>= CORBA::Any::to_boolean(this->is_primary_);
 
     CORBA::String_var obj (str);
 
     this->iogr_ =
       this->orb_->string_to_object (obj.in ());
-
 
     // @@ This exception is a hack to let the RM know that we have
     // received and updated the IOGR. We will add a special minor code

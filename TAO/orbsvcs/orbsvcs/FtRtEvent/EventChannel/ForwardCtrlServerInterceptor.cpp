@@ -28,8 +28,8 @@ CORBA::Object_ptr get_target(PortableInterceptor::ServerRequestInfo_ptr ri)
   PortableInterceptor::AdapterName_var adaptor_name =
     ri->adapter_name();
 
-  for (size_t i = 1; i < adaptor_name->length(); ++i) {
-    poa = poa->find_POA((*adaptor_name)[i] , false);
+  for (CORBA::ULong i = 1; i < adaptor_name->length(); ++i) {
+    poa = poa->find_POA(adaptor_name[i] , false);
   }
 
   CORBA::OctetSeq_var oid =

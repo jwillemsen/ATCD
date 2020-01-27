@@ -1,6 +1,10 @@
 USER VISIBLE CHANGES BETWEEN ACE-6.5.7 and ACE-6.5.8
 ====================================================
 
+. Removed the gnuautobuild MPC projec type, as replacement use the gnuace
+  MPC project type and pass `--output-sync=recurse` to GNU make to get
+  the same behavior
+
 USER VISIBLE CHANGES BETWEEN ACE-6.5.6 and ACE-6.5.7
 ====================================================
 

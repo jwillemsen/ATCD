@@ -1,4 +1,53 @@
 // -*- MPC -*-
+project(CC_CLIENT_GEN) {
+  requires += cc_client_gen
+  custom_only = 1
+
+  verbatim(gnuace, extension, 1) {
+    OUTPUT_DIRECTORY =
+  }
+
+  verbatim(gnuace, local) {
+lex.CC_command.cpp:     CC_command.l CC_command.tab.h
+"	@echo 'WARNING: Potentially outdated $@'"
+"	@echo '         either touch(1) the file or explicitly'"
+"	@echo '         generate it using:'"
+"	@echo '    make lex.CC_comand.cpp.target'"
+
+.PHONY: lex.CC_command.cpp.target
+
+lex.CC_command.cpp.target:
+"		$(LEX) -t -olex.CC_command.cpp CC_command.l  | \\"
+"		sed -f post_flex.sed > lex.CC_command.cpp"
+"		patch < lex.CC_command.cpp.diff"
+
+CC_command.tab.cpp CC_command.tab.h: CC_command.y
+"	@echo 'WARNING: Potentially outdated CC_command.tab.cpp'"
+"	@echo '         either touch(1) the file or explicitly '"
+"	@echo '         generate it using:'"
+"	@echo '    make CC_comand.tab'"
+
+.PHONY: CC_command.tab
+
+CC_command.tab: CC_command.y
+"		$(YACC) -d -l CC_command.y"
+"		sed -e "s/char \*getenv/char *ace_foo/g" \"
+"		    -e "s/= getenv/= ACE_OS::getenv/g" \"
+"		    -e "s/yynewerror://g" \"
+"		                    -e "s/goto\ yynewerror.*//g" \"
+"		    -e "s/yy/ace_cc_yy/g" \"
+"		    -e "s/YY/ACE_CC_YY/g" \"
+"		                    -e "s/^\#pragma.*//g" \"
+"		    -e "s/y\.tab\.c/CC_command.tab.cpp/g" < y.tab.c > /tmp/$(USER).CC_Y"
+"		sed -e "s/yy/ace_cc_yy/g" \"
+"		    -e "s/YY/ACE_CC_YY/g" < y.tab.h > /tmp/$(USER).CC_YH"
+"		cp /tmp/$(USER).CC_Y CC_command.tab.cpp"
+"		cp /tmp/$(USER).CC_YH CC_command.tab.h"
+"		$(RM) -f /tmp/$(USER).CC_Y  /tmp/$(USER).CC_YH y.tab.c y.tab.h"
+}
+}
+
 project(CC client) : orbsvcsexe, concurrency, naming, svc_utils, iortable, portableserver {
   exename  = CC_client
+  after += cc_client_gen
 }

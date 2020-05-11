@@ -8,6 +8,8 @@ project(CC_CLIENT_GEN) {
   }
 
   verbatim(gnuace, local) {
+BISON_FLAGS := -d --feature=caret --warnings=error=deprecated --warnings=error=conflicts-rr
+
 lex.CC_command.cpp:     CC_command.l CC_command.tab.h
 "	@echo 'WARNING: Potentially outdated $@'"
 "	@echo '         either touch(1) the file or explicitly'"
@@ -17,9 +19,8 @@ lex.CC_command.cpp:     CC_command.l CC_command.tab.h
 .PHONY: lex.CC_command.cpp.target
 
 lex.CC_command.cpp.target:
-"		$(LEX) -t -olex.CC_command.cpp CC_command.l  | \\"
-"		sed -f post_flex.sed > lex.CC_command.cpp"
-"		patch < lex.CC_command.cpp.diff"
+"		$(LEX) -P ace_yy -t -olex.CC_command.cpp CC_command.l  | \\"
+"		sed -f post_flex.sed lex.CC_command.cpp > lex.CC_command.cpp"
 
 CC_command.tab.cpp CC_command.tab.h: CC_command.y
 "	@echo 'WARNING: Potentially outdated CC_command.tab.cpp'"
@@ -30,20 +31,9 @@ CC_command.tab.cpp CC_command.tab.h: CC_command.y
 .PHONY: CC_command.tab
 
 CC_command.tab: CC_command.y
-"		$(YACC) -d -l CC_command.y"
-"		sed -e "s/char \*getenv/char *ace_foo/g" \"
-"		    -e "s/= getenv/= ACE_OS::getenv/g" \"
-"		    -e "s/yynewerror://g" \"
-"		                    -e "s/goto\ yynewerror.*//g" \"
-"		    -e "s/yy/ace_cc_yy/g" \"
-"		    -e "s/YY/ACE_CC_YY/g" \"
-"		                    -e "s/^\#pragma.*//g" \"
-"		    -e "s/y\.tab\.c/CC_command.tab.cpp/g" < y.tab.c > /tmp/$(USER).CC_Y"
-"		sed -e "s/yy/ace_cc_yy/g" \"
-"		    -e "s/YY/ACE_CC_YY/g" < y.tab.h > /tmp/$(USER).CC_YH"
-"		cp /tmp/$(USER).CC_Y CC_command.tab.cpp"
-"		cp /tmp/$(USER).CC_YH CC_command.tab.h"
-"		$(RM) -f /tmp/$(USER).CC_Y  /tmp/$(USER).CC_YH y.tab.c y.tab.h"
+"		$(YACC) $(BISON_FLAGS) -p ace_yy CC_command.y"
+"		sed -f post_yacc_cpp.sed CC_command.tab.c > CC_command.tab.cpp"
+"		rm CC_command.tab.c"
 }
 }
 

@@ -28,11 +28,11 @@
 #define _CC_CLIENT_H_
 
 // Stuff to be used by the command file parser
-int ace_cc_yyparse(void);
+int ace_yyparse(void);
 int line_no = 1;
 char line_buf[500];
 CC_CommandList *cmdlist;
-extern FILE *ace_cc_yyin;
+FILE *ace_yyin;
 // end of parser stuff
 
 

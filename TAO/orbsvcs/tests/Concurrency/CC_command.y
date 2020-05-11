@@ -1,4 +1,4 @@
-/* 
+/*
  * ============================================================================
  *
  * = LIBRARY
@@ -20,12 +20,11 @@
 #include "ace/ACE.h"
 #include "orbsvcs/CosConcurrencyControlC.h"
 
-void yyerror (const char* s);
-int yylex(void);
+void ace_yyerror (const char* s);
+extern "C" int ace_yylex (void);
 
-extern int line_no;
-extern char line_buf[500];
-extern char *yytext;
+extern char ace_yytext[];
+extern int tao_yyleng;
 extern CC_CommandList *cmdlist;
 %}
 
@@ -115,12 +114,7 @@ lock_mode:	T_READ { $$ = CosConcurrencyControl::read; }
 %%
 
 void
-yyerror (const char *s)
+ace_yyerror (const char *msg)
 {
-  ACE_OS::printf ("%d: %s at %s in:\n%s\n",
-                  line_no,
-                  s,
-                  yytext,
-                  line_buf);
-  ACE_OS::exit (-1);
+  ACE_ERROR ((LM_ERROR, "%C\n", msg));
 }

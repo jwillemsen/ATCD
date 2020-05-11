@@ -180,9 +180,9 @@ CC_Client::run (void)
                                "Unable to open %s\n",
                                this->script_file_),
                               -1);
-          ace_cc_yyin = f;
+          ace_yyin = f;
         }
-      ace_cc_yyparse();
+      ace_yyparse();
     }
 
   // Other tests go here

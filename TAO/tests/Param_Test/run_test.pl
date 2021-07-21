@@ -67,7 +67,7 @@ for ($i = 0; $i <= $#ARGV; $i++) {
 }
 
 $SV = $server->CreateProcess ("server", "$debug -o $server_iorfile");
-$CL = $client->CreateProcess ("client");
+$CL = $client->CreateProcess ("client", "-ORBDebugLevel 10");
 
 foreach $type (@types) {
     $server->DeleteFile($iorbase); # Ignore errors
@@ -99,7 +99,7 @@ foreach $type (@types) {
             exit 1;
         }
 
-        $CL->Arguments ("$debug -f $client_iorfile  -i $invocation -t $type -n $num -x");
+        $CL->Arguments ("$debug -f $client_iorfile  -i $invocation -t $type -n $num -x -ORBDebugLevel 10");
         $client_status = $CL->SpawnWaitKill ($server->ProcessStartWaitInterval() + 45);
 
         if ($client_status != 0) {

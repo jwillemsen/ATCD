@@ -250,6 +250,7 @@ Test_Exception::run_sii_test (Param_Test_ptr objref)
     }
   catch (const Param_Test::Ooops& ex)
     {
+      ACE_DEBUG ((LM_DEBUG, "CAUGHT OOPS\n"));
       const char *reason = ex.reason.in ();
 
       if (reason == 0)

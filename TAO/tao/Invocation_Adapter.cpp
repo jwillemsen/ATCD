@@ -50,6 +50,20 @@ namespace TAO
   void
   Invocation_Adapter::invoke_i (TAO_Stub *stub, TAO_Operation_Details &details)
   {
+    if (std::strcmp(details.opname(), "test_exception") == 0)
+    {
+            TAOLIB_DEBUG ((LM_DEBUG,
+              ACE_TEXT("TAO (%P|%t) - Invocation_Adapter::invoke_i, ")
+              ACE_TEXT("HACK, RAISING EXCEPTION\n")));
+
+    CORBA::Exception *exception = details.corba_exception ("IDL:Param_Test/Ooops:1.0");
+    // We must manage the memory allocated
+    // by the call above to alloc().
+    std::unique_ptr<CORBA::Exception> safety (exception);
+
+    exception->_raise ();
+    }
+
     // The invocation has got to be within the context of the
     // corresponding ORB's configuration. Otherwise things like
     // timeout hooks, etc may not work as expected. Especially if

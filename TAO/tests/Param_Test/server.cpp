@@ -137,6 +137,7 @@ ACE_TMAIN(int argc, ACE_TCHAR *argv[])
                        str.in ());
       ACE_OS::fclose (ior_output_file);
 
+return 0;
 
       // Make the POAs controlled by this manager active
       poa_manager->activate ();

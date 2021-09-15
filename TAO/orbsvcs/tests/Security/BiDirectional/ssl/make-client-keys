@@ -1,16 +1,16 @@
 #!/bin/bash -x
 
-openssl req -new -x509 -days 9999 -nodes -newkey rsa:1024 \
-    -out server-cert.pem -keyout server-key.pem \
+openssl req -new -x509 -days 9999 -nodes -newkey rsa:2048 \
+    -out server_cert.pem -keyout server_key.pem \
     -subj "/C=US/ST=MO/L=St. Louis/O=OCI/CN=server"
 
-cat server-cert.pem >>server-key.pem
-cat server-cert.pem >ca.pem
+cat server_cert.pem >>server_key.pem
+cat server_cert.pem >cacert.pem
 
-openssl req -new -x509 -days 9999 -nodes -newkey rsa:1024 \
-    -out client-cert.pem -keyout client-key.pem \
+openssl req -new -x509 -days 9999 -nodes -newkey rsa:2048 \
+    -out client_cert.pem -keyout client_key.pem \
     -subj "/C=US/ST=MO/L=St. Louis/O=OCI/CN=client"
 
-cat client-cert.pem >>client-key.pem
-cat client-cert.pem >>ca.pem
+cat client_cert.pem >>client_key.pem
+cat client_cert.pem >>cacert.pem
 

@@ -39,6 +39,9 @@
 // included before anything else. You can define ACE_HAS_VCL=1 in your
 // project settings to have this file included for you automatically.
 # if defined (ACE_HAS_VCL) && (ACE_HAS_VCL != 0)
+// Delphi headers do a using namespace which can cause all kinds of
+// ambiguity errors
+#  define DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE
 #  include /**/ <vcl.h>
 # endif
 

@@ -158,6 +158,7 @@ ACE_END_VERSIONED_NAMESPACE_DECL
 
 #   elif defined (ACE_VXWORKS)
 #     include /**/ <sysLib.h> // for sysClkRateGet()
+#     include /**/ <semLib.h> // for SEM_Q_FIFO
 #     include /**/ <types/vxTypes.h>
 #     if !defined (__RTP__)
 #       include /**/ <taskLib.h>
@@ -743,9 +744,9 @@ private:
   ACE_hthread_t thread_handle_;
 };
 
-// = The ACE_Sched_Priority type should be used for platform-
-//   independent thread and process priorities, by convention.
-//   int should be used for OS-specific priorities.
+/// The ACE_Sched_Priority type should be used for platform-
+/// independent thread and process priorities, by convention.
+/// int should be used for OS-specific priorities.
 typedef int ACE_Sched_Priority;
 
 # if !defined (ACE_DEFAULT_SYNCH_TYPE)
@@ -1939,9 +1940,9 @@ struct ACE_eventdata_t
 class ACE_Export ACE_event_t
 {
   friend int ACE_OS::event_init (ACE_event_t *, int, int, int, const char *,
-                                 void *, int);
+                                 void *, LPSECURITY_ATTRIBUTES);
   friend int ACE_OS::event_init (ACE_event_t *, int, ACE_condattr_t *, int,
-                                 int, const char *, void *, int);
+                                 int, const char *, void *, LPSECURITY_ATTRIBUTES);
   friend int ACE_OS::event_destroy (ACE_event_t *);
   friend int ACE_OS::event_wait (ACE_event_t *);
   friend int ACE_OS::event_timedwait (ACE_event_t *, ACE_Time_Value *, int);

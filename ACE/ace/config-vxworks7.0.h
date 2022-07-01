@@ -24,9 +24,14 @@
 # define ACE_LACKS_REGEX_H
 #endif
 
-#ifndef __RTP__
+#if !defined (__RTP__)
 # define ACE_LACKS_ALARM
+# define ACE_LACKS_GETPID
+# undef ACE_MKDIR_LACKS_MODE
 #endif
+
+#define ACE_HAS_SOCKLEN_T
+#undef ACE_LACKS_MKSTEMP
 
 #include /**/ "ace/post.h"
 #endif /* ACE_CONFIG_VXWORKS_7_0_H */

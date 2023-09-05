@@ -14,6 +14,7 @@
 #include /**/ "ace/pre.h"
 
 #include "ace/Monitor_Base.h"
+#include "ace/Unbounded_Queue.h"
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
 #pragma once

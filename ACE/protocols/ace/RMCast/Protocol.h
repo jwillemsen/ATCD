@@ -13,7 +13,7 @@
 #include "ace/OS_NS_string.h"
 #include "ace/OS_NS_stdlib.h"
 #include "Bits.h"
-#include <vector>
+#include "ace/Vector_T.h"
 
 namespace ACE_RMCast
 {
@@ -356,7 +356,7 @@ namespace ACE_RMCast
     Profiles profiles_;
   };
 
-  typedef std::vector<Message_ptr, ACE_VECTOR_DEFAULT_SIZE> Messages;
+  typedef ACE_Vector<Message_ptr, ACE_VECTOR_DEFAULT_SIZE> Messages;
 
   //
   //
@@ -747,7 +747,7 @@ namespace ACE_RMCast
   public:
     static u16 const id;
 
-    typedef std::vector<u64, ACE_VECTOR_DEFAULT_SIZE> SerialNumbers;
+    typedef ACE_Vector<u64, ACE_VECTOR_DEFAULT_SIZE> SerialNumbers;
     typedef SerialNumbers::Iterator iterator;
 
     NAK (Header const& h, istream& is)

@@ -18,7 +18,6 @@
 #include "ace/OS_Memory.h"
 #include "ace/Countdown_Time.h"
 #include "ace/Truncate.h"
-#include "ace/Vector_T.h"
 #include "ace/Tokenizer_T.h"
 
 #if defined (ACE_VXWORKS) && defined (__RTP__)
@@ -27,6 +26,7 @@
 #endif
 
 #include <memory>
+#include <vector>
 
 // This function acts as a signal handler for SIGCHLD. We don't really want
 // to do anything with the signal - it's just needed to interrupt a sleep.
@@ -685,7 +685,7 @@ ACE_Process::convert_env_buffer (const char* env) const
 
   // Convert each individual character string to the equivalent wide
   // character string.
-  ACE_Vector<wchar_t*> buffer;
+  std::vector<wchar_t*> buffer;
   size_t start = 0;
   size_t i = 0;
   while (true)
@@ -822,7 +822,7 @@ ACE_Process_Options::inherit_environment ()
   ACE_TCHAR *existing_environment = 0;
 #if defined (ACE_HAS_WCHAR) && !defined (ACE_USES_WCHAR)
   WCHAR *existing_wide_env = 0;
-  ACE_Vector<char> temp_narrow_env;
+  std::vector<char> temp_narrow_env;
   if (this->use_unicode_environment_)
     {
       existing_wide_env = ::GetEnvironmentStringsW ();

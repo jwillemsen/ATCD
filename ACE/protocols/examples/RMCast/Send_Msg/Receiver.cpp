@@ -1,17 +1,15 @@
 // file      : Receiver.cpp
 // author    : Boris Kolpackov <boris@kolpackov.net>
-#include "ace/Vector_T.h"
 #include "ace/Log_Msg.h"
 #include "ace/OS_NS_string.h"
 #include "ace/Time_Value.h"     // ACE_Time_Value
 #include "ace/OS_NS_sys_time.h" // gettimeofday
-
 #include "ace/RMCast/Socket.h"
-
 #include "Protocol.h"
+#include <memory>
 
 typedef
-ACE_Vector<unsigned char, ACE_VECTOR_DEFAULT_SIZE>
+std::vector<unsigned char, ACE_VECTOR_DEFAULT_SIZE>
 Status_List;
 
 class args {};

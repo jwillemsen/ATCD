@@ -5,20 +5,15 @@
 
 #include "ace/Auto_Ptr.h"
 #include "ace/Bound_Ptr.h"
-
-#include "ace/Vector_T.h"
 #include "ace/Hash_Map_Manager.h"
-
 #include "ace/CDR_Stream.h"
 #include "ace/CDR_Size.h"
-
 #include "ace/INET_Addr.h"
 #include "ace/Null_Mutex.h"
-
 #include "ace/OS_NS_string.h"
 #include "ace/OS_NS_stdlib.h"
-
 #include "Bits.h"
+#include <vector>
 
 namespace ACE_RMCast
 {
@@ -361,7 +356,7 @@ namespace ACE_RMCast
     Profiles profiles_;
   };
 
-  typedef ACE_Vector<Message_ptr, ACE_VECTOR_DEFAULT_SIZE> Messages;
+  typedef std::vector<Message_ptr, ACE_VECTOR_DEFAULT_SIZE> Messages;
 
   //
   //
@@ -752,7 +747,7 @@ namespace ACE_RMCast
   public:
     static u16 const id;
 
-    typedef ACE_Vector<u64, ACE_VECTOR_DEFAULT_SIZE> SerialNumbers;
+    typedef std::vector<u64, ACE_VECTOR_DEFAULT_SIZE> SerialNumbers;
     typedef SerialNumbers::Iterator iterator;
 
     NAK (Header const& h, istream& is)

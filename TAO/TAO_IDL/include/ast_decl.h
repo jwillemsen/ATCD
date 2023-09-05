@@ -71,7 +71,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 #include "ace/os_include/sys/os_types.h"
 #include "ace/SString.h"
-#include "ace/Vector_T.h"
+#include <vector>
 
 class Identifier;
 class UTL_Scope;
@@ -486,6 +486,6 @@ private:
   // Non-top-level version of set_prefix_with_typeprefix.
 };
 
-typedef ACE_Vector<AST_Decl*> AST_Decls;
+typedef std::vector<AST_Decl*> AST_Decls;
 
 #endif           // _AST_DECL_AST_DECL_HH

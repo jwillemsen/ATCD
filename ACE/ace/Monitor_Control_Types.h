@@ -13,7 +13,7 @@
 
 #include /**/ "ace/pre.h"
 
-#include "ace/Vector_T.h"
+#include "ace/Array_Map.h"
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
 #pragma once
@@ -21,9 +21,9 @@
 
 #if defined (ACE_HAS_MONITOR_FRAMEWORK) && (ACE_HAS_MONITOR_FRAMEWORK == 1)
 
-#include "ace/Array_Map.h"
 #include "ace/SString.h"
 #include "ace/Time_Value.h"
+#include <vector>
 
 ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 
@@ -90,12 +90,12 @@ namespace ACE
        * @brief Used by the admin class as a container for the data from
        *        a group of monitor points.
        */
-      typedef ACE_Vector<Data> DataList;
+      typedef std::vector<Data> DataList;
 
       /**
        * @brief Used in various places to pass around a set of string names.
        */
-      typedef ACE_Vector<ACE_CString> NameList;
+      typedef std::vector<ACE_CString> NameList;
 
       /**
        * @brief Holder for a monitor point's constraints.

@@ -104,7 +104,7 @@ public:
 
 private:
   /// This container is here only for proper clean up.
-  typedef ACE_Vector<PortableServer::ServantBase_var> GridsHolder;
+  typedef std::vector<PortableServer::ServantBase_var> GridsHolder;
   GridsHolder grids_holder_;
 
   /// ORB pointer.

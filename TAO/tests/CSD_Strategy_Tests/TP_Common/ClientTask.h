@@ -12,8 +12,8 @@
 #include "CSD_TP_Test_Export.h"
 #include "ClientEngine.h"
 #include "ace/Task.h"
-#include "ace/Vector_T.h"
 #include "ace/Synch.h"
+#include <vector>
 
 class CSD_TP_Test_Export ClientTask : public ACE_Task_Base
 {
@@ -30,7 +30,7 @@ public:
   unsigned failure_count () const;
 
 private:
-  typedef ACE_Vector<ClientEngine_Handle> EngineVector;
+  typedef std::vector<ClientEngine_Handle> EngineVector;
 
   TAO_SYNCH_MUTEX lock_;
   EngineVector engines_;

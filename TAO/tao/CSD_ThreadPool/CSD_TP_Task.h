@@ -26,7 +26,7 @@
 #include "ace/Task.h"
 #include "ace/Synch.h"
 #include "ace/Containers_T.h"
-#include "ace/Vector_T.h"
+#include <vector>
 
 TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 
@@ -141,7 +141,7 @@ namespace TAO
       /// The queue of pending servant requests (a.k.a. the "request queue").
       TP_Queue queue_;
 
-      typedef ACE_Vector <ACE_thread_t> Thread_Ids;
+      typedef std::vector <ACE_thread_t> Thread_Ids;
 
       /// The list of ids for the threads launched by this task.
       Thread_Ids activated_threads_;

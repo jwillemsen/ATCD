@@ -1,8 +1,8 @@
 #include "TestC.h"
 #include "ace/Get_Opt.h"
-#include "ace/Vector_T.h"
 #include "ace/OS_NS_strings.h"
 #include "ace/OS_NS_unistd.h"
+#include <vector>
 
 const ACE_TCHAR* group_ior = ACE_TEXT ("file:://group.ior");
 const ACE_TCHAR* direct_obj2_ior = ACE_TEXT ("file://direct_obj2.ior");
@@ -214,7 +214,7 @@ int dead_member_rand_test (CORBA::ORB_ptr orb,
 {
   int status = 0;
 
-  ACE_Vector <ACE_CString> locations;
+  std::vector <ACE_CString> locations;
 
   for (int iter = 0; iter < 4; iter ++)
   {
@@ -291,7 +291,7 @@ int hang_member_rand_test (CORBA::ORB_ptr orb,
 {
   int status = 0;
 
-  ACE_Vector <ACE_CString> locations;
+  std::vector <ACE_CString> locations;
 
   for (int iter = 0; iter < 4; iter++)
   {

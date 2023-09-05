@@ -3,8 +3,7 @@
 
 #include "tao/PortableServer/PortableServer.h"
 #include "tao/PortableServer/Servant_Base.h"
-#include "ace/Vector_T.h"
-
+#include <vector>
 
 // The T type is a concrete servant type.
 template <class T>
@@ -44,7 +43,7 @@ class ServantList
       T_stub_var                      obj_;
     };
 
-    typedef ACE_Vector<ServantRecord> ServantRecordVector;
+    typedef std::vector<ServantRecord> ServantRecordVector;
 
     ServantRecordVector servant_records_;
 };

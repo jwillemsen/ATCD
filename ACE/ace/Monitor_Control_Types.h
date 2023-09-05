@@ -23,6 +23,7 @@
 
 #include "ace/SString.h"
 #include "ace/Time_Value.h"
+#include "ace/Array_Base.h"
 #include <vector>
 
 ACE_BEGIN_VERSIONED_NAMESPACE_DECL

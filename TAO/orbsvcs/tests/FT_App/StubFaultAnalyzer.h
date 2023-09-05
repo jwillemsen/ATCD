@@ -13,7 +13,7 @@
 #include <orbsvcs/FT_NotifierC.h>
 #include <orbsvcs/FT_FaultDetectorFactoryC.h>
 
-#include "ace/Vector_T.h"
+#include <vector>
 #include "ace/SString.h"
 
 //////////////////////
@@ -116,10 +116,9 @@ private:
   /**
    * A collection of files containing replica IORs
    */
-  ACE_Vector < const char * > replicaIORs;
+  std::vector < const char * > replicaIORs;
 
-  ACE_Vector < FT::PullMonitorable_var > replicas_;
-
+  std::vector < FT::PullMonitorable_var > replicas_;
 
   StubFaultConsumer faultConsumer_;
   StubBatchConsumer batchConsumer_;

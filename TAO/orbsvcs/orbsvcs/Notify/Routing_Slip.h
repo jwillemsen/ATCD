@@ -16,9 +16,8 @@
 #include "orbsvcs/Notify/Event_Persistence_Factory.h"
 
 #include "orbsvcs/Notify/Persistent_File_Allocator.h"  // for Persistent_Callback
-
-#include <ace/Vector_T.h>
 #include <ace/Malloc_Base.h>  // necessary?
+#include <vector>
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
 # pragma once
@@ -42,10 +41,10 @@ class Routing_Slip_Persistence_Manager;
 // referenced from this header
 
 /// A vector of Delivery Requests.  The body of a Routing_Slip.
-typedef ACE_Vector <Delivery_Request_Ptr> Delivery_Request_Vec;
+typedef std::vector <Delivery_Request_Ptr> Delivery_Request_Vec;
 
 /// A vector of Methods_.  Used during recovery.
-typedef ACE_Vector <TAO_Notify_Method_Request_Queueable *> Delivery_Method_Vec;
+typedef std::vector <TAO_Notify_Method_Request_Queueable *> Delivery_Method_Vec;
 
 class Routing_Slip;
 /// A reference-counted smart pointer to a Routing_Slip

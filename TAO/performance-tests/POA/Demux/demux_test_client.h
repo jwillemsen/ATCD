@@ -15,10 +15,10 @@
 // FUZZ: disable check_for_math_include
 
 #include "ace/Get_Opt.h"
-#include "ace/Vector_T.h"
 #include "demux_testC.h"
 #include "demux_test_macros.h"
 #include "tao/Intrusive_Ref_Count_Handle_T.h"
+#include <vector>
 
 class Demux_Test_Client
 {
@@ -96,7 +96,7 @@ private:
 
   /// object references to the Demux_Test objects
   typedef TAO_Intrusive_Ref_Count_Handle<Demux_Test> Demux_Test_Var;
-  typedef ACE_Vector<Demux_Test_Var> Demux_Test_Container;
+  typedef std::vector<Demux_Test_Var> Demux_Test_Container;
   Demux_Test_Container demux_test_;
 
   /// number of times to invoke the request

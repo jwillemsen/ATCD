@@ -23,7 +23,7 @@
 
 /////////////////////////////////
 // Includes needed by this header
-#include <ace/Vector_T.h>
+#include <vector>
 #include <orbsvcs/FT_FaultDetectorFactoryS.h>
 #include <orbsvcs/FT_ReplicationManagerC.h>
 #include <ace/Thread_Manager.h>
@@ -86,7 +86,7 @@ namespace TAO
   // Class Declarations
   class  FT_FaultDetectorFactory_i : public virtual POA_FT::FaultDetectorFactory
   {
-    typedef ACE_Vector<Fault_Detector_i *> DetectorVec;
+    typedef std::vector<Fault_Detector_i *> DetectorVec;
 
     //////////////////////
     // non-CORBA interface

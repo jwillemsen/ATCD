@@ -15,9 +15,8 @@
 #include "orbsvcs/Notify/Property.h"
 #include "orbsvcs/Notify/Property_Boolean.h"
 #include "orbsvcs/Notify/notify_serv_export.h"
-
 #include "ace/SString.h"
-#include "ace/Vector_T.h"
+#include <memory>
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
 #pragma once
@@ -90,7 +89,7 @@ namespace TAO_Notify
     bool find (const char * name, const char *& val) const;
 
   private:
-    ACE_Vector<NVP> list_;
+    std::vector<NVP> list_;
   };
 } // namespace TAO_Notify
 

@@ -10,6 +10,7 @@
 #include "ace/OS_NS_string.h"
 #include "ace/OS_Memory.h"
 #include <cstring>
+#include <vector>
 
 #if !defined (__ACE_INLINE__)
 # include "orbsvcs/PortableGroup/UIPMC_Endpoint.inl"
@@ -151,7 +152,7 @@ TAO_UIPMC_Endpoint::hash ()
 CORBA::ULong
 TAO_UIPMC_Endpoint::preferred_interfaces (TAO_ORB_Core *oc)
 {
-  ACE_Vector<ACE_CString> preferred;
+  std::vector<ACE_CString> preferred;
   TAO_IIOP_Endpoint::find_preferred_interfaces(this->host_.in(),
                                                oc->orb_params ()->preferred_interfaces (),
                                                preferred);

@@ -4,11 +4,11 @@
 #include "CSD_TP_Test_Export.h"
 #include "tao/Basic_Types.h"
 #include "ace/Containers_T.h"
-#include "ace/Vector_T.h"
 #include "ace/SString.h"
+#include <vector>
 
-typedef ACE_Vector< CORBA::Long, 1000 > LongVector;
-typedef ACE_Vector< ACE_CString, 1000 > StringVector;
+typedef std::vector< CORBA::Long, 1000 > LongVector;
+typedef std::vector< ACE_CString, 1000 > StringVector;
 typedef ACE_Array< CORBA::Long > LongArray;
 
 extern CSD_TP_Test_Export void swap (CORBA::Long& x, CORBA::Long& y);

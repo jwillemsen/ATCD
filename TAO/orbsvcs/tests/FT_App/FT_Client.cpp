@@ -1,15 +1,15 @@
 #include "FT_TestReplicaC.h"
-#include <ace/Vector_T.h>
 #include <ace/SString.h>
 #include <ace/Get_Opt.h>
 // FUZZ: disable check_for_streams_include
 #include "ace/streams.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/OS_NS_stdio.h"
+#include <vector>
 
 class FTClientMain
 {
-  typedef ACE_Vector<ACE_CString> StringVec;
+  typedef std::vector<ACE_CString> StringVec;
 public:
   ///////////////////////////
   // construction/destruction

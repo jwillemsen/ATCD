@@ -95,7 +95,7 @@ namespace ACE
       Monitor_Control_Types::NameList name_holder_;
 
       {
-        ACE_GUARD_RETURN (ACE_SYNCH_MUTEX, guard, this->mutex_, 0);
+        ACE_GUARD_RETURN (ACE_SYNCH_MUTEX, guard, this->mutex_, {});
 
         for (Map::CONST_ITERATOR i (this->map_); !i.done (); i.advance ())
           {

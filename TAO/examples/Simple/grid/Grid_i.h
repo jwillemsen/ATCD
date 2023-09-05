@@ -13,7 +13,7 @@
 #define GRID_I_H
 
 #include "GridS.h"
-#include "ace/Vector_T.h"
+#include <vector>
 #include <memory>
 
 /**

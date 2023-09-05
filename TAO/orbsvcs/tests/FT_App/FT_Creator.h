@@ -23,12 +23,13 @@
 
 #include "TAO_Object_Group_Creator.h"
 #include "ace/OS_NS_stdio.h"
+#include <vector>
 
 namespace FTAPP
 {
   class FT_Creator
   {
-    typedef ACE_Vector<ACE_CString> StringVec;
+    typedef std::vector<ACE_CString> StringVec;
    public:
     ///////////////////////////
     // construction/destruction

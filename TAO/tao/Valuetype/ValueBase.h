@@ -22,17 +22,15 @@
 
 #include "tao/Valuetype/Value_CORBA_methods.h"
 #include "tao/Valuetype/Value_VarOut_T.h"
-
 #include "tao/Object_Argument_T.h"
 #include "tao/Arg_Traits_T.h"
 #include "tao/Any_Insert_Policy_T.h"
-
 #include "ace/Basic_Types.h"
 #include "ace/Synch_Traits.h"
 #include "ace/Thread_Mutex.h"
 #include <atomic>
 #include "ace/Null_Mutex.h"
-#include "ace/Vector_T.h"
+#include <vector>
 
 TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 
@@ -141,7 +139,7 @@ namespace CORBA
     typedef ValueBase_var _var_type;
     typedef ValueBase_out _out_type;
 
-    typedef ACE_Vector < ACE_CString > Repository_Id_List;
+    typedef std::vector < ACE_CString > Repository_Id_List;
 
     virtual CORBA::ValueBase* _copy_value () TAO_local_COPY_VALUE_IS_PURE;
 

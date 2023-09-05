@@ -18,6 +18,7 @@
 #include "ACEXML/common/XML_Util.h"
 #include "tao/IORManipulation/IORManip_Loader.h"
 #include "tao/ORB_Core.h"
+#include <vector>
 
 namespace {
   class Lockable_File
@@ -609,7 +610,7 @@ Shared_Backing_Store::init_repo(PortableServer::POA_ptr)
         }
       else
         {
-          const ACE_Vector<ACE_TString>& filenames = listings->filenames();
+          const std::vector<ACE_TString>& filenames = listings->filenames();
           size_t const sz = filenames.size ();
           for (CORBA::ULong i = 0; i < sz; ++i)
             {
@@ -658,7 +659,7 @@ Shared_Backing_Store::persistent_load (bool only_changes)
       listings->remove_unmatched (*this);
     }
 
-  const ACE_Vector<ACE_TString>& filenames = listings->filenames ();
+  const std::vector<ACE_TString>& filenames = listings->filenames ();
   size_t const sz = filenames.size ();
   if (this->opts_.debug() > 9)
     {
@@ -1286,7 +1287,7 @@ Shared_Backing_Store::LocatorListings_XMLHandler::remove_unmatched(
     }
 }
 
-const ACE_Vector<ACE_TString>&
+const std::vector<ACE_TString>&
 Shared_Backing_Store::LocatorListings_XMLHandler::filenames() const
 {
   return this->filenames_;

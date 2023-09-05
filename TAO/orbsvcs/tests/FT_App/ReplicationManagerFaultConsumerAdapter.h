@@ -10,7 +10,7 @@
 #include <orbsvcs/FT_ReplicationManager/FT_FaultConsumer.h>
 #include <orbsvcs/FT_NotifierC.h>
 #include <orbsvcs/FT_FaultDetectorFactoryC.h>
-#include <ace/Vector_T.h>
+#include <vector>
 #include <ace/SString.h>
 
 /////////////////////
@@ -113,12 +113,12 @@ private:
   /**
    * A collection of replica IORs
    */
-  ACE_Vector < const char * > replica_iors_;
+  std::vector < const char * > replica_iors_;
 
   /**
    * A collection of replica references.
    */
-  ACE_Vector < FT::PullMonitorable_var > replicas_;
+  std::vector < FT::PullMonitorable_var > replicas_;
 
   /**
    * A file from which the notifier's IOR should be read.

@@ -21,14 +21,14 @@
 #include <orbsvcs/FT_ReplicationManagerC.h>
 #include <orbsvcs/PortableGroupC.h>
 #include <ace/SString.h>
-#include <ace/Vector_T.h>
+#include <vector>
 
 TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 namespace TAO
 {
   class Object_Group_Creator
   {
-    typedef ACE_Vector<ACE_CString> StringVec;
+    typedef std::vector<ACE_CString> StringVec;
    public:
     ///////////////////////////
     // construction/destruction

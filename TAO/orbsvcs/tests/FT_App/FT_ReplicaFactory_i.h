@@ -25,7 +25,7 @@ class  FT_ReplicaFactory_i;
 
 /////////////////////////////////
 // Includes needed by this header
-#include <ace/Vector_T.h>
+#include <vector>
 #include "FT_TestReplicaS.h"
 #include <ace/Thread_Manager.h>
 #include <ace/SString.h>
@@ -43,8 +43,8 @@ class  FT_ReplicaFactory_i
 //FT_TEST::ReplicaFactory
   : public virtual POA_PortableGroup::GenericFactory
 {
-  typedef ACE_Vector<FT_TestReplica_i *> ReplicaVec;
-  typedef ACE_Vector<ACE_CString> StringVec;
+  typedef std::vector<FT_TestReplica_i *> ReplicaVec;
+  typedef std::vector<ACE_CString> StringVec;
 
   //////////////////////
   // non-CORBA interface

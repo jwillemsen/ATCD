@@ -26,7 +26,7 @@
 #include <orbsvcs/FT_NotifierS.h>
 #include <orbsvcs/FT_ReplicationManagerC.h>
 #include <orbsvcs/Notify/Notify_EventChannelFactory_i.h>
-#include <ace/Vector_T.h>
+#include <vector>
 
 /////////////////////
 // Forward references
@@ -196,7 +196,7 @@ namespace TAO
       ProxyInfo (const ProxyInfo & rhs);
     };
 
-    typedef ACE_Vector <ProxyInfo> ProxyInfoVec;
+    typedef std::vector <ProxyInfo> ProxyInfoVec;
 
     ProxyInfoVec proxy_infos_;
 

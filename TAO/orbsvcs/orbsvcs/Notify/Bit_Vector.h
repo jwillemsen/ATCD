@@ -21,9 +21,8 @@
 #endif /* ACE_LACKS_PRAGMA_ONCE */
 
 #include "tao/Versioned_Namespace.h"
-
-#include "ace/Vector_T.h"
 #include "ace/Basic_Types.h"
+#include <memory>
 
 TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 
@@ -36,7 +35,7 @@ namespace TAO_Notify
 class TAO_Notify_Serv_Export Bit_Vector
 {
   typedef ACE_UINT32 BASIC_UINT_TYPE;
-  typedef ACE_Vector<BASIC_UINT_TYPE> VECTOR_TYPE;
+  typedef std::vector<BASIC_UINT_TYPE> VECTOR_TYPE;
   enum {
     BITS_PER_WORD = 32,
     BPW_LOG_2 = 5

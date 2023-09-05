@@ -11,9 +11,7 @@
 #include "locator_export.h"
 
 #include "ImR_ActivatorS.h" // ImR_Activator_AMIS.h
-#include "ace/Vector_T.h"
 #include "ace/SString.h"
-
 #include "Forwarder.h"
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
@@ -24,6 +22,7 @@
 #include "LiveCheck.h"
 #include "UpdateableServerInfo.h"
 #include "ImR_LocatorC.h"
+#include <memory>
 
 class ImR_Locator_i;
 struct Server_Info;
@@ -97,7 +96,7 @@ class Locator_Export AsyncAccessManager
   ImR_ResponseHandler *remove_on_death_rh_;
   ImR_Locator_i &locator_;
   PortableServer::POA_var poa_;
-  ACE_Vector<ImR_ResponseHandler *> rh_list_;
+  std::vector<ImR_ResponseHandler *> rh_list_;
 
   ImplementationRepository::AAM_Status status_;
 

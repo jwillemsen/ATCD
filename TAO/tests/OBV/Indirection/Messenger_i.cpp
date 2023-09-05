@@ -1,8 +1,8 @@
 #include "Messenger_i.h"
 
 #include "tao/AnyTypeCode/TypeCode.h"
-
 #include <sstream>
+#include <vector>
 
 Messenger_i::Messenger_i()
 {
@@ -56,7 +56,7 @@ char * Messenger_i::receive_string (
 char * Messenger_i::receive_list (::demo::value::idl::Node * node)
 {
   std::ostringstream os;
-  typedef ACE_Vector< ::demo::value::idl::Node *> NodeVector;
+  typedef std::vector< ::demo::value::idl::Node *> NodeVector;
   NodeVector l;
   ::demo::value::idl::Node* x = node;
 

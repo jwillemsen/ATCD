@@ -127,7 +127,7 @@
 #if defined(ACE_MT_SAFE) && (ACE_MT_SAFE != 0)
 // must have _MT defined to include multithreading
 // features from win32 headers
-# if !defined(__MT__)
+# if !defined(_MT)
 // *** DO NOT *** defeat this error message by defining __MT__ yourself.
 // You must link with the multi threaded libraries. Add -tWM to your
 // compiler options

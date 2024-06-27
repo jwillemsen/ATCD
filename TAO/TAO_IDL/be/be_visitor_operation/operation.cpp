@@ -187,12 +187,8 @@ be_visitor_operation::gen_stub_operation_body (
   if (!node->is_abstract ())
     {
       // If the object is lazily evaluated the proxy broker might well
-      // be null.  Initialize it now.
-      *os << "if (!this->is_evaluated ())" << be_idt_nl
-          << "{" << be_idt_nl
-          << "::CORBA::Object::tao_object_initialize (this);"
-          << be_uidt_nl
-          << "}" << be_uidt_nl << be_nl;
+      // be null. Initialize it now.
+      *os << "std::call_once(this->object_initialized_flag_, CORBA::Object::tao_object_initialize, this);" << be_nl_2;
     }
 
   // Declare return type helper class.

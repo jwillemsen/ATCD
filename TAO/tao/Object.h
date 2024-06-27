@@ -31,6 +31,7 @@
 #include "tao/Arg_Traits_T.h"
 #include "tao/Any_Insert_Policy_T.h"
 #include <atomic>
+#include <mutex>
 
 TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 
@@ -293,9 +294,6 @@ namespace CORBA
 
 #endif /* GEN_OSTREAM_OPS */
 
-    /// Accessor to the flag..
-    CORBA::Boolean is_evaluated () const;
-
     /// Accessor for the ORB_Core..
     TAO_ORB_Core *orb_core () const;
 
@@ -335,6 +333,10 @@ namespace CORBA
 # define TAO_OBJECT_USES_STD_ATOMIC_REFCOUNT
     std::atomic<uint32_t> refcount_;
 
+    /// once_flag to make sure that this object is only initialized once
+    std::once_flag object_initialized_flag_;
+# define TAO_OBJECT_USES_STD_ONCE_FLAG_OBJECT_INITIALIZED
+
   private:
     Object (const Object &) = delete;
     Object &operator = (const Object &) = delete;
@@ -342,9 +344,6 @@ namespace CORBA
   private:
     /// Specify whether this is a local object or not.
     CORBA::Boolean is_local_;
-
-    /// Flag to indicate whether the IOP::IOR has been evaluated fully.
-    CORBA::Boolean is_evaluated_;
 
     /// If the IOR hasnt been evaluated fully, then the contents of
     /// the IOR that we received  should be in here!
@@ -372,15 +371,6 @@ namespace CORBA
      * Objects
      */
     TAO_Stub * protocol_proxy_;
-
-    /// Protect reference count manipulation from race conditions.
-    /**
-     * This lock is only instantiated for unconstrained objects.  The
-     * reason for this is that locality-constrained objects that do
-     * not require reference counting (the default) may be
-     * instantiated in the critical path.
-     */
-    TAO_SYNCH_MUTEX object_init_lock_;
   };
 }   // End CORBA namespace.
 

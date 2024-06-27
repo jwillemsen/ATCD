@@ -22,7 +22,6 @@ ACE_INLINE
 CORBA::Object::Object (int)
   : refcount_ (1),
     is_local_ (true),
-    is_evaluated_ (true),
     ior_ (),
     orb_core_ (nullptr),
     protocol_proxy_ (nullptr)
@@ -54,12 +53,6 @@ CORBA::Object_ptr
 CORBA::Object::_narrow (CORBA::Object_ptr obj)
 {
   return CORBA::Object::_duplicate (obj);
-}
-
-ACE_INLINE CORBA::Boolean
-CORBA::Object::is_evaluated () const
-{
-  return this->is_evaluated_;
 }
 
 ACE_INLINE TAO_ORB_Core *

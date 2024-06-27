@@ -119,11 +119,7 @@ be_visitor_operation_ami_cs::visit_operation (be_operation *node)
   else
     {
       *os << be_nl
-          << "if (!this->is_evaluated ())" << be_idt_nl
-          << "{" << be_idt_nl
-          << "::CORBA::Object::tao_object_initialize (this);"
-          << be_uidt_nl
-          << "}" << be_uidt_nl << be_nl;
+          << "std::call_once(this->object_initialized_flag_, CORBA::Object::tao_object_initialize, this);" << be_nl_2;
     }
 
   // Includes the reply handler, but we have to add 1 for the retval anyway.

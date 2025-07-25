@@ -40,7 +40,7 @@ TAO exception, minor code = 6 (failed to recv request response; ENOENT), complet
 ERROR: REGRESSION - Second client spawn returned 1
 INFO: server being killed.
 
-This demonstrates that dropped connections are written to blindly even after the peer has gone when the RW policy is in effect. If the 'server' is started without the -ORBSvcConf argument then the default client connection handler is used and the test runs suceesfully.
+This demonstrates that dropped connections are written to blindly even after the peer has gone when the RW policy is in effect. If the 'server' is started without the -ORBSvcConf argument then the default client connection handler is used and the test runs successfully.
 
 This successful output looks like:
 

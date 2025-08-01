@@ -123,13 +123,15 @@ namespace TAO
       {
         p->init (any_tc);
       }
-    catch (DA_IMPL *original)
+    catch (const TAODynExcep& original)
+    //catch (DA_IMPL *original)
       {
         // Currently only TAO_DynValue_i can throw the original (duplicate
         // of a previously found TAO_DynValue_i). The new BLANK one created
         // above on which we called init() will be deleted automatically by
         // the std::unique_ptr.
-        return original;
+        //return original;
+        return original.i;
       }
 
     return dp.release ();
@@ -152,13 +154,15 @@ namespace TAO
       {
         p->init (tc, any_tc);
       }
-    catch (DA_IMPL *original)
+    //catch (DA_IMPL *original)
+    catch (const TAODynExcep& original)
       {
         // Currently only TAO_DynValue_i can throw the original (duplicate
         // of a previously found TAO_DynValue_i). The new BLANK one created
         // above on which we called init() will be deleted automatically by
         // the std::unique_ptr.
-        return original;
+        //return original;
+        return original.i;
       }
 
     return dp.release ();

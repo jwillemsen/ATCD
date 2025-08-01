@@ -1050,7 +1050,8 @@ TAO_DynValue_i::from_inputCDR (TAO_InputCDR &strm)
       // TAO_DynValue_i.
       TAO_DynValue_i *this_one_instead = reinterpret_cast<TAO_DynValue_i *> (original);
       this_one_instead->_add_ref ();
-      throw this_one_instead;
+      throw TAODynExcep(this_one_instead);
+      //throw this_one_instead;
     }
 
   // Ok since we are not indirected (this time), record "this"

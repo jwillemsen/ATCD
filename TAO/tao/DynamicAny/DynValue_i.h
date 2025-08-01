@@ -149,6 +149,11 @@ private:
   BaseTypesList_t da_base_types_;
 };
 
+struct TAODynExcep
+{
+  TAO_DynValue_i* i {};
+};
+
 TAO_END_VERSIONED_NAMESPACE_DECL
 
 #if defined(_MSC_VER)

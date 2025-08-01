@@ -151,6 +151,7 @@ private:
 
 struct TAODynExcep
 {
+  TAODynExcep(TAO_DynValue_i* a);
   TAO_DynValue_i* i {};
 };
 

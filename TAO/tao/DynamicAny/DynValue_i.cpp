@@ -14,6 +14,8 @@
 
 TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 
+TAODynExcep::TAODynExcep(TAO_DynValue_i* a) : i(a) {}
+
 TAO_DynValue_i::TAO_DynValue_i (CORBA::Boolean allow_truncation)
   : TAO_DynCommon (allow_truncation)
   , TAO_DynAny_i (allow_truncation)

@@ -84,6 +84,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 // FUZZ: disable check_for_streams_include
 #include "ace/streams.h"
 
+#include <string_view>
+
 AST_Expression::ExprType
 AST_Expression::eval_kind_to_expr_type (AST_Expression::EvalKind eval_kind)
 {
@@ -2612,8 +2614,8 @@ AST_Expression::compare (AST_Expression *vc)
     case EV_bool:
       return this->pd_ev->u.lval == vc->ev ()->u.lval;
     case EV_string:
-      return !ACE_OS::strcmp (pd_ev->u.strval->get_string (),
-        vc->ev ()->u.strval->get_string ());
+      return pd_ev->u.strval->get_string_view_or_empty ()
+        == vc->ev ()->u.strval->get_string_view_or_empty ();
     case EV_wstring:
       return !ACE_OS::strcmp (pd_ev->u.wstrval, vc->ev ()->u.wstrval);
     case EV_longlong:

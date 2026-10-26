@@ -1423,10 +1423,10 @@ BE_GlobalData::stub_include_dir (std::string_view s)
   this->stub_include_dir_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::stub_include_dir () const
 {
-  return this->stub_include_dir_ ? this->stub_include_dir_->c_str () : nullptr;
+  return this->stub_include_dir_ ? std::string_view (*this->stub_include_dir_) : std::string_view ();
 }
 
 void

@@ -630,7 +630,7 @@ public:
 
   /// Get the path for all *C.* file includes.
   /// Default is local directory or $TAO_ROOT/tao.
-  const char* stub_include_dir () const;
+  std::string_view stub_include_dir () const;
 
   /// Set the directory where all the *S.* files are
   /// to be kept. Default is output_dir_.

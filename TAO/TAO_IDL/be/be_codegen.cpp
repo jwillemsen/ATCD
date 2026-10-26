@@ -760,7 +760,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
   // Generate the include statement for AnyTypeCode
   *this->anyop_header_ << "\n#include \"tao/AnyTypeCode/Any.h\"\n";
 
-  ACE_CString tao_prefix;
+  std::string tao_prefix;
   ACE_CString pidl_checker (idl_global->filename ()->get_string ());
   bool const got_tao_pidl =
     (pidl_checker.substr (pidl_checker.length () - 5) == ".pidl");
@@ -770,15 +770,15 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
   // override path.
   if (got_tao_pidl)
     {
-      const char *stub_incl_dir = be_global->stub_include_dir ();
+      const std::string_view stub_incl_dir = be_global->stub_include_dir ();
 
-      if (stub_incl_dir == nullptr)
+      if (stub_incl_dir.empty ())
         {
           tao_prefix = "tao/";
         }
       else
         {
-          tao_prefix = stub_incl_dir;
+          tao_prefix.assign (stub_incl_dir.data (), stub_incl_dir.size ());
           tao_prefix += '/';
         }
     }

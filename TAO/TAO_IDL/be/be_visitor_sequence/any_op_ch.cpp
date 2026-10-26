@@ -37,7 +37,7 @@ be_visitor_sequence_any_op_ch::visit_sequence (be_sequence *node)
     }
 
   TAO_OutStream *os = this->ctx_->stream ();
-  char const *macro = this->ctx_->export_macro ();
+  std::string_view macro = this->ctx_->export_macro ();
 
   *os << be_nl_2;
 

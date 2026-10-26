@@ -35,7 +35,7 @@ be_visitor_valuebox_any_op_ch::visit_valuebox (be_valuebox *node)
     }
 
   TAO_OutStream *os = this->ctx_->stream ();
-  char const *macro = this->ctx_->export_macro ();
+  std::string_view macro = this->ctx_->export_macro ();
 
   TAO_INSERT_COMMENT (os);
 

@@ -328,6 +328,17 @@ TAO_OutStream::operator<< (std::string const &str)
 }
 
 TAO_OutStream &
+TAO_OutStream::operator<< (std::string_view str)
+{
+  if (!str.empty ())
+    {
+      ACE_OS::fwrite (str.data (), 1, str.size (), this->fp_);
+    }
+
+  return *this;
+}
+
+TAO_OutStream &
 TAO_OutStream::operator<< (const ACE_CDR::UShort num)
 {
   ACE_OS::fprintf (this->fp_,

@@ -20,6 +20,7 @@
 #include "ace/OS_NS_stdio.h"
 
 #include <string>
+#include <string_view>
 #include <type_traits>
 
 class Identifier;
@@ -190,6 +191,7 @@ public:
   TAO_OutStream &operator<< (char ch);
   TAO_OutStream &operator<< (const ACE_CString &str);
   TAO_OutStream &operator<< (std::string const &str);
+  TAO_OutStream &operator<< (std::string_view str);
   TAO_OutStream &operator<< (const ACE_CDR::UShort num);
   TAO_OutStream &operator<< (const ACE_CDR::Short num);
   TAO_OutStream &operator<< (const ACE_CDR::ULong num);

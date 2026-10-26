@@ -221,7 +221,7 @@ be_visitor_context::port_prefix ()
   return this->port_prefix_;
 }
 
-const char *
+std::string_view
 be_visitor_context::export_macro () const
 {
   switch (this->state_)
@@ -246,7 +246,7 @@ be_visitor_context::export_macro () const
     }
 }
 
-const char *
+std::string_view
 be_visitor_context::non_null_export_macro () const
 {
   const char *anyop_export = be_global->anyop_export_macro ();

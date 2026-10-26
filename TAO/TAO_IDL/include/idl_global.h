@@ -518,7 +518,7 @@ public:
   void destroy ();
   // Cleanup function.
 
-  void append_idl_flag (char const *s);
+  void append_idl_flag (std::string_view s);
   // Save each flag passed to the IDL compiler.
 
   char const *idl_flags () const;
@@ -638,7 +638,7 @@ public:
   // might be used in such a valuetype are fully defined.
 
   char const *recursion_start () const;
-  void recursion_start (char const *val);
+  void recursion_start (std::string_view val);
   // Accessors for the member.
 
   bool multi_file_input () const;
@@ -962,7 +962,7 @@ private:
   bool nest_orb_ {};
   // Is this front end being used for the NEST ORB?
 
-  ACE_CString idl_flags_;
+  std::string idl_flags_;
   // Concatenation of all the command line options.
 
   ACE_Hash_Map_Manager<ACE_CString, int, ACE_Null_Mutex> idl_keywords_;
@@ -1008,7 +1008,7 @@ private:
   ACE_Unbounded_Queue<AST_ValueType *>primary_keys_;
   // List of valuetypes used as a primary key.
 
-  char *recursion_start_ {};
+  std::optional<std::string> recursion_start_;
   // Path to directory subtree we are iterating/recursing over.
   // Not used by all backends.
 

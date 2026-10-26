@@ -118,14 +118,8 @@ be_home::destroy ()
 {
   this->full_skel_name_.clear ();
 
-  delete [] this->full_coll_name_;
-  this->full_coll_name_ = nullptr;
-
-  delete [] this->local_coll_name_;
-  this->local_coll_name_ = nullptr;
-
-  delete [] this->relative_skel_name_;
-  this->relative_skel_name_ = nullptr;
+  this->full_coll_name_.clear ();
+  this->local_coll_name_.clear ();
 
   this->direct_proxy_impl_name_.clear ();
   this->full_direct_proxy_impl_name_.clear ();

@@ -64,10 +64,10 @@ public:
   std::string_view full_skel_name ();
 
   /// Retrieve the fully qualified collocated class name.
-  const char *full_coll_name (int);
+  std::string_view full_coll_name (int);
 
   /// Retrieve the fully qualified collocated class name.
-  const char *local_coll_name (int);
+  std::string_view local_coll_name (int);
 
   /// retrieve the name of the direct proxy implementation.
   virtual std::string_view direct_proxy_impl_name ();
@@ -93,9 +93,7 @@ public:
   std::string compute_full_skel_name (std::string_view prefix);
 
   /// Compute the collocation names.
-  void compute_coll_names (int type,
-                           const char *prefix,
-                           const char *suffix);
+  void compute_coll_names (int type);
 
   static std::string relative_name (std::string_view localname,
                                     std::string_view othername);
@@ -383,11 +381,9 @@ protected:
 
   std::string full_skel_name_;
 
-  char *full_coll_name_ {};
+  std::string full_coll_name_;
 
-  char *local_coll_name_ {};
-
-  char *relative_skel_name_ {};
+  std::string local_coll_name_;
 
   /// Current cached collocated name.
   int cached_type_ {-1};

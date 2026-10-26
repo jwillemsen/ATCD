@@ -144,22 +144,18 @@ be_interface::full_skel_name ()
   return this->full_skel_name_;
 }
 
-const char *
+std::string_view
 be_interface::full_coll_name (int type)
 {
-  this->compute_coll_names (type,
-                            nullptr,  // prefix
-                            nullptr); // suffix
+  this->compute_coll_names (type);
 
   return this->full_coll_name_;
 }
 
-const char *
+std::string_view
 be_interface::local_coll_name (int type)
 {
-  this->compute_coll_names (type,
-                            nullptr,  // prefix
-                            nullptr); // suffix
+  this->compute_coll_names (type);
 
   return this->local_coll_name_;
 }
@@ -215,71 +211,34 @@ be_interface::compute_full_skel_name (std::string_view prefix)
 
 // Compute stringified fully qualified collocated class name.
 void
-be_interface::compute_coll_names (int type,
-                                  const char *prefix,
-                                  const char *suffix)
+be_interface::compute_coll_names (int type)
 {
-  if (type == this->cached_type_ && this->full_coll_name_ != nullptr)
+  if (type == this->cached_type_ && !this->full_coll_name_.empty ())
     {
       return;
     }
   else
     {
       this->cached_type_ = type;
-      delete [] this->full_coll_name_;
-      delete [] this->local_coll_name_;
-
-      // Reset to zero in case allocations below fail, and cause
-      // premature return to caller.
-      this->full_coll_name_ = nullptr;
-      this->local_coll_name_ = nullptr;
+      this->full_coll_name_.clear ();
+      this->local_coll_name_.clear ();
     }
 
   static constexpr char const *collocated_names[] = {"_tao_thru_poa_collocated_",
                                                       "_tao_direct_collocated_"};
   static constexpr char const *poa = "POA_";
 
-  // Reserve enough room for the "POA_" prefix, the "_tao_collocated_"
-  // prefix and the local name and the (optional) "::"
-  const char *collocated = collocated_names[type];
-
-  size_t name_len = ACE_OS::strlen (collocated)
-                    + ACE_OS::strlen (poa)
-                    + 1;
-
-  if (prefix)
-    {
-      name_len += ACE_OS::strlen (prefix);
-    }
-
-  if (suffix)
-    {
-      name_len += ACE_OS::strlen (suffix);
-    }
-
-  for (UTL_IdListActiveIterator i (this->name ());
-       !i.is_done ();
-       i.next ())
-    {
-      // Reserve 2 characters for "::".
-      name_len += ACE_OS::strlen (i.item ()->get_string ()) + 2;
-    }
-
-  ACE_NEW (this->full_coll_name_,
-           char[name_len + 1]);
-
-  // Null terminate the string.
-  this->full_coll_name_[0] = 0;
+  std::string_view const collocated (collocated_names[type]);
 
   // Only the first component get the "POA_" preffix.
-  int poa_added = 0;
+  bool poa_added = false;
 
   // Iterate again.
   // Must advance the iterator explicitly inside the loop.
   for (UTL_IdListActiveIterator j (this->name ());
        !j.is_done ();)
     {
-      const char *item = j.item ()->get_string ();
+      char const *item = j.item ()->get_string ();
 
       // Increase right away, so we can test for the final component
       // in the loop.
@@ -287,7 +246,7 @@ be_interface::compute_coll_names (int type,
 
       // We add the POA_ prefix only if the first component is not
       // the global scope...
-      if (ACE_OS::strcmp (item, "") != 0)
+      if (*item != '\0')
         {
           if (!j.is_done ())
             {
@@ -296,66 +255,23 @@ be_interface::compute_coll_names (int type,
               // class is inside some scope.
               if (!poa_added)
                 {
-                  ACE_OS::strcat (this->full_coll_name_, poa);
-                  poa_added = 1;
+                  this->full_coll_name_ += poa;
+                  poa_added = true;
                 }
-              ACE_OS::strcat (this->full_coll_name_, item);
-              ACE_OS::strcat (this->full_coll_name_, "::");
+              this->full_coll_name_ += item;
+              this->full_coll_name_ += "::";
             }
           else
             {
-              ACE_OS::strcat (this->full_coll_name_, collocated);
-
-              if (prefix)
-                {
-                  ACE_OS::strcat (this->full_coll_name_, prefix);
-                }
-
-              ACE_OS::strcat (this->full_coll_name_, item);
-
-              if (suffix)
-                {
-                  ACE_OS::strcat (this->full_coll_name_, suffix);
-                }
+              this->full_coll_name_ += collocated;
+              this->full_coll_name_ += item;
             }
         }
     }
 
   // Compute the local name for the collocated class.
-  char *local_name =
-    this->AST_Interface::local_name ()->get_string ();
-  size_t local_len = ACE_OS::strlen (collocated)
-                     + ACE_OS::strlen (local_name)
-                     + 1;
-  if (prefix)
-    {
-      local_len += ACE_OS::strlen (prefix);
-    }
-
-  if (suffix)
-    {
-      local_len += ACE_OS::strlen (suffix);
-    }
-
-  ACE_NEW (this->local_coll_name_,
-           char[local_len]);
-
-  ACE_OS::strcpy (this->local_coll_name_,
-                  collocated);
-
-  if (prefix)
-    {
-      ACE_OS::strcat (this->local_coll_name_,
-                      prefix);
-    }
-
-  ACE_OS::strcat (this->local_coll_name_,
-                  this->AST_Interface::local_name ()->get_string ());
-
-  if (suffix)
-    {
-      ACE_OS::strcat (this->local_coll_name_, suffix);
-    }
+  this->local_coll_name_ = collocated;
+  this->local_coll_name_ += this->AST_Interface::local_name ()->get_string ();
 }
 
 std::string
@@ -2228,14 +2144,8 @@ be_interface::destroy ()
 {
   this->full_skel_name_.clear ();
 
-  delete [] this->full_coll_name_;
-  this->full_coll_name_ = nullptr;
-
-  delete [] this->local_coll_name_;
-  this->local_coll_name_ = nullptr;
-
-  delete [] this->relative_skel_name_;
-  this->relative_skel_name_ = nullptr;
+  this->full_coll_name_.clear ();
+  this->local_coll_name_.clear ();
 
   this->direct_proxy_impl_name_.clear ();
 
@@ -2693,15 +2603,14 @@ be_interface::server_enclosing_scope ()
 {
   if (!this->server_scope_computed_)
     {
-      const char *full_name =
+      std::string_view const full_name =
         this->full_coll_name (be_interface::DIRECT);
 
-      const char *name =
+      std::string_view const name =
         this->local_coll_name (be_interface::DIRECT);
 
-      size_t offset = ACE_OS::strlen (name);
-      size_t length = ACE_OS::strlen (full_name) - offset;
-      this->server_scope_.assign (full_name, length);
+      size_t const length = full_name.size () - name.size ();
+      this->server_scope_.assign (full_name.data (), length);
       this->server_scope_computed_ = true;
     }
 

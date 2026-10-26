@@ -28,6 +28,8 @@
 #include "nr_extern.h"
 #include "global_extern.h"
 
+#include <string_view>
+
 #include "ace/Log_Msg.h"
 
 be_map::be_map (AST_Expression *v,
@@ -269,7 +271,8 @@ be_map::smart_fwd_helper_name (AST_Decl *ctx_scope,
 {
   if (ScopeAsDecl (elem->defined_in ()) == ctx_scope)
     {
-      return "tao_" + std::string (elem->local_name ()->get_string ());
+      return "tao_" + std::string (
+        elem->local_name ()->get_string_view ().value_or (std::string_view {}));
     }
 
   return std::string (elem->fwd_helper_name ());

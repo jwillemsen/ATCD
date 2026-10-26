@@ -27,6 +27,8 @@
 #include "nr_extern.h"
 #include "global_extern.h"
 
+#include <string_view>
+
 #include "ace/Log_Msg.h"
 
 be_sequence::be_sequence (AST_Expression *v,
@@ -181,7 +183,7 @@ be_sequence::gen_name ()
       namebuf += '_';
       if (fn != nullptr)
         {
-          namebuf += fn->local_name ()->get_string ();
+          namebuf += fn->local_name ()->get_string_view ().value_or (std::string_view {});
         }
 
       if (this->unbounded () == false)
@@ -418,7 +420,8 @@ be_sequence::instance_name () const
     }
 
   std::string name;
-  std::string const primitive_name (prim_type->local_name ()->get_string ());
+  std::string const primitive_name (
+    prim_type->local_name ()->get_string_view ().value_or (std::string_view {}));
   std::string bound;
   if (!this->unbounded ())
     {
@@ -832,7 +835,8 @@ be_sequence::smart_fwd_helper_name (AST_Decl *ctx_scope,
 {
   if (ScopeAsDecl (elem->defined_in ()) == ctx_scope)
     {
-      return "tao_" + std::string (elem->local_name ()->get_string ());
+      return "tao_" + std::string (
+        elem->local_name ()->get_string_view ().value_or (std::string_view {}));
     }
 
   return std::string (elem->fwd_helper_name ());

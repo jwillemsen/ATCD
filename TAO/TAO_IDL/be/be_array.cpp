@@ -22,6 +22,9 @@
 
 #include "ace/Log_Msg.h"
 
+#include <string>
+#include <string_view>
+
 be_array::be_array (UTL_ScopedName *n,
                     unsigned long ndims,
                     UTL_ExprList *dims,
@@ -78,7 +81,8 @@ be_array::create_name ()
 
   ACE_OS::sprintf (namebuf,
                    "_tao_array_%s",
-                   bt->local_name ()->get_string ());
+                   bt->local_name ()->get_string_view ().value_or (
+                     std::string_view ("")).data ());
 
   // Now append dimensions.
   for (i = 0; i < this->n_dims (); ++i)
@@ -237,11 +241,11 @@ be_array::gen_ostream_operator (TAO_OutStream *os,
 {
   be_scope* scope = dynamic_cast<be_scope*> (this->defined_in ());
   be_decl* parent = scope->decl ();
-  ACE_CString arg_name (ACE_CString (parent->full_name ().data ())
-                        + "::"
-                        + (use_underscore ? "_" : "")
-                        + this->local_name ()->get_string ()
-                        + "_forany &_tao_array");
+  std::string arg_name (parent->full_name ().data ());
+  arg_name += "::";
+  arg_name += (use_underscore ? "_" : "");
+  arg_name += this->local_name ()->get_string_view ().value_or (std::string_view {});
+  arg_name += "_forany &_tao_array";
 
   // Using 'const' with xxx_forany here prevents the compiler from
   // automatically converting back to xxx_slice *.
@@ -312,10 +316,10 @@ be_array::gen_member_ostream_operator (TAO_OutStream *os,
 {
   be_scope* scope = dynamic_cast<be_scope*> (this->defined_in ());
   be_decl* parent = scope->decl ();
-  ACE_CString decl_name (ACE_CString (parent->full_name ().data ())
-                         + "::"
-                         + (use_underscore ? "_" : "")
-                         + this->local_name ()->get_string ());
+  std::string decl_name (parent->full_name ().data ());
+  decl_name += "::";
+  decl_name += (use_underscore ? "_" : "");
+  decl_name += this->local_name ()->get_string_view ().value_or (std::string_view {});
 
  // The container is always const, so the member is const as well,
  // but we have to cast it away for the forany constructor.

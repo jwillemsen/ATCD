@@ -25,6 +25,8 @@
 #include "idl_defines.h"
 #include "global_extern.h"
 
+#include <string_view>
+
 be_union::be_union (AST_ConcreteType *dt,
                     UTL_ScopedName *n,
                     bool local,
@@ -146,8 +148,8 @@ be_union::gen_ostream_operator (TAO_OutStream *os,
             }
         }
 
-      ACE_CString instance_name ("_tao_union.");
-      instance_name += ub->local_name ()->get_string ();
+      std::string instance_name ("_tao_union.");
+      instance_name += ub->local_name ()->get_string_view ().value_or (std::string_view {});
 
       *os << "strm << ";
 

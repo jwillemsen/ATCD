@@ -229,21 +229,27 @@ FE_Utils::string_to_scoped_name (char const *s)
   return retval;
 }
 
-char const *
-FE_Utils::stripped_preproc_include (char const *name)
+std::string_view
+FE_Utils::stripped_preproc_include (std::string_view name)
 {
   // Some preprocessors prepend "./" to filenames in the
   // working directory, some others prepend ".\". If either
   // of these are here, we want to strip them.
-  if (name[0] == '.')
+  if (!name.empty () && name.front () == '.')
     {
-      if (name[1] == '\\' || name[1] == '/')
+      if (name.size () > 1 && (name[1] == '\\' || name[1] == '/'))
         {
-          return name + 2;
+          name.remove_prefix (2);
         }
     }
 
   return name;
+}
+
+char const *
+FE_Utils::stripped_preproc_include (char const *name)
+{
+  return FE_Utils::stripped_preproc_include (std::string_view (name)).data ();
 }
 
 void

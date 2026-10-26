@@ -578,7 +578,7 @@ idl_parse_line_and_file (char *buf)
       ACE_NEW (nm,
                UTL_String (
                  FE_Utils::stripped_preproc_include (
-                   fname->get_string ()), true));
+                   std::string_view (fname->get_string ())).data (), true));
 
       // This call also manages the #pragma prefix.
       idl_global->store_include_file_name (nm);

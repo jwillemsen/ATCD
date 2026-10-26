@@ -890,7 +890,7 @@ AST_Decl::prefix (const char *value)
   this->prefix_ = ACE::strnew (value);
 }
 
-const char *
+std::string_view
 AST_Decl::version ()
 {
   if (!this->version_)

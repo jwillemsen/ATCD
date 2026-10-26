@@ -77,7 +77,9 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "utl_err.h"
 
 #include "ace/Log_Msg.h"
-#include "ace/OS_NS_stdio.h"
+#include "ace/OS_NS_stdlib.h"
+
+#include <string>
 
 AST_Decl::NodeType const
 AST_PredefinedType::NT = AST_Decl::NT_pre_defined;
@@ -214,19 +216,12 @@ AST_PredefinedType::AST_PredefinedType (PredefinedType t,
 
   // The repo id computation in the AST_Decl constructor can't
   // be easily modified to work for predefined types.
-  ACE_CString repo_id = ACE_CString ("IDL:omg.org/CORBA/")
-                        + id->get_string ()
-                        + ":"
-                        + this->version ();
+  std::string repo_id ("IDL:omg.org/CORBA/");
+  repo_id += id->get_string ();
+  repo_id += ':';
+  repo_id += this->version ();
   delete [] this->repoID_;
-  size_t len = repo_id.length ();
-  ACE_NEW (this->repoID_,
-           char[len + 1]);
-  this->repoID_[0] = '\0';
-  ACE_OS::sprintf (this->repoID_,
-                   "%s",
-                   repo_id.c_str ());
-  this->repoID_[len] = '\0';
+  this->repoID_ = ACE::strnew (repo_id.c_str ());
 
   this->set_name (new_name);
 }

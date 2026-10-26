@@ -260,7 +260,7 @@ public:
   void prefix (char const *value);
   // Accessors for the repository ID prefix.
 
-  char const *version ();
+  std::string_view version ();
   void version (char *value);
   // Accessors for the version_ member.
 

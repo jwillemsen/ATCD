@@ -30,7 +30,7 @@ be_visitor_attr_return::visit_array (be_array *node)
   os_ << be_nl
       << "return "
       << "::" << node->full_name () << "_dup ("
-      << this->attr_name_string_.c_str ()
+      << this->attr_name_string_
       << ".in ());";
 
   return 0;
@@ -280,9 +280,9 @@ be_visitor_attr_return::visit_valuetype (be_valuetype *)
 }
 
 void
-be_visitor_attr_return::attr_name (const char *name)
+be_visitor_attr_return::attr_name (std::string_view name)
 {
-  this->attr_name_string_ += this->ctx_->port_prefix ().c_str ();
+  this->attr_name_string_ += this->ctx_->port_prefix ();
   this->attr_name_string_ += name;
   this->attr_name_string_ += '_';
 }

@@ -12,6 +12,9 @@
 
 #include "component.h"
 
+#include <string>
+#include <string_view>
+
 be_visitor_component_ami_rh_ex_base::be_visitor_component_ami_rh_ex_base (
       be_visitor_context *ctx)
   : be_visitor_scope (ctx)
@@ -48,19 +51,19 @@ be_visitor_component_ami_rh_ex_base::init ()
   bool global = (scope->node_type () == AST_Decl::NT_root);
   const char *smart_scope = (global ? "" : "::");
 
-  ACE_CString base ("AMI4CCM_");
-  base += this->iface_->original_local_name ()->get_string ();
+  std::string base ("AMI4CCM_");
+  base += this->iface_->original_local_name ()->get_string_view ().value_or (std::string_view {});
   base += "ReplyHandler";
 
-  this->base_class_name_ = scope->full_name ().data ();
+  this->base_class_name_ = std::string (scope->full_name ());
   this->base_class_name_ += smart_scope;
   this->base_class_name_ += "CCM_";
   this->base_class_name_ += base;
 
   this->class_name_ = base;
   this->class_name_ += '_';
-  this->class_name_ +=
-    this->port_->original_local_name ()->get_string ();
+  this->class_name_ += this->port_->original_local_name ()->get_string_view ().value_or (
+    std::string_view {});
   this->class_name_ += "_i";
 }
 
@@ -78,7 +81,7 @@ be_visitor_component_ami_rh_ex_base::gen_excep_op (
       os_ << this->class_name_ << "::";
     }
 
-  os_ << prefix << node->local_name ()->get_string ()
+  os_ << prefix << node->local_name ()->get_string_view ().value_or (std::string_view {})
       << "_excep (" << be_idt_nl
       << "::CCM_AMI::ExceptionHolder_ptr "
       << (for_defn ? "/* " : "") << "excep_holder"
@@ -106,7 +109,7 @@ be_visitor_component_ami_rh_ex_base::gen_attr_op (
       os_ << this->class_name_ << "::";
     }
 
-  os_ << "get_" << node->local_name ()->get_string ()
+  os_ << "get_" << node->local_name ()->get_string_view ().value_or (std::string_view {})
       << " (" << be_idt_nl;
 
   be_argument arg (AST_Argument::dir_IN,
@@ -147,7 +150,7 @@ be_visitor_component_ami_rh_ex_base::gen_attr_op (
           os_ << this->class_name_ << "::";
         }
 
-      os_ << "set_" << node->local_name ()->get_string ()
+      os_ << "set_" << node->local_name ()->get_string_view ().value_or (std::string_view {})
           << " ()" << (for_defn ? "" : ";");
 
       this->gen_op_body ();

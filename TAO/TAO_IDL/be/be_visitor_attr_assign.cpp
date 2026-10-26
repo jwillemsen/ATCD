@@ -50,8 +50,7 @@ int
 be_visitor_attr_assign::visit_enum (be_enum *)
 {
   os_ << be_nl
-      << this->attr_name_string_.c_str () << " = "
-      << this->attr_name_ << ";";
+      << this->attr_name_string_ << " = " << this->attr_name_ << ";";
 
   return 0;
 }
@@ -205,15 +204,13 @@ be_visitor_attr_assign::visit_valuetype (be_valuetype *)
 }
 
 void
-be_visitor_attr_assign::attr_name (const char *name)
+be_visitor_attr_assign::attr_name (std::string_view name)
 {
-  // No need for copying, the lifetime of the attr
-  // the arg is from is longer than that of this visitor.
-  this->attr_name_ = name;
+  this->attr_name_.assign (name.data (), name.size ());
 
   // Add to this string for convenience, it's generated
   // in each method above at least once.
-  this->attr_name_string_ += this->ctx_->port_prefix ().c_str ();
+  this->attr_name_string_ += this->ctx_->port_prefix ();
   this->attr_name_string_ += name;
   this->attr_name_string_ += '_';
 }

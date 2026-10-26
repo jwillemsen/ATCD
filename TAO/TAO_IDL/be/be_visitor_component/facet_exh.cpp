@@ -12,6 +12,7 @@
 #include "component.h"
 
 #include <string>
+#include <string_view>
 
 be_visitor_facet_exh::be_visitor_facet_exh (
       be_visitor_context *ctx)
@@ -32,11 +33,11 @@ int
 be_visitor_facet_exh::visit_provides (be_provides *node)
 {
   be_type *impl = node->provides_type ();
-  const char *iname =
-    impl->original_local_name ()->get_string ();
+  std::string_view const iname =
+    impl->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
   std::string lname_str (this->ctx_->port_prefix ());
-  lname_str += node->original_local_name ()->get_string ();
+  lname_str += node->original_local_name ()->get_string_view ().value_or (std::string_view {});
   const char *lname = lname_str.c_str ();
 
   AST_Decl *s = ScopeAsDecl (impl->defined_in ());

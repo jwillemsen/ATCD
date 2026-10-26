@@ -12,6 +12,9 @@
 #ifndef BE_VISITOR_ATTR_RETURN_H
 #define BE_VISITOR_ATTR_RETURN_H
 
+#include <string>
+#include <string_view>
+
 #include "be_visitor_decl.h"
 
 class TAO_OutStream;
@@ -45,10 +48,10 @@ public:
   int visit_valuebox (be_valuebox *) override;
   int visit_valuetype (be_valuetype *) override;
 
-  void attr_name (const char *name);
+  void attr_name (std::string_view name);
 
 private:
-  ACE_CString attr_name_string_;
+  std::string attr_name_string_;
 };
 
 #endif /* BE_VISITOR_ATTR_RETURN_H */

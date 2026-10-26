@@ -12,6 +12,7 @@
 #include "component.h"
 
 #include <string>
+#include <string_view>
 
 be_visitor_executor_exh::be_visitor_executor_exh (
       be_visitor_context *ctx)
@@ -58,8 +59,8 @@ be_visitor_executor_exh::visit_component (be_component *node)
   const char *sname = sname_str.c_str ();
 
   // No _cxx_ prefix.
-  const char *lname =
-    node->original_local_name ()->get_string ();
+  std::string_view const lname =
+    node->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
   const char *global = (sname_str == "" ? "" : "::");
 
@@ -280,7 +281,7 @@ int
 be_visitor_executor_exh::visit_provides (be_provides *node)
 {
   std::string prefix (this->ctx_->port_prefix ());
-  prefix += node->local_name ()->get_string ();
+  prefix += node->local_name ()->get_string_view ().value_or (std::string_view {});
   const char *port_name = prefix.c_str ();
 
   be_type *impl = node->provides_type ();
@@ -290,8 +291,8 @@ be_visitor_executor_exh::visit_provides (be_provides *node)
   const char *sname = sname_str.c_str ();
 
   // No '_cxx_' prefix.
-  const char *lname =
-    impl->original_local_name ()->get_string ();
+  std::string_view const lname =
+    impl->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
   const char *global = (sname_str == "" ? "" : "::");
 
@@ -311,8 +312,8 @@ be_visitor_executor_exh::visit_consumes (be_consumes *node)
   std::string_view const obj_name =
     node->consumes_type ()->full_name ();
 
-  const char *port_name =
-    node->local_name ()->get_string ();
+  std::string_view const port_name =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
 
   os_ << be_nl_2
       << "virtual void" << be_nl

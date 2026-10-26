@@ -11,6 +11,8 @@
 
 #include "component.h"
 
+#include <string_view>
+
 be_visitor_component_svs::be_visitor_component_svs (be_visitor_context *ctx)
   : be_visitor_component (ctx),
     os_ (*ctx->stream ()),
@@ -84,7 +86,8 @@ be_visitor_component_svs::gen_entrypoint (AST_Component *node)
   ACE_CString sname_str (
     ScopeAsDecl (node->defined_in ())->full_name ().data ());
   const char *sname = sname_str.c_str ();
-  const char *lname = node->local_name ()->get_string ();
+  std::string_view const lname =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
   const char *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl_2

@@ -13,6 +13,7 @@
 #include "component.h"
 
 #include <string>
+#include <string_view>
 
 be_visitor_context_svth::be_visitor_context_svth (be_visitor_context *ctx)
   : be_visitor_component_scope (ctx)
@@ -34,8 +35,8 @@ be_visitor_context_svth::visit_component (be_component *node)
   const char *sname = sname_str.c_str ();
 
   // No '_cxx_' prefix.
-  const char *lname =
-    node->original_local_name ()->get_string ();
+  std::string_view const lname =
+    node->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
   const char *global = (sname_str == "" ? "" : "::");
 
@@ -51,8 +52,8 @@ be_visitor_context_svth::visit_component (be_component *node)
   AST_Component * base = node->base_component ();
   if (base)
     {
-      const char *lbase_name =
-        base->original_local_name ()->get_string ();
+      std::string_view const lbase_name =
+        base->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
       os_ << ": public " << global << "CIAO_" << base->flat_name ()
           << "_Impl::" << lbase_name << "_Context_T<CONTAINER_TYPE, BASE>";
@@ -147,7 +148,7 @@ int
 be_visitor_context_svth::visit_uses (be_uses *node)
 {
   std::string prefix (this->ctx_->port_prefix ());
-  prefix += node->local_name ()->get_string ();
+  prefix += node->local_name ()->get_string_view ().value_or (std::string_view {});
   const char *port_name = prefix.c_str ();
 
   std::string_view const obj_name = node->uses_type ()->full_name ();
@@ -217,7 +218,8 @@ int
 be_visitor_context_svth::visit_publishes (be_publishes *node)
 {
   std::string_view const obj_name = node->publishes_type ()->full_name ();
-  const char *port_name = node->local_name ()->get_string ();
+  std::string_view const port_name =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
 
   os_ << be_uidt_nl << be_nl
       << "public:" << be_idt_nl
@@ -255,7 +257,8 @@ int
 be_visitor_context_svth::visit_emits (be_emits *node)
 {
   std::string_view const obj_name = node->emits_type ()->full_name ();
-  const char *port_name = node->local_name ()->get_string ();
+  std::string_view const port_name =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
 
   os_ << be_uidt_nl << be_nl
       << "public:" << be_idt_nl;

@@ -13,6 +13,7 @@
 #include "component.h"
 
 #include <string>
+#include <string_view>
 
 be_visitor_executor_ex_idl::be_visitor_executor_ex_idl (
       be_visitor_context *ctx)
@@ -32,7 +33,7 @@ be_visitor_executor_ex_idl::visit_component (
 
   os_ << be_nl
       << "local interface CCM_"
-      << node->original_local_name ()->get_string ()
+      << node->original_local_name ()->get_string_view ().value_or (std::string_view {})
       << be_idt_nl
       << ": ";
 
@@ -50,7 +51,7 @@ be_visitor_executor_ex_idl::visit_component (
       const char *global = (sname_str == "" ? "" : "::");
 
       os_ << global << sname << "::CCM_"
-          << base->original_local_name ()->get_string ();
+          << base->original_local_name ()->get_string_view ().value_or (std::string_view {});
     }
 
   this->gen_supported ();
@@ -171,13 +172,13 @@ be_visitor_executor_ex_idl::visit_provides (
     IdentifierHelper::orig_sn (scope->name ());
   const char *sname = sname_str.c_str ();
 
-  const char *lname =
-    impl->original_local_name ()->get_string ();
+  std::string_view const lname =
+    impl->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
   const char *global = (sname_str == "" ? "" : "::");
 
   std::string prefix (this->ctx_->port_prefix ());
-  prefix += node->local_name ()->get_string ();
+  prefix += node->local_name ()->get_string_view ().value_or (std::string_view {});
   const char *port_name = prefix.c_str ();
 
   os_ << be_nl
@@ -194,7 +195,7 @@ be_visitor_executor_ex_idl::visit_consumes (
   be_eventtype *impl = node->consumes_type ();
 
   os_ << be_nl
-      << "void push_" << node->local_name ()->get_string ()
+      << "void push_" << node->local_name ()->get_string_view ().value_or (std::string_view {})
       << " (in ::"
       << IdentifierHelper::orig_sn (impl->name ())
       << " e);";

@@ -638,7 +638,7 @@ public:
   // be sure that all forward declared stucts or unions that
   // might be used in such a valuetype are fully defined.
 
-  char const *recursion_start () const;
+  std::optional<std::string_view> recursion_start () const;
   void recursion_start (std::string_view val);
   // Accessors for the member.
 
@@ -646,7 +646,7 @@ public:
   void multi_file_input (bool val);
   // Accessors for the member.
 
-  char const *big_file_name () const;
+  std::string_view big_file_name () const;
   // Just get the const string.
 
   FE_Utils::T_PARAMLIST_INFO const *current_params () const;

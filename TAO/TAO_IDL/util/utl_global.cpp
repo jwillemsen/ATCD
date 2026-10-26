@@ -1508,10 +1508,11 @@ IDL_GlobalData::check_primary_keys ()
     }
 }
 
-char const *
+std::optional<std::string_view>
 IDL_GlobalData::recursion_start () const
 {
-  return this->recursion_start_ ? this->recursion_start_->c_str () : nullptr;
+  return this->recursion_start_ ? std::optional<std::string_view> (*this->recursion_start_)
+                                : std::nullopt;
 }
 
 void
@@ -1540,7 +1541,7 @@ IDL_GlobalData::multi_file_input (bool val)
   this->multi_file_input_ = val;
 }
 
-char const *
+std::string_view
 IDL_GlobalData::big_file_name () const
 {
   return this->big_file_name_;

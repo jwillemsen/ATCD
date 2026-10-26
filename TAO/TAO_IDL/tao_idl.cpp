@@ -400,7 +400,7 @@ ACE_TMAIN (int argc, ACE_TCHAR *argv[])
 
       // If there are no input files, and we are not using the
       // directory recursion option, there's no sense going any further.
-      if (0 == DRV_nfiles && nullptr == idl_global->recursion_start ())
+      if (0 == DRV_nfiles && !idl_global->recursion_start ())
         {
           ACE_ERROR ((LM_ERROR,
                       ACE_TEXT ("IDL: No input files\n")));
@@ -413,7 +413,7 @@ ACE_TMAIN (int argc, ACE_TCHAR *argv[])
       if (idl_global->multi_file_input ())
         {
           output_file =
-            ACE_OS::fopen (idl_global->big_file_name (), "w");
+            ACE_OS::fopen (idl_global->big_file_name ().data (), "w");
         }
 
       for (DRV_file_index = 0;
@@ -435,8 +435,8 @@ ACE_TMAIN (int argc, ACE_TCHAR *argv[])
       if (idl_global->multi_file_input ())
         {
           ACE_OS::fclose (output_file);
-          DRV_drive (idl_global->big_file_name ());
-          ACE_OS::unlink (idl_global->big_file_name ());
+          DRV_drive (idl_global->big_file_name ().data ());
+          ACE_OS::unlink (idl_global->big_file_name ().data ());
         }
     }
   catch (const Bailout &bailout)

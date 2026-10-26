@@ -368,7 +368,7 @@ public:
   TAO_OutStream *gperf_input_stream ();
 
   /// Set the gperf input file name.
-  void gperf_input_filename (char *filename);
+  void gperf_input_filename (std::string_view filename);
 
   /**
    * Retrieve the gperf input file name being used.
@@ -376,7 +376,7 @@ public:
    * program. This is needed coz I do ACE_OS::open on this when I need
    * ACE_HANDLE for the file instead FILE*.
    */
-  char *gperf_input_filename ();
+  std::string_view gperf_input_filename () const;
 
   /// Convert input string to all one case.
   std::string upcase (std::string_view str);
@@ -517,7 +517,7 @@ private:
    * program. This is needed coz I do ACE_OS::open on this when I need
    * ACE_HANDLE for the file instead FILE*.
    */
-  char *gperf_input_filename_ {};
+  std::string gperf_input_filename_;
 
   /// The enumerated value indicating the lookup strategy.
   LOOKUP_STRATEGY strategy_;

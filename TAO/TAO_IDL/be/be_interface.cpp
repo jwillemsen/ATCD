@@ -1017,17 +1017,6 @@ be_interface::gen_operation_table (const char *flat_name,
         // We must randomize this a bit in order to avoid problems with
         // processing more than one idl file (in separate processes) with
         // the same name (in different directories).
-        char *temp_file = nullptr;
-        ACE_NEW_RETURN (temp_file,
-                        char [ACE_OS::strlen (idl_global->temp_dir ())
-                              + 11 // The number of possible digits in
-                                   // a 32-bit number plus a dot
-                              + 11 // for process id
-                              + ACE_OS::strlen (flat_name)
-                              + ACE_OS::strlen (".gperf")
-                              + 1],
-                        -1);
-
         // This degree of randomness is necessary because there was an
         // obscure chance of even this arriving at colliding filenames
         // on multiprocessor machines when the IDL compiler was run at
@@ -1035,21 +1024,22 @@ be_interface::gen_operation_table (const char *flat_name,
         unsigned int seed =
           (static_cast<unsigned int> (ACE_OS::time())
            + static_cast<unsigned int> (ACE_OS::getpid ()));
-        ACE_OS::sprintf (temp_file,
-                         "%s%d.%d.%s.gperf",
-                         idl_global->temp_dir (),
-                         ACE_OS::rand_r (&seed),
-                         static_cast<int> (ACE_OS::getpid ()),
-                         flat_name);
+        std::string temp_file (idl_global->temp_dir ());
+        temp_file += std::to_string (ACE_OS::rand_r (&seed));
+        temp_file += '.';
+        temp_file += std::to_string (static_cast<int> (ACE_OS::getpid ()));
+        temp_file += '.';
+        temp_file += flat_name;
+        temp_file += ".gperf";
 
         // QNX can't handle individual file names (path components)
         // longer than 48 characters.
 #if defined(__QNX__)
         size_t const temp_dir_len = ACE_OS::strlen (idl_global->temp_dir ());
 
-        if (ACE_OS::strlen (temp_file) > temp_dir_len + 47)
+        if (temp_file.size () > temp_dir_len + 47)
           {
-            temp_file[temp_dir_len + 47] = 0;
+            temp_file.resize (temp_dir_len + 47);
           }
 #endif /* defined(__QNX__) */
 
@@ -1075,7 +1065,7 @@ be_interface::gen_operation_table (const char *flat_name,
         tao_cg->gperf_input_stream (os);
 
         // Open the temp file.
-        if (os->open (temp_file,
+        if (os->open (temp_file.c_str (),
                       TAO_OutStream::TAO_GPERF_INPUT) == -1)
           {
             ACE_ERROR_RETURN ((LM_ERROR,
@@ -1933,7 +1923,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
   // Open the temp file.
   ACE_HANDLE input =
     ACE::open_temp_file (
-      ACE_TEXT_CHAR_TO_TCHAR (tao_cg->gperf_input_filename ()),
+      ACE_TEXT_CHAR_TO_TCHAR (tao_cg->gperf_input_filename ().data ()),
       O_RDONLY);
 
   if (input == ACE_INVALID_HANDLE)
@@ -1943,7 +1933,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
         ACE_TEXT ("Error:%p:File open failed on ")
         ACE_TEXT ("gperf's temp input file %s\n"),
         "open_temp_file",
-        tao_cg->gperf_input_filename ()),
+        tao_cg->gperf_input_filename ().data ()),
         -1);
     }
 

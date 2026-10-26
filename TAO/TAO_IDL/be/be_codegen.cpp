@@ -1966,14 +1966,13 @@ TAO_CodeGen::gperf_input_stream ()
 }
 
 void
-TAO_CodeGen::gperf_input_filename (char *filename)
+TAO_CodeGen::gperf_input_filename (std::string_view filename)
 {
-  delete [] this->gperf_input_filename_;
   this->gperf_input_filename_ = filename;
 }
 
-char *
-TAO_CodeGen::gperf_input_filename ()
+std::string_view
+TAO_CodeGen::gperf_input_filename () const
 {
   return this->gperf_input_filename_;
 }
@@ -3575,5 +3574,4 @@ TAO_CodeGen::destroy ()
   delete this->ciao_conn_source_;
   delete this->ciao_ami_conn_idl_;
   delete this->gperf_input_stream_;
-  delete [] this->gperf_input_filename_;
 }

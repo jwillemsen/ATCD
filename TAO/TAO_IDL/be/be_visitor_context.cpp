@@ -215,8 +215,14 @@ be_visitor_context::interface () const
   return this->interface_;
 }
 
-ACE_CString &
+std::string &
 be_visitor_context::port_prefix ()
+{
+  return this->port_prefix_;
+}
+
+std::string const &
+be_visitor_context::port_prefix () const
 {
   return this->port_prefix_;
 }

@@ -213,7 +213,7 @@ be_visitor_attr_assign::attr_name (const char *name)
 
   // Add to this string for convenience, it's generated
   // in each method above at least once.
-  this->attr_name_string_ += this->ctx_->port_prefix ();
+  this->attr_name_string_ += this->ctx_->port_prefix ().c_str ();
   this->attr_name_string_ += name;
   this->attr_name_string_ += '_';
 }

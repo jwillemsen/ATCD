@@ -282,7 +282,7 @@ be_visitor_attr_return::visit_valuetype (be_valuetype *)
 void
 be_visitor_attr_return::attr_name (const char *name)
 {
-  this->attr_name_string_ += this->ctx_->port_prefix ();
+  this->attr_name_string_ += this->ctx_->port_prefix ().c_str ();
   this->attr_name_string_ += name;
   this->attr_name_string_ += '_';
 }

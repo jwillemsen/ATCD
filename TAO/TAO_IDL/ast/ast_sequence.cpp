@@ -231,7 +231,7 @@ AST_Sequence::ast_accept (ast_visitor *visitor)
 // Data accessors.
 
 AST_Expression *
-AST_Sequence::max_size ()
+AST_Sequence::max_size () const
 {
   return this->pd_max_size;
 }

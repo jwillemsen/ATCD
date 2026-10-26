@@ -71,11 +71,11 @@ public:
   void gen_var_out_seq_decls ();
 
   /// Retrieve the fully scoped skel class name.
-  std::string_view full_obv_skel_name ();
+  std::string_view full_obv_skel_name () const;
 
-  std::string_view field_pd_prefix ();
+  std::string_view field_pd_prefix () const;
 
-  std::string_view field_pd_postfix ();
+  std::string_view field_pd_postfix () const;
 
   // For building the name for private data fields.
   be_valuetype *statefull_inherit ();
@@ -106,7 +106,7 @@ public:
   void destroy () override;
 
   /// Compute the fully scoped skel class name.
-  void compute_fullobvskelname ();
+  void compute_fullobvskelname () const;
 
   /// Compute the count of private/public/all data members.
   ACE_CDR::ULong data_members_count (
@@ -171,7 +171,7 @@ private:
   bool var_out_seq_decls_gen_ {};
 
   /// To differentiate from the interface skeleton name.
-  std::string full_obv_skel_name_;
+  mutable std::string full_obv_skel_name_;
 
   /// Flag used by default constructor generator.
   bool is_amh_excep_holder_ {};

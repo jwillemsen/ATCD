@@ -154,14 +154,14 @@ be_valuetype::opt_accessor ()
 
 // Compute stringified fully scoped skeleton name (OBV_name).
 void
-be_valuetype::compute_fullobvskelname ()
+be_valuetype::compute_fullobvskelname () const
 {
   this->full_obv_skel_name_ = this->compute_full_skel_name ("OBV_");
 }
 
 // Retrieve the fully scoped skeleton name.
 std::string_view
-be_valuetype::full_obv_skel_name ()
+be_valuetype::full_obv_skel_name () const
 {
   if (this->full_obv_skel_name_.empty ())
     {
@@ -573,13 +573,13 @@ be_valuetype::gen_var_out_seq_decls ()
 
 // For building the pre and postfix of private data fields.
 std::string_view
-be_valuetype::field_pd_prefix ()
+be_valuetype::field_pd_prefix () const
 {
   return "_pd_";
 }
 
 std::string_view
-be_valuetype::field_pd_postfix ()
+be_valuetype::field_pd_postfix () const
 {
   return "";
 }

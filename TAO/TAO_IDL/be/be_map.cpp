@@ -246,7 +246,7 @@ be_map::accept (be_visitor *visitor)
 
 
 std::string
-be_map::instance_name ()
+be_map::instance_name () const
 {
   return "";
 }

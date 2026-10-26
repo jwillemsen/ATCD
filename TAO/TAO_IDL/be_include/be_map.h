@@ -81,7 +81,7 @@ public:
   int accept (be_visitor *visitor) override;
 
   /// Report the instance name for instantiation.
-  std::string instance_name ();
+  std::string instance_name () const;
 
   /// Accessors for the member.
   be_field *field_node () const;

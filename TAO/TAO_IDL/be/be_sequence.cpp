@@ -275,7 +275,7 @@ be_sequence::create_name (be_typedef *node)
 
 // Does this sequence have a managed type sequence element?
 be_sequence::MANAGED_TYPE
-be_sequence::managed_type ()
+be_sequence::managed_type () const
 {
   if (this->mt_ == be_sequence::MNG_UNKNOWN) // Not calculated yet.
     {
@@ -404,7 +404,7 @@ be_sequence::accept (be_visitor *visitor)
 
 
 std::string
-be_sequence::instance_name ()
+be_sequence::instance_name () const
 {
   be_type *const prim_type = primitive_base_type ();
   if (!prim_type)

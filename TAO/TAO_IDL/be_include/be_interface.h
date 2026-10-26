@@ -61,13 +61,13 @@ public:
   std::string_view local_name () const;
 
   /// Retrieve the fully scoped skel class name.
-  std::string_view full_skel_name ();
+  std::string_view full_skel_name () const;
 
   /// Retrieve the fully qualified collocated class name.
-  std::string_view full_coll_name (int);
+  std::string_view full_coll_name (int) const;
 
   /// Retrieve the fully qualified collocated class name.
-  std::string_view local_coll_name (int);
+  std::string_view local_coll_name (int) const;
 
   /// retrieve the name of the direct proxy implementation.
   virtual std::string_view direct_proxy_impl_name ();
@@ -87,13 +87,13 @@ public:
   virtual std::string_view server_enclosing_scope ();
 
   /// Retrieve skeleton name.
-  std::string relative_skel_name (std::string_view skel_name);
+  std::string relative_skel_name (std::string_view skel_name) const;
 
   /// Build up the skeleton name.
-  std::string compute_full_skel_name (std::string_view prefix);
+  std::string compute_full_skel_name (std::string_view prefix) const;
 
   /// Compute the collocation names.
-  void compute_coll_names (int type);
+  void compute_coll_names (int type) const;
 
   static std::string relative_name (std::string_view localname,
                                     std::string_view othername);
@@ -379,14 +379,14 @@ protected:
   /// Are we an AMI4CCM reply handler?
   bool is_ami4ccm_rh_ {};
 
-  std::string full_skel_name_;
+  mutable std::string full_skel_name_;
 
-  std::string full_coll_name_;
+  mutable std::string full_coll_name_;
 
-  std::string local_coll_name_;
+  mutable std::string local_coll_name_;
 
   /// Current cached collocated name.
-  int cached_type_ {-1};
+  mutable int cached_type_ {-1};
 
   /// Used to suppress generation of some CCM servant methods/
   bool has_rw_attributes_ {};

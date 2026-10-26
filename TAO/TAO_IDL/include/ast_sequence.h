@@ -86,7 +86,7 @@ public:
   // Are we or the node represented by node involved in recursion.
 
   // Data Accessors.
-  AST_Expression *max_size ();
+  AST_Expression *max_size () const;
 
   AST_Type *base_type () const;
 

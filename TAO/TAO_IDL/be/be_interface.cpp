@@ -134,7 +134,7 @@ be_interface::local_name () const
 }
 
 std::string_view
-be_interface::full_skel_name ()
+be_interface::full_skel_name () const
 {
   if (this->full_skel_name_.empty ())
     {
@@ -145,7 +145,7 @@ be_interface::full_skel_name ()
 }
 
 std::string_view
-be_interface::full_coll_name (int type)
+be_interface::full_coll_name (int type) const
 {
   this->compute_coll_names (type);
 
@@ -153,7 +153,7 @@ be_interface::full_coll_name (int type)
 }
 
 std::string_view
-be_interface::local_coll_name (int type)
+be_interface::local_coll_name (int type) const
 {
   this->compute_coll_names (type);
 
@@ -161,14 +161,14 @@ be_interface::local_coll_name (int type)
 }
 
 std::string
-be_interface::relative_skel_name (std::string_view skel_name)
+be_interface::relative_skel_name (std::string_view skel_name) const
 {
   return be_interface::relative_name (this->full_skel_name (),
                                       skel_name);
 }
 
 std::string
-be_interface::compute_full_skel_name (std::string_view prefix)
+be_interface::compute_full_skel_name (std::string_view prefix) const
 {
   std::string skel_name (prefix);
   bool first = true;
@@ -211,7 +211,7 @@ be_interface::compute_full_skel_name (std::string_view prefix)
 
 // Compute stringified fully qualified collocated class name.
 void
-be_interface::compute_coll_names (int type)
+be_interface::compute_coll_names (int type) const
 {
   if (type == this->cached_type_ && !this->full_coll_name_.empty ())
     {

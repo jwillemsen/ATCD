@@ -69,7 +69,7 @@ public:
   virtual int create_name (be_typedef *node);
 
   /// Return the managed type.
-  virtual MANAGED_TYPE managed_type ();
+  virtual MANAGED_TYPE managed_type () const;
 
   // Scope management functions.
   virtual AST_Sequence *fe_add_sequence (AST_Sequence *) override;
@@ -88,7 +88,7 @@ public:
   int accept (be_visitor *visitor) override;
 
   /// Report the instance name for instantiation.
-  std::string instance_name ();
+  std::string instance_name () const;
 
   /// Common code for generating the name and parameters of our
   /// template sequence base class.
@@ -113,7 +113,7 @@ private:
 
 private:
   /// Our managed type.
-  MANAGED_TYPE mt_ {MNG_UNKNOWN};
+  mutable MANAGED_TYPE mt_ {MNG_UNKNOWN};
 
   /// Used if we are an anonymous member, to help generate a unique name.
   be_field *field_node_ {};

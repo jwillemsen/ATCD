@@ -180,13 +180,13 @@ AST_String::destroy ()
 // Data accessors.
 
 AST_Expression *
-AST_String::max_size ()
+AST_String::max_size () const
 {
   return this->pd_max_size;
 }
 
 long
-AST_String::width ()
+AST_String::width () const
 {
   return this->pd_width;
 }

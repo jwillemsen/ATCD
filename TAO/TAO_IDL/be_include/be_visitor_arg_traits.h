@@ -60,7 +60,7 @@ private:
   void generated (be_decl *node,
                   bool val);
 
-  std::string_view insert_policy ();
+  std::string_view insert_policy () const;
 
 private:
   char *S_;

@@ -84,8 +84,8 @@ public:
   ~AST_String () override;
 
   // Data Accessors.
-  AST_Expression *max_size ();
-  long width ();
+  AST_Expression *max_size () const;
+  long width () const;
 
   // AST Dumping.
   void dump (ACE_OSTREAM_TYPE &o) override;

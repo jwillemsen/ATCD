@@ -12,6 +12,8 @@
 //=============================================================================
 
 #include "valuebox.h"
+
+#include <string_view>
 #include "valuebox_type_name.h"
 
 be_visitor_valuebox_field_ci::be_visitor_valuebox_field_ci (
@@ -101,7 +103,8 @@ be_visitor_valuebox_field_ci::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           bt->local_name ()->get_string ());
+                           bt->local_name ()->get_string_view ().value_or (
+                             std::string_view {}).data ());
         }
       else
         {

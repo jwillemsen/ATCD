@@ -89,7 +89,7 @@ private:
                         be_type *field_type,
                         std::string_view const_prefix,
                         std::string_view type_suffix,
-                        char const *const_method);
+                        std::string_view const_method);
 
 private:
   be_valuebox *vb_node_ {};

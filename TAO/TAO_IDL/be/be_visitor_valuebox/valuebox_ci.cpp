@@ -564,7 +564,7 @@ be_visitor_valuebox_ci::visit_union (be_union *node)
 
 int
 be_visitor_valuebox_ci::emit_for_predef_enum (be_type *node,
-                                              char const *type_suffix,
+                                              std::string_view type_suffix,
                                               bool is_any)
 {
   TAO_OutStream *os = this->ctx_->stream ();
@@ -669,7 +669,7 @@ be_visitor_valuebox_ci::emit_default_constructor_alloc (be_decl *node)
 
 void
 be_visitor_valuebox_ci::emit_constructor_one_arg (be_decl *node,
-                                                  char const *type_suffix)
+                                                  std::string_view type_suffix)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
@@ -753,7 +753,7 @@ be_visitor_valuebox_ci::emit_copy_constructor_alloc (be_decl *node)
 
 void
 be_visitor_valuebox_ci::emit_assignment (be_decl *node,
-                                         char const *type_suffix)
+                                         std::string_view type_suffix)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
@@ -831,7 +831,7 @@ be_visitor_valuebox_ci::emit_accessor_modifier (be_decl *node)
 
 void
 be_visitor_valuebox_ci::emit_boxed_access (be_decl *node,
-                                           char const *out_ref_modifier)
+                                           std::string_view out_ref_modifier)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 

@@ -96,7 +96,7 @@ private:
                         be_type *field_type,
                         std::string_view const_prefix,
                         std::string_view type_suffix,
-                        char const *const_method);
+                        std::string_view const_method);
 };
 
 #endif /* _BE_VISITOR_VALUEBOX_FIELD_CH_H_ */

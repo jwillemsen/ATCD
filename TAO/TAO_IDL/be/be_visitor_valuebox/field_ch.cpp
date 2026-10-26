@@ -504,7 +504,7 @@ be_visitor_valuebox_field_ch::emit_member_get (be_decl *field,
                                                be_type *field_type,
                                                std::string_view const_prefix,
                                                std::string_view type_suffix,
-                                               char const *const_method)
+                                               std::string_view const_method)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 

@@ -736,7 +736,7 @@ be_visitor_valuebox_cs::emit_destructor ()
 }
 
 int
-be_visitor_valuebox_cs::emit_for_predef_enum (char const * marshal_arg)
+be_visitor_valuebox_cs::emit_for_predef_enum (std::string_view marshal_arg)
 {
   TAO_OutStream & os = *this->ctx_->stream ();
 

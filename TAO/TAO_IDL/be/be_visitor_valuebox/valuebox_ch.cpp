@@ -668,7 +668,7 @@ be_visitor_valuebox_ch::visit_union (be_union *node)
 
 int
 be_visitor_valuebox_ch::emit_for_predef_enum (be_type *node,
-                                              char const *type_suffix,
+                                              std::string_view type_suffix,
                                               bool is_any)
 {
   TAO_OutStream *os = this->ctx_->stream ();
@@ -742,9 +742,9 @@ be_visitor_valuebox_ch::emit_default_constructor ()
 
 void
 be_visitor_valuebox_ch::emit_constructor_one_arg (be_decl *node,
-                                                  char const *type_suffix,
+                                                  std::string_view type_suffix,
                                                   std::string_view const_prefix,
-                                                  char const *ref_modifier)
+                                                  std::string_view ref_modifier)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
@@ -772,9 +772,9 @@ be_visitor_valuebox_ch::emit_copy_constructor ()
 
 void
 be_visitor_valuebox_ch::emit_assignment (be_decl *node,
-                                         char const *type_suffix,
+                                         std::string_view type_suffix,
                                          std::string_view const_prefix,
-                                         char const *ref_modifier)
+                                         std::string_view ref_modifier)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
@@ -789,10 +789,10 @@ be_visitor_valuebox_ch::emit_assignment (be_decl *node,
 
 void
 be_visitor_valuebox_ch::emit_boxed_access (be_decl *node,
-                                           char const *type_suffix,
+                                           std::string_view type_suffix,
                                            std::string_view const_prefix,
-                                           char const *in_ref_modifier,
-                                           char const *out_ref_modifier)
+                                           std::string_view in_ref_modifier,
+                                           std::string_view out_ref_modifier)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
@@ -829,7 +829,7 @@ be_visitor_valuebox_ch::emit_accessor_modifier (be_decl *node)
 
 void
 be_visitor_valuebox_ch::emit_boxed_member_var (be_decl *node,
-                                               char const *type_suffix)
+                                               std::string_view type_suffix)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 

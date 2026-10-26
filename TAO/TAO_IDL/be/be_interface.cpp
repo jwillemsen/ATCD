@@ -2288,14 +2288,14 @@ be_interface::destroy ()
 
   this->full_direct_proxy_impl_name_.clear ();
 
-  delete [] this->client_scope_;
-  this->client_scope_ = nullptr;
+  this->client_scope_.clear ();
+  this->client_scope_computed_ = false;
 
-  delete [] this->flat_client_scope_;
-  this->flat_client_scope_ = nullptr;
+  this->flat_client_scope_.clear ();
+  this->flat_client_scope_computed_ = false;
 
-  delete [] this->server_scope_;
-  this->server_scope_ = nullptr;
+  this->server_scope_.clear ();
+  this->server_scope_computed_ = false;
 
   delete [] this->flat_server_scope_;
   this->flat_server_scope_ = nullptr;
@@ -2700,31 +2700,27 @@ be_interface::full_direct_proxy_impl_name ()
 }
 
 
-const char *
+std::string_view
 be_interface::client_enclosing_scope ()
 {
-  if (this->client_scope_ == nullptr)
+  if (!this->client_scope_computed_)
     {
       const char *full_name = this->full_name ();
       const char *name = this->local_name ();
 
       size_t offset = ACE_OS::strlen (name);
       size_t length = ACE_OS::strlen (full_name) - offset;
-      ACE_NEW_RETURN (this->client_scope_,
-                      char[length + 1],
-                      nullptr);
-
-      ACE_OS::strncpy (this->client_scope_, full_name, length);
-      this->client_scope_[length] = '\0';
+      this->client_scope_.assign (full_name, length);
+      this->client_scope_computed_ = true;
     }
 
   return this->client_scope_;
 }
 
-const char *
+std::string_view
 be_interface::flat_client_enclosing_scope ()
 {
-  if (this->flat_client_scope_ == nullptr)
+  if (!this->flat_client_scope_computed_)
     {
       const char *full_name = this->flat_name ();
       const char *name =
@@ -2733,23 +2729,17 @@ be_interface::flat_client_enclosing_scope ()
       size_t offset = ACE_OS::strlen (name);
       size_t length = ACE_OS::strlen (full_name) - offset;
 
-      ACE_NEW_RETURN (this->flat_client_scope_,
-                      char[length + 1],
-                      nullptr);
-
-      ACE_OS::strncpy (this->flat_client_scope_,
-                       full_name,
-                       length);
-      this->flat_client_scope_[length] = '\0';
+      this->flat_client_scope_.assign (full_name, length);
+      this->flat_client_scope_computed_ = true;
     }
 
   return this->flat_client_scope_;
 }
 
-const char *
+std::string_view
 be_interface::server_enclosing_scope ()
 {
-  if (this->server_scope_ == nullptr)
+  if (!this->server_scope_computed_)
     {
       const char *full_name =
         this->full_coll_name (be_interface::DIRECT);
@@ -2759,12 +2749,8 @@ be_interface::server_enclosing_scope ()
 
       size_t offset = ACE_OS::strlen (name);
       size_t length = ACE_OS::strlen (full_name) - offset;
-      ACE_NEW_RETURN (this->server_scope_,
-                      char[length + 1],
-                      nullptr);
-
-      ACE_OS::strncpy (this->server_scope_, full_name, length);
-      this->server_scope_[length] = '\0';
+      this->server_scope_.assign (full_name, length);
+      this->server_scope_computed_ = true;
     }
 
   return this->server_scope_;

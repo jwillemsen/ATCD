@@ -131,14 +131,14 @@ be_home::destroy ()
   this->direct_proxy_impl_name_.clear ();
   this->full_direct_proxy_impl_name_.clear ();
 
-  delete [] this->client_scope_;
-  this->client_scope_ = nullptr;
+  this->client_scope_.clear ();
+  this->client_scope_computed_ = false;
 
-  delete [] this->flat_client_scope_;
-  this->flat_client_scope_ = nullptr;
+  this->flat_client_scope_.clear ();
+  this->flat_client_scope_computed_ = false;
 
-  delete [] this->server_scope_;
-  this->server_scope_ = nullptr;
+  this->server_scope_.clear ();
+  this->server_scope_computed_ = false;
 
   delete [] this->flat_server_scope_;
   this->flat_server_scope_ = nullptr;

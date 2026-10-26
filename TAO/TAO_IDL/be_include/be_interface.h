@@ -77,14 +77,14 @@ public:
   virtual std::string_view full_direct_proxy_impl_name ();
 
   /// Return the client scope that encloses the interface.
-  virtual const char *client_enclosing_scope ();
+  virtual std::string_view client_enclosing_scope ();
 
   /// Return the "flattened" scope that encloses
   /// the interface.
-  virtual const char *flat_client_enclosing_scope ();
+  virtual std::string_view flat_client_enclosing_scope ();
 
   /// Return the server scope that encloses the interface.
-  virtual const char *server_enclosing_scope ();
+  virtual std::string_view server_enclosing_scope ();
 
   /// Retrieve skeleton name.
   std::string relative_skel_name (const char *skel_name);
@@ -301,10 +301,13 @@ protected:
 
   std::string full_direct_proxy_impl_name_;
 
-  char *client_scope_ {};
-  char *flat_client_scope_ {};
+  std::string client_scope_;
+  bool client_scope_computed_ {};
+  std::string flat_client_scope_;
+  bool flat_client_scope_computed_ {};
 
-  char *server_scope_ {};
+  std::string server_scope_;
+  bool server_scope_computed_ {};
   char *flat_server_scope_ {};
 
 private:

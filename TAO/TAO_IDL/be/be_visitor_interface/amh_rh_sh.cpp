@@ -11,6 +11,8 @@
 
 #include "interface.h"
 
+#include <string>
+
 be_visitor_amh_rh_interface_sh::be_visitor_amh_rh_interface_sh (
     be_visitor_context *ctx)
   : be_visitor_interface_sh (ctx)
@@ -54,8 +56,8 @@ be_visitor_amh_rh_interface_sh::visit_interface (be_interface *node)
   *os << "using " << rh_skel_class_name.c_str () << "_ptr = "
       << rh_skel_class_name.c_str () << " *;" << be_nl_2;
 
-  ACE_CString inherit_client_parent = node->client_enclosing_scope ();
-  inherit_client_parent +=  rh_base_class_name;
+  std::string inherit_client_parent (node->client_enclosing_scope ());
+  inherit_client_parent += rh_base_class_name.c_str ();
 
   ACE_CString inherit_tao_parent = "TAO_AMH_Response_Handler";
 
@@ -63,7 +65,7 @@ be_visitor_amh_rh_interface_sh::visit_interface (be_interface *node)
   *os << "class " << be_global->skel_export_macro ()
       << " " << rh_skel_class_name.c_str () << be_idt_nl
       << ": public " << inherit_tao_parent.c_str () << "," << be_idt_nl
-      << "public ::" << inherit_client_parent.c_str () << be_uidt << be_uidt;
+      << "public ::" << inherit_client_parent << be_uidt << be_uidt;
 
   *os << be_nl
       << "{" << be_nl

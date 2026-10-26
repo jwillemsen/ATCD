@@ -11,6 +11,8 @@
 
 #include "interface.h"
 
+#include <string>
+
 be_visitor_amh_interface_sh::be_visitor_amh_interface_sh (
     be_visitor_context *ctx)
   : be_visitor_interface_sh (ctx)
@@ -362,12 +364,12 @@ be_visitor_amh_interface_sh::this_method (be_interface *node)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
-  ACE_CString non_amh_name = node->client_enclosing_scope ();
+  std::string non_amh_name (node->client_enclosing_scope ());
   non_amh_name += node->local_name ();
 
   // Print out the _this() method.  The _this() method for AMH
   // interfaces is "special", because the returned type is not exactly
   // the type of the class, but the original class that "implied" the
   // AMH one.
-  *os << non_amh_name.c_str () << " *_this ();\n" << be_uidt;
+  *os << non_amh_name << " *_this ();\n" << be_uidt;
 }

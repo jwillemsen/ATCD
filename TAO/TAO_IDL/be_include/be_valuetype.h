@@ -71,11 +71,11 @@ public:
   void gen_var_out_seq_decls ();
 
   /// Retrieve the fully scoped skel class name.
-  const char *full_obv_skel_name ();
+  std::string_view full_obv_skel_name ();
 
-  const char *field_pd_prefix ();
+  std::string_view field_pd_prefix ();
 
-  const char *field_pd_postfix ();
+  std::string_view field_pd_postfix ();
 
   // For building the name for private data fields.
   be_valuetype *statefull_inherit ();

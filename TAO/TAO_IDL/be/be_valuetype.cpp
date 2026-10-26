@@ -161,7 +161,7 @@ be_valuetype::compute_fullobvskelname ()
 }
 
 // Retrieve the fully scoped skeleton name.
-const char*
+std::string_view
 be_valuetype::full_obv_skel_name ()
 {
   if (nullptr == this->full_obv_skel_name_)
@@ -573,13 +573,13 @@ be_valuetype::gen_var_out_seq_decls ()
 }
 
 // For building the pre and postfix of private data fields.
-const char *
+std::string_view
 be_valuetype::field_pd_prefix ()
 {
   return "_pd_";
 }
 
-const char *
+std::string_view
 be_valuetype::field_pd_postfix ()
 {
   return "";

@@ -29,21 +29,23 @@
 
 #include "ace/OS_NS_string.h"
 
+#include <string_view>
+
 void
 be_util::gen_nested_namespace_begin (TAO_OutStream *os,
                                      be_module *node,
                                      bool skel)
 {
-  char *item_name = nullptr;
   bool first_level = true;
 
   for (UTL_IdListActiveIterator i (node->name ());
        !i.is_done ();
        i.next ())
     {
-      item_name = i.item ()->get_string ();
+      std::string_view const item_name =
+        i.item ()->get_string_view ().value_or (std::string_view {});
 
-      if (ACE_OS::strcmp (item_name, "") != 0)
+      if (!item_name.empty ())
         {
           // Leave the outermost root scope.
           *os << be_nl << "namespace ";
@@ -69,7 +71,7 @@ be_util::gen_nested_namespace_end (TAO_OutStream *os,
        !i.is_done ();
        i.next ())
     {
-      if (ACE_OS::strcmp (i.item ()->get_string (), "") != 0)
+      if (!i.item ()->get_string_view ().value_or (std::string_view {}).empty ())
         {
           // Leave the outermost root scope.
           *os << be_uidt_nl << "}";

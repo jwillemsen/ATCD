@@ -21,6 +21,8 @@
 #include "ace/OS_NS_ctype.h"
 #include "../../tao/Version.h"
 
+#include <string_view>
+
 static constexpr char copyright[] =
 "// -*- C++ -*-\n"
 "/**\n"
@@ -466,7 +468,8 @@ TAO_OutStream::operator<< (AST_Expression *expr)
 TAO_OutStream &
 TAO_OutStream::print (Identifier *id)
 {
-  ACE_OS::fprintf (this->fp_, "%s", id->get_string ());
+  std::string_view const name = id->get_string_view ().value_or (std::string_view (""));
+  ACE_OS::fwrite (name.data (), 1, name.size (), this->fp_);
 
   return *this;
 }
@@ -495,8 +498,8 @@ TAO_OutStream::print (UTL_IdList *idl)
 
       if (first)
         {
-          if (ACE_OS::strcmp (id->get_string (), "") != 0
-              && ACE_OS::strcmp (id->get_string (), "::") != 0)
+          std::string_view const name = id->get_string_view ().value_or (std::string_view {});
+          if (!name.empty () && name != "::")
             {
               // Does not start with a "".
               first = false;

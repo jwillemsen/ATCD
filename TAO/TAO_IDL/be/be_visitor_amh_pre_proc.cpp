@@ -27,6 +27,9 @@
 #include "global_extern.h"
 #include "ace/Log_Msg.h"
 
+#include <string>
+#include <string_view>
+
 be_visitor_amh_pre_proc::be_visitor_amh_pre_proc (be_visitor_context *ctx)
   : be_visitor_scope (ctx)
 {
@@ -140,7 +143,7 @@ be_visitor_amh_pre_proc::create_response_handler (
   )
 {
   // Generate 'AMH_InterfaceResponseHandler'
-  ACE_CString class_name;
+  std::string class_name;
   class_name += "AMH_";
   class_name += node->local_name ().data ();
   class_name += "ResponseHandler";
@@ -409,9 +412,8 @@ be_visitor_amh_pre_proc::add_normal_reply (be_operation *node,
   Identifier *id = nullptr;
   UTL_ScopedName *sn = nullptr;
 
-  ACE_CString original_op_name (
-                  node->name ()->last_component ()->get_string ()
-                );
+  std::string original_op_name (
+    node->name ()->last_component ()->get_string_view ().value_or (std::string_view {}));
 
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (response_handler->name ()->copy ());
@@ -661,7 +663,7 @@ be_visitor_amh_pre_proc::create_raise_operation (
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (excep_holder->name ()->copy ());
 
-  ACE_CString new_local_name ("raise_");
+  std::string new_local_name ("raise_");
 
   if (operation_kind == Operation_Kind::SET)
     {
@@ -672,7 +674,8 @@ be_visitor_amh_pre_proc::create_raise_operation (
       new_local_name += "get_";
     }
 
-  new_local_name += node->name ()->last_component ()->get_string ();
+  new_local_name += node->name ()->last_component ()->get_string_view ().value_or (
+    std::string_view {});
 
   ACE_NEW_RETURN (id,
                   Identifier (new_local_name.c_str ()),
@@ -722,26 +725,24 @@ be_visitor_amh_pre_proc::create_raise_operation (
 }
 
 
-int
-be_visitor_amh_pre_proc::generate_name (ACE_CString &destination,
-                                        const char *prefix,
-                                        const char *middle_name,
-                                        const char *suffix)
+void
+be_visitor_amh_pre_proc::generate_name (std::string &destination,
+                                        std::string_view prefix,
+                                        std::string_view middle_name,
+                                        std::string_view suffix) const
 {
-  destination = prefix;
+  destination.assign (prefix);
   destination += middle_name;
   destination += suffix;
-  return 0;
 }
 
 
 be_operation *
 be_visitor_amh_pre_proc::generate_get_operation (be_attribute *node)
 {
-  ACE_CString original_op_name (
-      node->name ()->last_component ()->get_string ()
-    );
-  ACE_CString new_op_name = ACE_CString ("get_") + original_op_name;
+  std::string new_op_name ("get_");
+  new_op_name += node->name ()->last_component ()->get_string_view ().value_or (
+    std::string_view {});
 
   UTL_ScopedName *get_name =
     static_cast<UTL_ScopedName *> (node->name ()-> copy ());
@@ -765,10 +766,9 @@ be_visitor_amh_pre_proc::generate_get_operation (be_attribute *node)
 be_operation *
 be_visitor_amh_pre_proc::generate_set_operation (be_attribute *node)
 {
-  ACE_CString original_op_name (
-      node->name ()->last_component ()->get_string ()
-    );
-  ACE_CString new_op_name = ACE_CString ("set_") + original_op_name;
+  std::string new_op_name ("set_");
+  new_op_name += node->name ()->last_component ()->get_string_view ().value_or (
+    std::string_view {});
 
   UTL_ScopedName *set_op_name =
     dynamic_cast<UTL_ScopedName *> (node->name ()-> copy ());

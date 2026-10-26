@@ -35,6 +35,9 @@
 
 #include "ace/Log_Msg.h"
 
+#include <string>
+#include <string_view>
+
 be_visitor_ami_pre_proc::be_visitor_ami_pre_proc (be_visitor_context *ctx)
   : be_visitor_scope (ctx)
 {
@@ -79,7 +82,7 @@ be_visitor_ami_pre_proc::visit_module (be_module *node)
 {
   // Skip this for now until we get AMI integrated with
   // CIAO.
-  if (0 == ACE_OS::strcmp (node->local_name ()->get_string (), "Components"))
+  if (node->local_name ()->get_string_view ().value_or (std::string_view {}) == "Components")
     {
       return 0;
     }
@@ -125,10 +128,12 @@ be_visitor_ami_pre_proc::visit_interface (be_interface *node)
       return 0;
     }
 
-  ACE_CString lname (node_lname->get_string ());
+  std::string lname (node_lname->get_string_view ().value_or (std::string_view {}));
 
-  // Skip the *Explict and *Implicit interfaces added for a home.
-  if (lname.substr (lname.length () - 6) == "plicit")
+  // Skip the *Explicit and *Implicit interfaces added for a home.
+  if (lname.length () >= 8
+      && (lname.compare (lname.length () - 8, 8, "Explicit") == 0
+          || lname.compare (lname.length () - 8, 8, "Implicit") == 0))
     {
       UTL_Scope *s = node->defined_in ();
       Identifier local_id (lname.substr (0, lname.length () - 8).c_str ());
@@ -256,11 +261,12 @@ be_visitor_ami_pre_proc::create_reply_handler (be_interface *node)
   idl_global->scopes ().push (s);
 
   // Create the reply handler name.
-  ACE_CString reply_handler_local_name;
+  std::string reply_handler_local_name;
 
   this->generate_name (reply_handler_local_name,
                        "AMI_",
-                       node->name ()->last_component ()->get_string(),
+                       node->name ()->last_component ()->get_string_view ().value_or (
+                         std::string_view {}),
                        "Handler");
 
   UTL_ScopedName *reply_handler_name =
@@ -408,10 +414,9 @@ be_visitor_ami_pre_proc::create_sendc_operation (be_operation *node)
 
   // Create the new name
   // Prepend "sendc_" to the name of the operation
-  ACE_CString original_op_name (
-    node->name ()->last_component ()->get_string ());
-  ACE_CString new_op_name =
-    ACE_CString ("sendc_") + original_op_name;
+  std::string new_op_name ("sendc_");
+  new_op_name += node->name ()->last_component ()->get_string_view ().value_or (
+    std::string_view {});
 
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (node->name ()->copy ());
@@ -440,12 +445,12 @@ be_visitor_ami_pre_proc::create_sendc_operation (be_operation *node)
   be_interface *parent = dynamic_cast<be_interface*> (s);
 
   // Add the pre- and suffix
-  ACE_CString handler_local_name;
+  std::string handler_local_name;
 
   this->generate_name (
     handler_local_name,
     "AMI_",
-    parent->name ()->last_component ()->get_string (),
+    parent->name ()->last_component ()->get_string_view ().value_or (std::string_view {}),
     "Handler");
 
   AST_Interface *handler = parent->ami_handler ();
@@ -565,9 +570,8 @@ be_visitor_ami_pre_proc::create_reply_handler_operation (
   Identifier *id = nullptr;
   UTL_ScopedName *sn = nullptr;
 
-  ACE_CString original_op_name (
-                  node->name ()->last_component ()->get_string ()
-                );
+  std::string original_op_name (
+    node->name ()->last_component ()->get_string_view ().value_or (std::string_view {}));
 
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (reply_handler->name ()-> copy ());
@@ -736,10 +740,9 @@ be_visitor_ami_pre_proc::create_excep_operation (be_operation *node,
 
   // Create the new name
   // Append _excep to the name of the operation
-  ACE_CString original_op_name (
-                  node->name ()->last_component ()->get_string ()
-                );
-  ACE_CString new_op_name = original_op_name + ACE_CString ("_excep");
+  std::string original_op_name (
+    node->name ()->last_component ()->get_string_view ().value_or (std::string_view {}));
+  std::string new_op_name = original_op_name + "_excep";
 
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (reply_handler->name ()->copy ());
@@ -881,25 +884,23 @@ be_visitor_ami_pre_proc::visit_scope (be_scope *node)
 
 // Helper methods
 
-int
-be_visitor_ami_pre_proc::generate_name (ACE_CString &destination,
-                                        const char *prefix,
-                                        const char *middle_name,
-                                        const char *suffix)
+void
+be_visitor_ami_pre_proc::generate_name (std::string &destination,
+                                        std::string_view prefix,
+                                        std::string_view middle_name,
+                                        std::string_view suffix) const
 {
-  destination = prefix;
+  destination.assign (prefix);
   destination += middle_name;
   destination += suffix;
-  return 0;
 }
 
 be_operation *
 be_visitor_ami_pre_proc::generate_get_operation (be_attribute *node)
 {
-  ACE_CString original_op_name (
-                  node->name ()->last_component ()->get_string ()
-                );
-  ACE_CString new_op_name = ACE_CString ("get_") + original_op_name;
+  std::string new_op_name ("get_");
+  new_op_name += node->name ()->last_component ()->get_string_view ().value_or (
+    std::string_view {});
 
   UTL_ScopedName *get_name =
     static_cast<UTL_ScopedName *> (node->name ()->copy ());
@@ -933,10 +934,9 @@ be_visitor_ami_pre_proc::generate_get_operation (be_attribute *node)
 be_operation *
 be_visitor_ami_pre_proc::generate_set_operation (be_attribute *node)
 {
-  ACE_CString original_op_name (
-                  node->name ()->last_component ()->get_string ()
-                );
-  ACE_CString new_op_name = ACE_CString ("set_") + original_op_name;
+  std::string new_op_name ("set_");
+  new_op_name += node->name ()->last_component ()->get_string_view ().value_or (
+    std::string_view {});
 
   UTL_ScopedName *set_name =
     static_cast<UTL_ScopedName *> (node->name ()-> copy ());
@@ -1018,9 +1018,9 @@ be_visitor_ami_pre_proc::create_inheritance_list (be_interface *node,
                       AST_Type *[n_rh_parents],
                       nullptr);
 
-      ACE_CString prefix ("AMI_");
+      std::string prefix ("AMI_");
 
-      ACE_CString suffix ("Handler");
+      std::string suffix ("Handler");
       long index = 0;
 
       for (long j = 0; j < n_parents; ++j)
@@ -1032,8 +1032,10 @@ be_visitor_ami_pre_proc::create_inheritance_list (be_interface *node,
               continue;
             }
 
-          ACE_CString rh_local_name =
-            prefix + parent->local_name ()->get_string () + suffix;
+          std::string rh_local_name (prefix);
+          rh_local_name += parent->local_name ()->get_string_view ().value_or (
+            std::string_view {});
+          rh_local_name += suffix;
 
           UTL_ScopedName *rh_parent_name =
             static_cast<UTL_ScopedName *> (parent->name ()->copy ());

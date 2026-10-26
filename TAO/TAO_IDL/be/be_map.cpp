@@ -252,7 +252,7 @@ be_map::accept (be_visitor *visitor)
 }
 
 
-const char *
+std::string
 be_map::instance_name ()
 {
   return "";
@@ -270,15 +270,13 @@ be_map::field_node (be_field *node)
   this->field_node_ = node;
 }
 
-const char *
+std::string
 be_map::smart_fwd_helper_name (AST_Decl *ctx_scope,
                                     be_type *elem)
 {
   if (ScopeAsDecl (elem->defined_in ()) == ctx_scope)
     {
-      ACE_CString retval = "tao_";
-      retval += elem->local_name ()->get_string ();
-      return retval.rep ();
+      return "tao_" + std::string (elem->local_name ()->get_string ());
     }
 
   return elem->fwd_helper_name ();

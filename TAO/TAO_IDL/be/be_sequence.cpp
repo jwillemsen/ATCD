@@ -402,14 +402,9 @@ be_sequence::accept (be_visitor *visitor)
 }
 
 
-const char *
+std::string
 be_sequence::instance_name ()
 {
-  static char namebuf[NAMEBUFSIZE];
-  ACE_OS::memset (namebuf,
-                  '\0',
-                  NAMEBUFSIZE);
-
   be_type *const prim_type = primitive_base_type ();
   if (!prim_type)
     {
@@ -418,7 +413,15 @@ be_sequence::instance_name ()
                   "gen_instantiate_name - "
                   "Bad element type\n"));
 
-      return namebuf;
+      return {};
+    }
+
+  std::string name;
+  std::string const primitive_name (prim_type->local_name ()->get_string ());
+  std::string bound;
+  if (!this->unbounded ())
+    {
+      bound = std::to_string (this->max_size ()->ev ()->u.ulval);
     }
 
   // Generate the appropriate sequence type.
@@ -428,62 +431,44 @@ be_sequence::instance_name ()
     case be_sequence::MNG_OBJREF:
       if (this->unbounded ())
         {
-          ACE_OS::sprintf (namebuf,
-                           "_TAO_unbounded_object_reference_sequence_%s",
-                           prim_type->local_name ()->get_string ());
+          name = "_TAO_unbounded_object_reference_sequence_" + primitive_name;
         }
       else
         {
-          ACE_OS::sprintf (namebuf,
-                           "_TAO_bounded_object_reference_sequence_%s_"
-                           ACE_UINT32_FORMAT_SPECIFIER_ASCII,
-                           prim_type->local_name ()->get_string (),
-                           this->max_size ()->ev ()->u.ulval);
+          name = "_TAO_bounded_object_reference_sequence_" + primitive_name + "_" + bound;
         }
 
       break;
     case be_sequence::MNG_VALUE:
       if (this->unbounded ())
         {
-          ACE_OS::sprintf (namebuf,
-                           "_TAO_unbounded_valuetype_sequence_%s",
-                           prim_type->local_name ()->get_string ());
+          name = "_TAO_unbounded_valuetype_sequence_" + primitive_name;
         }
       else
         {
-          ACE_OS::sprintf (namebuf,
-                           "_TAO_bounded_valuetype_sequence_%s_"
-                           ACE_UINT32_FORMAT_SPECIFIER_ASCII,
-                           prim_type->local_name ()->get_string (),
-                           this->max_size ()->ev ()->u.ulval);
+          name = "_TAO_bounded_valuetype_sequence_" + primitive_name + "_" + bound;
         }
 
       break;
     case be_sequence::MNG_STRING:
       if (this->unbounded ())
         {
-          ACE_OS::sprintf (namebuf,
-                           "::TAO::unbounded_basic_string_sequence<char>");
+          name = "::TAO::unbounded_basic_string_sequence<char>";
         }
       else
         {
-          ACE_OS::sprintf (namebuf,
-                           "_TAO_unbounded_string_sequence_%s",
-                           prim_type->local_name ()->get_string ());
+          name = "_TAO_unbounded_string_sequence_" + primitive_name;
         }
 
       break;
     case be_sequence::MNG_WSTRING:
       if (this->unbounded ())
         {
-          ACE_OS::sprintf (namebuf,
-                           "::TAO::unbounded_basic_string_sequence<CORBA::WChar>");
+          name = "::TAO::unbounded_basic_string_sequence<CORBA::WChar>";
         }
       else
         {
-          ACE_OS::sprintf (namebuf,
-                           "_TAO_bounded_wstring_sequence_%s",
-                           prim_type->local_name ()->get_string ());
+          name = "_TAO_bounded_wstring_sequence_" + primitive_name;
         }
 
       break;
@@ -498,29 +483,22 @@ be_sequence::instance_name ()
           if (predef != nullptr
               && predef->pt() == AST_PredefinedType::PT_octet)
             {
-              ACE_OS::sprintf (namebuf,
-                               "::TAO::unbounded_value_sequence<CORBA::Octet>");
+              name = "::TAO::unbounded_value_sequence<CORBA::Octet>";
             }
           else
             {
-              ACE_OS::sprintf (namebuf,
-                               "_TAO_unbounded_value_sequence_%s",
-                               prim_type->local_name ()->get_string ());
+              name = "_TAO_unbounded_value_sequence_" + primitive_name;
             }
         }
       else
         {
-          ACE_OS::sprintf (namebuf,
-                           "_TAO_bounded_value_sequence_%s_"
-                           ACE_UINT32_FORMAT_SPECIFIER_ASCII,
-                           prim_type->local_name ()->get_string (),
-                           this->max_size ()->ev ()->u.ulval);
+          name = "_TAO_bounded_value_sequence_" + primitive_name + "_" + bound;
         }
 
       break;
     }
 
-  return namebuf;
+  return name;
 }
 
 int
@@ -847,15 +825,13 @@ be_sequence::compute_tc_name ()
   this->tc_name_->nconc (conc_name);
 }
 
-const char *
+std::string
 be_sequence::smart_fwd_helper_name (AST_Decl *ctx_scope,
                                     be_type *elem)
 {
   if (ScopeAsDecl (elem->defined_in ()) == ctx_scope)
     {
-      ACE_CString retval = "tao_";
-      retval += elem->local_name ()->get_string ();
-      return retval.rep ();
+      return "tao_" + std::string (elem->local_name ()->get_string ());
     }
 
   return elem->fwd_helper_name ();

@@ -371,7 +371,7 @@ be_visitor_valuebox_field_ch::visit_string (be_string *node)
   this->emit_member_set (field, bt, "", "");
   this->emit_member_set (field, bt, "const ", "");
 
-  char const *string_type {""};
+  std::string_view string_type {};
   if (node->node_type () == AST_Decl::NT_string)
     {
       string_type = "String";

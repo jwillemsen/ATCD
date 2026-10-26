@@ -251,8 +251,8 @@ be_visitor_valuebox_ci::visit_string (be_string *node)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
-  char const *string_type {};
-  char const *char_type {};
+  std::string_view string_type {};
+  std::string_view char_type {};
   if (node->node_type () == AST_Decl::NT_string)
     {
       string_type = "String";

@@ -18,6 +18,10 @@
 #include "ace/Unbounded_Queue.h"
 #include "ace/SString.h"
 
+#include <optional>
+#include <string>
+#include <string_view>
+
 class be_interface;
 class be_valuetype;
 class be_module;
@@ -260,7 +264,7 @@ public:
   const char* skel_export_macro () const;
 
   /// Set the macro name for export server side classes in Win32 DLL.
-  void skel_export_macro (const char* s);
+  void skel_export_macro (std::string_view s);
 
   /// Returns the name of the include file that contains the server
   /// side export macro definition.
@@ -268,7 +272,7 @@ public:
 
   /// Set the name of the include file that contains the server side
   /// export macro definition.
-  void skel_export_include (const char* s);
+  void skel_export_include (std::string_view s);
 
   /// Returns the name of the include file that will be generated for the
   /// server side export macro definition.
@@ -276,14 +280,14 @@ public:
 
   /// Set the name of the include file that the will be generated for server
   /// side export macro definition.
-  void skel_export_file (const char* s);
+  void skel_export_file (std::string_view s);
 
   /// Returns the macro name for exporting client side classes in Win32
   /// DLL.
   const char* stub_export_macro () const;
 
   /// Set the macro name for export client side classes in Win32 DLL.
-  void stub_export_macro (const char* s);
+  void stub_export_macro (std::string_view s);
 
   /// Returns the name of the include file that contains the client
   /// side export macro definition.
@@ -291,7 +295,7 @@ public:
 
   /// Set the name of the include file that contains the client side
   /// export macro definition.
-  void stub_export_include (const char* s);
+  void stub_export_include (std::string_view s);
 
   /// Returns the name of the include file will be generated for the client
   /// side export macro definition.
@@ -299,14 +303,14 @@ public:
 
   /// Set the name of the include file that will be generated for the client
   /// side export macro definition.
-  void stub_export_file (const char* s);
+  void stub_export_file (std::string_view s);
 
   /// Returns the macro name for exporting *A.h file classes in Win32
   /// DLL.
   const char* anyop_export_macro () const;
 
   /// Set the macro name for export *A.h file classes in Win32 DLL.
-  void anyop_export_macro (const char* s);
+  void anyop_export_macro (std::string_view s);
 
   /// Returns the name of the include file that contains the *A.h
   /// file export macro definition.
@@ -314,14 +318,14 @@ public:
 
   /// Set the name of the include file that contains the *A.h file
   /// export macro definition.
-  void anyop_export_include (const char* s);
+  void anyop_export_include (std::string_view s);
 
   /// Returns the macro name for exporting exec impl classes in Win32
   /// DLL.
   const char* exec_export_macro () const;
 
   /// Set the macro name for export exec impl classes in Win32 DLL.
-  void exec_export_macro (const char* s);
+  void exec_export_macro (std::string_view s);
 
   /// Returns the name of the include file that contains the exec
   /// impl export macro definition.
@@ -329,14 +333,14 @@ public:
 
   /// Set the name of the include file that contains the exec impl
   /// export macro definition.
-  void exec_export_include (const char* s);
+  void exec_export_include (std::string_view s);
 
   /// Returns the macro name for exporting CIAO svnt classes in Win32
   /// DLL.
   const char* svnt_export_macro () const;
 
   /// Set the macro name for export CIAO svnt classes in Win32 DLL.
-  void svnt_export_macro (const char* s);
+  void svnt_export_macro (std::string_view s);
 
   /// Returns the name of the include file that contains the CIAO
   /// svnt export macro definition.
@@ -344,7 +348,7 @@ public:
 
   /// Set the name of the include file that contains the CIAO svnt
   /// export macro definition.
-  void svnt_export_include (const char* s);
+  void svnt_export_include (std::string_view s);
 
   /// Returns the macro name for exporting CIAO connector
   /// classes in Win32 DLL.
@@ -352,7 +356,7 @@ public:
 
   /// Set the macro name for export CIAO connector
   /// classes in Win32 DLL.
-  void conn_export_macro (const char* s);
+  void conn_export_macro (std::string_view s);
 
   /// Returns the name of the include file that contains the CIAO
   /// connector export macro definition.
@@ -360,7 +364,7 @@ public:
 
   /// Set the name of the include file that contains the CIAO
   /// connector export macro definition.
-  void conn_export_include (const char* s);
+  void conn_export_include (std::string_view s);
 
   /// Returns the name of the include file to be used for precompiled
   /// header support.
@@ -368,7 +372,7 @@ public:
 
   /// Set the name of the include file to be used for precompiled
   /// header support.
-  void pch_include (const char* s);
+  void pch_include (std::string_view s);
 
   /// Returns the name of the include file to be put at the top of
   /// every header file.
@@ -376,7 +380,7 @@ public:
 
   /// Set the name of the include file to be put at the top of every
   /// header file.
-  void pre_include (const char* s);
+  void pre_include (std::string_view s);
 
   /// Returns the name of the include file to be put at the bottom of
   /// every header file.
@@ -384,13 +388,13 @@ public:
 
   /// Set the name of the include file to be put at the bottom of every
   /// header file.
-  void post_include (const char* s);
+  void post_include (std::string_view s);
 
   /// Returns the guard that is placed in the client header file
   const char* include_guard () const;
 
   /// Set the guard that is placed in the client header file
-  void include_guard (const char* s);
+  void include_guard (std::string_view s);
 
   /// Returns the name of the include file that is used instead of the own
   /// generated client header file
@@ -398,7 +402,7 @@ public:
 
   /// set the name of the include file that is used instead of the own
   /// generated client header file
-  void safe_include (const char* s);
+  void safe_include (std::string_view s);
 
   /// Returns the name of the include file that should on get
   /// generated in the client header file
@@ -406,14 +410,14 @@ public:
 
   /// Set the name of the include file that should on get
   /// generated in the client header file
-  void unique_include (const char* s);
+  void unique_include (std::string_view s);
 
   /// Returns the name of the include file that should be used as
   /// stripped_filename
   const char* stripped_filename () const;
 
   /// Set the name of the include file that should be used as stripped_filename
-  void stripped_filename (const char* s);
+  void stripped_filename (std::string_view s);
 
   /// Set text that opens a "versioned" namespace.
   void versioning_begin (const char* s);
@@ -956,32 +960,32 @@ private:
   size_t changing_standard_include_files_ {1};
 
   // Macros and includes used to export classes from generated code.
-  char *skel_export_macro_ {};
-  char *skel_export_include_ {};
-  char *skel_export_file_ {};
-  char *stub_export_macro_ {};
-  char *stub_export_include_ {};
-  char *stub_export_file_ {};
+  std::optional<std::string> skel_export_macro_;
+  std::optional<std::string> skel_export_include_;
+  std::optional<std::string> skel_export_file_;
+  std::optional<std::string> stub_export_macro_;
+  std::optional<std::string> stub_export_include_;
+  std::optional<std::string> stub_export_file_;
 
   // Macro and include used on ORB .pidl files generating to the
   // AnyTypeCode library.
-  char *anyop_export_macro_ {};
-  char *anyop_export_include_ {};
+  std::optional<std::string> anyop_export_macro_;
+  std::optional<std::string> anyop_export_include_;
 
-  char *exec_export_macro_ {};
-  char *exec_export_include_ {};
-  char *svnt_export_macro_ {};
-  char *svnt_export_include_ {};
-  char *conn_export_macro_ {};
-  char *conn_export_include_ {};
+  std::optional<std::string> exec_export_macro_;
+  std::optional<std::string> exec_export_include_;
+  std::optional<std::string> svnt_export_macro_;
+  std::optional<std::string> svnt_export_include_;
+  std::optional<std::string> conn_export_macro_;
+  std::optional<std::string> conn_export_include_;
 
-  char *pch_include_ {};
-  char *pre_include_ {};
-  char *post_include_ {};
-  char *include_guard_ {};
-  char *safe_include_ {};
-  char *unique_include_ {};
-  char *stripped_filename_ {};
+  std::optional<std::string> pch_include_;
+  std::optional<std::string> pre_include_;
+  std::optional<std::string> post_include_;
+  std::optional<std::string> include_guard_;
+  std::optional<std::string> safe_include_;
+  std::optional<std::string> unique_include_;
+  std::optional<std::string> stripped_filename_;
 
   /// Text that opens a "versioned" namespace for core TAO and orbsvcs
   /// related code.

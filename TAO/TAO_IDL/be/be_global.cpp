@@ -720,304 +720,253 @@ BE_GlobalData::be_get_ciao_ami_conn_impl_src_fname (
 const char*
 BE_GlobalData::skel_export_macro () const
 {
-  if (this->skel_export_macro_ == nullptr)
-    {
-      return "";
-    }
-
-  return this->skel_export_macro_;
+  return this->skel_export_macro_ ? this->skel_export_macro_->c_str () : "";
 }
 
 void
-BE_GlobalData::skel_export_macro (const char *s)
+BE_GlobalData::skel_export_macro (std::string_view s)
 {
-  ACE::strdelete (this->skel_export_macro_);
-  this->skel_export_macro_ = ACE::strnew (s);
+  this->skel_export_macro_ = s;
 }
 
 const char*
 BE_GlobalData::skel_export_include () const
 {
-  return this->skel_export_include_;
+  return this->skel_export_include_ ? this->skel_export_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::skel_export_include (const char *s)
+BE_GlobalData::skel_export_include (std::string_view s)
 {
-  ACE::strdelete (this->skel_export_include_);
-  this->skel_export_include_ = ACE::strnew (s);
+  this->skel_export_include_ = s;
 }
 
 const char*
 BE_GlobalData::skel_export_file () const
 {
-  return this->skel_export_file_;
+  return this->skel_export_file_ ? this->skel_export_file_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::skel_export_file (const char *s)
+BE_GlobalData::skel_export_file (std::string_view s)
 {
-  ACE::strdelete (this->skel_export_file_);
-  this->skel_export_file_ = ACE::strnew (s);
+  this->skel_export_file_ = s;
 }
 
 const char*
 BE_GlobalData::stub_export_macro () const
 {
-  if (this->stub_export_macro_ == nullptr)
-    {
-      return "";
-    }
-
-  return this->stub_export_macro_;
+  return this->stub_export_macro_ ? this->stub_export_macro_->c_str () : "";
 }
 
 void
-BE_GlobalData::stub_export_macro (const char *s)
+BE_GlobalData::stub_export_macro (std::string_view s)
 {
-  ACE::strdelete (this->stub_export_macro_);
-  this->stub_export_macro_ = ACE::strnew (s);
+  this->stub_export_macro_ = s;
 }
 
 const char*
 BE_GlobalData::stub_export_include () const
 {
-  return this->stub_export_include_;
+  return this->stub_export_include_ ? this->stub_export_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::stub_export_include (const char *s)
+BE_GlobalData::stub_export_include (std::string_view s)
 {
-  ACE::strdelete (this->stub_export_include_);
-  this->stub_export_include_ = ACE::strnew (s);
+  this->stub_export_include_ = s;
 }
 
 const char*
 BE_GlobalData::stub_export_file () const
 {
-  return this->stub_export_file_;
+  return this->stub_export_file_ ? this->stub_export_file_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::stub_export_file (const char *s)
+BE_GlobalData::stub_export_file (std::string_view s)
 {
-  ACE::strdelete (this->stub_export_file_);
-  this->stub_export_file_ = ACE::strnew (s);
+  this->stub_export_file_ = s;
 }
 
 const char*
 BE_GlobalData::anyop_export_macro () const
 {
-  if (this->anyop_export_macro_ == nullptr)
-    {
-      return "";
-    }
-
-  return this->anyop_export_macro_;
+  return this->anyop_export_macro_ ? this->anyop_export_macro_->c_str () : "";
 }
 
 void
-BE_GlobalData::anyop_export_macro (const char *s)
+BE_GlobalData::anyop_export_macro (std::string_view s)
 {
-  ACE::strdelete (this->anyop_export_macro_);
-  this->anyop_export_macro_ = ACE::strnew (s);
+  this->anyop_export_macro_ = s;
 }
 
 const char*
 BE_GlobalData::anyop_export_include () const
 {
-  return this->anyop_export_include_;
+  return this->anyop_export_include_ ? this->anyop_export_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::anyop_export_include (const char *s)
+BE_GlobalData::anyop_export_include (std::string_view s)
 {
-  ACE::strdelete (this->anyop_export_include_);
-  this->anyop_export_include_ = ACE::strnew (s);
+  this->anyop_export_include_ = s;
 }
 
 const char*
 BE_GlobalData::exec_export_macro () const
 {
-  if (this->exec_export_macro_ == nullptr)
-    {
-      return "";
-    }
-
-  return this->exec_export_macro_;
+  return this->exec_export_macro_ ? this->exec_export_macro_->c_str () : "";
 }
 
 void
-BE_GlobalData::exec_export_macro (const char *s)
+BE_GlobalData::exec_export_macro (std::string_view s)
 {
-  ACE::strdelete (this->exec_export_macro_);
-  this->exec_export_macro_ = ACE::strnew (s);
+  this->exec_export_macro_ = s;
 }
 
 const char*
 BE_GlobalData::exec_export_include () const
 {
-  return this->exec_export_include_;
+  return this->exec_export_include_ ? this->exec_export_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::exec_export_include (const char *s)
+BE_GlobalData::exec_export_include (std::string_view s)
 {
-  ACE::strdelete (this->exec_export_include_);
-  this->exec_export_include_ = ACE::strnew (s);
+  this->exec_export_include_ = s;
 }
 
 const char*
 BE_GlobalData::svnt_export_macro () const
 {
-  if (this->svnt_export_macro_ == nullptr)
-    {
-      return "";
-    }
-
-  return this->svnt_export_macro_;
+  return this->svnt_export_macro_ ? this->svnt_export_macro_->c_str () : "";
 }
 
 void
-BE_GlobalData::svnt_export_macro (const char *s)
+BE_GlobalData::svnt_export_macro (std::string_view s)
 {
-  ACE::strdelete (this->svnt_export_macro_);
-  this->svnt_export_macro_ = ACE::strnew (s);
+  this->svnt_export_macro_ = s;
 }
 
 const char*
 BE_GlobalData::svnt_export_include () const
 {
-  return this->svnt_export_include_;
+  return this->svnt_export_include_ ? this->svnt_export_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::svnt_export_include (const char *s)
+BE_GlobalData::svnt_export_include (std::string_view s)
 {
-  ACE::strdelete (this->svnt_export_include_);
-  this->svnt_export_include_ = ACE::strnew (s);
+  this->svnt_export_include_ = s;
 }
 
 const char*
 BE_GlobalData::conn_export_macro () const
 {
-  if (this->conn_export_macro_ == nullptr)
-    {
-      return "";
-    }
-
-  return this->conn_export_macro_;
+  return this->conn_export_macro_ ? this->conn_export_macro_->c_str () : "";
 }
 
 void
-BE_GlobalData::conn_export_macro (const char *s)
+BE_GlobalData::conn_export_macro (std::string_view s)
 {
-  ACE::strdelete (this->conn_export_macro_);
-  this->conn_export_macro_ = ACE::strnew (s);
+  this->conn_export_macro_ = s;
 }
 
 const char*
 BE_GlobalData::conn_export_include () const
 {
-  return this->conn_export_include_;
+  return this->conn_export_include_ ? this->conn_export_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::conn_export_include (const char *s)
+BE_GlobalData::conn_export_include (std::string_view s)
 {
-  ACE::strdelete (this->conn_export_include_);
-  this->conn_export_include_ = ACE::strnew (s);
+  this->conn_export_include_ = s;
 }
 
 const char*
 BE_GlobalData::pch_include () const
 {
-  return this->pch_include_;
+  return this->pch_include_ ? this->pch_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::pch_include (const char *s)
+BE_GlobalData::pch_include (std::string_view s)
 {
-  ACE::strdelete (this->pch_include_);
-  this->pch_include_ = ACE::strnew (s);
+  this->pch_include_ = s;
 }
 
 const char*
 BE_GlobalData::pre_include () const
 {
-  return this->pre_include_;
+  return this->pre_include_ ? this->pre_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::pre_include (const char *s)
+BE_GlobalData::pre_include (std::string_view s)
 {
-  ACE::strdelete (this->pre_include_);
-  this->pre_include_ = ACE::strnew (s);
+  this->pre_include_ = s;
 }
 
 const char*
 BE_GlobalData::post_include () const
 {
-  return this->post_include_;
+  return this->post_include_ ? this->post_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::post_include (const char *s)
+BE_GlobalData::post_include (std::string_view s)
 {
-  ACE::strdelete (this->post_include_);
-  this->post_include_ = ACE::strnew (s);
+  this->post_include_ = s;
 }
 
 const char*
 BE_GlobalData::include_guard () const
 {
-  return this->include_guard_;
+  return this->include_guard_ ? this->include_guard_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::include_guard (const char *s)
+BE_GlobalData::include_guard (std::string_view s)
 {
-  ACE::strdelete (this->include_guard_);
-  this->include_guard_ = ACE::strnew (s);
+  this->include_guard_ = s;
 }
 
 const char*
 BE_GlobalData::safe_include () const
 {
-  return this->safe_include_;
+  return this->safe_include_ ? this->safe_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::safe_include (const char *s)
+BE_GlobalData::safe_include (std::string_view s)
 {
-  ACE::strdelete (this->safe_include_);
-  this->safe_include_ = ACE::strnew (s);
+  this->safe_include_ = s;
 }
 
 const char*
 BE_GlobalData::unique_include () const
 {
-  return this->unique_include_;
+  return this->unique_include_ ? this->unique_include_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::unique_include (const char *s)
+BE_GlobalData::unique_include (std::string_view s)
 {
-  ACE::strdelete (this->unique_include_);
-  this->unique_include_ = ACE::strnew (s);
+  this->unique_include_ = s;
 }
 
 const char*
 BE_GlobalData::stripped_filename () const
 {
-  return this->stripped_filename_;
+  return this->stripped_filename_ ? this->stripped_filename_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::stripped_filename (const char *s)
+BE_GlobalData::stripped_filename (std::string_view s)
 {
-  ACE::strdelete (this->stripped_filename_);
-  this->stripped_filename_ = ACE::strnew (s);
+  this->stripped_filename_ = s;
 }
 
 const char *
@@ -1920,68 +1869,27 @@ BE_GlobalData::dds_impl () const
 void
 BE_GlobalData::destroy ()
 {
-  ACE::strdelete (this->skel_export_macro_);
-  this->skel_export_macro_ = nullptr;
-
-  ACE::strdelete (this->skel_export_include_);
-  this->skel_export_include_ = nullptr;
-
-  ACE::strdelete (this->skel_export_file_);
-  this->skel_export_file_ = nullptr;
-
-  ACE::strdelete (this->stub_export_macro_);
-  this->stub_export_macro_ = nullptr;
-
-  ACE::strdelete (this->stub_export_include_);
-  this->stub_export_include_ = nullptr;
-
-  ACE::strdelete (this->stub_export_file_);
-  this->stub_export_file_ = nullptr;
-
-  ACE::strdelete (this->anyop_export_macro_);
-  this->anyop_export_macro_ = nullptr;
-
-  ACE::strdelete (this->anyop_export_include_);
-  this->anyop_export_include_ = nullptr;
-
-  ACE::strdelete (this->exec_export_macro_);
-  this->exec_export_macro_ = nullptr;
-
-  ACE::strdelete (this->exec_export_include_);
-  this->exec_export_include_ = nullptr;
-
-  ACE::strdelete (this->svnt_export_macro_);
-  this->svnt_export_macro_ = nullptr;
-
-  ACE::strdelete (this->svnt_export_include_);
-  this->svnt_export_include_ = nullptr;
-
-  ACE::strdelete (this->conn_export_macro_);
-  this->conn_export_macro_ = nullptr;
-
-  ACE::strdelete (this->conn_export_include_);
-  this->conn_export_include_ = nullptr;
-
-  ACE::strdelete (this->pch_include_);
-  this->pch_include_ = nullptr;
-
-  ACE::strdelete (this->pre_include_);
-  this->pre_include_ = nullptr;
-
-  ACE::strdelete (this->post_include_);
-  this->post_include_ = nullptr;
-
-  ACE::strdelete (this->include_guard_);
-  this->include_guard_ = nullptr;
-
-  ACE::strdelete (this->safe_include_);
-  this->safe_include_ = nullptr;
-
-  ACE::strdelete (this->unique_include_);
-  this->unique_include_ = nullptr;
-
-  ACE::strdelete (this->stripped_filename_);
-  this->stripped_filename_ = nullptr;
+  this->skel_export_macro_.reset ();
+  this->skel_export_include_.reset ();
+  this->skel_export_file_.reset ();
+  this->stub_export_macro_.reset ();
+  this->stub_export_include_.reset ();
+  this->stub_export_file_.reset ();
+  this->anyop_export_macro_.reset ();
+  this->anyop_export_include_.reset ();
+  this->exec_export_macro_.reset ();
+  this->exec_export_include_.reset ();
+  this->svnt_export_macro_.reset ();
+  this->svnt_export_include_.reset ();
+  this->conn_export_macro_.reset ();
+  this->conn_export_include_.reset ();
+  this->pch_include_.reset ();
+  this->pre_include_.reset ();
+  this->post_include_.reset ();
+  this->include_guard_.reset ();
+  this->safe_include_.reset ();
+  this->unique_include_.reset ();
+  this->stripped_filename_.reset ();
 
   ACE::strdelete (this->client_hdr_ending_);
   this->client_hdr_ending_ = nullptr;

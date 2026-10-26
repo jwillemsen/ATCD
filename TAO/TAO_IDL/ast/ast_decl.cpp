@@ -916,7 +916,7 @@ AST_Decl::typeid_set (bool val)
 }
 
 void
-AST_Decl::set_id_with_typeid (char *value)
+AST_Decl::set_id_with_typeid (std::string_view value)
 {
   // Can't call 'typeid' twice, even with the same value.
   if (this->typeid_set ())
@@ -965,7 +965,8 @@ AST_Decl::set_id_with_typeid (char *value)
 
   delete [] this->repoID_;
   this->repoID_ = nullptr;
-  this->repoID (ACE::strnew (value));
+  std::string const repo_id (value);
+  this->repoID (ACE::strnew (repo_id.c_str ()));
   this->typeid_set_ = true;
 }
 
@@ -1231,7 +1232,7 @@ AST_Decl::original_local_name (Identifier *local_name)
 }
 
 Identifier *
-AST_Decl::original_local_name ()
+AST_Decl::original_local_name () const
 {
   return this->pd_original_local_name;
 }

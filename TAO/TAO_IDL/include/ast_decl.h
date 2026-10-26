@@ -272,7 +272,7 @@ public:
   void typeid_set (bool val);
   // Accessors for the typeid_set_ member.
 
-  void set_id_with_typeid (char *value);
+  void set_id_with_typeid (std::string_view value);
   // Called by a 'typeId' declaration.
 
   void set_prefix_with_typeprefix (std::string_view value);
@@ -283,7 +283,7 @@ public:
   // prefix to the all the reserved keywords. But when we invoke the
   // operation remotely, we should be sending only the name with out
   // "_cxx_" prefix.
-  Identifier *original_local_name ();
+  Identifier *original_local_name () const;
   void original_local_name (Identifier *);
 
   // To be overridden by the subclasses interface, struct, union, and

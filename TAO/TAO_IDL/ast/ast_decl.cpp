@@ -385,9 +385,8 @@ AST_Decl::compute_full_name () const
 {
   if (!this->full_name_)
     {
-      long first = true;
-      long second = false;
-      char const *name = nullptr;
+      bool first = true;
+      bool second = false;
       this->full_name_.emplace ();
 
       for (UTL_IdListActiveIterator i (this->pd_name);
@@ -404,11 +403,11 @@ AST_Decl::compute_full_name () const
             }
 
           // Print the identifier.
-          name = i.item ()->get_string ();
+          std::string_view const name (i.item ()->get_string ());
           this->full_name_->append (name);
           if (first)
             {
-              if (ACE_OS::strcmp (name, ""))
+              if (!name.empty ())
                 {
                   // Does not start with a "".
                   first = false;
@@ -542,9 +541,8 @@ AST_Decl::compute_flat_name () const
 {
   if (!this->flat_name_)
     {
-      long first = true;
-      long second = false;
-      char *item_name = nullptr;
+      bool first = true;
+      bool second = false;
       this->flat_name_.emplace ();
 
       for (UTL_IdListActiveIterator i (this->pd_name);
@@ -564,12 +562,12 @@ AST_Decl::compute_flat_name () const
           // _cxx_ prefix, if any.
           Identifier *tmp = i.item ()->copy ();
           FE_Utils::original_local_name (tmp);
-          item_name = tmp->get_string ();
+          std::string_view const item_name (tmp->get_string ());
           this->flat_name_->append (item_name);
 
           if (first)
             {
-              if (ACE_OS::strcmp (item_name, "") != 0)
+              if (!item_name.empty ())
                 {
                   // Does not start with a "".
                   first = false;

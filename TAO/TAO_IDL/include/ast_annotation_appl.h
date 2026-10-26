@@ -92,7 +92,7 @@ public:
    * Return the parameter with the specified name if it's in the stack else
    * returns 0.
    */
-  Param *find_param (char const *name);
+  Param *find_param (std::string_view name) const;
 
 private:
   /// Name of the Annotation as written

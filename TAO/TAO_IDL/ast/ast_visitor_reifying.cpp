@@ -640,7 +640,8 @@ ast_visitor_reifying::visit_param_holder (AST_Param_Holder *node)
       /// referenced template module parameter, while the local
       /// name will be that of the corresponding alias param
       /// name, which is what we want.
-      if (name == node->local_name ()->get_string ())
+      if (std::string_view (name.c_str (), name.length ())
+          == node->local_name ()->get_string_view ().value_or (std::string_view {}))
         {
           AST_Decl **ret_ptr = nullptr;
 
@@ -669,7 +670,8 @@ ast_visitor_reifying::visit_param_holder (AST_Param_Holder *node)
                      ACE_TEXT ("ast_visitor_reifying::")
                      ACE_TEXT ("visit_param_holder() - no match for ")
                      ACE_TEXT ("template param %C in %C\n"),
-                     node->local_name ()->get_string (),
+                     node->local_name ()->get_string_view ().value_or (
+                       std::string_view {}).data (),
                      ScopeAsDecl (idl_global->scopes ().top ())->full_name ()),
                     -1);
 }
@@ -710,13 +712,15 @@ ast_visitor_reifying::template_module_rel_name (AST_Decl *d)
     {
       if (dynamic_cast<AST_Template_Module*> (tmp) != nullptr)
         {
-          ACE_CString head (tmp->local_name ()->get_string ());
+          std::string_view const head =
+            tmp->local_name ()->get_string_view ().value_or (std::string_view {});
 
-          std::string::size_type start = name.find (head.c_str ()) + 2;
+          std::string::size_type start = name.find (head.data ()) + 2;
 
-          std::string tail (name.substr (start + head.length ()));
+          std::string_view const tail (name.data () + start + head.length (),
+                                       name.length () - start - head.length ());
 
-          return FE_Utils::string_to_scoped_name (tail.c_str ());
+          return FE_Utils::string_to_scoped_name (tail);
         }
 
       tmp = ScopeAsDecl (tmp->defined_in ());

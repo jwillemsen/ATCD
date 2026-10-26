@@ -122,7 +122,8 @@ AST_Annotation_Appl::apply_from (AST_Annotation_Decl *decl)
            * Check to see if we have a parameter that matches this. If not,
            * make sure that the member has a default value.
            */
-          Param *param = find_param (member->local_name ()->get_string ());
+          Param *param = find_param (
+            member->local_name ()->get_string_view ().value_or (std::string_view {}));
           if (param)
             {
               new_member->value (new AST_Expression (param->expr, member->expr_type()));
@@ -178,7 +179,7 @@ AST_Annotation_Appl::annotation_decl ()
 }
 
 AST_Annotation_Appl::Param *
-AST_Annotation_Appl::find_param (const char *name)
+AST_Annotation_Appl::find_param (std::string_view name) const
 {
   if (params_)
     {
@@ -198,7 +199,8 @@ AST_Annotation_Appl::find_param (const char *name)
         {
           Param **param = nullptr;
           it.next (param);
-          if ((*param) && (*param)->id && !ACE_OS::strcmp ((*param)->id->get_string (), name))
+          if ((*param) && (*param)->id
+              && (*param)->id->get_string_view ().value_or (std::string_view {}) == name)
             {
               return (*param);
             }

@@ -602,17 +602,19 @@ AST_Structure::operator[] (const size_t index)
 }
 
 AST_Decl *
-AST_Structure::operator[] (const char* name)
+AST_Structure::operator[] (std::string_view name)
 {
   for (UTL_ScopeActiveIterator si (this, UTL_Scope::IK_decls);
        !si.is_done ();
        si.next ())
     {
       AST_Decl *field = si.item ();
-      const char *field_name = field->local_name ()->get_string ();
-      if (!ACE_OS::strcmp (name, field_name)) {
-        return field;
-      }
+      std::string_view const field_name =
+        field->local_name ()->get_string_view ().value_or (std::string_view {});
+      if (name == field_name)
+        {
+          return field;
+        }
     }
   return nullptr;
 }

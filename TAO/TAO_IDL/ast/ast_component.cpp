@@ -55,8 +55,9 @@ AST_Component::redefine (AST_Interface *from)
 
   if (c == nullptr)
     {
-      idl_global->err ()->redef_error (from->local_name ()->get_string (),
-                                       this->local_name ()->get_string ());
+      idl_global->err ()->redef_error (
+        from->local_name ()->get_string_view ().value_or (std::string_view {}).data (),
+        this->local_name ()->get_string_view ().value_or (std::string_view {}).data ());
       return;
     }
 

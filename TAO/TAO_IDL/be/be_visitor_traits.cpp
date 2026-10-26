@@ -39,6 +39,9 @@
 
 #include "ace/Log_Msg.h"
 
+#include <string>
+#include <string_view>
+
 be_visitor_traits::be_visitor_traits (be_visitor_context *ctx)
   : be_visitor_scope (ctx)
 {
@@ -416,7 +419,7 @@ be_visitor_traits::visit_array (be_array *node)
           name_holder += "_";
         }
 
-      name_holder += node->local_name ()->get_string ();
+      name_holder += node->local_name ()->get_string_view ().value_or (std::string_view {});
     }
   else
     {

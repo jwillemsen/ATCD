@@ -20,6 +20,8 @@
 
 #include "utl_identifier.h"
 
+#include <string_view>
+
 be_visitor_any_extracted_type_decl::be_visitor_any_extracted_type_decl (
     be_visitor_context *ctx)
   : be_visitor_decl (ctx)
@@ -139,7 +141,7 @@ be_visitor_any_extracted_type_decl::visit_predefined_type (
         os_ << " * " << var_name_ << " = 0;";
         break;
       case AST_PredefinedType::PT_pseudo:
-        if (ACE_OS::strcmp (node->local_name ()->get_string (), "TCKind") == 0)
+        if (node->local_name ()->get_string_view ().value_or (std::string_view {}) == "TCKind")
           {
             os_ << var_name_ << " = ::CORBA::tk_null;";
           }

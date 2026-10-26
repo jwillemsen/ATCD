@@ -44,6 +44,7 @@
 #include "ace/Log_Msg.h"
 
 #include <string>
+#include <string_view>
 
 be_visitor_arg_traits::be_visitor_arg_traits (const char *S,
                                               be_visitor_context *ctx)
@@ -599,11 +600,11 @@ be_visitor_arg_traits::visit_argument (be_argument *node)
 
   AST_Decl *op = ScopeAsDecl (node->defined_in ());
   AST_Decl *intf = ScopeAsDecl (op->defined_in ());
-  ACE_CString arg_flat_name (intf->flat_name ().data ());
+  std::string arg_flat_name (intf->flat_name ());
   arg_flat_name += '_';
-  arg_flat_name += op->local_name ()->get_string ();
+  arg_flat_name += op->local_name ()->get_string_view ().value_or (std::string_view {});
   arg_flat_name += '_';
-  arg_flat_name += node->local_name ()->get_string ();
+  arg_flat_name += node->local_name ()->get_string_view ().value_or (std::string_view {});
 
   // Avoid generating a duplicate structure in the skeleton.
   if (ACE_OS::strlen (this->S_) == 0)
@@ -737,32 +738,11 @@ be_visitor_arg_traits::visit_string (be_string *node)
   else
     {
       // Form a unique macro name using the local name and the bound.
-      ACE_CDR::ULong l = bound;
-      int num_digits = 0;
+      std::string macro_name (
+        alias->local_name ()->get_string_view ().value_or (std::string_view {}));
+      macro_name += std::to_string (bound);
 
-      while (l > 0)
-        {
-          l /= 10 ;
-          ++num_digits ;
-        }
-
-      size_t bound_length = num_digits + 1;
-      char* bound_string = nullptr;
-      ACE_NEW_RETURN (bound_string, char[bound_length], -1) ;
-      ACE_OS::sprintf (bound_string, ACE_UINT32_FORMAT_SPECIFIER_ASCII, bound);
-
-      size_t cat_length = ACE_OS::strlen (alias->local_name ()->get_string ()) +
-                          ACE_OS::strlen (bound_string) +
-                          1;
-      char* cat_string = nullptr;
-      ACE_NEW_RETURN (cat_string, char[cat_length], -1) ;
-      ACE_OS::strcpy (cat_string, alias->local_name ()->get_string ()) ;
-      ACE_OS::strcat (cat_string, bound_string);
-
-      os->gen_ifdef_macro (cat_string, guard_suffix.c_str (), false);
-
-      delete [] cat_string;
-      delete [] bound_string;
+      os->gen_ifdef_macro (macro_name.c_str (), guard_suffix.c_str (), false);
     }
 
   // Avoid generating a duplicate structure in the skeleton since

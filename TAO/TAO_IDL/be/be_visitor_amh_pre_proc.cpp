@@ -189,7 +189,7 @@ be_visitor_amh_pre_proc::create_response_handler (
   // necessary in case the node's prefix was modified after
   // its declaration.
   response_handler->AST_Decl::repoID (nullptr);
-  response_handler->prefix (const_cast<char*> (node->prefix ()));
+  response_handler->prefix (node->prefix ());
 
   response_handler->gen_fwd_helper_name ();
   this->add_rh_node_members (node, response_handler, exception_holder);
@@ -580,7 +580,7 @@ be_visitor_amh_pre_proc::create_exception_holder (be_interface *node)
   // necessary in case the node's prefix was modified after
   // its declaration.
   excep_holder->AST_Decl::repoID (nullptr);
-  excep_holder->prefix (const_cast<char*> (node->prefix ()));
+  excep_holder->prefix (node->prefix ());
 
   excep_holder->gen_fwd_helper_name ();
 

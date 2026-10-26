@@ -147,7 +147,7 @@ AST_Decl::AST_Decl (NodeType nt,
 
   char *prefix = nullptr;
   idl_global->pragma_prefixes ().top (prefix);
-  this->prefix_ = ACE::strnew (prefix ? prefix : "");
+  this->prefix_ = prefix != nullptr ? prefix : "";
 
   if (n)
     {
@@ -182,7 +182,7 @@ AST_Decl::AST_Decl (
 
   char *prefix = nullptr;
   idl_global->pragma_prefixes ().top (prefix);
-  this->prefix_ = ACE::strnew (prefix ? prefix : "");
+  this->prefix_ = prefix != nullptr ? prefix : "";
 
   if (name)
     {
@@ -232,8 +232,7 @@ AST_Decl::destroy ()
   delete [] this->repoID_;
   this->repoID_ = nullptr;
 
-  delete [] this->prefix_;
-  this->prefix_ = nullptr;
+  this->prefix_.clear ();
 
   delete [] this->version_;
   this->version_ = nullptr;
@@ -313,9 +312,11 @@ AST_Decl::compute_full_name (UTL_ScopedName *n)
 }
 
 void
-AST_Decl::set_prefix_with_typeprefix_r (const char *value,
+AST_Decl::set_prefix_with_typeprefix_r (std::string_view value,
                                         UTL_Scope *appeared_in)
 {
+  std::string const prefix_value (value);
+
   if (this->typeid_set_)
     {
       return;
@@ -334,7 +335,7 @@ AST_Decl::set_prefix_with_typeprefix_r (const char *value,
 
   delete [] this->repoID_;
   this->repoID_ = nullptr;
-  this->prefix (value);
+  this->prefix (prefix_value);
   this->prefix_scope_ = appeared_in;
 
   UTL_Scope *s = DeclAsScope (this);
@@ -348,7 +349,7 @@ AST_Decl::set_prefix_with_typeprefix_r (const char *value,
           UTL_Scope *s_tmp = DeclAsScope (tmp);
           if (s_tmp)
             {
-              tmp->set_prefix_with_typeprefix_r (value, appeared_in);
+              tmp->set_prefix_with_typeprefix_r (prefix_value, appeared_in);
             }
         }
     }
@@ -366,7 +367,7 @@ AST_Decl::set_prefix_with_typeprefix_r (const char *value,
               AST_Decl *d = si.item ();
               if (d->node_type () != AST_Decl::NT_pre_defined)
                 {
-                  d->set_prefix_with_typeprefix_r (value, appeared_in);
+                  d->set_prefix_with_typeprefix_r (prefix_value, appeared_in);
                 }
             }
         }
@@ -434,12 +435,11 @@ AST_Decl::compute_repoID ()
   long first = true;
   long second = false;
   char *name = nullptr;
-  const char *prefix = (this->prefix_ ? this->prefix_ : "");
+  std::string_view prefix = this->prefix_;
   UTL_Scope *scope = this->defined_in ();
-  const char *parent_prefix = nullptr;
 
   // If our prefix is empty, we check to see if an ancestor has one.
-  while (scope && !ACE_OS::strcmp (prefix, ""))
+  while (scope && prefix.empty ())
     {
       AST_Decl *parent = ScopeAsDecl (scope);
       if (parent->node_type () == AST_Decl::NT_root
@@ -448,13 +448,12 @@ AST_Decl::compute_repoID ()
           break;
         }
 
-      parent_prefix = parent->prefix ();
-      prefix = (parent_prefix ? parent_prefix : "");
+      prefix = parent->prefix ();
       scope = parent->defined_in ();
     }
 
   // in the first loop compute the total length
-  namelen += ACE_OS::strlen (prefix) + 1;
+  namelen += prefix.size () + 1;
 
   const char *version = this->version_;
   scope = this->defined_in ();
@@ -521,9 +520,9 @@ AST_Decl::compute_repoID ()
   ACE_NEW (this->repoID_, char [namelen + 1]);
   ACE_OS::sprintf (this->repoID_, "IDL:");
 
-  if (ACE_OS::strcmp (prefix, ""))
+  if (!prefix.empty ())
     {
-      ACE_OS::strcat (this->repoID_, prefix);
+      ACE_OS::strcat (this->repoID_, prefix.data ());
       ACE_OS::strcat (this->repoID_, "/");
     }
 
@@ -877,17 +876,17 @@ AST_Decl::repoID (char *value)
   this->repoID_ = value;
 }
 
-const char *
+std::string_view
 AST_Decl::prefix () const
 {
   return this->prefix_;
 }
 
 void
-AST_Decl::prefix (const char *value)
+AST_Decl::prefix (std::string_view value)
 {
-  delete [] this->prefix_;
-  this->prefix_ = ACE::strnew (value);
+  std::string prefix_copy (value);
+  this->prefix_.swap (prefix_copy);
 }
 
 std::string_view
@@ -1030,7 +1029,7 @@ AST_Decl::set_id_with_typeid (char *value)
 }
 
 void
-AST_Decl::set_prefix_with_typeprefix (const char *value)
+AST_Decl::set_prefix_with_typeprefix (std::string_view value)
 {
   // Are we a legal type for 'typeprefix'? This is checked only at
   // the top level.

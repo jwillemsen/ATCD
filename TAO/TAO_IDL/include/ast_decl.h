@@ -256,8 +256,8 @@ public:
   void repoID (char *value);
   // Accessors for the repository ID.
 
-  char const *prefix () const;
-  void prefix (char const *value);
+  std::string_view prefix () const;
+  void prefix (std::string_view value);
   // Accessors for the repository ID prefix.
 
   std::string_view version ();
@@ -275,7 +275,7 @@ public:
   void set_id_with_typeid (char *value);
   // Called by a 'typeId' declaration.
 
-  void set_prefix_with_typeprefix (char const *value);
+  void set_prefix_with_typeprefix (std::string_view value);
   // Called by a 'type_prefix' declaration.
 
   // If there is _cxx_ in the beginning, we will remove that and keep
@@ -462,7 +462,7 @@ private:
   mutable std::optional<std::string> full_name_;
   // Our full scoped name.
 
-  char *prefix_ {};
+  std::string prefix_;
   // The repository ID prefix.
 
   char *version_ {};
@@ -487,7 +487,7 @@ private:
   void compute_full_name (UTL_ScopedName *n);
   // Compute the full name of an AST node.
 
-  void set_prefix_with_typeprefix_r (char const *value,
+  void set_prefix_with_typeprefix_r (std::string_view value,
                                      UTL_Scope *appeared_in);
   // Non-top-level version of set_prefix_with_typeprefix.
 };

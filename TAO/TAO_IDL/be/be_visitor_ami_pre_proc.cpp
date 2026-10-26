@@ -306,7 +306,7 @@ be_visitor_ami_pre_proc::create_reply_handler (be_interface *node)
   // necessary in case the node's prefix was modified after
   // its declaration.
   reply_handler->AST_Decl::repoID (nullptr);
-  reply_handler->prefix (const_cast<char*> (node->prefix ()));
+  reply_handler->prefix (node->prefix ());
 
   reply_handler->gen_fwd_helper_name ();
 
@@ -1049,9 +1049,7 @@ be_visitor_ami_pre_proc::create_inheritance_list (be_interface *node,
           if (d != nullptr)
             {
               retval[index] = dynamic_cast<AST_Interface*> (d);
-              retval[index++]->set_prefix_with_typeprefix (parent->prefix () ?
-                                                           const_cast<char*> (parent->prefix()) :
-                                                           const_cast<char*> (""));
+              retval[index++]->set_prefix_with_typeprefix (parent->prefix ());
             }
 
           rh_parent_name->destroy ();

@@ -1537,7 +1537,7 @@ be_visitor_ccm_pre_proc::create_event_consumer (be_eventtype *node)
   // its declaration. We assume 'implied IDL' means that the
   // derived event consumer interface should have the same prefix.
   event_consumer->repoID (nullptr);
-  event_consumer->prefix (const_cast<char*> (node->prefix ()));
+  event_consumer->prefix (node->prefix ());
 
   dynamic_cast<be_type*> (event_consumer)->gen_fwd_helper_name ();
   m->be_add_interface (event_consumer);

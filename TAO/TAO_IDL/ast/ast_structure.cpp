@@ -421,7 +421,7 @@ AST_Structure::fwd_redefinition_helper (AST_Structure *&i,
   if (d != nullptr)
     {
       // Full definition must have the same prefix as the forward declaration.
-      if (ACE_OS::strcmp (i->prefix (), d->prefix ()) != 0)
+      if (i->prefix () != d->prefix ())
         {
           idl_global->err ()->error1 (UTL_Error::EIDL_PREFIX_CONFLICT,
                                       i);

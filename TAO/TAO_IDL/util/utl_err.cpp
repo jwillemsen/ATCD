@@ -924,14 +924,16 @@ UTL_Error::version_reset_error ()
 
 // Report a reset of the id a second time to a different string.
 void
-UTL_Error::id_reset_error (char const *o,
-                           char const *n)
+UTL_Error::id_reset_error (std::string_view o,
+                           std::string_view n)
 {
   idl_error_header (EIDL_ID_RESET);
   ACE_ERROR ((LM_ERROR,
-              "%s, %s\n",
-              o,
-              n));
+              "%.*s, %.*s\n",
+              static_cast<int> (o.size ()),
+              o.data (),
+              static_cast<int> (n.size ()),
+              n.data ()));
 }
 
 // Report an attempt to inherit from an interface which was only

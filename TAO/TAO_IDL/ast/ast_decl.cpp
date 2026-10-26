@@ -853,7 +853,7 @@ AST_Decl::full_name () const
   return *this->full_name_;
 }
 
-const char *
+std::string_view
 AST_Decl::repoID ()
 {
   if (this->pd_node_type == NT_root)
@@ -867,7 +867,7 @@ AST_Decl::repoID ()
       this->compute_repoID ();
     }
 
-  return this->repoID_;
+  return this->repoID_ != nullptr ? this->repoID_ : "";
 }
 
 void
@@ -896,26 +896,21 @@ AST_Decl::version ()
   if (!this->version_)
     {
       // Calling the method will compute if necessary.
-      const char *repo_id = this->repoID ();
+      std::string_view const repo_id = this->repoID ();
 
       // All forms of repo id should contain two colons, the
       // version coming after the second one.
-      const char *tail1 = nullptr;
-      const char *tail2 = nullptr;
+      size_t const tail1 = repo_id.find (':');
+      size_t tail2 = std::string_view::npos;
 
-      if (repo_id)
+      if (tail1 != std::string_view::npos)
         {
-          tail1 = ACE_OS::strchr (repo_id, ':');
+          tail2 = repo_id.find (':', tail1 + 1);
         }
 
-      if (tail1)
+      if (!this->typeid_set_ && tail2 != std::string_view::npos)
         {
-          tail2 = ACE_OS::strchr (tail1 + 1, ':');
-        }
-
-      if (!this->typeid_set_ && tail2)
-        {
-          this->version_ = ACE::strnew (tail2 + 1);
+          this->version_ = ACE::strnew (repo_id.substr (tail2 + 1).data ());
         }
       else
         {

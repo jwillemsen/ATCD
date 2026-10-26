@@ -59,7 +59,7 @@ TAO::be_visitor_objref_typecode::visit_native (be_native * /* node */)
 int
 TAO::be_visitor_objref_typecode::visit_i (char const * kind,
                                           std::string_view flat_name,
-                                          char const * repository_id,
+                                          std::string_view repository_id,
                                           char const * original_local_name,
                                           be_type * node)
 {

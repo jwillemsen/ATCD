@@ -69,6 +69,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "idl_global.h"
 #include "utl_scoped_name.h"
 
+#include <string_view>
+
 class AST_Decl;
 class AST_Interface;
 class AST_Enum;
@@ -248,8 +250,8 @@ public:
   void version_reset_error ();
 
   // Report an attempt to change the id once set.
-  void id_reset_error (char const *o,
-                       char const *n);
+  void id_reset_error (std::string_view o,
+                       std::string_view n);
 
   // Report an attempt to use a forward declared interface which
   // hasn't been defined yet in an inheritance spec

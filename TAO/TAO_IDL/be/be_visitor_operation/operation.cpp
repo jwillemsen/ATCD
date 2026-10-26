@@ -480,7 +480,7 @@ be_visitor_operation::gen_arg_template_param_name (AST_Decl *scope,
   /// For now, keep a list of system operation or arg names
   /// that may not be remapped. May decide later to regnerate
   /// ORB code for alt mapping as well.
-  ACE_CString repo_id (scope->repoID ());
+  std::string_view const repo_id = scope->repoID ();
   bool sys_val = (repo_id == "IDL:repository_id:1.0");
 
   // For types other than the 4 above, don't unalias the type name

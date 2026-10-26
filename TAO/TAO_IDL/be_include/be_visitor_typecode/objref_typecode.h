@@ -56,7 +56,7 @@ namespace TAO
     /// Generate TypeCode instance.
     int visit_i (char const * kind,
                  std::string_view flat_name,
-                 char const * repository_id,
+                 std::string_view repository_id,
                  char const * original_local_name,
                  be_type * node);
   };

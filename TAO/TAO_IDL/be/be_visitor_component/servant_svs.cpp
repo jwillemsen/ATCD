@@ -621,11 +621,11 @@ be_visitor_servant_svs::visit_consumes (be_consumes *node)
       << "obj_id.c_str ()," << be_nl
       << "\"";
 
-      ACE_CString work (obj->repoID ());
-      ACE_CString result (work.substr (0, work.rfind (':')));
+      std::string const repo_id (obj->repoID ());
+      std::string result (repo_id.substr (0, repo_id.rfind (':')));
       result += "Consumer:1.0";
 
-      os_ << result.c_str ();
+      os_ << result;
 
       os_ << "\"," << be_nl
       << "::CIAO::Container_Types::FACET_CONSUMER_t);"

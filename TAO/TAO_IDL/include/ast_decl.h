@@ -252,7 +252,7 @@ public:
   virtual std::string_view flat_name () const;
   // Return the flattened full scoped name.
 
-  char const *repoID ();
+  std::string_view repoID ();
   void repoID (char *value);
   // Accessors for the repository ID.
 

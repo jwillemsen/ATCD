@@ -272,7 +272,7 @@ UTL_IdListActiveIterator::item ()
     return ((UTL_IdList *) source)->head ();
 }
 
-char *
+std::string
 UTL_IdList::get_string_copy ()
 {
   /*
@@ -281,42 +281,22 @@ UTL_IdList::get_string_copy ()
    */
   size_t delimiter_start = is_absolute () ? 1 : 0;
 
-  // Get buffer of the correct size
+  std::string result;
   size_t n = 0;
-  size_t size = 1;
   for (UTL_IdListActiveIterator i (this);
        !i.is_done ();
        i.next ())
     {
       if (n > delimiter_start)
         {
-          size += 2; // For delimiter
+          result.append ("::");
         }
       char const *item = i.item ()->get_string ();
-      size += ACE_OS::strlen (item);
-      n++;
-    }
-  char *buffer = new char[size];
-  buffer[0] = '\0';
-
-  // Fill buffer
-  n = 0;
-  for (UTL_IdListActiveIterator i (this);
-       !i.is_done ();
-       i.next ())
-    {
-      if (n > delimiter_start)
-        {
-          ACE_OS::strcat (buffer, "::");
-        }
-      char const *item = i.item ()->get_string ();
-      ACE_OS::strcat (buffer, item);
+      result.append (item);
       n++;
     }
 
-  buffer[size - 1] = '\0';
-
-  return buffer;
+  return result;
 }
 
 bool

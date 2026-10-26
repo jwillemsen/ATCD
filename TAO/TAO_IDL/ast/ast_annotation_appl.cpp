@@ -56,14 +56,13 @@ AST_Annotation_Appl::AST_Annotation_Appl (
 
 AST_Annotation_Appl::~AST_Annotation_Appl ()
 {
-  delete [] original_name_;
   delete_params (params_);
   AST_Structure::destroy ();
 }
 
 void AST_Annotation_Appl::dump (ACE_OSTREAM_TYPE &o)
 {
-  dump_i (o, original_name_);
+  dump_i (o, this->original_name_.c_str ());
   if (params_)
     {
       dump_i (o, "(");
@@ -97,7 +96,7 @@ void AST_Annotation_Appl::destroy ()
 {
 }
 
-const char *AST_Annotation_Appl::original_name () const
+std::string_view AST_Annotation_Appl::original_name () const
 {
   return original_name_;
 }

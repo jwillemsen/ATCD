@@ -12,6 +12,9 @@
 #include "ace/Containers_T.h"
 #include "ace/Vector_T.h"
 
+#include <string>
+#include <string_view>
+
 /**
  * Abstract Syntax Tree Node for an application of an annotation.
  *
@@ -61,7 +64,7 @@ public:
   /**
    * Get name of the annotation as written by the user
    */
-  char const *original_name () const;
+  std::string_view original_name () const;
 
   /**
    * Apply a Annotation Declaration to this Application. This will either fully
@@ -93,7 +96,7 @@ public:
 
 private:
   /// Name of the Annotation as written
-  char const *original_name_;
+  std::string original_name_;
 
   /// Parameters List (Can be null)
   Params *params_;

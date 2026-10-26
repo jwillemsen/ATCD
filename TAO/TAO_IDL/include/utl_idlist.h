@@ -76,6 +76,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "utl_list.h"
 #include "ace/iosfwd.h"
 
+#include <string>
+
 class Identifier;
 
 class TAO_IDL_FE_Export UTL_IdList : public UTL_List
@@ -116,7 +118,7 @@ public:
   /**
    * Return a copy of the contents as a string
    */
-  char *get_string_copy ();
+  std::string get_string_copy ();
 
   /**
    * Return true if the list begins with "::"

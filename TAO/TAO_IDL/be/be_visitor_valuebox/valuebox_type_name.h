@@ -3,7 +3,6 @@
 #ifndef TAO_IDL_VALUEBOX_TYPE_NAME_H
 #define TAO_IDL_VALUEBOX_TYPE_NAME_H
 
-#include <memory>
 #include <string>
 #include <string_view>
 
@@ -52,8 +51,8 @@ namespace
                            UTL_IdList *name,
                            std::string_view suffix)
   {
-    std::unique_ptr<char[]> name_string (name->get_string_copy ());
-    *os << valuebox_type_name (prefix, name_string.get (), suffix).c_str ();
+    std::string name_string = name->get_string_copy ();
+    *os << valuebox_type_name (prefix, name_string, suffix);
   }
 }
 

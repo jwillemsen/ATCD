@@ -423,33 +423,33 @@ public:
   void versioning_begin (std::string_view s);
 
   /// Get text that opens a "versioned" namespace.
-  const char * versioning_begin () const;
+  std::string_view versioning_begin () const;
 
   /// Set include file for "versioned" namespace.
   void versioning_include (std::string_view s);
 
   /// Get include file for "versioned" namespace.
-  const char * versioning_include () const;
+  std::string_view versioning_include () const;
 
   /// Get text that opens a "versioned" namespace for core TAO/orbsvcs
   /// related code.
-  const char * core_versioning_begin () const;
+  std::string_view core_versioning_begin () const;
 
   /// Set text that closes a "versioned" namespace.
   void versioning_end (std::string_view s);
 
   /// Get text that closes a "versioned" namespace.
-  const char * versioning_end () const;
+  std::string_view versioning_end () const;
 
   /// Get text that closes a "versioned" namespace for core TAO/orbsvcs
   /// related code.
-  const char * core_versioning_end () const;
+  std::string_view core_versioning_end () const;
 
   /// Get text that opens a "versioned" namespace for CORBA::Any operators
-  const char *anyops_versioning_begin () const;
+  std::string_view anyops_versioning_begin () const;
 
   /// Get text that closes a "versioned" namespace for CORBA::Any operators
-  const char *anyops_versioning_end () const;
+  std::string_view anyops_versioning_end () const;
 
   // = Set and get methods for different file name endings.
 

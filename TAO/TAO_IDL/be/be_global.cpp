@@ -916,10 +916,10 @@ BE_GlobalData::stripped_filename (std::string_view s)
   this->stripped_filename_ = s;
 }
 
-const char *
+std::string_view
 BE_GlobalData::versioning_begin () const
 {
-  return this->versioning_begin_.c_str ();
+  return this->versioning_begin_;
 }
 
 void
@@ -928,16 +928,16 @@ BE_GlobalData::versioning_include (std::string_view s)
   this->versioning_include_ = s;
 }
 
-const char *
+std::string_view
 BE_GlobalData::versioning_include () const
 {
-  return this->versioning_include_.c_str ();
+  return this->versioning_include_;
 }
 
-const char *
+std::string_view
 BE_GlobalData::core_versioning_begin () const
 {
-  return this->core_versioning_begin_.c_str ();
+  return this->core_versioning_begin_;
 }
 
 void
@@ -970,28 +970,28 @@ BE_GlobalData::versioning_begin (std::string_view s)
     "\n}" + this->core_versioning_end_;
 }
 
-const char *
+std::string_view
 BE_GlobalData::versioning_end () const
 {
-  return this->versioning_end_.c_str ();
+  return this->versioning_end_;
 }
 
-const char *
+std::string_view
 BE_GlobalData::core_versioning_end () const
 {
-  return this->core_versioning_end_.c_str ();
+  return this->core_versioning_end_;
 }
 
-const char *
+std::string_view
 BE_GlobalData::anyops_versioning_begin () const
 {
-  return this->anyops_versioning_begin_.c_str ();
+  return this->anyops_versioning_begin_;
 }
 
-const char *
+std::string_view
 BE_GlobalData::anyops_versioning_end () const
 {
-  return this->anyops_versioning_end_.c_str ();
+  return this->anyops_versioning_end_;
 }
 
 // Set the client_hdr_ending.

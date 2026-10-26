@@ -2540,9 +2540,11 @@ TAO_CodeGen::gen_stub_hdr_includes ()
   // Versioned namespace support.
   this->gen_standard_include (this->client_header_, "tao/Versioned_Namespace.h", true);
 
-  if ((be_global->versioning_include () != nullptr) && (ACE_OS::strlen (be_global->versioning_include ()) > 0))
+  if (!be_global->versioning_include ().empty ())
     {
-      this->gen_standard_include (this->client_header_, be_global->versioning_include (), true);
+      this->gen_standard_include (this->client_header_,
+                                  std::string (be_global->versioning_include ()),
+                                  true);
     }
 
   // On some platforms, this include isn't needed if certain command

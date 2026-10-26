@@ -90,6 +90,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ast_annotation_appl.h"
 #include "idl.tab.hpp"
 
+#include <string_view>
+
 static char *               idl_wstring_escape_reader (char *);
 static ACE_CDR::WChar       idl_wchar_escape_reader (char *);
 static ACE_CDR::Char        idl_escape_reader (char *);
@@ -767,7 +769,7 @@ idl_store_pragma (char *buf)
           return;
         }
 
-      d->version (number);
+      d->version (std::string_view (number));
     }
   else if (ACE_OS::strncmp (buf + 8, "ident", 5) == 0)
     {

@@ -130,7 +130,7 @@ be_interface::local_name () const
 {
   // Return the local name.
 //  return this->strategy_->local_name ();
-  return this->AST_Decl::local_name ()->get_string ();
+  return this->AST_Decl::local_name ()->get_string_view ().value_or (std::string_view {});
 }
 
 std::string_view
@@ -173,8 +173,6 @@ be_interface::compute_full_skel_name (std::string_view prefix) const
   std::string skel_name (prefix);
   bool first = true;
   bool second = false;
-  char const *item_name = nullptr;
-
   for (UTL_IdListActiveIterator j (this->name ());
        !j.is_done ();
        j.next ())
@@ -189,12 +187,13 @@ be_interface::compute_full_skel_name (std::string_view prefix) const
         }
 
       // Print the identifier.
-      item_name = j.item ()->get_string ();
+      std::string_view const item_name =
+        j.item ()->get_string_view ().value_or (std::string_view {});
       skel_name += item_name;
 
       if (first)
         {
-          if (*item_name != '\0')
+          if (!item_name.empty ())
             {
               // Does not start with a "".
               first = false;
@@ -238,7 +237,8 @@ be_interface::compute_coll_names (int type) const
   for (UTL_IdListActiveIterator j (this->name ());
        !j.is_done ();)
     {
-      char const *item = j.item ()->get_string ();
+      std::string_view const item =
+        j.item ()->get_string_view ().value_or (std::string_view {});
 
       // Increase right away, so we can test for the final component
       // in the loop.
@@ -246,7 +246,7 @@ be_interface::compute_coll_names (int type) const
 
       // We add the POA_ prefix only if the first component is not
       // the global scope...
-      if (*item != '\0')
+      if (!item.empty ())
         {
           if (!j.is_done ())
             {
@@ -271,7 +271,8 @@ be_interface::compute_coll_names (int type) const
 
   // Compute the local name for the collocated class.
   this->local_coll_name_ = collocated;
-  this->local_coll_name_ += this->AST_Interface::local_name ()->get_string ();
+  this->local_coll_name_ += this->AST_Interface::local_name ()->get_string_view ().value_or (
+    std::string_view {});
 }
 
 std::string
@@ -2208,7 +2209,7 @@ be_interface::gen_facet_idl (TAO_OutStream &os)
 
   os << be_nl
      << "local interface CCM_"
-     << this->original_local_name ()->get_string ()
+     << this->original_local_name ()->get_string_view ().value_or (std::string_view {})
      << " : ::"
      << IdentifierHelper::orig_sn (this->name ()).c_str ()
      << be_nl
@@ -2585,10 +2586,10 @@ be_interface::flat_client_enclosing_scope () const
   if (!this->flat_client_scope_computed_)
     {
       std::string_view const full_name = this->flat_name ();
-      const char *name =
-        this->original_local_name ()->get_string ();
+      std::string_view const name =
+        this->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
-      size_t offset = ACE_OS::strlen (name);
+      size_t offset = name.size ();
       size_t length = full_name.size () - offset;
 
       this->flat_client_scope_.assign (full_name.data (), length);

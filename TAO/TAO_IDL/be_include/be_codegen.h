@@ -391,7 +391,7 @@ public:
   /// Generate file include, with optional empty comment to
   /// short-circuit DOxygen.
   void gen_standard_include (TAO_OutStream *stream,
-                             const std::string &included_file,
+                             std::string_view included_file,
                              bool add_comment = false);
 
   /// Generate a system include using angle brackets.
@@ -436,7 +436,7 @@ private:
 
   bool is_system_file (const char * idl_name) const;
 
-  void gen_export_file (const char *filename,
+  void gen_export_file (std::string_view filename,
                         std::string_view macro,
                         const char *msg,
                         bool for_skel = false);

@@ -268,7 +268,7 @@ public:
 
   /// Returns the name of the include file that contains the server
   /// side export macro definition.
-  const char* skel_export_include () const;
+  std::string_view skel_export_include () const;
 
   /// Set the name of the include file that contains the server side
   /// export macro definition.
@@ -276,7 +276,7 @@ public:
 
   /// Returns the name of the include file that will be generated for the
   /// server side export macro definition.
-  const char* skel_export_file () const;
+  std::string_view skel_export_file () const;
 
   /// Set the name of the include file that the will be generated for server
   /// side export macro definition.
@@ -291,7 +291,7 @@ public:
 
   /// Returns the name of the include file that contains the client
   /// side export macro definition.
-  const char* stub_export_include () const;
+  std::string_view stub_export_include () const;
 
   /// Set the name of the include file that contains the client side
   /// export macro definition.
@@ -299,7 +299,7 @@ public:
 
   /// Returns the name of the include file will be generated for the client
   /// side export macro definition.
-  const char* stub_export_file () const;
+  std::string_view stub_export_file () const;
 
   /// Set the name of the include file that will be generated for the client
   /// side export macro definition.
@@ -314,7 +314,7 @@ public:
 
   /// Returns the name of the include file that contains the *A.h
   /// file export macro definition.
-  const char* anyop_export_include () const;
+  std::string_view anyop_export_include () const;
 
   /// Set the name of the include file that contains the *A.h file
   /// export macro definition.
@@ -329,7 +329,7 @@ public:
 
   /// Returns the name of the include file that contains the exec
   /// impl export macro definition.
-  const char* exec_export_include () const;
+  std::string_view exec_export_include () const;
 
   /// Set the name of the include file that contains the exec impl
   /// export macro definition.
@@ -344,7 +344,7 @@ public:
 
   /// Returns the name of the include file that contains the CIAO
   /// svnt export macro definition.
-  const char* svnt_export_include () const;
+  std::string_view svnt_export_include () const;
 
   /// Set the name of the include file that contains the CIAO svnt
   /// export macro definition.
@@ -360,7 +360,7 @@ public:
 
   /// Returns the name of the include file that contains the CIAO
   /// connector export macro definition.
-  const char* conn_export_include () const;
+  std::string_view conn_export_include () const;
 
   /// Set the name of the include file that contains the CIAO
   /// connector export macro definition.
@@ -961,23 +961,23 @@ private:
 
   // Macros and includes used to export classes from generated code.
   std::string skel_export_macro_;
-  std::optional<std::string> skel_export_include_;
-  std::optional<std::string> skel_export_file_;
+  std::string skel_export_include_;
+  std::string skel_export_file_;
   std::string stub_export_macro_;
-  std::optional<std::string> stub_export_include_;
-  std::optional<std::string> stub_export_file_;
+  std::string stub_export_include_;
+  std::string stub_export_file_;
 
   // Macro and include used on ORB .pidl files generating to the
   // AnyTypeCode library.
   std::string anyop_export_macro_;
-  std::optional<std::string> anyop_export_include_;
+  std::string anyop_export_include_;
 
   std::string exec_export_macro_;
-  std::optional<std::string> exec_export_include_;
+  std::string exec_export_include_;
   std::string svnt_export_macro_;
-  std::optional<std::string> svnt_export_include_;
+  std::string svnt_export_include_;
   std::string conn_export_macro_;
-  std::optional<std::string> conn_export_include_;
+  std::string conn_export_include_;
 
   std::optional<std::string> pch_include_;
   std::optional<std::string> pre_include_;

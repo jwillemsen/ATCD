@@ -686,10 +686,10 @@ BE_GlobalData::skel_export_macro (std::string_view s)
   this->skel_export_macro_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::skel_export_include () const
 {
-  return this->skel_export_include_ ? this->skel_export_include_->c_str () : nullptr;
+  return this->skel_export_include_;
 }
 
 void
@@ -698,10 +698,10 @@ BE_GlobalData::skel_export_include (std::string_view s)
   this->skel_export_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::skel_export_file () const
 {
-  return this->skel_export_file_ ? this->skel_export_file_->c_str () : nullptr;
+  return this->skel_export_file_;
 }
 
 void
@@ -722,10 +722,10 @@ BE_GlobalData::stub_export_macro (std::string_view s)
   this->stub_export_macro_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::stub_export_include () const
 {
-  return this->stub_export_include_ ? this->stub_export_include_->c_str () : nullptr;
+  return this->stub_export_include_;
 }
 
 void
@@ -734,10 +734,10 @@ BE_GlobalData::stub_export_include (std::string_view s)
   this->stub_export_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::stub_export_file () const
 {
-  return this->stub_export_file_ ? this->stub_export_file_->c_str () : nullptr;
+  return this->stub_export_file_;
 }
 
 void
@@ -758,10 +758,10 @@ BE_GlobalData::anyop_export_macro (std::string_view s)
   this->anyop_export_macro_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::anyop_export_include () const
 {
-  return this->anyop_export_include_ ? this->anyop_export_include_->c_str () : nullptr;
+  return this->anyop_export_include_;
 }
 
 void
@@ -782,10 +782,10 @@ BE_GlobalData::exec_export_macro (std::string_view s)
   this->exec_export_macro_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::exec_export_include () const
 {
-  return this->exec_export_include_ ? this->exec_export_include_->c_str () : nullptr;
+  return this->exec_export_include_;
 }
 
 void
@@ -806,10 +806,10 @@ BE_GlobalData::svnt_export_macro (std::string_view s)
   this->svnt_export_macro_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::svnt_export_include () const
 {
-  return this->svnt_export_include_ ? this->svnt_export_include_->c_str () : nullptr;
+  return this->svnt_export_include_;
 }
 
 void
@@ -830,10 +830,10 @@ BE_GlobalData::conn_export_macro (std::string_view s)
   this->conn_export_macro_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::conn_export_include () const
 {
-  return this->conn_export_include_ ? this->conn_export_include_->c_str () : nullptr;
+  return this->conn_export_include_;
 }
 
 void
@@ -1792,19 +1792,19 @@ void
 BE_GlobalData::destroy ()
 {
   this->skel_export_macro_.clear ();
-  this->skel_export_include_.reset ();
-  this->skel_export_file_.reset ();
+  this->skel_export_include_.clear ();
+  this->skel_export_file_.clear ();
   this->stub_export_macro_.clear ();
-  this->stub_export_include_.reset ();
-  this->stub_export_file_.reset ();
+  this->stub_export_include_.clear ();
+  this->stub_export_file_.clear ();
   this->anyop_export_macro_.clear ();
-  this->anyop_export_include_.reset ();
+  this->anyop_export_include_.clear ();
   this->exec_export_macro_.clear ();
-  this->exec_export_include_.reset ();
+  this->exec_export_include_.clear ();
   this->svnt_export_macro_.clear ();
-  this->svnt_export_include_.reset ();
+  this->svnt_export_include_.clear ();
   this->conn_export_macro_.clear ();
-  this->conn_export_include_.reset ();
+  this->conn_export_include_.clear ();
   this->pch_include_.reset ();
   this->pre_include_.reset ();
   this->post_include_.reset ();

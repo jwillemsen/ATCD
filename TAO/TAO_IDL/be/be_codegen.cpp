@@ -182,7 +182,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
 
   // Other include files.
 
-  if (be_global->stub_export_include () != nullptr)
+  if (!be_global->stub_export_include ().empty ())
     {
       *this->client_header_ << "\n#include /**/ \""
                             << be_global->stub_export_include ()
@@ -486,7 +486,7 @@ TAO_CodeGen::start_server_header (const std::string &fname)
 
       this->gen_skel_hdr_includes ();
 
-      if (be_global->skel_export_include () != nullptr)
+      if (!be_global->skel_export_include ().empty ())
         {
           *this->server_header_ << "\n\n#include /**/ \""
                                 << be_global->skel_export_include ()
@@ -744,13 +744,13 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
     }
 
   // If anyop macro hasn't been set, default to stub macro.
-  if (be_global->anyop_export_include () != nullptr)
+  if (!be_global->anyop_export_include ().empty ())
     {
       *this->anyop_header_ << "\n#include /**/ \""
                            << be_global->anyop_export_include ()
                            << "\"";
     }
-  else if (be_global->stub_export_include () != nullptr)
+  else if (!be_global->stub_export_include ().empty ())
     {
       *this->anyop_header_ << "\n#include /**/ \""
                            << be_global->stub_export_include ()
@@ -980,13 +980,13 @@ TAO_CodeGen::start_ciao_svnt_header (const std::string &fname)
   // generated code in the same library, using the skel export macro,
   // so the values for the servant export default to the skel values.
   // Eventually, there should be a way to completely decouple them.
-  if (be_global->svnt_export_include () != nullptr)
+  if (!be_global->svnt_export_include ().empty ())
     {
       os << "\n#include /**/ \""
          << be_global->svnt_export_include ()
          << "\"\n";
     }
-  else if (be_global->skel_export_include () != nullptr)
+  else if (!be_global->skel_export_include ().empty ())
     {
       os << "\n#include /**/ \""
          << be_global->skel_export_include ()
@@ -1120,13 +1120,13 @@ TAO_CodeGen::start_ciao_svnt_template_header (const std::string &fname)
   // generated code in the same library, using the skel export macro,
   // so the values for the servant export default to the skel values.
   // Eventually, there should be a way to completely decouple them.
-  if (be_global->svnt_export_include () != nullptr)
+  if (!be_global->svnt_export_include ().empty ())
     {
       os << "\n#include /**/ \""
          << be_global->svnt_export_include ()
          << "\"\n";
     }
-  else if (be_global->skel_export_include () != nullptr)
+  else if (!be_global->skel_export_include ().empty ())
     {
       os << "\n#include /**/ \""
          << be_global->skel_export_include ()
@@ -1398,7 +1398,7 @@ TAO_CodeGen::start_ciao_conn_header (const std::string &fname)
     }
 
   // This will almost certainly be true, but just in case...
-  if (be_global->conn_export_include () != nullptr)
+  if (!be_global->conn_export_include ().empty ())
     {
       this->gen_standard_include (this->ciao_conn_header_, be_global->conn_export_include (), true);
     }
@@ -1994,20 +1994,23 @@ TAO_CodeGen::gen_export_files ()
 {
   if (be_global->gen_stub_export_hdr_file ()
       && !be_global->stub_export_macro ().empty ()
-      && (be_global->stub_export_include () != nullptr || be_global->stub_export_file () != nullptr))
+      && (!be_global->stub_export_include ().empty () || !be_global->stub_export_file ().empty ()))
     {
+      std::string_view const filename = be_global->stub_export_file ().empty ()
+        ? be_global->stub_export_include () : be_global->stub_export_file ();
       this->gen_export_file (
-        (be_global->stub_export_file () != nullptr) ? be_global->stub_export_file () : be_global->stub_export_include (),
+        filename,
         be_global->stub_export_macro (),
         "stub");
     }
 
   if (be_global->gen_skel_export_hdr_file ()
       && !be_global->skel_export_macro ().empty ()
-      && be_global->skel_export_include () != nullptr)
+      && !be_global->skel_export_include ().empty ())
     {
       this->gen_export_file (
-        (be_global->skel_export_file () != nullptr) ? be_global->skel_export_file () : be_global->skel_export_include (),
+        be_global->skel_export_file ().empty ()
+          ? be_global->skel_export_include () : be_global->skel_export_file (),
         be_global->skel_export_macro (),
         "skel",
         true);
@@ -2015,7 +2018,7 @@ TAO_CodeGen::gen_export_files ()
 
   if (be_global->gen_svnt_export_hdr_file ()
       && !be_global->svnt_export_macro ().empty ()
-      && be_global->svnt_export_include () != nullptr)
+      && !be_global->svnt_export_include ().empty ())
     {
       this->gen_export_file (
         be_global->svnt_export_include (),
@@ -2025,7 +2028,7 @@ TAO_CodeGen::gen_export_files ()
 
   if (be_global->gen_exec_export_hdr_file ()
       && !be_global->exec_export_macro ().empty ()
-      && be_global->exec_export_include () != nullptr)
+      && !be_global->exec_export_include ().empty ())
     {
       this->gen_export_file (
         be_global->exec_export_include (),
@@ -2035,7 +2038,7 @@ TAO_CodeGen::gen_export_files ()
 
   if (be_global->gen_conn_export_hdr_file ()
       && !be_global->conn_export_macro ().empty ()
-      && be_global->conn_export_include () != nullptr)
+      && !be_global->conn_export_include ().empty ())
     {
       this->gen_export_file (
         be_global->conn_export_include (),
@@ -2045,22 +2048,22 @@ TAO_CodeGen::gen_export_files ()
 }
 
 void
-TAO_CodeGen::gen_export_file (const char *filename,
+TAO_CodeGen::gen_export_file (std::string_view filename,
                               std::string_view macro,
                               const char *,
                               bool for_skel)
 {
-  // Svnt export macro may correctly default to skel
-  // export macro, so we just return silently. The
-  // null filename check below will catch a real error.
-  if (macro.empty ())
+  // Svnt export macro may correctly default to skel export macro,
+  // so we just return silently when no macro or filename is configured.
+  if (macro.empty () || filename.empty ())
     {
       return;
     }
 
   std::string const macro_string (macro);
+  std::string const filename_string (filename);
   ACE_CString macro_str (macro_string.c_str ());
-  ACE_CString file_str;
+  std::string file_str;
 
   const std::string_view output_path =
     be_util::get_output_path (false, for_skel, false);
@@ -2087,11 +2090,11 @@ TAO_CodeGen::gen_export_file (const char *filename,
             }
         }
 
-      file_str += normalized_path.c_str ();
+      file_str += normalized_path;
       file_str += '/';
     }
 
-  file_str += filename;
+  file_str += filename_string;
 
   TAO_OutStream os;
 
@@ -2100,7 +2103,7 @@ TAO_CodeGen::gen_export_file (const char *filename,
       ACE_ERROR ((LM_ERROR,
                   ACE_TEXT ("TAO_CodeGen::gen_export_file() - ")
                   ACE_TEXT ("Error: file open failed on %C\n"),
-                  filename));
+                  filename_string.c_str ()));
       return;
     }
 
@@ -2168,7 +2171,7 @@ TAO_CodeGen::gen_export_file (const char *filename,
 
 void
 TAO_CodeGen::gen_standard_include (TAO_OutStream *stream,
-                                   const std::string &included_file,
+                                   std::string_view included_file,
                                    bool add_comment)
 {
   // Switch between changing or non-changing standard include files
@@ -3275,7 +3278,7 @@ TAO_CodeGen::gen_exec_hdr_includes ()
   // generated code in the same library, using the skel export macro,
   // so the values for the servant export default to the skel values.
   // Eventually, there should be a way to completely decouple them.
-  if (be_global->exec_export_include () != nullptr)
+  if (!be_global->exec_export_include ().empty ())
     {
       this->gen_standard_include (this->ciao_exec_header_, be_global->exec_export_include (), true);
     }

@@ -842,10 +842,10 @@ BE_GlobalData::conn_export_include (std::string_view s)
   this->conn_export_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::pch_include () const
 {
-  return this->pch_include_ ? this->pch_include_->c_str () : nullptr;
+  return this->pch_include_;
 }
 
 void
@@ -854,10 +854,10 @@ BE_GlobalData::pch_include (std::string_view s)
   this->pch_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::pre_include () const
 {
-  return this->pre_include_ ? this->pre_include_->c_str () : nullptr;
+  return this->pre_include_;
 }
 
 void
@@ -866,10 +866,10 @@ BE_GlobalData::pre_include (std::string_view s)
   this->pre_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::post_include () const
 {
-  return this->post_include_ ? this->post_include_->c_str () : nullptr;
+  return this->post_include_;
 }
 
 void
@@ -878,10 +878,10 @@ BE_GlobalData::post_include (std::string_view s)
   this->post_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::include_guard () const
 {
-  return this->include_guard_ ? this->include_guard_->c_str () : nullptr;
+  return this->include_guard_;
 }
 
 void
@@ -890,10 +890,10 @@ BE_GlobalData::include_guard (std::string_view s)
   this->include_guard_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::safe_include () const
 {
-  return this->safe_include_ ? this->safe_include_->c_str () : nullptr;
+  return this->safe_include_;
 }
 
 void
@@ -902,10 +902,10 @@ BE_GlobalData::safe_include (std::string_view s)
   this->safe_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::unique_include () const
 {
-  return this->unique_include_ ? this->unique_include_->c_str () : nullptr;
+  return this->unique_include_;
 }
 
 void
@@ -914,10 +914,10 @@ BE_GlobalData::unique_include (std::string_view s)
   this->unique_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::stripped_filename () const
 {
-  return this->stripped_filename_ ? this->stripped_filename_->c_str () : nullptr;
+  return this->stripped_filename_;
 }
 
 void
@@ -1805,13 +1805,13 @@ BE_GlobalData::destroy ()
   this->svnt_export_include_.clear ();
   this->conn_export_macro_.clear ();
   this->conn_export_include_.clear ();
-  this->pch_include_.reset ();
-  this->pre_include_.reset ();
-  this->post_include_.reset ();
-  this->include_guard_.reset ();
-  this->safe_include_.reset ();
-  this->unique_include_.reset ();
-  this->stripped_filename_.reset ();
+  this->pch_include_.clear ();
+  this->pre_include_.clear ();
+  this->post_include_.clear ();
+  this->include_guard_.clear ();
+  this->safe_include_.clear ();
+  this->unique_include_.clear ();
+  this->stripped_filename_.clear ();
 
   this->client_hdr_ending_.reset ();
   this->client_stub_ending_.reset ();

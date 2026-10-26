@@ -131,14 +131,14 @@ TAO_CodeGen::start_client_header (const std::string &fname)
                                "_H_");
     }
 
-  if (be_global->pre_include () != nullptr)
+  if (!be_global->pre_include ().empty ())
     {
       *this->client_header_ << "#include /**/ \""
                             << be_global->pre_include ()
                             << "\"\n\n";
     }
 
-  if (be_global->include_guard () != nullptr)
+  if (!be_global->include_guard ().empty ())
     {
       *this->client_header_ << "#ifndef "
                             << be_global->include_guard ()
@@ -147,7 +147,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
       *this->client_header_ << "#error "
                             << "You should not include " << fname;
 
-      if (be_global->safe_include () != nullptr)
+      if (!be_global->safe_include ().empty ())
         {
           *this->client_header_ << ", use " << be_global->safe_include ();
         }
@@ -189,7 +189,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
                             << "\"";
     }
 
-  if (be_global->unique_include () != nullptr)
+  if (!be_global->unique_include ().empty ())
     {
       *this->client_header_ << "\n#include \""
                             << be_global->unique_include ()
@@ -423,7 +423,7 @@ TAO_CodeGen::start_server_header (const std::string &fname)
                            "_TAO_IDL_",
                            "_H_");
 
-  if (be_global->pre_include () != nullptr)
+  if (!be_global->pre_include ().empty ())
     {
       *this->server_header_ << "#include /**/ \""
                             << be_global->pre_include ()
@@ -431,7 +431,7 @@ TAO_CodeGen::start_server_header (const std::string &fname)
     }
 
   // The server header should include the client header.
-  if (be_global->safe_include ())
+  if (!be_global->safe_include ().empty ())
     {
       // Generate the safe include if it is defined instead of the client header
       // need to put only the base names. Path info is not required.
@@ -549,7 +549,7 @@ TAO_CodeGen::start_server_template_header (const std::string &fname)
                            "_TAO_IDL_",
                            "_H_");
 
-  if (be_global->pre_include () != nullptr)
+  if (!be_global->pre_include ().empty ())
     {
       *this->server_template_header_ << "#include /**/ \""
                                      << be_global->pre_include ()
@@ -595,7 +595,7 @@ TAO_CodeGen::start_server_skeletons (const std::string &fname)
   this->gen_ident_string (this->server_skeletons_);
 
   // Generate the include statement for the precompiled header file.
-  if (be_global->pch_include ())
+  if (!be_global->pch_include ().empty ())
     {
       *this->server_skeletons_ << "#include \""
                                << be_global->pch_include ()
@@ -736,7 +736,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
                            "_TAO_IDL_",
                            "_H_");
 
-  if (be_global->pre_include () != nullptr)
+  if (!be_global->pre_include ().empty ())
     {
       *this->anyop_header_ << "#include /**/ \""
                            << be_global->pre_include ()
@@ -785,7 +785,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
 
   // Generate the include statement for the client header. We just
   // need to put only the base names. Path info is not required.
-  if (be_global->safe_include ())
+  if (!be_global->safe_include ().empty ())
     {
       // Generate the safe include if it is defined instead of the client header
       // need to put only the base names. Path info is not required.
@@ -896,7 +896,7 @@ TAO_CodeGen::start_anyop_source (const std::string &fname)
     }
 
   // Generate the include statement for the precompiled header file.
-  if (be_global->pch_include ())
+  if (!be_global->pch_include ().empty ())
     {
       *this->anyop_source_ << "#include \""
                            << be_global->pch_include ()
@@ -969,7 +969,7 @@ TAO_CodeGen::start_ciao_svnt_header (const std::string &fname)
                            "CIAO_SESSION_",
                            "_H_");
 
-  if (be_global->pre_include () != nullptr)
+  if (!be_global->pre_include ().empty ())
     {
       os << "#include /**/ \""
          << be_global->pre_include ()
@@ -1109,7 +1109,7 @@ TAO_CodeGen::start_ciao_svnt_template_header (const std::string &fname)
                            "CIAO_SERVANT_",
                            "_H_");
 
-  if (be_global->pre_include () != nullptr)
+  if (!be_global->pre_include ().empty ())
     {
       os << "#include /**/ \""
          << be_global->pre_include ()
@@ -1250,7 +1250,7 @@ TAO_CodeGen::start_ciao_exec_header (const std::string &fname)
                            "CIAO_",
                            "_H_");
 
-  if (be_global->pre_include () != nullptr)
+  if (!be_global->pre_include ().empty ())
     {
       os << "#include /**/ \""
          << be_global->pre_include ()
@@ -1390,7 +1390,7 @@ TAO_CodeGen::start_ciao_conn_header (const std::string &fname)
                            "CIAO_",
                            "_H_");
 
-  if (be_global->pre_include () != nullptr)
+  if (!be_global->pre_include ().empty ())
     {
       os << "#include /**/ \""
          << be_global->pre_include ()
@@ -1621,7 +1621,7 @@ TAO_CodeGen::end_client_header ()
 
   // Code to put the last #endif.
 
-  if (be_global->post_include () != nullptr)
+  if (!be_global->post_include ().empty ())
     {
       *this->client_header_ << "#include /**/ \""
                             << be_global->post_include ()
@@ -1680,7 +1680,7 @@ TAO_CodeGen::end_server_header ()
         }
     }
 
-  if (be_global->post_include () != nullptr)
+  if (!be_global->post_include ().empty ())
     {
       *os << be_nl_2
           << "#include /**/ \""
@@ -1759,7 +1759,7 @@ TAO_CodeGen::end_server_template_header ()
   // Code to put the last #endif.
   *this->server_template_header_ << "\n\n";
 
-  if (be_global->post_include () != nullptr)
+  if (!be_global->post_include ().empty ())
     {
       *this->server_template_header_ << "#include /**/ \""
                                      << be_global->post_include ()
@@ -1807,7 +1807,7 @@ TAO_CodeGen::end_anyop_header ()
   *this->anyop_header_ << be_global->versioning_end ();
 
 
-  if (be_global->post_include () != nullptr)
+  if (!be_global->post_include ().empty ())
     {
       *this->anyop_header_ << "\n\n#include /**/ \""
                            << be_global->post_include ()
@@ -1835,7 +1835,7 @@ TAO_CodeGen::end_anyop_source ()
 int
 TAO_CodeGen::end_ciao_svnt_header ()
 {
-  if (be_global->post_include () != nullptr)
+  if (!be_global->post_include ().empty ())
     {
       *this->ciao_svnt_header_ << "\n\n#include /**/ \""
                                << be_global->post_include ()
@@ -1863,7 +1863,7 @@ TAO_CodeGen::end_ciao_svnt_template_header ()
                                     << be_global->be_get_ciao_tmpl_svnt_src_fname (true)
                                     << "\"" << be_nl;
 
-  if (be_global->post_include () != nullptr)
+  if (!be_global->post_include ().empty ())
     {
       *this->ciao_svnt_template_header_ << "\n\n#include /**/ \""
                                         << be_global->post_include ()
@@ -1888,7 +1888,7 @@ TAO_CodeGen::end_ciao_svnt_template_source ()
 int
 TAO_CodeGen::end_ciao_exec_header ()
 {
-  if (be_global->post_include () != nullptr)
+  if (!be_global->post_include ().empty ())
     {
       *this->ciao_exec_header_ << "\n\n#include /**/ \""
                                << be_global->post_include ()
@@ -1919,7 +1919,7 @@ TAO_CodeGen::end_ciao_exec_idl ()
 int
 TAO_CodeGen::end_ciao_conn_header ()
 {
-  if (be_global->post_include () != nullptr)
+  if (!be_global->post_include ().empty ())
     {
       *this->ciao_conn_header_ << "\n\n#include /**/ \""
                                << be_global->post_include ()
@@ -2574,14 +2574,14 @@ void
 TAO_CodeGen::gen_stub_src_includes ()
 {
   // Generate the include statement for the precompiled header file.
-  if (be_global->pch_include ())
+  if (!be_global->pch_include ().empty ())
     {
       *this->client_stubs_ << "#include \""
                            << be_global->pch_include ()
                            << "\"";
     }
 
-  if (be_global->safe_include ())
+  if (!be_global->safe_include ().empty ())
     {
       // Generate the safe include if it is defined instead of the client header
       // need to put only the base names. Path info is not required.
@@ -3334,7 +3334,7 @@ TAO_CodeGen::gen_exec_idl_includes ()
       this->gen_standard_include (this->ciao_exec_idl_, "connectors/ami4ccm/ami4ccm/ami4ccm.idl");
     }
 
-  if (be_global->stripped_filename ())
+  if (!be_global->stripped_filename ().empty ())
     {
       this->gen_standard_include (this->ciao_exec_idl_, be_global->stripped_filename ());
     }

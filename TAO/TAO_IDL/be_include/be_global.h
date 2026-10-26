@@ -368,7 +368,7 @@ public:
 
   /// Returns the name of the include file to be used for precompiled
   /// header support.
-  const char* pch_include () const;
+  std::string_view pch_include () const;
 
   /// Set the name of the include file to be used for precompiled
   /// header support.
@@ -376,7 +376,7 @@ public:
 
   /// Returns the name of the include file to be put at the top of
   /// every header file.
-  const char* pre_include () const;
+  std::string_view pre_include () const;
 
   /// Set the name of the include file to be put at the top of every
   /// header file.
@@ -384,21 +384,21 @@ public:
 
   /// Returns the name of the include file to be put at the bottom of
   /// every header file.
-  const char* post_include () const;
+  std::string_view post_include () const;
 
   /// Set the name of the include file to be put at the bottom of every
   /// header file.
   void post_include (std::string_view s);
 
   /// Returns the guard that is placed in the client header file
-  const char* include_guard () const;
+  std::string_view include_guard () const;
 
   /// Set the guard that is placed in the client header file
   void include_guard (std::string_view s);
 
   /// Returns the name of the include file that is used instead of the own
   /// generated client header file
-  const char* safe_include () const;
+  std::string_view safe_include () const;
 
   /// set the name of the include file that is used instead of the own
   /// generated client header file
@@ -406,7 +406,7 @@ public:
 
   /// Returns the name of the include file that should on get
   /// generated in the client header file
-  const char* unique_include () const;
+  std::string_view unique_include () const;
 
   /// Set the name of the include file that should on get
   /// generated in the client header file
@@ -414,7 +414,7 @@ public:
 
   /// Returns the name of the include file that should be used as
   /// stripped_filename
-  const char* stripped_filename () const;
+  std::string_view stripped_filename () const;
 
   /// Set the name of the include file that should be used as stripped_filename
   void stripped_filename (std::string_view s);
@@ -979,13 +979,13 @@ private:
   std::string conn_export_macro_;
   std::string conn_export_include_;
 
-  std::optional<std::string> pch_include_;
-  std::optional<std::string> pre_include_;
-  std::optional<std::string> post_include_;
-  std::optional<std::string> include_guard_;
-  std::optional<std::string> safe_include_;
-  std::optional<std::string> unique_include_;
-  std::optional<std::string> stripped_filename_;
+  std::string pch_include_;
+  std::string pre_include_;
+  std::string post_include_;
+  std::string include_guard_;
+  std::string safe_include_;
+  std::string unique_include_;
+  std::string stripped_filename_;
 
   /// Text that opens a "versioned" namespace for core TAO and orbsvcs
   /// related code.

@@ -39,6 +39,8 @@
 #include "idl_defines.h"
 #include "nr_extern.h"
 
+#include <string_view>
+
 #include "ace/Process.h"
 #include "ace/Lib_Find.h"
 #include "ace/OS_NS_time.h"
@@ -163,7 +165,7 @@ be_interface::local_coll_name (int type)
   return this->local_coll_name_;
 }
 
-const char *
+std::string
 be_interface::relative_skel_name (const char *skel_name)
 {
   return be_interface::relative_name (this->full_skel_name (),
@@ -401,7 +403,7 @@ be_interface::compute_coll_names (int type,
     }
 }
 
-const char*
+std::string
 be_interface::relative_name (const char *localname,
                              const char *othername)
 {
@@ -417,91 +419,32 @@ be_interface::relative_name (const char *localname,
 
   // Thus we need some sort of relative name to be generated.
 
-  static char macro [NAMEBUFSIZE];
+  std::string_view def_curr (localname);
+  std::string_view use_curr (othername);
 
-  // Hold the fully scoped name.
-  char def_name [NAMEBUFSIZE];
-  char use_name [NAMEBUFSIZE];
-
-  // These point to the curr and next component in the scope.
-  char *def_curr = def_name;
-  char *def_next;
-  char *use_curr = use_name;
-  char *use_next;
-
-  ACE_OS::memset (macro,
-                  '\0',
-                  NAMEBUFSIZE);
-  ACE_OS::memset (def_name,
-                  '\0',
-                  NAMEBUFSIZE);
-  ACE_OS::memset (use_name,
-                  '\0',
-                  NAMEBUFSIZE);
-
-  // Traverse every component of the def_scope and use_scope beginning at the
-  // root and proceeding towards the leaf trying to see if the components
-  // match. Continue until there is a match and keep accumulating the path
-  // traversed.
-  ACE_OS::strcpy (def_name,
-                  localname);
-  ACE_OS::strcpy (use_name,
-                  othername);
-
-  while (def_curr && use_curr)
+  while (!def_curr.empty () && !use_curr.empty ())
     {
-      // Find the first occurrence of a ::
-      // and advance the next pointers accordingly.
-      def_next = ACE_OS::strstr (def_curr, "::");
-      use_next = ACE_OS::strstr (use_curr, "::");
+      size_t const def_separator = def_curr.find ("::");
+      size_t const use_separator = use_curr.find ("::");
+      std::string_view const def_component = def_curr.substr (0, def_separator);
+      std::string_view const use_component = use_curr.substr (0, use_separator);
 
-      if (def_next)
+      if (def_component == use_component)
         {
-          *def_next = 0;
-        }
-
-      if (use_next)
-        {
-          *use_next = 0;
-        }
-
-      if (!ACE_OS::strcmp (def_curr, use_curr))
-        {
-          // They have same prefix, append to arg1.
-          def_curr = (def_next ? (def_next+2) : nullptr); // Skip the ::
-          use_curr = (use_next ? (use_next+2) : nullptr); // Skip the ::
+          def_curr = (def_separator == std::string_view::npos
+                      ? std::string_view ()
+                      : def_curr.substr (def_separator + 2));
+          use_curr = (use_separator == std::string_view::npos
+                      ? std::string_view ()
+                      : use_curr.substr (use_separator + 2));
         }
       else
         {
-          // We had overwritten a ':' by a '\0' for string comparison. We
-          // revert back because we want the rest of the relative name to be
-          // used.
-          if (def_next)
-            {
-              *def_next = ':';
-            }
-
-          if (use_next)
-            {
-              *use_next = ':';
-            }
-
-          // No match. This is the end of the first argument. Get out
-          // of the loop as no more comparisons are necessary.
           break;
         }
     }
 
-  // Start the 2nd argument of the macro.
-
-  // Copy the remaining def_name (if any left)
-  if (def_curr)
-    {
-      ACE_OS::strcat (macro,
-                      def_curr);
-    }
-
-  return macro;
+  return std::string (def_curr);
 }
 
 

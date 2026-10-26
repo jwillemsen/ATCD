@@ -21,6 +21,8 @@
 #include "be_codegen.h"
 #include "ast_interface.h"
 
+#include <string>
+
 class TAO_OutStream;
 class TAO_IDL_Inheritance_Hierarchy_Worker;
 class be_visitor;
@@ -84,7 +86,7 @@ public:
   virtual const char *server_enclosing_scope ();
 
   /// Retrieve skeleton name.
-  const char *relative_skel_name (const char *skel_name);
+  std::string relative_skel_name (const char *skel_name);
 
   /// Build up the skeleton name.
   void compute_full_skel_name (const char *prefix,
@@ -95,7 +97,7 @@ public:
                            const char *prefix,
                            const char *suffix);
 
-  static const char *relative_name (const char *localname,
+  static std::string relative_name (const char *localname,
                                     const char *othername);
 
   /// Call the default constructors of all the base classes.

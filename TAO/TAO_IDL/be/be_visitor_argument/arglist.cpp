@@ -267,7 +267,7 @@ int be_visitor_args_arglist::visit_predefined_type (be_predefined_type *node)
 int be_visitor_args_arglist::visit_fixed (be_fixed *node)
 {
   TAO_OutStream *os = this->ctx_->stream ();
-  const char * const type = this->type_name (node);
+  std::string const type = this->type_name (node);
 
   if (this->direction () == AST_Argument::dir_IN)
     {

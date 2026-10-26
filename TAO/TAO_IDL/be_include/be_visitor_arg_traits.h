@@ -11,6 +11,8 @@
 #ifndef TAO_BE_VISITOR_ARG_TRAITS_H
 #define TAO_BE_VISITOR_ARG_TRAITS_H
 
+#include <string_view>
+
 #include "be_visitor_scope.h"
 
 /**
@@ -58,7 +60,7 @@ private:
   void generated (be_decl *node,
                   bool val);
 
-  const char *insert_policy ();
+  std::string_view insert_policy ();
 
 private:
   char *S_;

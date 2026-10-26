@@ -15,6 +15,9 @@
 
 #include "ast_argument.h"
 
+#include <string>
+#include <string_view>
+
 /**
  * @class be_visitor_args
  *
@@ -45,8 +48,8 @@ public:
   //= helper
   /// helper that produces either a nested name for
   /// header files or full name for others.
-  virtual const char *type_name (be_type *type,
-                                 const char *suffix = nullptr);
+  virtual std::string type_name (be_type *type,
+                                 std::string_view suffix = {});
 
   /// return the direction of the argument node
   virtual AST_Argument::Direction direction ();

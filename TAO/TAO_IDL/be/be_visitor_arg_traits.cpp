@@ -1256,7 +1256,7 @@ be_visitor_arg_traits::generated (be_decl *node,
   node->srv_sarg_traits_gen (val);
 }
 
-const char *
+std::string_view
 be_visitor_arg_traits::insert_policy ()
 {
   if (be_global->any_support ())

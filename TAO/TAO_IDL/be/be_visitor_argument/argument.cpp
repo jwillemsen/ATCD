@@ -27,15 +27,10 @@ int be_visitor_args::visit_argument (be_argument *)
 // Helper that returns the type name either as a nested type name (for header
 // files) or as a fully scoped name. In addition, we make sure that if the type
 // is an alias, we use that name.
-const char *
+std::string
 be_visitor_args::type_name (be_type *node,
-                            const char *suffix)
+                            std::string_view suffix)
 {
-  static char namebuf [NAMEBUFSIZE];
-  ACE_OS::memset (namebuf,
-                  '\0',
-                  NAMEBUFSIZE);
-
   be_type *bt = nullptr;
 
   // Use the typedefed name if that is the one
@@ -49,17 +44,15 @@ be_visitor_args::type_name (be_type *node,
       bt = node;
     }
 
-  ACE_OS::sprintf (namebuf,
-                   "::%s",
-                   bt->full_name ());
+  std::string name ("::");
+  name += bt->full_name ();
 
-  if (suffix != nullptr)
+  if (!suffix.empty ())
     {
-      ACE_OS::strcat (namebuf,
-                      suffix);
+      name.append (suffix.data (), suffix.size ());
     }
 
-  return namebuf;
+  return name;
 }
 
 // Helper that returns the direction type of the argument

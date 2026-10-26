@@ -75,7 +75,7 @@ IdentifierHelper::type_name (be_type *t, be_visitor *visitor)
 }
 
 Identifier *
-IdentifierHelper::original_local_name (Identifier * local_name)
+IdentifierHelper::original_local_name (Identifier const *local_name)
 {
   Identifier * id = nullptr;
   std::string_view const lname =
@@ -167,7 +167,7 @@ IdentifierHelper::orig_sn (UTL_IdList * sn, bool for_idl)
 }
 
 bool
-IdentifierHelper::is_idl_keyword (Identifier * local_name)
+IdentifierHelper::is_idl_keyword (Identifier const *local_name)
 {
   // Convert the identifier string into a
   // canonical (uppercase) form as a ACE_CString
@@ -180,7 +180,7 @@ IdentifierHelper::is_idl_keyword (Identifier * local_name)
 }
 
 std::string
-IdentifierHelper::try_escape (Identifier * local_name)
+IdentifierHelper::try_escape (Identifier const *local_name)
 {
   std::string s_local_name (
     local_name->get_string_view ().value_or (std::string_view {}));

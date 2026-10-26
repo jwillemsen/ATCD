@@ -869,7 +869,7 @@ UTL_Error::coercion_error (AST_Expression *v,
   v->dump (*ACE_DEFAULT_LOG_STREAM);
   ACE_ERROR ((LM_ERROR,
               " to %C\n",
-              AST_Expression::exprtype_to_string (t)));
+              AST_Expression::exprtype_to_string (t).data ()));
 }
 
 // Report a failed name lookup attempt.

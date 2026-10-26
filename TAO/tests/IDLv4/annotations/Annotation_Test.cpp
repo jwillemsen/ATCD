@@ -367,8 +367,8 @@ Annotation_Test::assert_annotation_member_type (
         ACE_TEXT ("For Annotation Member %C, ")
         ACE_TEXT ("expecting it to be a %C, but it is a %C!\n"),
         name_.c_str (), member_name,
-        AST_Expression::exprtype_to_string (type),
-        AST_Expression::exprtype_to_string (member->expr_type ())));
+        AST_Expression::exprtype_to_string (type).data (),
+        AST_Expression::exprtype_to_string (member->expr_type ()).data ()));
       delete [] member_name;
       failed ();
     }

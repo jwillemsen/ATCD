@@ -3016,7 +3016,7 @@ AST_Expression::set_n (UTL_ScopedName *new_n)
   this->pd_n = new_n;
 }
 
-char const *
+std::string_view
 AST_Expression::exprtype_to_string (ExprType t)
 {
   switch (t) {

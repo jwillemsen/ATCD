@@ -2535,7 +2535,7 @@ be_interface::is_ami4ccm_rh (bool val)
 }
 
 std::string_view
-be_interface::direct_proxy_impl_name ()
+be_interface::direct_proxy_impl_name () const
 {
   if (this->direct_proxy_impl_name_.empty ())
     {
@@ -2551,7 +2551,7 @@ be_interface::direct_proxy_impl_name ()
 }
 
 std::string_view
-be_interface::full_direct_proxy_impl_name ()
+be_interface::full_direct_proxy_impl_name () const
 {
   if (this->full_direct_proxy_impl_name_.empty ())
     {
@@ -2564,7 +2564,7 @@ be_interface::full_direct_proxy_impl_name ()
 
 
 std::string_view
-be_interface::client_enclosing_scope ()
+be_interface::client_enclosing_scope () const
 {
   if (!this->client_scope_computed_)
     {
@@ -2580,7 +2580,7 @@ be_interface::client_enclosing_scope ()
 }
 
 std::string_view
-be_interface::flat_client_enclosing_scope ()
+be_interface::flat_client_enclosing_scope () const
 {
   if (!this->flat_client_scope_computed_)
     {
@@ -2599,7 +2599,7 @@ be_interface::flat_client_enclosing_scope ()
 }
 
 std::string_view
-be_interface::server_enclosing_scope ()
+be_interface::server_enclosing_scope () const
 {
   if (!this->server_scope_computed_)
     {
@@ -2621,7 +2621,7 @@ std::string
 be_interface::create_with_prefix_suffix (std::string_view prefix,
                                          std::string_view str,
                                          std::string_view suffix,
-                                         std::string_view separator)
+                                         std::string_view separator) const
 {
   std::string result (prefix);
   result += str;

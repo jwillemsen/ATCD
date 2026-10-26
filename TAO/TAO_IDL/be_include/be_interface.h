@@ -70,21 +70,21 @@ public:
   std::string_view local_coll_name (int) const;
 
   /// retrieve the name of the direct proxy implementation.
-  virtual std::string_view direct_proxy_impl_name ();
+  virtual std::string_view direct_proxy_impl_name () const;
 
   /// retrieve the fully qualified name of the direct proxy
   /// implementation.
-  virtual std::string_view full_direct_proxy_impl_name ();
+  virtual std::string_view full_direct_proxy_impl_name () const;
 
   /// Return the client scope that encloses the interface.
-  virtual std::string_view client_enclosing_scope ();
+  virtual std::string_view client_enclosing_scope () const;
 
   /// Return the "flattened" scope that encloses
   /// the interface.
-  virtual std::string_view flat_client_enclosing_scope ();
+  virtual std::string_view flat_client_enclosing_scope () const;
 
   /// Return the server scope that encloses the interface.
-  virtual std::string_view server_enclosing_scope ();
+  virtual std::string_view server_enclosing_scope () const;
 
   /// Retrieve skeleton name.
   std::string relative_skel_name (std::string_view skel_name) const;
@@ -274,7 +274,7 @@ protected:
   std::string create_with_prefix_suffix (std::string_view prefix,
                                          std::string_view str,
                                          std::string_view suffix,
-                                         std::string_view separator = "");
+                                         std::string_view separator = "") const;
 
 protected:
   enum Suffix_Code
@@ -294,17 +294,17 @@ protected:
   static const char *tag_table_[];
 
   // Proxy Implementation names.
-  std::string direct_proxy_impl_name_;
+  mutable std::string direct_proxy_impl_name_;
 
-  std::string full_direct_proxy_impl_name_;
+  mutable std::string full_direct_proxy_impl_name_;
 
-  std::string client_scope_;
-  bool client_scope_computed_ {};
-  std::string flat_client_scope_;
-  bool flat_client_scope_computed_ {};
+  mutable std::string client_scope_;
+  mutable bool client_scope_computed_ {};
+  mutable std::string flat_client_scope_;
+  mutable bool flat_client_scope_computed_ {};
 
-  std::string server_scope_;
-  bool server_scope_computed_ {};
+  mutable std::string server_scope_;
+  mutable bool server_scope_computed_ {};
   char *flat_server_scope_ {};
 
 private:

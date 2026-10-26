@@ -17,6 +17,8 @@
 
 #include "union_branch.h"
 
+#include <string_view>
+
 // **********************************************
 //  Visitor for union_branch in the client stubs file.
 // **********************************************
@@ -118,7 +120,8 @@ be_visitor_union_branch_cdr_op_cs::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           node->local_name ()->get_string ());
+                           node->local_name ()->get_string_view ().value_or (
+                             std::string_view {}).data ());
         }
       else
         {

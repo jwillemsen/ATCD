@@ -11,6 +11,8 @@
 
 #include "union_branch.h"
 
+#include <string_view>
+
 bool
 be_visitor_union_branch_public_reset_cs::requires_reset (be_type *node)
 {
@@ -176,7 +178,8 @@ be_visitor_union_branch_public_reset_cs::visit_array (be_array *node)
         {
           be_decl *parent = dynamic_cast<be_scope*> (bt->defined_in ())->decl ();
           ACE_OS::sprintf (fname, "%s::_%s", parent->full_name ().data (),
-                           bt->local_name ()->get_string ());
+                           bt->local_name ()->get_string_view ().value_or (
+                             std::string_view {}).data ());
         }
       else
         {

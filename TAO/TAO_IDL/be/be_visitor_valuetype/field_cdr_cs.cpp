@@ -96,8 +96,7 @@ be_visitor_valuetype_field_cdr_cs::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           node->local_name ()->get_string_view ().value_or (
-                             std::string_view {}).data ());
+                           node->local_name ()->get_string_view_or_empty ().data ());
         }
       else
         {
@@ -969,8 +968,7 @@ be_visitor_valuetype_field_cdr_decl::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           node->local_name ()->get_string_view ().value_or (
-                             std::string_view {}).data ());
+                           node->local_name ()->get_string_view_or_empty ().data ());
         }
       else
         {

@@ -130,7 +130,7 @@ be_interface::local_name () const
 {
   // Return the local name.
 //  return this->strategy_->local_name ();
-  return this->AST_Decl::local_name ()->get_string_view ().value_or (std::string_view {});
+  return this->AST_Decl::local_name ()->get_string_view_or_empty ();
 }
 
 std::string_view
@@ -188,7 +188,7 @@ be_interface::compute_full_skel_name (std::string_view prefix) const
 
       // Print the identifier.
       std::string_view const item_name =
-        j.item ()->get_string_view ().value_or (std::string_view {});
+        j.item ()->get_string_view_or_empty ();
       skel_name += item_name;
 
       if (first)
@@ -238,7 +238,7 @@ be_interface::compute_coll_names (int type) const
        !j.is_done ();)
     {
       std::string_view const item =
-        j.item ()->get_string_view ().value_or (std::string_view {});
+        j.item ()->get_string_view_or_empty ();
 
       // Increase right away, so we can test for the final component
       // in the loop.
@@ -271,8 +271,7 @@ be_interface::compute_coll_names (int type) const
 
   // Compute the local name for the collocated class.
   this->local_coll_name_ = collocated;
-  this->local_coll_name_ += this->AST_Interface::local_name ()->get_string_view ().value_or (
-    std::string_view {});
+  this->local_coll_name_ += this->AST_Interface::local_name ()->get_string_view_or_empty ();
 }
 
 std::string
@@ -2209,7 +2208,7 @@ be_interface::gen_facet_idl (TAO_OutStream &os)
 
   os << be_nl
      << "local interface CCM_"
-     << this->original_local_name ()->get_string_view ().value_or (std::string_view {})
+     << this->original_local_name ()->get_string_view_or_empty ()
      << " : ::"
      << IdentifierHelper::orig_sn (this->name ())
      << be_nl
@@ -2587,7 +2586,7 @@ be_interface::flat_client_enclosing_scope () const
     {
       std::string_view const full_name = this->flat_name ();
       std::string_view const name =
-        this->original_local_name ()->get_string_view ().value_or (std::string_view {});
+        this->original_local_name ()->get_string_view_or_empty ();
 
       size_t offset = name.size ();
       size_t length = full_name.size () - offset;

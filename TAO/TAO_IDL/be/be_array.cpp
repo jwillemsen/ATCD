@@ -81,8 +81,7 @@ be_array::create_name ()
 
   ACE_OS::sprintf (namebuf,
                    "_tao_array_%s",
-                   bt->local_name ()->get_string_view ().value_or (
-                     std::string_view ("")).data ());
+                   bt->local_name ()->get_string_view_or_empty ().data ());
 
   // Now append dimensions.
   for (i = 0; i < this->n_dims (); ++i)
@@ -244,7 +243,7 @@ be_array::gen_ostream_operator (TAO_OutStream *os,
   std::string arg_name (parent->full_name ().data ());
   arg_name += "::";
   arg_name += (use_underscore ? "_" : "");
-  arg_name += this->local_name ()->get_string_view ().value_or (std::string_view {});
+  arg_name += this->local_name ()->get_string_view_or_empty ();
   arg_name += "_forany &_tao_array";
 
   // Using 'const' with xxx_forany here prevents the compiler from
@@ -319,7 +318,7 @@ be_array::gen_member_ostream_operator (TAO_OutStream *os,
   std::string decl_name (parent->full_name ().data ());
   decl_name += "::";
   decl_name += (use_underscore ? "_" : "");
-  decl_name += this->local_name ()->get_string_view ().value_or (std::string_view {});
+  decl_name += this->local_name ()->get_string_view_or_empty ();
 
  // The container is always const, so the member is const as well,
  // but we have to cast it away for the forany constructor.

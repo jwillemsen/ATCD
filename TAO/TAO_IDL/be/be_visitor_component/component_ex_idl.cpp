@@ -64,7 +64,7 @@ be_visitor_component_ex_idl::visit_component (
   const char *sname = sname_str.c_str ();
 
   std::string_view const lname =
-    node->original_local_name ()->get_string_view ().value_or (std::string_view {});
+    node->original_local_name ()->get_string_view_or_empty ();
 
   const char *global = (sname_str == "" ? "" : "::");
 

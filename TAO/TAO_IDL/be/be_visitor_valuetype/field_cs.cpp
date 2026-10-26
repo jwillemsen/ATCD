@@ -120,8 +120,7 @@ be_visitor_valuetype_field_cs::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           bt->local_name ()->get_string_view ().value_or (
-                             std::string_view {}).data ());
+                           bt->local_name ()->get_string_view_or_empty ().data ());
         }
       else
         {

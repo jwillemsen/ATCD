@@ -72,7 +72,7 @@ be_decl::compute_full_name  (const char *prefix,
 
       // Prefix.
       // Local name.
-      result_str += this->local_name ()->get_string_view ().value_or (std::string_view {});
+      result_str += this->local_name ()->get_string_view_or_empty ();
 
       // Suffix.
       result_str += suffix;
@@ -106,7 +106,7 @@ be_decl::compute_full_name  (const char *prefix,
       result_str += prefix;
 
       // Local name.
-      result_str += this->local_name ()->get_string_view ().value_or (std::string_view {});
+      result_str += this->local_name ()->get_string_view_or_empty ();
 
       // Suffix.
       result_str += suffix;
@@ -134,8 +134,7 @@ be_decl::compute_flat_name  (const char *prefix,
 
       // Prefix.
       // Local name. Leave out _cxx_ prefix, if any.
-      result_str += this->original_local_name ()->get_string_view ().value_or (
-        std::string_view {});
+      result_str += this->original_local_name ()->get_string_view_or_empty ();
 
       // Suffix.
       result_str += suffix;
@@ -166,8 +165,7 @@ be_decl::compute_flat_name  (const char *prefix,
       result_str += prefix;
 
       // Local name. Leave out _cxx_ prefix, if any.
-      result_str += this->original_local_name ()->get_string_view ().value_or (
-        std::string_view {});
+      result_str += this->original_local_name ()->get_string_view_or_empty ();
 
       // Suffix.
       result_str += suffix;

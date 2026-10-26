@@ -44,7 +44,7 @@ int be_visitor_array_cs::visit_array (be_array *node)
 
   // To hold the full and local.
   std::string_view const local_name =
-    node->local_name ()->get_string_view ().value_or (std::string_view {});
+    node->local_name ()->get_string_view_or_empty ();
   char fname [NAMEBUFSIZE];
   char lname [NAMEBUFSIZE];
   ACE_OS::memset (fname,

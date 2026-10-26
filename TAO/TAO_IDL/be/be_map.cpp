@@ -272,7 +272,7 @@ be_map::smart_fwd_helper_name (AST_Decl *ctx_scope,
   if (ScopeAsDecl (elem->defined_in ()) == ctx_scope)
     {
       return "tao_" + std::string (
-        elem->local_name ()->get_string_view ().value_or (std::string_view {}));
+        elem->local_name ()->get_string_view_or_empty ());
     }
 
   return std::string (elem->fwd_helper_name ());

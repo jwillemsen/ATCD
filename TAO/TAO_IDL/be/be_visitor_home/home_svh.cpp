@@ -125,10 +125,10 @@ be_visitor_home_svh::gen_servant_class ()
 
   // No '_cxx_' prefix.
   std::string_view const lname =
-    node_->original_local_name ()->get_string_view ().value_or (std::string_view {});
+    node_->original_local_name ()->get_string_view_or_empty ();
 
   std::string_view const clname =
-    comp_->local_name ()->get_string_view ().value_or (std::string_view {});
+    comp_->local_name ()->get_string_view_or_empty ();
   char const *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl

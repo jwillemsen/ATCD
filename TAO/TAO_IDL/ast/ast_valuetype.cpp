@@ -187,8 +187,8 @@ AST_ValueType::redefine (AST_Interface *from)
   if (vt == nullptr)
     {
       idl_global->err ()->redef_error (
-        from->local_name ()->get_string_view ().value_or (std::string_view {}).data (),
-        this->local_name ()->get_string_view ().value_or (std::string_view {}).data ());
+        from->local_name ()->get_string_view_or_empty ().data (),
+        this->local_name ()->get_string_view_or_empty ().data ());
       return;
     }
 

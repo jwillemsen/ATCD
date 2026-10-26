@@ -78,7 +78,7 @@ be_visitor_connector_dds_ex_base::is_dds_type (
           base = base->base_connector ();
         }
 
-      if (base->local_name ()->get_string_view ().value_or (std::string_view {})
+      if (base->local_name ()->get_string_view_or_empty ()
           == "DDS_Base")
         {
           AST_Structure *s = dynamic_cast<AST_Structure*> (d);
@@ -184,7 +184,7 @@ be_visitor_connector_dds_ex_base::match_template_args ()
        i.next ())
     {
       std::string_view const ref_name =
-        i.item ()->get_string_view ().value_or (std::string_view {});
+        i.item ()->get_string_view_or_empty ();
       size_t slot = 0;
 
       for (FE_Utils::T_PARAMLIST_INFO::CONST_ITERATOR ci (

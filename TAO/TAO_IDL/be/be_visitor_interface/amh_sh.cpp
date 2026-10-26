@@ -246,7 +246,7 @@ be_visitor_amh_interface_sh::add_amh_operation (be_operation *node,
                   -1);
 
   std::string original_op_name (
-    node->name ()->last_component ()->get_string_view ().value_or (std::string_view {}));
+    node->name ()->last_component ()->get_string_view_or_empty ());
 
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (amh_node->name ()->copy ());

@@ -17,7 +17,7 @@ AST_Annotation_Decl::AST_Annotation_Decl (UTL_ScopedName *name)
     UTL_Scope (NT),
     AST_Structure (name, false, false)
 {
-  if (name->last_component ()->get_string_view ().value_or (std::string_view {})
+  if (name->last_component ()->get_string_view_or_empty ()
       == "@annotation")
     {
       idl_global->err ()-> misc_error(
@@ -47,7 +47,7 @@ AST_Annotation_Decl::escape_name (Identifier *name)
 {
   FE_Utils::original_local_name (name); // Annotations can't clash with C++ keywords
   std::string new_name ("@");
-  new_name.append (name->get_string_view ().value_or (std::string_view {}));
+  new_name.append (name->get_string_view_or_empty ());
   name->replace_string (new_name);
 }
 

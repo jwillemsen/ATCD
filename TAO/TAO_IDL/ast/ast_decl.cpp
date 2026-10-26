@@ -403,7 +403,7 @@ AST_Decl::compute_full_name () const
 
           // Print the identifier.
           std::string_view const name =
-            i.item ()->get_string_view ().value_or (std::string_view {});
+            i.item ()->get_string_view_or_empty ();
           this->full_name_->append (name);
           if (first)
             {
@@ -492,7 +492,7 @@ AST_Decl::compute_repoID () const
         }
 
       std::string_view const name =
-        i.item ()->get_string_view ().value_or (std::string_view {});
+        i.item ()->get_string_view_or_empty ();
 
       if (name.compare (0, cxx_prefix.size (), cxx_prefix) == 0)
         {
@@ -571,7 +571,7 @@ AST_Decl::compute_flat_name () const
           Identifier *tmp = i.item ()->copy ();
           FE_Utils::original_local_name (tmp);
           std::string_view const item_name =
-            tmp->get_string_view ().value_or (std::string_view {});
+            tmp->get_string_view_or_empty ();
           this->flat_name_->append (item_name);
 
           if (first)
@@ -1097,7 +1097,7 @@ AST_Decl::compute_name (std::string_view prefix,
 
   std::string result_local_name_string (prefix);
   result_local_name_string +=
-    this->local_name ()->get_string_view ().value_or (std::string_view {});
+    this->local_name ()->get_string_view_or_empty ();
   result_local_name_string += suffix;
 
   // Identifier for the resulting local name.
@@ -1213,7 +1213,7 @@ AST_Decl::compute_local_name (std::string_view prefix,
 {
   std::string result_name (prefix);
   result_name +=
-    this->local_name ()->get_string_view ().value_or (std::string_view {});
+    this->local_name ()->get_string_view_or_empty ();
   result_name += suffix;
 
   // Identifier for the resulting local name.
@@ -1235,7 +1235,7 @@ AST_Decl::original_local_name (Identifier *local_name)
 {
   // Remove _cxx_ if it is present.
   std::string_view const name =
-    local_name->get_string_view ().value_or (std::string_view {});
+    local_name->get_string_view_or_empty ();
   std::string_view const cxx_prefix ("_cxx_");
   if (name.compare (0, cxx_prefix.size (), cxx_prefix) == 0)
     {

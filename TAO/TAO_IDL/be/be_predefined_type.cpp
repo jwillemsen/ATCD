@@ -229,8 +229,7 @@ be_predefined_type::compute_tc_name ()
         char tcname [100];
         ACE_OS::sprintf (tcname,
                          "_tc_%s",
-                         this->name ()->last_component ()->get_string_view ().value_or (
-                           std::string_view ("")).data ());
+                         this->name ()->last_component ()->get_string_view_or_empty ().data ());
 
         ACE_NEW (id,
                  Identifier (tcname));

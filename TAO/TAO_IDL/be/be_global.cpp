@@ -77,7 +77,7 @@ be_change_idl_file_extension (UTL_String* idl_file,
       return {};
     }
 
-  std::string const input (idl_file->get_string_view ().value_or (std::string_view {}));
+  std::string const input (idl_file->get_string_view_or_empty ());
 
   // Get the base part of the filename, we try several extensions
   // before giving up.
@@ -149,7 +149,7 @@ BE_GlobalData::be_get_client_hdr (UTL_String *idl_file_name,
                                   bool base_name_only)
 {
   // User-defined file extensions don't apply to .pidl files.
-  std::string const fn (idl_file_name->get_string_view ().value_or (std::string_view {}));
+  std::string const fn (idl_file_name->get_string_view_or_empty ());
   bool orb_file = fn.size () >= 5
     && (fn.compare (fn.size () - 5, 5, ".pidl") == 0
         || fn.compare (fn.size () - 5, 5, ".PIDL") == 0);
@@ -189,7 +189,7 @@ BE_GlobalData::be_get_server_hdr (UTL_String *idl_file_name,
                                   bool base_name_only)
 {
   // User-defined file extensions don't apply to .pidl files.
-  std::string const fn (idl_file_name->get_string_view ().value_or (std::string_view {}));
+  std::string const fn (idl_file_name->get_string_view_or_empty ());
   bool orb_file = fn.size () >= 5
     && (fn.compare (fn.size () - 5, 5, ".pidl") == 0
         || fn.compare (fn.size () - 5, 5, ".PIDL") == 0);
@@ -215,7 +215,7 @@ BE_GlobalData::be_get_svnt_template_hdr (UTL_String *idl_file_name,
                                         bool base_name_only)
 {
   // User-defined file extensions don't apply to .pidl files.
-  std::string const fn (idl_file_name->get_string_view ().value_or (std::string_view {}));
+  std::string const fn (idl_file_name->get_string_view_or_empty ());
   bool orb_file = fn.size () >= 5
     && (fn.compare (fn.size () - 5, 5, ".pidl") == 0
         || fn.compare (fn.size () - 5, 5, ".PIDL") == 0);

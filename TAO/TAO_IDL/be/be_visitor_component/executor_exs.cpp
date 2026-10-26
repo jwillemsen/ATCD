@@ -72,7 +72,7 @@ be_visitor_executor_exs::visit_attribute (be_attribute *node)
 
   be_visitor_attr_return ar_visitor (this->ctx_);
   ar_visitor.attr_name (
-    node->original_local_name ()->get_string_view ().value_or (std::string_view {}));
+    node->original_local_name ()->get_string_view_or_empty ());
 
   if (ft->accept (&ar_visitor) == -1)
     {
@@ -114,7 +114,7 @@ be_visitor_executor_exs::visit_attribute (be_attribute *node)
 
   be_visitor_attr_assign as_visitor (this->ctx_);
   as_visitor.attr_name (
-    node->original_local_name ()->get_string_view ().value_or (std::string_view {}));
+    node->original_local_name ()->get_string_view_or_empty ());
 
   if (ft->accept (&as_visitor) == -1)
     {
@@ -327,12 +327,12 @@ int
 be_visitor_executor_exs::visit_provides (be_provides *node)
 {
   std::string prefix (this->ctx_->port_prefix ());
-  prefix += node->local_name ()->get_string_view ().value_or (std::string_view {});
+  prefix += node->local_name ()->get_string_view_or_empty ();
   const char *port_name = prefix.c_str ();
 
   be_type *obj = node->provides_type ();
   std::string_view const iname =
-    obj->original_local_name ()->get_string_view ().value_or (std::string_view {});
+    obj->original_local_name ()->get_string_view_or_empty ();
 
   AST_Decl *scope = ScopeAsDecl (obj->defined_in ());
   ACE_CString sname_str (scope->full_name ().data ());
@@ -340,7 +340,7 @@ be_visitor_executor_exs::visit_provides (be_provides *node)
   const char *global = (sname_str == "" ? "" : "::");
 
   std::string lname_str (this->ctx_->port_prefix ());
-  lname_str += node->original_local_name ()->get_string_view ().value_or (std::string_view {});
+  lname_str += node->original_local_name ()->get_string_view_or_empty ();
   const char *lname = lname_str.c_str ();
 
   os_ << be_nl_2
@@ -376,7 +376,7 @@ be_visitor_executor_exs::visit_consumes (be_consumes *node)
 {
   be_eventtype *obj = node->consumes_type ();
   std::string_view const port_name =
-    node->local_name ()->get_string_view ().value_or (std::string_view {});
+    node->local_name ()->get_string_view_or_empty ();
 
   os_ << be_nl_2
       << "void" << be_nl

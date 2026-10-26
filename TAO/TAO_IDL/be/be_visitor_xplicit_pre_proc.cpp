@@ -73,7 +73,7 @@ be_visitor_xplicit_pre_proc::visit_home (be_home *node)
   UTL_ScopedName *explicit_name =
     this->create_scoped_name (
       "",
-      node->original_local_name ()->get_string_view ().value_or (std::string_view {}),
+      node->original_local_name ()->get_string_view_or_empty (),
       "Explicit",
       m);
 
@@ -957,7 +957,7 @@ be_visitor_xplicit_pre_proc::xplicit_iface_rel_name (AST_Decl *d)
       if (dynamic_cast<be_home*> (tmp) != nullptr)
         {
           std::string head (
-            tmp->local_name ()->get_string_view ().value_or (std::string_view {}));
+            tmp->local_name ()->get_string_view_or_empty ());
 
           std::string::size_type start = name.find (head) + 2;
 

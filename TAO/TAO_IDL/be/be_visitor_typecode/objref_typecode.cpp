@@ -46,8 +46,7 @@ TAO::be_visitor_objref_typecode::visit_interface (be_interface * node)
   return this->visit_i (kind,
                         node->flat_name (),
                         node->repoID (),
-                        node->original_local_name ()->get_string_view ().value_or (
-                          std::string_view {}),
+                        node->original_local_name ()->get_string_view_or_empty (),
                         node);
 }
 

@@ -112,7 +112,7 @@ be_visitor_dds_ts_idl::gen_datawriter (be_type *node)
 {
   TAO_OutStream &los (*this->os_ptr_);
   std::string_view const lname =
-    node->local_name ()->get_string_view ().value_or (std::string_view {});
+    node->local_name ()->get_string_view_or_empty ();
 
   los << be_nl
       << "local interface " << lname
@@ -184,7 +184,7 @@ be_visitor_dds_ts_idl::gen_datareader (be_type *node)
 {
   TAO_OutStream &los (*this->os_ptr_);
   std::string_view const lname =
-    node->local_name ()->get_string_view ().value_or (std::string_view {});
+    node->local_name ()->get_string_view_or_empty ();
 
   los << be_nl_2
       << "local interface " << lname
@@ -322,7 +322,7 @@ be_visitor_dds_ts_idl::init_file ()
 {
   /// Open an IDL file for writing.
   std::string orig (
-    idl_global->stripped_filename ()->get_string_view ().value_or (std::string_view {}));
+    idl_global->stripped_filename ()->get_string_view_or_empty ());
 
   std::string fname_noext (orig.substr (0, orig.rfind ('.')));
   fname_noext += "TypeSupport";
@@ -352,7 +352,7 @@ be_visitor_dds_ts_idl::init_file ()
   *this->os_ptr_ << be_nl_2
                  << "#include <dds_rtf2_dcps.idl>" << be_nl_2
                  << "#include \""
-                 << idl_global->filename ()->get_string_view ().value_or (std::string_view {})
+                 << idl_global->filename ()->get_string_view_or_empty ()
                  << "\"";
 
   return 0;

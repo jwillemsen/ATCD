@@ -413,7 +413,7 @@ be_visitor_amh_pre_proc::add_normal_reply (be_operation *node,
   UTL_ScopedName *sn = nullptr;
 
   std::string original_op_name (
-    node->name ()->last_component ()->get_string_view ().value_or (std::string_view {}));
+    node->name ()->last_component ()->get_string_view_or_empty ());
 
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (response_handler->name ()->copy ());
@@ -674,8 +674,7 @@ be_visitor_amh_pre_proc::create_raise_operation (
       new_local_name += "get_";
     }
 
-  new_local_name += node->name ()->last_component ()->get_string_view ().value_or (
-    std::string_view {});
+  new_local_name += node->name ()->last_component ()->get_string_view_or_empty ();
 
   ACE_NEW_RETURN (id,
                   Identifier (new_local_name.c_str ()),
@@ -741,8 +740,7 @@ be_operation *
 be_visitor_amh_pre_proc::generate_get_operation (be_attribute *node)
 {
   std::string new_op_name ("get_");
-  new_op_name += node->name ()->last_component ()->get_string_view ().value_or (
-    std::string_view {});
+  new_op_name += node->name ()->last_component ()->get_string_view_or_empty ();
 
   UTL_ScopedName *get_name =
     static_cast<UTL_ScopedName *> (node->name ()-> copy ());
@@ -767,8 +765,7 @@ be_operation *
 be_visitor_amh_pre_proc::generate_set_operation (be_attribute *node)
 {
   std::string new_op_name ("set_");
-  new_op_name += node->name ()->last_component ()->get_string_view ().value_or (
-    std::string_view {});
+  new_op_name += node->name ()->last_component ()->get_string_view_or_empty ();
 
   UTL_ScopedName *set_op_name =
     dynamic_cast<UTL_ScopedName *> (node->name ()-> copy ());

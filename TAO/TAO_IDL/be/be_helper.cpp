@@ -468,7 +468,7 @@ TAO_OutStream::operator<< (AST_Expression *expr)
 TAO_OutStream &
 TAO_OutStream::print (Identifier *id)
 {
-  std::string_view const name = id->get_string_view ().value_or (std::string_view (""));
+  std::string_view const name = id->get_string_view_or_empty ();
   ACE_OS::fwrite (name.data (), 1, name.size (), this->fp_);
 
   return *this;
@@ -498,7 +498,7 @@ TAO_OutStream::print (UTL_IdList *idl)
 
       if (first)
         {
-          std::string_view const name = id->get_string_view ().value_or (std::string_view {});
+          std::string_view const name = id->get_string_view_or_empty ();
           if (!name.empty () && name != "::")
             {
               // Does not start with a "".
@@ -640,7 +640,7 @@ TAO_OutStream::print (AST_Expression *expr)
       break;
     case AST_Expression::EV_string:
       *this << '"'
-            << ev->u.strval->get_string_view ().value_or (std::string_view {})
+            << ev->u.strval->get_string_view_or_empty ()
             << '"';
       break;
     case AST_Expression::EV_wstring:

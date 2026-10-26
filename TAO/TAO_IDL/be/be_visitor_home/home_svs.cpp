@@ -104,7 +104,7 @@ be_visitor_home_svs::visit_factory (be_factory *node)
 
   os_ << be_nl_2
       << "::" << c->name () << "_ptr" << be_nl
-      << node_->original_local_name ()->get_string_view ().value_or (std::string_view {})
+      << node_->original_local_name ()->get_string_view_or_empty ()
       << "_Servant::" << node->local_name ();
 
   be_visitor_operation_arglist al_visitor (this->ctx_);
@@ -134,7 +134,7 @@ be_visitor_home_svs::visit_factory (be_factory *node)
         ScopeAsDecl (comp_->defined_in ())->full_name ().data ());
       char const *comp_sname = comp_sname_str.c_str ();
       std::string_view const comp_lname =
-        comp_->local_name ()->get_string_view ().value_or (std::string_view {});
+        comp_->local_name ()->get_string_view_or_empty ();
       char const *global = (comp_sname_str == "" ? "" : "::");
 
       ACE_CString sname_str (
@@ -210,10 +210,10 @@ be_visitor_home_svs::gen_servant_class ()
 
   // Avoid '_cxx_' prefix.
   std::string_view const lname =
-    node_->original_local_name ()->get_string_view ().value_or (std::string_view {});
+    node_->original_local_name ()->get_string_view_or_empty ();
 
   std::string_view const clname =
-    comp_->local_name ()->get_string_view ().value_or (std::string_view {});
+    comp_->local_name ()->get_string_view_or_empty ();
   char const *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl
@@ -387,7 +387,7 @@ be_visitor_home_svs::gen_entrypoint ()
 
   // Avoid _cxx_ prefix.
   std::string_view const lname =
-    node_->original_local_name ()->get_string_view ().value_or (std::string_view {});
+    node_->original_local_name ()->get_string_view_or_empty ();
 
   char const *global = (sname_str == "" ? "" : "::");
 

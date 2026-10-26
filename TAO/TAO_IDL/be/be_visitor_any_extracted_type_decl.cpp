@@ -141,7 +141,7 @@ be_visitor_any_extracted_type_decl::visit_predefined_type (
         os_ << " * " << var_name_ << " = 0;";
         break;
       case AST_PredefinedType::PT_pseudo:
-        if (node->local_name ()->get_string_view ().value_or (std::string_view {}) == "TCKind")
+        if (node->local_name ()->get_string_view_or_empty () == "TCKind")
           {
             os_ << var_name_ << " = ::CORBA::tk_null;";
           }

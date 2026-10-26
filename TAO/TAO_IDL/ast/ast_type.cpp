@@ -184,8 +184,7 @@ AST_Type::nested_type_name (AST_Decl *use_scope,
                             std::string_view prefix) const
 {
   return this->nested_name (
-                            this->local_name ()->get_string_view ().value_or (
-                              std::string_view {}),
+                            this->local_name ()->get_string_view_or_empty (),
                             this->full_name (),
                             use_scope,
                             suffix,

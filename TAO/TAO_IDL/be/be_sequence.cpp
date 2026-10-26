@@ -183,7 +183,7 @@ be_sequence::gen_name ()
       namebuf += '_';
       if (fn != nullptr)
         {
-          namebuf += fn->local_name ()->get_string_view ().value_or (std::string_view {});
+          namebuf += fn->local_name ()->get_string_view_or_empty ();
         }
 
       if (this->unbounded () == false)
@@ -421,7 +421,7 @@ be_sequence::instance_name () const
 
   std::string name;
   std::string const primitive_name (
-    prim_type->local_name ()->get_string_view ().value_or (std::string_view {}));
+    prim_type->local_name ()->get_string_view_or_empty ());
   std::string bound;
   if (!this->unbounded ())
     {
@@ -836,7 +836,7 @@ be_sequence::smart_fwd_helper_name (AST_Decl *ctx_scope,
   if (ScopeAsDecl (elem->defined_in ()) == ctx_scope)
     {
       return "tao_" + std::string (
-        elem->local_name ()->get_string_view ().value_or (std::string_view {}));
+        elem->local_name ()->get_string_view_or_empty ());
     }
 
   return std::string (elem->fwd_helper_name ());

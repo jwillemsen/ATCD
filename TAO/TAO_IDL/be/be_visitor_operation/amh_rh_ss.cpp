@@ -162,7 +162,7 @@ be_visitor_amh_rh_operation_ss::visit_operation (be_operation *node)
       // Remove the trailing '_excep' from the operation name, we know
       // there is one from the checks above...
       std::string operation_name (
-        node->local_name ()->get_string_view ().value_or (std::string_view {}));
+        node->local_name ()->get_string_view_or_empty ());
       std::string::size_type const idx = operation_name.rfind ('_');
       ACE_ASSERT (idx != std::string::npos);
       operation_name.resize (idx);

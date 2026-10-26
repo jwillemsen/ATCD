@@ -79,7 +79,7 @@ IdentifierHelper::original_local_name (Identifier const *local_name)
 {
   Identifier * id = nullptr;
   std::string_view const lname =
-    local_name->get_string_view ().value_or (std::string_view {});
+    local_name->get_string_view_or_empty ();
 
   // Remove _cxx_ if:
   // 1. it occurs and
@@ -143,11 +143,11 @@ IdentifierHelper::orig_sn (UTL_IdList * sn, bool for_idl)
       retval +=
         for_idl
           ? IdentifierHelper::try_escape (id)
-          : id->get_string_view ().value_or (std::string_view {});
+          : id->get_string_view_or_empty ();
 
        if (first)
         {
-          if (!id->get_string_view ().value_or (std::string_view {}).empty ())
+          if (!id->get_string_view_or_empty ().empty ())
             {
               // Does not start with a "".
               first = false;
@@ -172,7 +172,7 @@ IdentifierHelper::is_idl_keyword (Identifier const *local_name)
   // Convert the identifier string into a
   // canonical (uppercase) form as a ACE_CString
   std::string_view const name =
-    local_name->get_string_view ().value_or (std::string_view {});
+    local_name->get_string_view_or_empty ();
   ACE_CString ext_id (name.data ());
   UTL_String::get_canonical_rep (ext_id);
 
@@ -183,7 +183,7 @@ std::string
 IdentifierHelper::try_escape (Identifier const *local_name)
 {
   std::string s_local_name (
-    local_name->get_string_view ().value_or (std::string_view {}));
+    local_name->get_string_view_or_empty ());
 
   if (IdentifierHelper::is_idl_keyword (local_name))
     {

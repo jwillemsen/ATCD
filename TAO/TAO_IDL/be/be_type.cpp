@@ -92,8 +92,7 @@ be_type::compute_tc_name ()
 
   ACE_OS::sprintf (namebuf,
                    "_tc_%s",
-                   n->last_component ()->get_string_view ().value_or (
-                     std::string_view ("")).data ());
+                   n->last_component ()->get_string_view_or_empty ().data ());
 
   Identifier *id = nullptr;
   ACE_NEW (id,
@@ -177,7 +176,7 @@ be_type::gen_fwd_helper_name ()
         {
           segment = i.item ();
           std::string_view const name =
-            segment->get_string_view ().value_or (std::string_view {});
+            segment->get_string_view_or_empty ();
 
           if (name.empty ())
             {
@@ -194,8 +193,7 @@ be_type::gen_fwd_helper_name ()
     }
 
   this->fwd_helper_name_ += "tao_";
-  this->fwd_helper_name_ += this->local_name ()->get_string_view ().value_or (
-    std::string_view {});
+  this->fwd_helper_name_ += this->local_name ()->get_string_view_or_empty ();
 }
 
 void

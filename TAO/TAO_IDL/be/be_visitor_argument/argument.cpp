@@ -10,6 +10,8 @@
 //=============================================================================
 
 #include "argument.h"
+
+#include <string_view>
 #include "argument.h"
 
 be_visitor_args::be_visitor_args (be_visitor_context *ctx)
@@ -137,7 +139,8 @@ be_visitor_args::gen_pd_arg (be_predefined_type *node,
 
   be_argument *arg =
     dynamic_cast<be_argument*> (this->ctx_->node ());
-  const char *lname = arg->local_name ()->get_string ();
+  std::string_view const lname =
+    arg->local_name ()->get_string_view ().value_or (std::string_view {});
 
   switch (pt)
   {

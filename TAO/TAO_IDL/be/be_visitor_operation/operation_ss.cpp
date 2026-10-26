@@ -11,6 +11,8 @@
 
 #include "operation.h"
 
+#include <string_view>
+
 be_visitor_operation_ss::be_visitor_operation_ss (be_visitor_context *ctx)
   : be_visitor_operation (ctx)
 {
@@ -137,7 +139,7 @@ be_visitor_operation_ss::gen_skel_operation_body (be_operation * node,
     }
 
   std::string upcall_command_name (this->ctx_->port_prefix ());
-  upcall_command_name += node->local_name ()->get_string ();
+  upcall_command_name += node->local_name ()->get_string_view ().value_or (std::string_view {});
   upcall_command_name += '_';
   upcall_command_name += intf->local_name ();
 

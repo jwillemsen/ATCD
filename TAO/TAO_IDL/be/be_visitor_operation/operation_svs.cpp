@@ -12,6 +12,8 @@
 #include "operation.h"
 #include "be_visitor_operation/operation_svs.h"
 
+#include <string_view>
+
 be_visitor_operation_svs::be_visitor_operation_svs (
       be_visitor_context *ctx)
   : be_visitor_scope (ctx)
@@ -63,13 +65,13 @@ be_visitor_operation_svs::visit_operation (be_operation *node)
   if (this->ctx_->state () == TAO_CodeGen::TAO_ROOT_SVTS)
     {
       os_ << be_nl
-          << scope_->original_local_name ()->get_string ()
+          << scope_->original_local_name ()->get_string_view ().value_or (std::string_view {})
           << "_Servant_T<BASE, EXEC, CONTEXT>";
     }
   else
     {
       os_ << be_nl
-          << scope_->original_local_name ()->get_string ()
+          << scope_->original_local_name ()->get_string_view ().value_or (std::string_view {})
           << "_Servant";
     }
 

@@ -11,6 +11,9 @@
 
 #include "operation.h"
 
+#include <string>
+#include <string_view>
+
 be_visitor_operation_tie_ss::be_visitor_operation_tie_ss (
     be_visitor_context *ctx)
   : be_visitor_scope (ctx)
@@ -55,7 +58,7 @@ int be_visitor_operation_tie_ss::visit_operation (be_operation *node)
 
   // Although unlikely it is possible that the 'T' in 'template class<T>' will
   // conflict with an argument name...
-  ACE_CString template_name ("T");
+  std::string template_name ("T");
   bool template_name_ok = false;
 
   while (!template_name_ok)
@@ -71,8 +74,8 @@ int be_visitor_operation_tie_ss::visit_operation (be_operation *node)
           AST_Argument *arg =
             dynamic_cast<AST_Argument*> (si.item ());
 
-          if (! ACE_OS::strcmp (arg->local_name ()->get_string (),
-                                template_name.c_str ()))
+          if (arg->local_name ()->get_string_view ().value_or (std::string_view {})
+              == std::string_view (template_name))
             {
               // clash !
               template_name_ok = false;

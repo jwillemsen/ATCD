@@ -11,6 +11,8 @@
 
 #include "operation.h"
 
+#include <string_view>
+
 // ****************************************************************************
 // Operation visitor for return types. This generates the mapping for a return
 // type in an operation signature
@@ -101,7 +103,7 @@ be_visitor_operation_rettype::visit_predefined_type (
       *os << bt->name ();
 
       // If it's not TCKind, it's either Object, TypeCode or ValueBase.
-      if (ACE_OS::strcmp (bt->local_name ()->get_string (), "TCKind") != 0)
+      if (bt->local_name ()->get_string_view ().value_or (std::string_view {}) != "TCKind")
         {
           *os << "_ptr";
         }

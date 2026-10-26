@@ -11,6 +11,9 @@
 
 #include "operation.h"
 
+#include <string>
+#include <string_view>
+
 // ************************************************************
 // Generic Operation visitor
 // ************************************************************
@@ -211,7 +214,7 @@ be_visitor_operation::gen_stub_operation_body (
   /// The AMI ReplyHandler version of generated get/set ops
   /// for attributes doesn't have the leading underscore.
   bool const escape = (node->is_attr_op () && !intf->is_ami_rh ());
-  ACE_CString opname (escape ? "_" : "");
+  std::string opname (escape ? "_" : "");
 
   /// This logic handles regular IDL for attributes. The AMI
   /// backend preprocessing visitor doesn't set the context
@@ -230,13 +233,12 @@ be_visitor_operation::gen_stub_operation_body (
         }
     }
 
-  opname += node->original_local_name ()->get_string ();
+  opname += node->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
   /// Some compilers can't resolve the stream operator overload.
-  const char *lname = opname.c_str ();
-  ACE_CString::size_type len = opname.length ();
+  std::string::size_type const len = opname.length ();
 
-  *os << lname << "\"," << be_nl
+  *os << opname << "\"," << be_nl
       << len << "," << be_nl;
 
   *os << "TAO::TAO_CO_NONE";

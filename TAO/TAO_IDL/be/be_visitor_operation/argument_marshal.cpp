@@ -13,6 +13,8 @@
 
 #include "operation.h"
 
+#include <string_view>
+
 // ************************************************************
 // operation visitor to handle the passing of arguments to the CDR operators
 // ************************************************************
@@ -221,7 +223,8 @@ be_visitor_args_decl::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           node->local_name ()->get_string ());
+                           node->local_name ()->get_string_view ().value_or (
+                             std::string_view {}).data ());
         }
       else
         {

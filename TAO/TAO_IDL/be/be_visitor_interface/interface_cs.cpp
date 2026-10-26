@@ -10,6 +10,8 @@
 
 #include "interface.h"
 
+#include <string_view>
+
 be_visitor_interface_cs::be_visitor_interface_cs (be_visitor_context *ctx)
   : be_visitor_interface (ctx)
 {
@@ -499,7 +501,8 @@ be_visitor_interface_cs::visit_connector (be_connector *node)
 int
 be_visitor_interface_cs::visit_extended_port (be_extended_port *node)
 {
-  this->ctx_->port_prefix () = node->local_name ()->get_string ();
+  this->ctx_->port_prefix () =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
   this->ctx_->port_prefix () += '_';
 
   /// If the port visit traverses any attributes defined in the
@@ -528,7 +531,8 @@ be_visitor_interface_cs::visit_extended_port (be_extended_port *node)
 int
 be_visitor_interface_cs::visit_mirror_port (be_mirror_port *node)
 {
-  this->ctx_->port_prefix () = node->local_name ()->get_string ();
+  this->ctx_->port_prefix () =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
   this->ctx_->port_prefix () += '_';
 
   /// If the port visit traverses any attributes defined in the

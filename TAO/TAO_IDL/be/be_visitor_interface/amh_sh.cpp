@@ -12,6 +12,7 @@
 #include "interface.h"
 
 #include <string>
+#include <string_view>
 
 be_visitor_amh_interface_sh::be_visitor_amh_interface_sh (
     be_visitor_context *ctx)
@@ -244,15 +245,14 @@ be_visitor_amh_interface_sh::add_amh_operation (be_operation *node,
                                       sn),
                   -1);
 
-  ACE_CString original_op_name (
-                  node->name ()->last_component ()->get_string ()
-                );
+  std::string original_op_name (
+    node->name ()->last_component ()->get_string_view ().value_or (std::string_view {}));
 
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (amh_node->name ()->copy ());
 
   ACE_NEW_RETURN (id,
-                  Identifier (original_op_name.rep ()),
+                  Identifier (std::string_view (original_op_name)),
                   -1);
 
   ACE_NEW_RETURN (sn,

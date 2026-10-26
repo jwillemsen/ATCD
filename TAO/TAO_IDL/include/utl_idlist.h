@@ -114,7 +114,7 @@ public:
   Identifier const *first_component () const;
   // Get first element in this list holding a non-empty string.
 
-  int compare (UTL_IdList *other);
+  int compare (UTL_IdList const *other) const;
   // Compares each component for equality.
 
   /**

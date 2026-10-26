@@ -11,6 +11,8 @@
 
 #include "connector.h"
 
+#include <string_view>
+
 #include "global_extern.h"
 #include "utl_strlist.h"
 #include "utl_string.h"
@@ -186,7 +188,7 @@ be_visitor_connector_dds_exh::visit_mirror_port (
   be_mirror_port *node)
 {
   os_ << be_nl
-      << "struct " << node->local_name ()->get_string ()
+      << "struct " << node->local_name ()->get_string_view ().value_or (std::string_view {})
       << "_traits" << be_nl
       << "{" << be_idt;
 
@@ -261,7 +263,8 @@ be_visitor_connector_dds_exh::visit_attribute (
     }
 
   os_ << be_nl
-      << "using " << node->local_name ()->get_string () << "_type = "
+      << "using " << node->local_name ()->get_string_view ().value_or (std::string_view {})
+      << "_type = "
       << node->field_type ()->full_name () << ";";
 
   return 0;
@@ -398,7 +401,8 @@ be_visitor_connector_dds_exh::gen_interface_connector_trait (
       std::string_view const lname = iface->local_name ();
 
       os_ << be_nl
-          << "using " << port_elem->local_name ()->get_string () << "_type = ::"
+          << "using " << port_elem->local_name ()->get_string_view ().value_or (
+            std::string_view {}) << "_type = ::"
           << scope->name () << smart_scope << (!for_facet ? "" : "CCM_")
           << lname << ";";
 

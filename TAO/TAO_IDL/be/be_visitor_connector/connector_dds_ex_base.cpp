@@ -12,6 +12,8 @@
 
 #include "connector.h"
 
+#include <string_view>
+
 #include "ast_structure.h"
 #include "ast_typedef.h"
 #include "ast_template_module.h"
@@ -76,9 +78,8 @@ be_visitor_connector_dds_ex_base::is_dds_type (
           base = base->base_connector ();
         }
 
-      const char* lname = base->local_name ()->get_string ();
-
-      if (ACE_OS::strcmp (lname, "DDS_Base") == 0)
+      if (base->local_name ()->get_string_view ().value_or (std::string_view {})
+          == "DDS_Base")
         {
           AST_Structure *s = dynamic_cast<AST_Structure*> (d);
 

@@ -12,6 +12,8 @@
 
 #include "connector.h"
 
+#include <string_view>
+
 be_visitor_executor_ami_exh::be_visitor_executor_ami_exh (
       be_visitor_context *ctx)
   : be_visitor_component_scope (ctx)
@@ -77,15 +79,16 @@ be_visitor_executor_ami_exh::visit_connector (be_connector *node)
   /// that we use for building related names)
   /// and 'sendc' interface, respectively.
   /// First, we strip off the "_Connector" suffix.
-  ACE_CString connector_name (scope->local_name ()->get_string ());
-  ACE_CString half_stripped_name (
-    connector_name.substr (0, connector_name.find ("_Connector")));
+  std::string_view const connector_name =
+    scope->local_name ()->get_string_view ().value_or (std::string_view {});
+  std::string_view const half_stripped_name =
+    connector_name.substr (0, connector_name.find ("_Connector"));
 
-  os_ << half_stripped_name.c_str () <<  "_exec_i *facet_exec_0_;" << be_nl;
+  os_ << half_stripped_name << "_exec_i *facet_exec_0_;" << be_nl;
 
-  ACE_CString double_stripped_name (
-     half_stripped_name.substr (ACE_OS::strlen ("AMI4CCM_")));
-  os_ << double_stripped_name.c_str () <<  "_exec_i *facet_exec_1_;";
+  std::string_view const double_stripped_name =
+    half_stripped_name.substr (std::string_view ("AMI4CCM_").size ());
+  os_ << double_stripped_name << "_exec_i *facet_exec_1_;";
 
   os_ << be_uidt_nl
       << "};";

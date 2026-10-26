@@ -12,6 +12,9 @@
 
 #include "connector.h"
 
+#include <string>
+#include <string_view>
+
 be_visitor_executor_ami_exs::be_visitor_executor_ami_exs (
       be_visitor_context *ctx)
   : be_visitor_component_scope (ctx)
@@ -27,9 +30,9 @@ be_visitor_executor_ami_exs::visit_connector (be_connector *node)
 
   const char *suffix = "_exec_i";
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
-  ACE_CString class_name_str (scope->local_name ()->get_string ());
-  class_name_str += suffix;
-  const char *class_name = class_name_str.c_str ();
+  std::string class_name (
+    scope->local_name ()->get_string_view ().value_or (std::string_view {}));
+  class_name += suffix;
 
   os_ << be_nl_2
       << class_name << "::"
@@ -171,8 +174,10 @@ be_visitor_executor_ami_exs::visit_provides (be_provides *node)
   UTL_ScopeActiveIterator i (this->node_, UTL_Scope::IK_decls);
   AST_Decl *d = i.item ();
 
-  const char * loc_name = node->local_name()->get_string();
-  const char *exec_ext = (ACE_OS::strstr (loc_name, "sync") ? "1" : "0");
+  std::string_view const loc_name =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
+  const char *exec_ext =
+    (loc_name.find ("sync") != std::string_view::npos ? "1" : "0");
 
     os_ << d->local_name () << "_"
       << node->local_name () << " ()" << be_nl

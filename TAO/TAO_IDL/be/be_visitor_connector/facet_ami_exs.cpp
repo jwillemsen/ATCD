@@ -10,6 +10,8 @@
 //=============================================================================
 
 #include "connector.h"
+
+#include <string_view>
 #include "ast_generator.h"
 #include "be_predefined_type.h"
 
@@ -526,8 +528,12 @@ int
 be_visitor_facet_ami_exs::gen_facet_executor_op (be_operation *node)
 {
   // do not handle not sendc operations.
-  if (ACE_OS::strstr (node->local_name()->get_string (), "sendc_")== nullptr)
-     return 0;
+  std::string_view const local_name =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
+  if (local_name.find ("sendc_") == std::string_view::npos)
+    {
+      return 0;
+    }
 
     os_ << be_nl_2
       << "void" << be_nl

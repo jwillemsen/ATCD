@@ -11,6 +11,8 @@
 
 #include "array.h"
 
+#include <string_view>
+
 be_visitor_array_ci::be_visitor_array_ci (be_visitor_context *ctx)
   : be_visitor_array (ctx)
 {
@@ -92,6 +94,8 @@ int be_visitor_array_ci::visit_array (be_array *node)
     }
 
   // To hold the full and local.
+  std::string_view const local_name =
+    node->local_name ()->get_string_view ().value_or (std::string_view {});
   char fname [NAMEBUFSIZE];
   char lname [NAMEBUFSIZE];
   ACE_OS::memset (fname,
@@ -107,7 +111,7 @@ int be_visitor_array_ci::visit_array (be_array *node)
       ACE_OS::sprintf (fname, "%s",
                        node->full_name ().data ());
       ACE_OS::sprintf (lname, "%s",
-                       node->local_name ()->get_string ());
+                       local_name.data ());
     }
   else
     {
@@ -121,10 +125,10 @@ int be_visitor_array_ci::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           node->local_name ()->get_string ());
+                           local_name.data ());
           ACE_OS::sprintf (lname,
                            "_%s",
-                           node->local_name ()->get_string ());
+                           local_name.data ());
         }
       else
         {
@@ -133,7 +137,7 @@ int be_visitor_array_ci::visit_array (be_array *node)
                            node->full_name ().data ());
           ACE_OS::sprintf (lname,
                            "_%s",
-                           node->local_name ()->get_string ());
+                           local_name.data ());
         }
     }
 

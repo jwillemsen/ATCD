@@ -454,40 +454,40 @@ public:
   // = Set and get methods for different file name endings.
 
   /// Set the client_hdr_ending.
-  void client_hdr_ending (const char* s);
+  void client_hdr_ending (std::string_view s);
 
   /// Get the client_hdr_ending.
   const char* client_hdr_ending () const;
 
   /// Set the client_inline_ending.
-  void client_inline_ending (const char* s);
+  void client_inline_ending (std::string_view s);
 
   /// Get the client_inline_ending.
   const char* client_inline_ending () const;
 
   /// Set the client_stub_ending.
-  void  client_stub_ending (const char* s);
+  void  client_stub_ending (std::string_view s);
 
   /// Get the client_stub_ending.
   const char* client_stub_ending () const;
 
   /// Set the server_hdr_ending.
-  void server_hdr_ending (const char* s);
+  void server_hdr_ending (std::string_view s);
 
   /// Get the server_hdr_ending.
   const char* server_hdr_ending () const;
 
   /// Set the implementation_hdr_ending.
-  void implementation_hdr_ending (const char* s);
+  void implementation_hdr_ending (std::string_view s);
 
   /// Set the implementation class prefix.
-  void impl_class_prefix (const char* s);
+  void impl_class_prefix (std::string_view s);
 
   /// Set the implementation class suffix.
-  void impl_class_suffix (const char* s);
+  void impl_class_suffix (std::string_view s);
 
   /// Set the implementation_skel_ending.
-  void implementation_skel_ending (const char* s);
+  void implementation_skel_ending (std::string_view s);
 
   /// Get the implementation_hdr_ending.
   const char* implementation_hdr_ending () const;
@@ -502,87 +502,87 @@ public:
   const char* implementation_skel_ending () const;
 
   /// Set the server_template_hdr_ending.
-  void server_template_hdr_ending (const char* s);
+  void server_template_hdr_ending (std::string_view s);
 
   /// Get the server_template_hdr_ending.
   const char* server_template_hdr_ending () const;
 
   /// Set the server_skeleton_ending.
-  void server_skeleton_ending (const char* s);
+  void server_skeleton_ending (std::string_view s);
 
   /// Get the server_skeleton_ending.
   const char* server_skeleton_ending () const;
 
   /// Set the server_template_skeleton_ending.
-  void server_template_skeleton_ending (const char* s);
+  void server_template_skeleton_ending (std::string_view s);
 
   /// Get the server_template_skeleton_ending.
   const char* server_template_skeleton_ending () const;
 
   /// Set the anyop_header_ending.
-  void anyop_header_ending (const char* s);
+  void anyop_header_ending (std::string_view s);
 
   /// Get the anyop_header_ending.
   const char* anyop_header_ending () const;
 
   /// Set the anyop_source_ending.
-  void anyop_source_ending (const char* s);
+  void anyop_source_ending (std::string_view s);
 
   /// Get the anyop_source_ending.
   const char* anyop_source_ending () const;
 
   /// Similar to above, but for CIAO servant and executor
   /// impl and executor IDL files, if generated.
-  void ciao_svnt_header_template_ending (const char* s);
+  void ciao_svnt_header_template_ending (std::string_view s);
   const char* ciao_svnt_header_template_ending () const;
 
-  void ciao_svnt_source_template_ending (const char* s);
+  void ciao_svnt_source_template_ending (std::string_view s);
   const char* ciao_svnt_source_template_ending () const;
 
-  void ciao_svnt_header_ending (const char* s);
+  void ciao_svnt_header_ending (std::string_view s);
   const char* ciao_svnt_header_ending () const;
 
-  void ciao_svnt_source_ending (const char* s);
+  void ciao_svnt_source_ending (std::string_view s);
   const char* ciao_svnt_source_ending () const;
 
-  void ciao_exec_header_ending (const char* s);
+  void ciao_exec_header_ending (std::string_view s);
   const char* ciao_exec_header_ending () const;
 
-  void ciao_exec_source_ending (const char* s);
+  void ciao_exec_source_ending (std::string_view s);
   const char* ciao_exec_source_ending () const;
 
-  void ciao_exec_stub_header_ending (const char* s);
+  void ciao_exec_stub_header_ending (std::string_view s);
   const char* ciao_exec_stub_header_ending () const;
 
-  void ciao_exec_idl_ending (const char* s);
+  void ciao_exec_idl_ending (std::string_view s);
   const char* ciao_exec_idl_ending () const;
 
-  void ciao_conn_header_ending (const char* s);
+  void ciao_conn_header_ending (std::string_view s);
   const char* ciao_conn_header_ending () const;
 
-  void ciao_conn_source_ending (const char* s);
+  void ciao_conn_source_ending (std::string_view s);
   const char* ciao_conn_source_ending () const;
 
   /// For generating TypeSupport header file includes.
-  void dds_typesupport_hdr_ending (const char* s);
+  void dds_typesupport_hdr_ending (std::string_view s);
   const char* dds_typesupport_hdr_ending () const;
 
   /// For optionally generating CIAO AMI connector IDL file.
-  void ciao_ami_conn_idl_ending (const char* s);
+  void ciao_ami_conn_idl_ending (std::string_view s);
   const char* ciao_ami_conn_idl_ending () const;
 
   /// For optionally generating CIAO AMI reply handler
   /// impl header file.
-  void ciao_ami_conn_impl_hdr_ending (const char* s);
+  void ciao_ami_conn_impl_hdr_ending (std::string_view s);
   const char* ciao_ami_conn_impl_hdr_ending () const;
 
   /// For optionally generating CIAO AMI reply handler
   /// impl source file.
-  void ciao_ami_conn_impl_src_ending (const char* s);
+  void ciao_ami_conn_impl_src_ending (std::string_view s);
   const char* ciao_ami_conn_impl_src_ending () const;
 
   /// For optionally controlling the container type, default is Session
-  void ciao_container_type (const char* s);
+  void ciao_container_type (std::string_view s);
   const char* ciao_container_type () const;
 
   /// Set the clonable_in_args.
@@ -1011,92 +1011,92 @@ private:
   ACE_CString versioning_include_;
 
   /// Client's header file name ending. Default is "C.h".
-  char* client_hdr_ending_;
+  std::optional<std::string> client_hdr_ending_ {"C.h"};
 
   /// Client's stub's file name ending. Default is "C.cpp".
-  char* client_stub_ending_;
+  std::optional<std::string> client_stub_ending_ {"C.cpp"};
 
   /// Client's inline file name ending. Default is "C.i".
-  char* client_inline_ending_;
+  std::optional<std::string> client_inline_ending_ {"C.inl"};
 
   /// Server's hdr file name ending. Default is "S.h".
-  char* server_hdr_ending_;
+  std::optional<std::string> server_hdr_ending_ {"S.h"};
 
   /// Implementation's hdr file name ending. Default is "I.h".
-  char* implementation_hdr_ending_;
+  std::optional<std::string> implementation_hdr_ending_ {"I.h"};
 
   // Implementation's skeleton file name ending. Default is "I.cpp".
-  char* implementation_skel_ending_;
+  std::optional<std::string> implementation_skel_ending_ {"I.cpp"};
 
   /// Implementaion class prefix
-  char* impl_class_prefix_;
+  std::optional<std::string> impl_class_prefix_ {""};
 
   /// Implementation class suffix
-  char* impl_class_suffix_;
+  std::optional<std::string> impl_class_suffix_ {"_i"};
 
   /// Server's template hdr file name ending. Default is "S_T.h".
-  char* server_template_hdr_ending_;
+  std::optional<std::string> server_template_hdr_ending_ {"S_T.h"};
 
   /// Server's skeleton file name ending. Default is "S.cpp".
-  char* server_skeleton_ending_;
+  std::optional<std::string> server_skeleton_ending_ {"S.cpp"};
 
   /// Server's template skeleton file name ending. Default is
   /// "S_T.cpp".
-  char* server_template_skeleton_ending_;
+  std::optional<std::string> server_template_skeleton_ending_ {"S_T.cpp"};
 
   /// Anyop header file name ending. Default is "A.h".
-  char* anyop_hdr_ending_;
+  std::optional<std::string> anyop_hdr_ending_ {"A.h"};
 
   /// Anyop source file name ending. Default is "A.cpp".
-  char* anyop_src_ending_;
+  std::optional<std::string> anyop_src_ending_ {"A.cpp"};
 
   /// CIAO servant template header file name ending. Default is "_svnt_T.h".
-  char* ciao_svnt_hdr_template_ending_;
+  std::optional<std::string> ciao_svnt_hdr_template_ending_ {"_svnt_T.h"};
 
   /// CIAO servant template source file name ending. Default is "_svnt_T.cpp".
-  char* ciao_svnt_src_template_ending_;
+  std::optional<std::string> ciao_svnt_src_template_ending_ {"_svnt_T.cpp"};
 
   /// CIAO servant header file name ending. Default is "_svnt.h".
-  char* ciao_svnt_hdr_ending_;
+  std::optional<std::string> ciao_svnt_hdr_ending_ {"_svnt.h"};
 
   /// CIAO servant source file name ending. Default is "_svnt.cpp".
-  char* ciao_svnt_src_ending_;
+  std::optional<std::string> ciao_svnt_src_ending_ {"_svnt.cpp"};
 
   /// CIAO executor impl header file name ending. Default is "_exec.h".
-  char* ciao_exec_hdr_ending_;
+  std::optional<std::string> ciao_exec_hdr_ending_ {"_exec.h"};
 
   /// CIAO executor impl source file name ending. Default is "_exec.cpp".
-  char* ciao_exec_src_ending_;
+  std::optional<std::string> ciao_exec_src_ending_ {"_exec.cpp"};
 
   /// CIAO executor stub header file name ending. Default is "EC.h".
-  char* ciao_exec_stub_hdr_ending_;
+  std::optional<std::string> ciao_exec_stub_hdr_ending_ {"EC.h"};
 
   /// CIAO executor IDL file name ending. Default is "E.idl".
-  char* ciao_exec_idl_ending_;
+  std::optional<std::string> ciao_exec_idl_ending_ {"E.idl"};
 
   /// CIAO connector impl header file name ending. Default is "_conn.h".
-  char* ciao_conn_hdr_ending_;
+  std::optional<std::string> ciao_conn_hdr_ending_ {"_conn.h"};
 
   /// CIAO connector impl source file name ending. Default is "_conn.cpp".
-  char* ciao_conn_src_ending_;
+  std::optional<std::string> ciao_conn_src_ending_ {"_conn.cpp"};
 
   /// DDS TypeSupport header file name ending. Default is "Support.h".
-  char* dds_typesupport_hdr_ending_;
+  std::optional<std::string> dds_typesupport_hdr_ending_ {"Support.h"};
 
   /// CIAO AMI connector IDL file name ending. Default is "A.idl".
-  char* ciao_ami_conn_idl_ending_;
+  std::optional<std::string> ciao_ami_conn_idl_ending_ {"A.idl"};
 
   /// CIAO AMI reply handler impl header file name ending.
   /// Default is "A_impl.h".
-  char* ciao_ami_conn_impl_hdr_ending_;
+  std::optional<std::string> ciao_ami_conn_impl_hdr_ending_ {"_conn_i.h"};
 
   /// CIAO AMI reply handler impl source file name ending.
   /// Default is "A_impl.cpp".
-  char* ciao_ami_conn_impl_src_ending_;
+  std::optional<std::string> ciao_ami_conn_impl_src_ending_ {"_conn_i.cpp"};
 
   /// CIAO container type
   /// Default is "Session".
-  char* ciao_container_type_;
+  std::optional<std::string> ciao_container_type_ {"Session"};
 
   /**
    * Directory where all the IDL-Compiler-Generated files are to be

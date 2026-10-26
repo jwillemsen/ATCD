@@ -1752,33 +1752,32 @@ BE_GlobalData::lookup_strategy () const
 }
 
 void
-BE_GlobalData::dds_impl (char const * const val)
+BE_GlobalData::dds_impl (std::string_view val)
 {
-  ACE_CString tmp (val, nullptr, false);
-
-  if (tmp == "ndds")
+  if (val == "ndds")
     {
       this->dds_impl_ = NDDS;
     }
-  else if (tmp == "opensplice")
+  else if (val == "opensplice")
     {
       this->dds_impl_ = OPENSPLICE;
     }
-  else if (tmp == "opendds")
+  else if (val == "opendds")
     {
       this->dds_impl_ = OPENDDS;
     }
-  else if (tmp == "coredx")
+  else if (val == "coredx")
     {
       this->dds_impl_ = COREDX;
     }
   else
     {
+      std::string const value (val);
       ACE_ERROR ((LM_ERROR,
                   ACE_TEXT ("%C: invalid or unknown ")
                   ACE_TEXT ("argument <%C> to -Wb,dds_impl\n"),
                   idl_global->prog_name (),
-                  val));
+                  value.c_str ()));
     }
 }
 

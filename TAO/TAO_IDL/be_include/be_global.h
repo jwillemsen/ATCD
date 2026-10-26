@@ -810,7 +810,7 @@ public:
   LOOKUP_STRATEGY lookup_strategy () const;
 
   /// Set the DDS implementation.
-  void dds_impl (char const * const val);
+  void dds_impl (std::string_view val);
 
   /// Return the enumerated value for the DDS implementation.
   /// Default is NDDS.

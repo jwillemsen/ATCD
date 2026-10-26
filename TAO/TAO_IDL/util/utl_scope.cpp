@@ -106,6 +106,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ast_generator.h"
 #include "ast_extern.h"
 
+#include <string_view>
+
 #include "fe_extern.h"
 #include "nr_extern.h"
 #include "global_extern.h"
@@ -347,7 +349,7 @@ UTL_Scope::check_for_predef_seq (AST_Decl *d)
 
   // Must be defined in the CORBA module.
   AST_Decl *p = ScopeAsDecl (bt->defined_in ());
-  if (ACE_OS::strcmp (p->local_name ()->get_string (), "CORBA"))
+  if (p->local_name ()->get_string_view_or_empty () != "CORBA")
     {
       return;
     }
@@ -1095,7 +1097,7 @@ UTL_Scope::lookup_by_name_local (Identifier *e,
       return nullptr;
     }
 
-  bool in_corba = (ACE_OS::strcmp (e->get_string (), "CORBA") == 0);
+  bool const in_corba = (e->get_string_view_or_empty () == "CORBA");
 
   // We search only the decls here, the local types are done
   // below as a last resort.
@@ -1115,7 +1117,7 @@ UTL_Scope::lookup_by_name_local (Identifier *e,
           // match, unless we skip over these items. This is a workaround until
           // there's time to fix the code generation for CORBA basic types.
               && (in_corba
-                  || (ACE_OS::strcmp (d->name ()->head ()->get_string (), "CORBA") != 0))
+                  || d->name ()->head ()->get_string_view_or_empty () != "CORBA")
               && e->case_compare (item_name))
             {
               return d; // We have found the one and only one we are looking for.
@@ -1303,8 +1305,7 @@ UTL_Scope::lookup_by_name_r (UTL_ScopedName *e,
         }
 
       work_another_level = false; // Until we find something.
-      bool in_corba =
-        (ACE_OS::strcmp (e->head ()->get_string (), "CORBA") == 0);
+      bool const in_corba = (e->head ()->get_string_view_or_empty () == "CORBA");
 
       for (UTL_ScopeActiveIterator i (work, IK_decls);
            !i.is_done ();
@@ -1316,8 +1317,8 @@ UTL_Scope::lookup_by_name_r (UTL_ScopedName *e,
           // types, so something like 'ULong' in an IDL file will find a
           // match, unless we skip over these items. This is a workaround until
           // there's time to fix the code generation for CORBA basic types.
-              && (in_corba ||
-                  ACE_OS::strcmp (d->name ()->head ()->get_string (), "CORBA"))
+              && (in_corba
+                  || d->name ()->head ()->get_string_view_or_empty () != "CORBA")
               && d->local_name ()->case_compare (e->head ()))
             {
               // Ok we found a match, is there any more to find?
@@ -1860,7 +1861,7 @@ UTL_Scope::match_param (UTL_ScopedName *e)
       return nullptr;
     }
 
-  char const *name = e->first_component ()->get_string ();
+  std::string_view const name = e->first_component ()->get_string_view_or_empty ();
   FE_Utils::T_Param_Info *param = nullptr;
   unsigned long index = 0;
 
@@ -1879,7 +1880,7 @@ UTL_Scope::match_param (UTL_ScopedName *e)
        i.next (param);
        i.advance (), ++index)
     {
-      if (param->name_ == name)
+      if (std::string_view (param->name_.c_str ()) == name)
         {
           /// If we are parsing this template module as a
           /// reference, the param holder we create must have
@@ -1907,7 +1908,7 @@ UTL_Scope::match_param (UTL_ScopedName *e)
                                     0);
                 }
 
-              Identifier id (alias_param->get_string ());
+              Identifier id (alias_param->get_string_view_or_empty ());
               UTL_ScopedName sn (&id, nullptr);
 
               return
@@ -2030,15 +2031,15 @@ UTL_Scope::smart_local_add (AST_Decl *t)
 
 // Determines if a name is global.
 bool
-UTL_Scope::is_global_name (Identifier *i)
+UTL_Scope::is_global_name (Identifier const *i) const
 {
   if (i == nullptr)
     {
       return false;
     }
 
-  ACE_CString cmp (i->get_string (), nullptr, false);
-  return (cmp == "" || cmp == "::");
+  std::string_view const name = i->get_string_view_or_empty ();
+  return name.empty () || name == "::";
 }
 
 AST_Decl *

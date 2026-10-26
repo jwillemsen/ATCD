@@ -499,7 +499,7 @@ public:
 
 protected:
   /// Quick check on the head of a name to see if it's global.
-  bool is_global_name (Identifier *i);
+  bool is_global_name (Identifier const *i) const;
 
 private:
   /// Checks called from fe_add_decl() specific to interfaces

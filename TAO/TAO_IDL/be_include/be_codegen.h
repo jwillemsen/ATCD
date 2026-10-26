@@ -378,8 +378,8 @@ public:
   char *gperf_input_filename ();
 
   /// Convert input string to all one case.
-  const char *upcase (const char *str);
-  const char *downcase (const char *str);
+  std::string upcase (const char *str);
+  std::string downcase (const char *str);
 
   /// Pass along the #ident string, if any, from the IDL file.
   void gen_ident_string (TAO_OutStream *stream) const;

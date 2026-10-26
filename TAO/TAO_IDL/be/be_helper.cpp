@@ -227,21 +227,11 @@ TAO_OutStream::gen_ifdef_macro (const char *flat_name,
                                 const char *suffix,
                                 bool add_stream_type_suffix)
 {
-  static char macro [NAMEBUFSIZE];
-
-  ACE_OS::memset (macro,
-                  '\0',
-                  NAMEBUFSIZE);
-
-  ACE_OS::sprintf (macro,
-                   "_%s_",
-                   tao_cg->upcase (flat_name));
+  std::string macro = "_" + tao_cg->upcase (flat_name) + "_";
 
   if (suffix != nullptr)
     {
-      ACE_OS::strcat (macro, "_");
-      ACE_OS::strcat (macro, tao_cg->upcase (suffix));
-      ACE_OS::strcat (macro, "_");
+      macro += "_" + tao_cg->upcase (suffix) + "_";
     }
 
   // Append a suffix representing the stream type.
@@ -250,28 +240,28 @@ TAO_OutStream::gen_ifdef_macro (const char *flat_name,
       switch (this->st_)
         {
           case TAO_OutStream::TAO_CLI_HDR:
-            ACE_OS::strcat (macro, "CH_");
+            macro += "CH_";
             break;
           case TAO_OutStream::TAO_CLI_INL:
-            ACE_OS::strcat (macro, "CI_");
+            macro += "CI_";
             break;
           case TAO_OutStream::TAO_CLI_IMPL:
-            ACE_OS::strcat (macro, "CS_");
+            macro += "CS_";
             break;
           case TAO_OutStream::TAO_SVR_HDR:
-            ACE_OS::strcat (macro, "SH_");
+            macro += "SH_";
             break;
           case TAO_OutStream::TAO_IMPL_HDR:
-            ACE_OS::strcat (macro, "IH_");
+            macro += "IH_";
             break;
           case TAO_OutStream::TAO_IMPL_SKEL:
-            ACE_OS::strcat (macro, "IS_");
+            macro += "IS_";
             break;
           case TAO_OutStream::TAO_SVR_INL:
-            ACE_OS::strcat (macro, "SI_");
+            macro += "SI_";
             break;
           case TAO_OutStream::TAO_SVR_IMPL:
-            ACE_OS::strcat (macro, "SS_");
+            macro += "SS_";
             break;
           default:
             return -1;

@@ -38,27 +38,23 @@ TAO_CodeGen::TAO_CodeGen ()
 TAO_CodeGen::~TAO_CodeGen () = default;
 
 // Change the string to all upper case.
-const char *
+std::string
 TAO_CodeGen::upcase (const char *str)
 {
-  static char upcase_str [NAMEBUFSIZE];
-
-  ACE_OS::memset (upcase_str,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string upcase_str;
+  upcase_str.reserve (ACE_OS::strlen (str));
 
   // Convert letters in str to upper case.
-  for (unsigned int i = 0; i < ACE_OS::strlen (str); ++i)
+  for (char const *p = str; *p != '\0'; ++p)
     {
-      if (ACE_OS::ace_isalpha (str[i]))
+      if (ACE_OS::ace_isalpha (*p))
         {
-          upcase_str[i] =
-            static_cast<char> (ACE_OS::ace_toupper (str[i]));
+          upcase_str.push_back (static_cast<char> (ACE_OS::ace_toupper (*p)));
         }
       else
         {
           // Copy it as it is.
-          upcase_str[i] = str[i];
+          upcase_str.push_back (*p);
         }
     }
 
@@ -66,27 +62,23 @@ TAO_CodeGen::upcase (const char *str)
 }
 
 // Change the string to all lower case.
-const char *
+std::string
 TAO_CodeGen::downcase (const char *str)
 {
-  static char downcase_str [NAMEBUFSIZE];
-
-  ACE_OS::memset (downcase_str,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string downcase_str;
+  downcase_str.reserve (ACE_OS::strlen (str));
 
   // Convert letters in str to upper case.
-  for (unsigned int i = 0; i < ACE_OS::strlen (str); ++i)
+  for (char const *p = str; *p != '\0'; ++p)
     {
-      if (ACE_OS::ace_isalpha (str[i]))
+      if (ACE_OS::ace_isalpha (*p))
         {
-          downcase_str[i] =
-            static_cast<char> (ACE_OS::ace_tolower (str[i]));
+          downcase_str.push_back (static_cast<char> (ACE_OS::ace_tolower (*p)));
         }
       else
         {
           // Copy it as it is.
-          downcase_str[i] = str[i];
+          downcase_str.push_back (*p);
         }
     }
 

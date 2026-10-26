@@ -272,7 +272,7 @@ FE_Utils::create_uses_multiple_stuff (AST_Component *c,
       struct_name += '_';
     }
 
-  struct_name += u->local_name ()->get_string ();
+  struct_name += u->local_name ()->get_string_view_or_empty ();
   struct_name += "Connection";
   Identifier struct_id (struct_name);
   UTL_ScopedName sn (&struct_id, nullptr);
@@ -567,7 +567,7 @@ FE_Utils::is_include_file_found (ACE_CString & inc_file,
     }
 
   inc_file += ACE_DIRECTORY_SEPARATOR_STR_A;
-  inc_file += idl_file_name->get_string ();
+  inc_file += idl_file_name->get_string_view_or_empty ().data ();
   full_path =
     ACE_OS::realpath (inc_file.c_str (), abspath);
 
@@ -625,7 +625,7 @@ FE_Utils::validate_included_idl_files ()
   char pre_abspath [MAXPATHLEN] = "";
   char post_abspath [MAXPATHLEN] = "";
   IDL_GlobalData::Include_Path_Info *path_info = nullptr;
-  char *post_tmp = nullptr;
+  char const *post_tmp = nullptr;
   char *full_path = nullptr;
 
   // We are going to assemble a list of the include files found in
@@ -637,7 +637,7 @@ FE_Utils::validate_included_idl_files ()
 
   for (size_t i = 0u; i < n_post_preproc_includes; ++i)
     {
-      post_tmp = post_preproc_includes [i]->get_string ();
+      post_tmp = post_preproc_includes [i]->get_string_view_or_empty ().data ();
       full_path = ACE_OS::realpath (post_tmp, post_abspath);
 
       if (full_path)
@@ -803,7 +803,7 @@ FE_Utils::validate_orb_include (UTL_String * idl_file_name)
 void
 FE_Utils::original_local_name (Identifier *local_name)
 {
-  std::string_view const lname (local_name->get_string ());
+  std::string_view const lname (local_name->get_string_view_or_empty ());
 
   // Remove _cxx_ if:
   // 1. it occurs and

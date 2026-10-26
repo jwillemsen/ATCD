@@ -441,7 +441,7 @@ FE_Utils::create_implied_ami_uses_stuff ()
 }
 
 int
-FE_Utils::path_cmp (char const *s, char const *t)
+FE_Utils::path_cmp (std::string_view s, std::string_view t)
 {
 #if defined (WIN32)
   // Since Windows has case-insensitive filenames, the preprocessor,
@@ -451,27 +451,31 @@ FE_Utils::path_cmp (char const *s, char const *t)
   // spelled when created. This 'feature' was preventing the
   // validation of included IDL files, necessary before generating
   // the corresponding C++ includes.
-  return ACE_OS::strcasecmp (s, t);
+  size_t const common_length = s.size () < t.size () ? s.size () : t.size ();
+  int const compare = common_length == 0
+    ? 0
+    : ACE_OS::strncasecmp (s.data (), t.data (), common_length);
+  if (compare != 0)
+    {
+      return compare;
+    }
+
+  return s.size () < t.size () ? -1 : s.size () > t.size () ? 1 : 0;
 #else
-  return ACE_OS::strcmp (s, t);
+  return s.compare (t);
 #endif /* defined (WIN32) */
 }
 
 bool
-FE_Utils::hasspace (char const *s)
+FE_Utils::hasspace (std::string_view s)
 {
-  if (s)
+  // Windows can't have a space as the first or last character
+  // but a unix filename can. Need to check all characters.
+  for (size_t i = 0u; i < s.size (); ++i)
     {
-      size_t const length = ACE_OS::strlen (s);
-
-      // Windows can't have a space as the first or last character
-      // but a unix filename can. Need to check all characters.
-      for (size_t i = 0u; i < length; ++i)
+      if (ACE_OS::ace_isspace (s [i]))
         {
-          if (ACE_OS::ace_isspace (s [i]))
-            {
-              return true;
-            }
+          return true;
         }
     }
 

@@ -75,11 +75,11 @@ struct TAO_IDL_FE_Export FE_Utils
 
   /// Case insensitive for Windows, otherwise not.
   static int
-  path_cmp (char const *s, char const *t);
+  path_cmp (std::string_view s, std::string_view t);
 
   /// To tell if we have to handle a Windows path with spaces.
   static bool
-  hasspace (char const *s);
+  hasspace (std::string_view s);
 
   /// Check if 'param' is a sequence of a previous param, and if
   /// so, if the previous param exists.

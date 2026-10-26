@@ -69,13 +69,17 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 #include "ace/iosfwd.h"
 
+#include <optional>
+#include <string>
+#include <string_view>
+
 class TAO_IDL_FE_Export Identifier
 {
 public:
   Identifier () = default;
   // Default Constructor.
 
-  explicit Identifier (char const * s);
+  explicit Identifier (std::string_view s);
   // Constructor.
 
   Identifier (Identifier const &other);
@@ -93,10 +97,10 @@ public:
   char const *get_string () const;
   ///}
 
-  void replace_string (char const * s);
+  void replace_string (std::string_view s);
   // Replace the underlying string and free the old one.
 
-  void preprocess_and_replace_string (char const * s);
+  void preprocess_and_replace_string (std::string_view s);
 
   bool compare (Identifier *other);
   // Compare with other Identifier.
@@ -125,7 +129,7 @@ public:
 
 private:
   // Storage for data.
-  char *pv_string {};
+  std::optional<std::string> string_;
 
   // Did the IDL string have a leading underscore?
   bool escaped_ {};

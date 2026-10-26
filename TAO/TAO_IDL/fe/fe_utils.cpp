@@ -19,6 +19,8 @@
 #include "utl_identifier.h"
 #include "utl_string.h"
 
+#include <string>
+
 #include "ace/OS_NS_strings.h"
 #include "ace/OS_NS_ctype.h"
 #include "ace/OS_NS_stdio.h"
@@ -261,9 +263,9 @@ FE_Utils::stripped_preproc_include (char const *name)
 void
 FE_Utils::create_uses_multiple_stuff (AST_Component *c,
                                       AST_Uses *u,
-                                      char const *prefix)
+                                      std::string_view prefix)
 {
-  ACE_CString struct_name (prefix);
+  std::string struct_name (prefix);
 
   if (!struct_name.empty ())
     {
@@ -272,7 +274,7 @@ FE_Utils::create_uses_multiple_stuff (AST_Component *c,
 
   struct_name += u->local_name ()->get_string ();
   struct_name += "Connection";
-  Identifier struct_id (struct_name.c_str ());
+  Identifier struct_id (struct_name);
   UTL_ScopedName sn (&struct_id, nullptr);
 
   // In case this call comes from the backend. We
@@ -345,9 +347,9 @@ FE_Utils::create_uses_multiple_stuff (AST_Component *c,
                                          false,
                                          false);
 
-  ACE_CString seq_string (struct_name);
+  std::string seq_string (struct_name);
   seq_string += 's';
-  Identifier seq_id (seq_string.c_str ());
+  Identifier seq_id (seq_string);
   UTL_ScopedName seq_name (&seq_id,
                            nullptr);
   AST_Typedef *connections =
@@ -797,26 +799,25 @@ FE_Utils::validate_orb_include (UTL_String * idl_file_name)
 void
 FE_Utils::original_local_name (Identifier *local_name)
 {
-  char const *lname = local_name->get_string ();
+  std::string_view const lname (local_name->get_string ());
 
   // Remove _cxx_ if:
   // 1. it occurs and
   // 2. it occurs at the beginning of the string and
   // 3. the rest of the string is a C++ keyword
-  if (ACE_OS::strstr (lname, "_cxx_") == lname)
+  if (lname.compare (0, 5, "_cxx_") == 0)
     {
       TAO_IDL_CPP_Keyword_Table cpp_key_tbl;
 
       unsigned int len =
-        static_cast<unsigned int> (ACE_OS::strlen (lname + 5));
+        static_cast<unsigned int> (lname.size () - 5);
 
       TAO_IDL_CPP_Keyword_Entry const *entry =
-        cpp_key_tbl.lookup (lname + 5, len);
+        cpp_key_tbl.lookup (lname.data () + 5, len);
 
       if (entry != nullptr)
         {
-          ACE_CString tmp (lname + 5);
-          local_name->replace_string (tmp.c_str ());
+          local_name->replace_string (lname.substr (5));
         }
     }
 }

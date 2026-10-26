@@ -66,7 +66,7 @@ struct TAO_IDL_FE_Export FE_Utils
   static void
   create_uses_multiple_stuff (AST_Component *c,
                               AST_Uses *u,
-                              char const *prefix = "");
+                              std::string_view prefix = {});
 
   /// For the executor IDL file, when a pragma ciao ami receptacle
   /// name is multiplex.

@@ -2284,11 +2284,9 @@ be_interface::destroy ()
   delete [] this->relative_skel_name_;
   this->relative_skel_name_ = nullptr;
 
-  delete [] this->direct_proxy_impl_name_;
-  this->direct_proxy_impl_name_ = nullptr;
+  this->direct_proxy_impl_name_.clear ();
 
-  delete [] this->full_direct_proxy_impl_name_;
-  this->full_direct_proxy_impl_name_ = nullptr;
+  this->full_direct_proxy_impl_name_.clear ();
 
   delete [] this->client_scope_;
   this->client_scope_ = nullptr;
@@ -2673,10 +2671,10 @@ be_interface::is_ami4ccm_rh (bool val)
   this->is_ami4ccm_rh_ = val;
 }
 
-const char *
+std::string_view
 be_interface::direct_proxy_impl_name ()
 {
-  if (this->direct_proxy_impl_name_ == nullptr)
+  if (this->direct_proxy_impl_name_.empty ())
     {
       this->direct_proxy_impl_name_ =
         this->create_with_prefix_suffix (
@@ -2689,25 +2687,13 @@ be_interface::direct_proxy_impl_name ()
   return this->direct_proxy_impl_name_;
 }
 
-const char *
+std::string_view
 be_interface::full_direct_proxy_impl_name ()
 {
-  if (this->full_direct_proxy_impl_name_ == nullptr)
+  if (this->full_direct_proxy_impl_name_.empty ())
     {
-      const char *scope = this->server_enclosing_scope ();
-      const char *base_name = this->direct_proxy_impl_name ();
-
-      size_t length =
-        ACE_OS::strlen (scope) + ACE_OS::strlen (base_name);
-
-      ACE_NEW_RETURN (this->full_direct_proxy_impl_name_,
-                      char[length + 1],
-                      nullptr);
-
-      ACE_OS::strcpy (this->full_direct_proxy_impl_name_,
-                      scope);
-      ACE_OS::strcat (this->full_direct_proxy_impl_name_,
-                      base_name);
+      this->full_direct_proxy_impl_name_ = this->server_enclosing_scope ();
+      this->full_direct_proxy_impl_name_ += this->direct_proxy_impl_name ();
     }
 
   return this->full_direct_proxy_impl_name_;
@@ -2784,28 +2770,15 @@ be_interface::server_enclosing_scope ()
   return this->server_scope_;
 }
 
-char *
-be_interface::create_with_prefix_suffix (const char *prefix,
-                                         const char *str,
-                                         const char *suffix,
-                                         const char *separator)
+std::string
+be_interface::create_with_prefix_suffix (std::string_view prefix,
+                                         std::string_view str,
+                                         std::string_view suffix,
+                                         std::string_view separator)
 {
-  char *cat_string = nullptr;
-  size_t length =
-    ACE_OS::strlen (str) +
-    ACE_OS::strlen (prefix) +
-    ACE_OS::strlen (suffix) +
-    ACE_OS::strlen (separator) +
-    1; // The '/0'
-
-  ACE_NEW_RETURN (cat_string,
-                  char[length],
-                  nullptr);
-
-  ACE_OS::strcpy (cat_string, prefix);
-  ACE_OS::strcat (cat_string, str);
-  ACE_OS::strcat (cat_string, separator);
-  ACE_OS::strcat (cat_string, suffix);
-
-  return cat_string;
+  std::string result (prefix);
+  result += str;
+  result += separator;
+  result += suffix;
+  return result;
 }

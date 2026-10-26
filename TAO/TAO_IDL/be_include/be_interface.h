@@ -22,6 +22,7 @@
 #include "ast_interface.h"
 
 #include <string>
+#include <string_view>
 
 class TAO_OutStream;
 class TAO_IDL_Inheritance_Hierarchy_Worker;
@@ -69,11 +70,11 @@ public:
   const char *local_coll_name (int);
 
   /// retrieve the name of the direct proxy implementation.
-  virtual const char *direct_proxy_impl_name ();
+  virtual std::string_view direct_proxy_impl_name ();
 
   /// retrieve the fully qualified name of the direct proxy
   /// implementation.
-  virtual const char *full_direct_proxy_impl_name ();
+  virtual std::string_view full_direct_proxy_impl_name ();
 
   /// Return the client scope that encloses the interface.
   virtual const char *client_enclosing_scope ();
@@ -273,10 +274,10 @@ protected:
    * of "str" and "suffix" and using the
    * "separator" to concatenate the two.
    */
-  char *create_with_prefix_suffix (const char *prefix,
-                                   const char *str,
-                                   const char *suffix,
-                                   const char *separator = "");
+  std::string create_with_prefix_suffix (std::string_view prefix,
+                                         std::string_view str,
+                                         std::string_view suffix,
+                                         std::string_view separator = "");
 
 protected:
   enum Suffix_Code
@@ -296,9 +297,9 @@ protected:
   static const char *tag_table_[];
 
   // Proxy Implementation names.
-  char *direct_proxy_impl_name_ {};
+  std::string direct_proxy_impl_name_;
 
-  char *full_direct_proxy_impl_name_ {};
+  std::string full_direct_proxy_impl_name_;
 
   char *client_scope_ {};
   char *flat_client_scope_ {};

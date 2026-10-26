@@ -128,11 +128,8 @@ be_home::destroy ()
   delete [] this->relative_skel_name_;
   this->relative_skel_name_ = nullptr;
 
-  delete [] this->direct_proxy_impl_name_;
-  this->direct_proxy_impl_name_ = nullptr;
-
-  delete [] this->full_direct_proxy_impl_name_;
-  this->full_direct_proxy_impl_name_ = nullptr;
+  this->direct_proxy_impl_name_.clear ();
+  this->full_direct_proxy_impl_name_.clear ();
 
   delete [] this->client_scope_;
   this->client_scope_ = nullptr;

@@ -144,7 +144,7 @@ AST_Decl::AST_Decl (NodeType nt,
 {
   // If this is the root node, the filename won't have been set yet.
   UTL_String *fn = idl_global->filename ();
-  this->pd_file_name = (fn ? fn->get_string () : "");
+  this->pd_file_name = fn != nullptr ? fn->get_string_view_or_empty () : std::string_view {};
 
   this->compute_full_name (n);
 
@@ -179,7 +179,7 @@ AST_Decl::AST_Decl (
 {
   // If this is the root node, the filename won't have been set yet.
   UTL_String *fn = idl_global->filename ();
-  this->pd_file_name = (fn ? fn->get_string () : "");
+  this->pd_file_name = fn != nullptr ? fn->get_string_view_or_empty () : std::string_view {};
 
   this->compute_full_name (name);
 

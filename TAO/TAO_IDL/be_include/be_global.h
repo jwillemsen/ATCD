@@ -622,7 +622,7 @@ public:
    * to be kept. Default is current directory from which the
    * <tao_idl> is called.
    */
-  const char* output_dir () const;
+  std::string_view output_dir () const;
 
   /// Set the path for all *C.* file includes.
   /// Default is local directory or $TAO_ROOT/tao.
@@ -638,7 +638,7 @@ public:
 
   /// Get the directory where all the *S.* files are
   /// to be kept. Default is output_dir_.
-  const char* skel_output_dir () const;
+  std::string_view skel_output_dir () const;
 
   /// Set the directory where all the *A.* files are
   /// to be kept. Default is output_dir_.
@@ -646,7 +646,7 @@ public:
 
   /// Get the directory where all the *A.* files are
   /// to be kept. Default is output_dir_.
-  const char* anyop_output_dir () const;
+  std::string_view anyop_output_dir () const;
 
   /// Set the directory where all the *exec.* files are
   /// to be kept. Default is output_dir_.
@@ -654,7 +654,7 @@ public:
 
   /// Get the directory where all the *exec.* files are
   /// to be kept. Default is output_dir_.
-  const char* exec_output_dir () const;
+  std::string_view exec_output_dir () const;
 
   ///Get the flag for not overwriting already existing exec files.
   bool overwrite_not_exec () const;

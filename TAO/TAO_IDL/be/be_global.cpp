@@ -108,11 +108,11 @@ be_change_idl_file_extension (UTL_String* idl_file,
     }
 
   // Anyop * skel file output defaults to general output dir if not set.
-  char const * const output_path =
+  const std::string_view output_path =
     be_util::get_output_path (for_anyop, for_skel, for_exec);
 
   std::string fname;
-  if (!base_name_only && output_path != nullptr)
+  if (!base_name_only && !output_path.empty ())
     {
       fname = output_path;
       fname.push_back ('/');
@@ -1388,10 +1388,10 @@ BE_GlobalData::output_dir (std::string_view s)
   this->output_dir_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::output_dir () const
 {
-  return this->output_dir_ ? this->output_dir_->c_str () : nullptr;
+  return this->output_dir_ ? std::string_view (*this->output_dir_) : std::string_view ();
 }
 bool
 BE_GlobalData::overwrite_not_exec () const
@@ -1411,10 +1411,10 @@ BE_GlobalData::skel_output_dir (std::string_view s)
   this->skel_output_dir_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::skel_output_dir () const
 {
-  return this->skel_output_dir_ ? this->skel_output_dir_->c_str () : nullptr;
+  return this->skel_output_dir_ ? std::string_view (*this->skel_output_dir_) : std::string_view ();
 }
 
 void
@@ -1435,10 +1435,10 @@ BE_GlobalData::anyop_output_dir (std::string_view s)
   this->anyop_output_dir_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::anyop_output_dir () const
 {
-  return this->anyop_output_dir_ ? this->anyop_output_dir_->c_str () : nullptr;
+  return this->anyop_output_dir_ ? std::string_view (*this->anyop_output_dir_) : std::string_view ();
 }
 
 void
@@ -1447,10 +1447,10 @@ BE_GlobalData::exec_output_dir (std::string_view s)
   this->exec_output_dir_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::exec_output_dir () const
 {
-  return this->exec_output_dir_ ? this->exec_output_dir_->c_str () : nullptr;
+  return this->exec_output_dir_ ? std::string_view (*this->exec_output_dir_) : std::string_view ();
 }
 void
 BE_GlobalData::any_support (bool val)

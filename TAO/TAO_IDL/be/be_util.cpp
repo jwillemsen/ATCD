@@ -947,20 +947,20 @@ be_util::generator_init ()
   return gen;
 }
 
-const char *
+std::string_view
 be_util::get_output_path (bool for_anyop,
                           bool for_skel,
                           bool for_exec)
 {
-  if (for_anyop && nullptr != be_global->anyop_output_dir ())
+  if (for_anyop && !be_global->anyop_output_dir ().empty ())
     {
       return be_global->anyop_output_dir ();
     }
-  else if (for_skel && nullptr != be_global->skel_output_dir ())
+  else if (for_skel && !be_global->skel_output_dir ().empty ())
     {
       return be_global->skel_output_dir ();
     }
-  else if (for_exec && nullptr != be_global->exec_output_dir ())
+  else if (for_exec && !be_global->exec_output_dir ().empty ())
     {
       return be_global->exec_output_dir ();
     }

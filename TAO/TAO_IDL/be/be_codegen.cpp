@@ -2061,33 +2061,32 @@ TAO_CodeGen::gen_export_file (const char *filename,
   ACE_CString macro_str (macro);
   ACE_CString file_str;
 
-  const char *output_path =
+  const std::string_view output_path =
     be_util::get_output_path (false, for_skel, false);
 
-  if (output_path != nullptr)
+  if (!output_path.empty ())
     {
       // Turn '\' and '\\' into '/'.
-      char* i = const_cast<char*> (output_path);
+      std::string normalized_path;
+      normalized_path.reserve (output_path.size ());
 
-      for (const char* j = output_path; *j != 0; ++i, ++j)
+      for (std::string_view::size_type i = 0; i < output_path.size (); ++i)
         {
-          if (*j == '\\')
+          if (output_path[i] == '\\')
             {
-              *i = '/';
-
-              if (*(j + 1) == '\\')
+              normalized_path.push_back ('/');
+              if (i + 1 < output_path.size () && output_path[i + 1] == '\\')
                 {
-                  ++j;
+                  ++i;
                 }
             }
           else
             {
-              *i = *j;
+              normalized_path.push_back (output_path[i]);
             }
         }
 
-      *i = 0;
-      file_str += output_path;
+      file_str += normalized_path.c_str ();
       file_str += '/';
     }
 

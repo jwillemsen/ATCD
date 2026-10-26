@@ -16,6 +16,8 @@
 
 #include "TAO_IDL_BE_Export.h"
 
+#include <string_view>
+
 class TAO_OutStream;
 class be_module;
 class be_type;
@@ -59,7 +61,7 @@ public:
   generator_init ();
 
   /// Called from various places.
-  static const char *
+  static std::string_view
   get_output_path (bool for_anyop, bool for_skel, bool for_exec);
 
   static const char *

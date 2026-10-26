@@ -80,76 +80,76 @@ public:
   // The parameter <base_name_only> set to 0 (no base name, but full
   // name with output dir path, is useful, when I just want just the
   // base name to use in #include's etc.
-  static const char *be_get_client_hdr_fname (
+  static std::string be_get_client_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_client_stub_fname ();
+  static std::string be_get_client_stub_fname ();
 
-  static const char *be_get_client_inline_fname (
+  static std::string be_get_client_inline_fname (
     bool base_name_only = false);
 
-  static const char *be_get_server_hdr_fname (
+  static std::string be_get_server_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_implementation_hdr_fname (
+  static std::string be_get_implementation_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_implementation_skel_fname (
+  static std::string be_get_implementation_skel_fname (
     bool base_name_only = false);
 
-  static const char *be_get_server_template_hdr_fname (
+  static std::string be_get_server_template_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_server_skeleton_fname ();
+  static std::string be_get_server_skeleton_fname ();
 
-  static const char *be_get_implementation_skeleton_fname ();
+  static std::string be_get_implementation_skeleton_fname ();
 
-  static const char *be_get_server_template_skeleton_fname (
+  static std::string be_get_server_template_skeleton_fname (
     bool base_name_only = false);
 
-  static const char *be_get_anyop_source_fname (
+  static std::string be_get_anyop_source_fname (
     bool base_name_only = false);
 
-  static const char *be_get_anyop_header_fname (
+  static std::string be_get_anyop_header_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_svnt_hdr_fname (
+  static std::string be_get_ciao_svnt_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_tmpl_svnt_hdr_fname (
+  static std::string be_get_ciao_tmpl_svnt_hdr_fname (
     bool base_name_only=false);
 
-  static const char *be_get_ciao_svnt_src_fname (
+  static std::string be_get_ciao_svnt_src_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_tmpl_svnt_src_fname (
+  static std::string be_get_ciao_tmpl_svnt_src_fname (
     bool base_name_only=false);
 
-  static const char *be_get_ciao_exec_hdr_fname (
+  static std::string be_get_ciao_exec_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_exec_src_fname (
+  static std::string be_get_ciao_exec_src_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_exec_stub_hdr_fname (
+  static std::string be_get_ciao_exec_stub_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_exec_idl_fname (
+  static std::string be_get_ciao_exec_idl_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_conn_hdr_fname (
+  static std::string be_get_ciao_conn_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_conn_src_fname (
+  static std::string be_get_ciao_conn_src_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_ami_conn_idl_fname (
+  static std::string be_get_ciao_ami_conn_idl_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_ami_conn_impl_hdr_fname (
+  static std::string be_get_ciao_ami_conn_impl_hdr_fname (
     bool base_name_only = false);
 
-  static const char *be_get_ciao_ami_conn_impl_src_fname (
+  static std::string be_get_ciao_ami_conn_impl_src_fname (
     bool base_name_only = false);
 
   // Helper functions: obtain the names of each generated file given
@@ -157,105 +157,105 @@ public:
   // The parameter <base_name_only> set to 0 (no base name, but full
   // name with output dir path, is useful, when I want just the
   // base name to use in #include's etc.
-  static const char *be_get_client_hdr (
+  static std::string be_get_client_hdr (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_client_stub (
+  static std::string be_get_client_stub (
     UTL_String *idl_file_name);
 
-  static const char *be_get_client_inline (
+  static std::string be_get_client_inline (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_server_hdr (
+  static std::string be_get_server_hdr (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_svnt_template_hdr (
+  static std::string be_get_svnt_template_hdr (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_implementation_hdr (
+  static std::string be_get_implementation_hdr (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_implementation_skel (
+  static std::string be_get_implementation_skel (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_server_template_hdr (
+  static std::string be_get_server_template_hdr (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_server_skeleton (
+  static std::string be_get_server_skeleton (
     UTL_String *idl_file_name);
 
-  static const char *be_get_server_template_skeleton (
+  static std::string be_get_server_template_skeleton (
       UTL_String *idl_file_name,
       bool base_name_only = false);
 
-  static const char *be_get_anyop_header (
+  static std::string be_get_anyop_header (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_anyop_source (
+  static std::string be_get_anyop_source (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_svnt_header (
+  static std::string be_get_ciao_svnt_header (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_svnt_template_header (
+  static std::string be_get_ciao_svnt_template_header (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_svnt_source (
+  static std::string be_get_ciao_svnt_source (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_svnt_template_source (
+  static std::string be_get_ciao_svnt_template_source (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_exec_header (
+  static std::string be_get_ciao_exec_header (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_exec_source (
+  static std::string be_get_ciao_exec_source (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_exec_stub_header (
+  static std::string be_get_ciao_exec_stub_header (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_exec_idl (
+  static std::string be_get_ciao_exec_idl (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_conn_header (
+  static std::string be_get_ciao_conn_header (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_conn_source (
+  static std::string be_get_ciao_conn_source (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_dds_typesupport_header (
+  static std::string be_get_dds_typesupport_header (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_ami_conn_idl (
+  static std::string be_get_ciao_ami_conn_idl (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_ami_conn_impl_hdr (
+  static std::string be_get_ciao_ami_conn_impl_hdr (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 
-  static const char *be_get_ciao_ami_conn_impl_src (
+  static std::string be_get_ciao_ami_conn_impl_src (
     UTL_String *idl_file_name,
     bool base_name_only = false);
 

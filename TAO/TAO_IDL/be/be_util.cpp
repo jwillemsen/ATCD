@@ -978,16 +978,16 @@ be_util::overwrite_ciao_exec_files ()
     {
       bool src_exist = false;
       bool hdr_exist = false;
-      const char *fname_hdr = be_global->be_get_ciao_exec_hdr_fname (false);
-      FILE* fp_hdr = ACE_OS::fopen(fname_hdr, "r");
+      std::string const fname_hdr = be_global->be_get_ciao_exec_hdr_fname (false);
+      FILE* fp_hdr = ACE_OS::fopen(fname_hdr.c_str (), "r");
       if (fp_hdr)
         {
           // file exists, don't generate new exec files.
           ACE_OS::fclose(fp_hdr);
           hdr_exist = true;
         }
-      const char *fname_src = be_global->be_get_ciao_exec_src_fname (false);
-      FILE* fp_src = ACE_OS::fopen(fname_src, "r");
+      std::string const fname_src = be_global->be_get_ciao_exec_src_fname (false);
+      FILE* fp_src = ACE_OS::fopen(fname_src.c_str (), "r");
       if (fp_src)
         {
           // file exists, don't generate new exec files.

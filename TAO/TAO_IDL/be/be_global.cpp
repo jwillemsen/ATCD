@@ -64,7 +64,7 @@ BE_GlobalData::changing_standard_include_files ()
 }
 
 /************ Helper functions **************/
-static const char*
+static std::string
 be_change_idl_file_extension (UTL_String* idl_file,
                               const char *new_extension,
                               bool base_name_only = false,
@@ -72,22 +72,16 @@ be_change_idl_file_extension (UTL_String* idl_file,
                               bool for_skel = false,
                               bool for_exec = false)
 {
-  // @@ This shouldn't happen anyway; but a better error handling
-  // mechanism is needed.
   if (idl_file == nullptr || new_extension == nullptr)
     {
-      return nullptr;
+      return {};
     }
 
-  static char fname[MAXPATHLEN];
-  ACE_OS::memset (fname, 0, MAXPATHLEN);
-
-  // Get the char* from the UTL_String.
-  const char* string = idl_file->get_string ();
+  std::string const input (idl_file->get_string ());
 
   // Get the base part of the filename, we try several extensions
   // before giving up.
-  const char *base = nullptr;
+  std::string::size_type base = std::string::npos;
 
   static constexpr char const *extensions[] = {
     ".idl",
@@ -100,70 +94,51 @@ be_change_idl_file_extension (UTL_String* idl_file,
 
   for (size_t k = 0; k < nextensions; ++k)
     {
-      base = ACE_OS::strstr (string, extensions[k]);
+      base = input.find (extensions[k]);
 
-      if (base != nullptr)
+      if (base != std::string::npos)
         {
           break;
         }
     }
 
-  if (base == nullptr)
+  if (base == std::string::npos)
     {
-      return nullptr;
+      return {};
     }
 
   // Anyop * skel file output defaults to general output dir if not set.
-  const char *output_path =
+  char const * const output_path =
     be_util::get_output_path (for_anyop, for_skel, for_exec);
 
+  std::string fname;
   if (!base_name_only && output_path != nullptr)
     {
-      // Path info should also be added to fname.
-
-      // Add path and "/".
-      ACE_OS::sprintf (fname, "%s/", output_path);
-
-      // Append the base part to fname.
-      ACE_OS::strncpy (fname + ACE_OS::strlen (fname),
-                       string,
-                       base - string);
-    }
-  else
-    {
-      // Base_name_only or no putput_dir specified by user. JUST put the
-      // base part to fname.
-      ACE_OS::strncpy (fname, string, base - string);
+      fname = output_path;
+      fname.push_back ('/');
     }
 
-  // Turn '\' and '\\' into '/'.
-  char* i = fname;
-
-  for (char* j = fname; *j != 0; ++i, ++j)
+  for (std::string::size_type i = 0; i < base; ++i)
     {
-      if (*j == '\\')
+      if (input[i] == '\\')
         {
-          *i = '/';
-
-          if (*(j + 1) == '\\')
+          fname.push_back ('/');
+          if (i + 1 < base && input[i + 1] == '\\')
             {
-              ++j;
+              ++i;
             }
         }
       else
         {
-          *i = *j;
+          fname.push_back (input[i]);
         }
     }
 
-  *i = 0;
-
-  // Append the newextension.
-  ACE_OS::strcat (fname, new_extension);
+  fname.append (new_extension);
   return fname;
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_client_hdr (UTL_String *idl_file_name,
                                   bool base_name_only)
 {
@@ -185,14 +160,14 @@ BE_GlobalData::be_get_client_hdr (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_client_stub (UTL_String *idl_file_name)
 {
   return be_change_idl_file_extension (idl_file_name,
                                        be_global->client_stub_ending ());
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_client_inline (UTL_String *idl_file_name,
                                      bool base_name_only)
 {
@@ -201,7 +176,7 @@ BE_GlobalData::be_get_client_inline (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_server_hdr (UTL_String *idl_file_name,
                                   bool base_name_only)
 {
@@ -225,7 +200,7 @@ BE_GlobalData::be_get_server_hdr (UTL_String *idl_file_name,
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_svnt_template_hdr (UTL_String *idl_file_name,
                                         bool base_name_only)
 {
@@ -249,7 +224,7 @@ BE_GlobalData::be_get_svnt_template_hdr (UTL_String *idl_file_name,
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_implementation_hdr (UTL_String *idl_file_name,
                                           bool base_name_only)
 {
@@ -258,7 +233,7 @@ BE_GlobalData::be_get_implementation_hdr (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_implementation_skel (UTL_String *idl_file_name,
                                            bool base_name_only)
 {
@@ -267,7 +242,7 @@ BE_GlobalData::be_get_implementation_skel (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_server_template_hdr (UTL_String *idl_file_name,
                                            bool base_name_only)
 {
@@ -278,7 +253,7 @@ BE_GlobalData::be_get_server_template_hdr (UTL_String *idl_file_name,
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_server_skeleton (UTL_String *idl_file_name)
 {
   return be_change_idl_file_extension (idl_file_name,
@@ -288,7 +263,7 @@ BE_GlobalData::be_get_server_skeleton (UTL_String *idl_file_name)
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_server_template_skeleton (UTL_String *idl_file_name,
                                                 bool base_name_only)
 {
@@ -299,7 +274,7 @@ BE_GlobalData::be_get_server_template_skeleton (UTL_String *idl_file_name,
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_anyop_header (UTL_String *idl_file_name,
                                     bool base_name_only)
 {
@@ -309,7 +284,7 @@ BE_GlobalData::be_get_anyop_header (UTL_String *idl_file_name,
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_anyop_source (UTL_String *idl_file_name,
                                     bool base_name_only)
 {
@@ -319,7 +294,7 @@ BE_GlobalData::be_get_anyop_source (UTL_String *idl_file_name,
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_svnt_header (UTL_String *idl_file_name,
                                         bool base_name_only)
 {
@@ -328,7 +303,7 @@ BE_GlobalData::be_get_ciao_svnt_header (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_svnt_template_header (UTL_String *idl_file_name,
                                                 bool base_name_only)
 {
@@ -338,7 +313,7 @@ BE_GlobalData::be_get_ciao_svnt_template_header (UTL_String *idl_file_name,
 }
 
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_svnt_source (UTL_String *idl_file_name,
                                         bool base_name_only)
 {
@@ -347,7 +322,7 @@ BE_GlobalData::be_get_ciao_svnt_source (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_svnt_template_source (UTL_String *idl_file_name,
                                                 bool base_name_only)
 {
@@ -356,7 +331,7 @@ BE_GlobalData::be_get_ciao_svnt_template_source (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_exec_header (UTL_String *idl_file_name,
                                         bool base_name_only)
 {
@@ -368,7 +343,7 @@ BE_GlobalData::be_get_ciao_exec_header (UTL_String *idl_file_name,
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_exec_source (UTL_String *idl_file_name,
                                         bool base_name_only)
 {
@@ -380,7 +355,7 @@ BE_GlobalData::be_get_ciao_exec_source (UTL_String *idl_file_name,
                                        true);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_exec_stub_header (
   UTL_String *idl_file_name,
   bool base_name_only)
@@ -392,7 +367,7 @@ BE_GlobalData::be_get_ciao_exec_stub_header (
       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_exec_idl (
   UTL_String *idl_file_name,
   bool base_name_only)
@@ -404,7 +379,7 @@ BE_GlobalData::be_get_ciao_exec_idl (
       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_conn_header (UTL_String *idl_file_name,
                                         bool base_name_only)
 {
@@ -413,7 +388,7 @@ BE_GlobalData::be_get_ciao_conn_header (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_conn_source (UTL_String *idl_file_name,
                                         bool base_name_only)
 {
@@ -422,7 +397,7 @@ BE_GlobalData::be_get_ciao_conn_source (UTL_String *idl_file_name,
                                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_dds_typesupport_header (
   UTL_String *idl_file_name,
   bool base_name_only)
@@ -434,7 +409,7 @@ BE_GlobalData::be_get_dds_typesupport_header (
       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_ami_conn_idl (
   UTL_String *idl_file_name,
   bool base_name_only)
@@ -446,7 +421,7 @@ BE_GlobalData::be_get_ciao_ami_conn_idl (
       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_ami_conn_impl_hdr (
   UTL_String *idl_file_name,
   bool base_name_only)
@@ -458,7 +433,7 @@ BE_GlobalData::be_get_ciao_ami_conn_impl_hdr (
       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_ami_conn_impl_src (
   UTL_String *idl_file_name,
   bool base_name_only)
@@ -470,7 +445,7 @@ BE_GlobalData::be_get_ciao_ami_conn_impl_src (
       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_client_hdr_fname (
   bool base_name_only)
 {
@@ -479,14 +454,14 @@ BE_GlobalData::be_get_client_hdr_fname (
                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_client_stub_fname ()
 {
   return
     be_get_client_stub (idl_global->stripped_filename ());
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_client_inline_fname (
   bool base_name_only)
 {
@@ -495,7 +470,7 @@ BE_GlobalData::be_get_client_inline_fname (
                           base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_server_hdr_fname (
   bool base_name_only)
 {
@@ -504,7 +479,7 @@ BE_GlobalData::be_get_server_hdr_fname (
                        base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_implementation_hdr_fname (
   bool base_name_only)
 {
@@ -513,7 +488,7 @@ BE_GlobalData::be_get_implementation_hdr_fname (
                                base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_implementation_skel_fname (
   bool base_name_only)
 {
@@ -522,7 +497,7 @@ BE_GlobalData::be_get_implementation_skel_fname (
                                 base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_server_template_hdr_fname (
   bool base_name_only)
 {
@@ -531,21 +506,21 @@ BE_GlobalData::be_get_server_template_hdr_fname (
                                 base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_server_skeleton_fname ()
 {
   return
     be_get_server_skeleton (idl_global->stripped_filename ());
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_implementation_skeleton_fname ()
 {
   return
     be_get_implementation_skel (idl_global->stripped_filename ());
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_server_template_skeleton_fname (
   bool base_name_only)
 {
@@ -554,7 +529,7 @@ BE_GlobalData::be_get_server_template_skeleton_fname (
                                      base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_anyop_source_fname (
   bool base_name_only)
 {
@@ -563,7 +538,7 @@ BE_GlobalData::be_get_anyop_source_fname (
                          base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_anyop_header_fname (
   bool base_name_only)
 {
@@ -572,7 +547,7 @@ BE_GlobalData::be_get_anyop_header_fname (
                          base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_svnt_hdr_fname (bool base_name_only)
 {
   return
@@ -580,7 +555,7 @@ BE_GlobalData::be_get_ciao_svnt_hdr_fname (bool base_name_only)
                              base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_tmpl_svnt_hdr_fname (bool base_name_only)
 {
   return
@@ -588,7 +563,7 @@ BE_GlobalData::be_get_ciao_tmpl_svnt_hdr_fname (bool base_name_only)
                                       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_svnt_src_fname (
   bool base_name_only)
 {
@@ -597,7 +572,7 @@ BE_GlobalData::be_get_ciao_svnt_src_fname (
                              base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_tmpl_svnt_src_fname (
     bool base_name_only)
 {
@@ -606,7 +581,7 @@ BE_GlobalData::be_get_ciao_tmpl_svnt_src_fname (
                                       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_exec_hdr_fname (
   bool base_name_only)
 {
@@ -615,7 +590,7 @@ BE_GlobalData::be_get_ciao_exec_hdr_fname (
                              base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_exec_src_fname (
   bool base_name_only)
 {
@@ -624,7 +599,7 @@ BE_GlobalData::be_get_ciao_exec_src_fname (
                              base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_exec_stub_hdr_fname (
   bool base_name_only)
 {
@@ -634,7 +609,7 @@ BE_GlobalData::be_get_ciao_exec_stub_hdr_fname (
       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_exec_idl_fname (
   bool base_name_only)
 {
@@ -644,7 +619,7 @@ BE_GlobalData::be_get_ciao_exec_idl_fname (
       base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_conn_hdr_fname (
   bool base_name_only)
 {
@@ -653,7 +628,7 @@ BE_GlobalData::be_get_ciao_conn_hdr_fname (
                              base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_conn_src_fname (
   bool base_name_only)
 {
@@ -662,7 +637,7 @@ BE_GlobalData::be_get_ciao_conn_src_fname (
                              base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_ami_conn_idl_fname (
   bool base_name_only)
 {
@@ -671,7 +646,7 @@ BE_GlobalData::be_get_ciao_ami_conn_idl_fname (
                               base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_ami_conn_impl_hdr_fname (
   bool base_name_only)
 {
@@ -680,7 +655,7 @@ BE_GlobalData::be_get_ciao_ami_conn_impl_hdr_fname (
                                    base_name_only);
 }
 
-const char *
+std::string
 BE_GlobalData::be_get_ciao_ami_conn_impl_src_fname (
   bool base_name_only)
 {

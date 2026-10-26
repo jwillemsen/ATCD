@@ -17,6 +17,8 @@
 #include "ace/Synch_Traits.h"
 #include "ace/Unbounded_Queue.h"
 
+#include <string>
+
 #include "TAO_IDL_BE_Export.h"
 
 class TAO_OutStream;
@@ -204,48 +206,48 @@ public:
   ~TAO_CodeGen ();
 
   /// Set the client header stream.
-  int start_client_header (const char *fname);
+  int start_client_header (const std::string &fname);
 
   /// Set the client inline stream.
-  int start_client_inline (const char *fname);
+  int start_client_inline (const std::string &fname);
 
   /// Set the client stub stream.
-  int start_client_stubs (const char *fname);
+  int start_client_stubs (const std::string &fname);
 
   /// Set the server header stream.
-  int start_server_header (const char *fname);
+  int start_server_header (const std::string &fname);
 
   /// Set the implementation header stream.
-  int start_implementation_header (const char *fname);
+  int start_implementation_header (const std::string &fname);
 
   /// Set the implementation skeleton stream.
-  int start_implementation_skeleton (const char *fname);
+  int start_implementation_skeleton (const std::string &fname);
 
   /// Set the server template header stream.
-  int start_server_template_header (const char *fname);
+  int start_server_template_header (const std::string &fname);
 
   /// Set the server skeletons stream.
-  int start_server_skeletons (const char *fname);
+  int start_server_skeletons (const std::string &fname);
 
   /// Set the server template skeletons stream.
-  int start_server_template_skeletons (const char *fname);
+  int start_server_template_skeletons (const std::string &fname);
 
   /// Set the anyop header stream.
-  int start_anyop_header (const char *fname);
+  int start_anyop_header (const std::string &fname);
 
   /// Set the anyop source stream.
-  int start_anyop_source (const char *fname);
+  int start_anyop_source (const std::string &fname);
 
-  int start_ciao_svnt_header (const char *fname);
-  int start_ciao_svnt_source (const char *fname);
-  int start_ciao_svnt_template_header (const char *fname);
-  int start_ciao_svnt_template_source (const char *fname);
-  int start_ciao_exec_header (const char *fname);
-  int start_ciao_exec_source (const char *fname);
-  int start_ciao_exec_idl (const char *fname);
-  int start_ciao_conn_header (const char *fname);
-  int start_ciao_conn_source (const char *fname);
-  int start_ciao_ami_conn_idl (const char *fname);
+  int start_ciao_svnt_header (const std::string &fname);
+  int start_ciao_svnt_source (const std::string &fname);
+  int start_ciao_svnt_template_header (const std::string &fname);
+  int start_ciao_svnt_template_source (const std::string &fname);
+  int start_ciao_exec_header (const std::string &fname);
+  int start_ciao_exec_source (const std::string &fname);
+  int start_ciao_exec_idl (const std::string &fname);
+  int start_ciao_conn_header (const std::string &fname);
+  int start_ciao_conn_source (const std::string &fname);
+  int start_ciao_ami_conn_idl (const std::string &fname);
 
   /// Generate code at the end such as the <<= and >>= operators along
   /// with the ending #endif statement.
@@ -261,7 +263,7 @@ public:
   int end_server_header ();
 
   /// Put a last #endif in the server header.
-  int end_implementation_header (const char *fname);
+  int end_implementation_header (const std::string &fname);
 
   /// Put a last #endif in the server header.
   int end_implementation_skeleton (const char *fname);
@@ -388,7 +390,7 @@ public:
   /// Generate file include, with optional empty comment to
   /// short-circuit DOxygen.
   void gen_standard_include (TAO_OutStream *stream,
-                             const char *included_file,
+                             const std::string &included_file,
                              bool add_comment = false);
 
   /// Generate a system include using angle brackets.

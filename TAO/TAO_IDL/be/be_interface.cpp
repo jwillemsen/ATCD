@@ -2011,9 +2011,9 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
   // Stdout is server skeleton.  Do *not* close the file, just open
   // again with <ACE_OS::open> with WRITE + APPEND option.. After
   // this, remember to update the file offset to the correct location.
+  std::string const skeleton_fname = be_global->be_get_server_skeleton_fname ();
   ACE_HANDLE output =
-    ACE_OS::open (be_global->be_get_server_skeleton_fname (),
-                  O_WRONLY | O_APPEND);
+    ACE_OS::open (skeleton_fname.c_str (), O_WRONLY | O_APPEND);
 
   if (output == ACE_INVALID_HANDLE)
     {

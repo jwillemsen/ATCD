@@ -236,7 +236,7 @@ We can set it to use IDL4 by default in `BE_init ()`:
 int BE_init (int &, ACE_TCHAR *[])
 {
   // ...
-  idl_global->default_idl_version_ = IDL_VERSION_4;
+  idl_global->default_idl_version_.version (IDL_VERSION_4);
   // ...
 }
 
@@ -259,7 +259,7 @@ int BE_init (int &, ACE_TCHAR *[])
 {
   // ...
 #ifdef TAO_IDL_HAS_ANNOTATIONS
-  idl_global->default_idl_version_ = IDL_VERSION_4;
+  idl_global->default_idl_version_.version (IDL_VERSION_4);
 #endif
   // ...
 }

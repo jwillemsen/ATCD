@@ -480,7 +480,7 @@ public:
   // files. By default, IDL compiler looks for TEMP env variable and
   // if it is not set,  "/tmp/" is assigned.
 
-  char const *temp_dir () const;
+  std::optional<std::string_view> temp_dir () const;
   // Get the directory where the IDL compiler can keep all its temp
   // files. By default, IDL compiler looks for TEMP env variable and
   // if it is not set,  "/tmp/" is assigned.
@@ -488,19 +488,19 @@ public:
   void tao_root (std::string_view s);
   // Set the path of TAO_ROOT.
 
-  char const *tao_root () const;
+  std::optional<std::string_view> tao_root () const;
   // Get the path for TAO_ROOT.
 
   void gperf_path (std::string_view s);
   // Set the path for the perfect hashing program (GPERF).
 
-  char const *gperf_path () const;
+  std::optional<std::string_view> gperf_path () const;
   // Get the path for the perfect hashing program (GPERF).
 
   void ident_string (std::string_view s);
   // Set the value of the #ident string.
 
-  char const *ident_string () const;
+  std::optional<std::string_view> ident_string () const;
   // Get the value of the #ident string.
 
   void case_diff_error (bool);
@@ -522,7 +522,7 @@ public:
   void append_idl_flag (std::string_view s);
   // Save each flag passed to the IDL compiler.
 
-  char const *idl_flags () const;
+  std::string_view idl_flags () const;
   // Get a string representation of the flags
   // passed to the idl compiler.
 

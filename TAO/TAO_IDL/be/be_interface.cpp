@@ -894,7 +894,8 @@ be_interface::gen_operation_table (const char *flat_name,
         unsigned int seed =
           (static_cast<unsigned int> (ACE_OS::time())
            + static_cast<unsigned int> (ACE_OS::getpid ()));
-        std::string temp_file (idl_global->temp_dir ());
+        std::string_view const temp_dir = idl_global->temp_dir ().value ();
+        std::string temp_file (temp_dir);
         temp_file += std::to_string (ACE_OS::rand_r (&seed));
         temp_file += '.';
         temp_file += std::to_string (static_cast<int> (ACE_OS::getpid ()));
@@ -905,7 +906,7 @@ be_interface::gen_operation_table (const char *flat_name,
         // QNX can't handle individual file names (path components)
         // longer than 48 characters.
 #if defined(__QNX__)
-        size_t const temp_dir_len = ACE_OS::strlen (idl_global->temp_dir ());
+        size_t const temp_dir_len = temp_dir.size ();
 
         if (temp_file.size () > temp_dir_len + 47)
           {
@@ -1857,7 +1858,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
                                     ACE_TEXT ("-Z TAO_%s_Perfect_Hash_OpTable")
                                     ACE_TEXT (" ")
                                     ACE_TEXT ("-N lookup"),
-                                    idl_global->gperf_path (),
+                                    idl_global->gperf_path ().value ().data (),
                                     flat_name);
       break;
 
@@ -1880,7 +1881,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
                                     ACE_TEXT ("-Z TAO_%s_Binary_Search_OpTable")
                                     ACE_TEXT (" ")
                                     ACE_TEXT ("-N lookup"),
-                                    idl_global->gperf_path (),
+                                    idl_global->gperf_path ().value ().data (),
                                     flat_name);
       break;
 
@@ -1903,7 +1904,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
                                     ACE_TEXT ("-Z TAO_%s_Linear_Search_OpTable")
                                     ACE_TEXT (" ")
                                     ACE_TEXT ("-N lookup"),
-                                    idl_global->gperf_path (),
+                                    idl_global->gperf_path ().value ().data (),
                                     flat_name);
       break;
 

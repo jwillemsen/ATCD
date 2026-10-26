@@ -2444,7 +2444,7 @@ BE_GlobalData::tab_size (unsigned long val)
 ACE_CString
 BE_GlobalData::spawn_options ()
 {
-  return idl_global->idl_flags ();
+  return idl_global->idl_flags ().data ();
 }
 
 void

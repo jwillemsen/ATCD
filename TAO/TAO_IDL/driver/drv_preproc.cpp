@@ -997,9 +997,9 @@ DRV_get_orb_idl_includes ()
     {
       // Fall back on $TAO_ROOT/tao/orb.idl if orb.idl is not in the
       // include path.
-      ACE_CString orb_idl_path (ACE_CString (idl_global->tao_root ())
-                                + ACE_CString ('/')
-                                + ACE_CString (orb_idl));
+      std::string orb_idl_path (idl_global->tao_root ().value_or (std::string_view {}));
+      orb_idl_path += '/';
+      orb_idl_path += orb_idl;
 
       fp = ACE_OS::fopen (orb_idl_path.c_str (), "r");
 
@@ -1162,14 +1162,13 @@ DRV_pre_proc (char const *myfile)
       throw Bailout ();
     }
 
-  char const *tmpdir = idl_global->temp_dir ();
+  std::string_view const tmpdir = idl_global->temp_dir ().value ();
   static constexpr char temp_file_extension[] = ".cpp";
 
   static constexpr char tao_idlf_template[] = "tao-idlf_XXXXXX";
   static constexpr char tao_idli_template[] = "tao-idli_XXXXXX";
 
-  size_t const tlen =
-    ACE_OS::strlen (tmpdir) + sizeof (temp_file_extension);
+  size_t const tlen = tmpdir.size () + sizeof (temp_file_extension);
 
   // Prevent a buffer overrun.
   if (tlen + sizeof (tao_idlf_template) > sizeof (tmp_file)
@@ -1183,10 +1182,10 @@ DRV_pre_proc (char const *myfile)
       throw Bailout ();
     }
 
-  ACE_OS::strcpy (tmp_file,  tmpdir);
+  ACE_OS::strcpy (tmp_file, tmpdir.data ());
   if (copy_input_file)
     {
-      ACE_OS::strcpy (tmp_ifile, tmpdir);
+      ACE_OS::strcpy (tmp_ifile, tmpdir.data ());
     }
 
   // Append temporary filename template to temporary directory.

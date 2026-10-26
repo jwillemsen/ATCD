@@ -697,10 +697,11 @@ IDL_GlobalData::temp_dir (std::string_view s)
     }
 }
 
-char const *
+std::optional<std::string_view>
 IDL_GlobalData::temp_dir () const
 {
-  return this->temp_dir_ ? this->temp_dir_->c_str () : nullptr;
+  return this->temp_dir_ ? std::optional<std::string_view> (*this->temp_dir_)
+                         : std::nullopt;
 }
 
 void
@@ -709,10 +710,11 @@ IDL_GlobalData::tao_root (std::string_view s)
   this->tao_root_.emplace (s);
 }
 
-char const *
+std::optional<std::string_view>
 IDL_GlobalData::tao_root () const
 {
-  return this->tao_root_ ? this->tao_root_->c_str () : nullptr;
+  return this->tao_root_ ? std::optional<std::string_view> (*this->tao_root_)
+                         : std::nullopt;
 }
 
 void
@@ -721,10 +723,11 @@ IDL_GlobalData::gperf_path (std::string_view s)
   this->gperf_path_.emplace (s);
 }
 
-char const *
+std::optional<std::string_view>
 IDL_GlobalData::gperf_path () const
 {
-  return this->gperf_path_ ? this->gperf_path_->c_str () : nullptr;
+  return this->gperf_path_ ? std::optional<std::string_view> (*this->gperf_path_)
+                           : std::nullopt;
 }
 
 void
@@ -733,10 +736,11 @@ IDL_GlobalData::ident_string (std::string_view s)
   this->ident_string_.emplace (s);
 }
 
-char const *
+std::optional<std::string_view>
 IDL_GlobalData::ident_string () const
 {
-  return this->ident_string_ ? this->ident_string_->c_str () : nullptr;
+  return this->ident_string_ ? std::optional<std::string_view> (*this->ident_string_)
+                             : std::nullopt;
 }
 
 void
@@ -856,10 +860,10 @@ IDL_GlobalData::append_idl_flag (std::string_view s)
   this->idl_flags_.append (s);
 }
 
-char const *
+std::string_view
 IDL_GlobalData::idl_flags () const
 {
-  return this->idl_flags_.c_str ();
+  return this->idl_flags_;
 }
 
 ACE_Hash_Map_Manager<ACE_CString, int, ACE_Null_Mutex> &

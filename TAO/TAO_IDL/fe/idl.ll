@@ -767,7 +767,7 @@ idl_store_pragma (char *buf)
           return;
         }
 
-      d->version (ACE::strnew (number));
+      d->version (number);
     }
   else if (ACE_OS::strncmp (buf + 8, "ident", 5) == 0)
     {

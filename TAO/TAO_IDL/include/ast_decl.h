@@ -262,6 +262,7 @@ public:
   // Accessors for the repository ID prefix.
 
   std::string_view version ();
+  void version (std::string_view value);
   void version (char *value);
   // Accessors for the version_ member.
 
@@ -466,7 +467,7 @@ private:
   std::string prefix_;
   // The repository ID prefix.
 
-  char *version_ {};
+  std::optional<std::string> version_ {};
   // Set by #pragma version.
 
   bool anonymous_;

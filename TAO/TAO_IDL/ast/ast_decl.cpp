@@ -236,8 +236,7 @@ AST_Decl::destroy ()
 
   this->prefix_.clear ();
 
-  delete [] this->version_;
-  this->version_ = nullptr;
+  this->version_.reset ();
 
   this->flat_name_.reset ();
 
@@ -450,14 +449,21 @@ AST_Decl::compute_repoID ()
       scope = parent->defined_in ();
     }
 
-  const char *version = this->version_;
+  std::optional<std::string_view> version;
+  if (this->version_)
+    {
+      version = *this->version_;
+    }
   scope = this->defined_in ();
 
-  // If our version is has not bee set, we use the parent's, if any.
+  // If our version has not been set, we use the parent's, if any.
   while (!version && scope)
     {
       AST_Decl *parent = ScopeAsDecl (scope);
-      version = parent->version_;
+      if (parent->version_)
+        {
+          version = *parent->version_;
+        }
       scope = parent->defined_in ();
     }
 
@@ -512,7 +518,7 @@ AST_Decl::compute_repoID ()
   if (version)
     {
       repo_id += ':';
-      repo_id += version;
+      repo_id += *version;
     }
   else
     {
@@ -854,26 +860,26 @@ AST_Decl::version ()
 
       if (!this->typeid_set_ && tail2 != std::string_view::npos)
         {
-          this->version_ = ACE::strnew (repo_id.substr (tail2 + 1).data ());
+          this->version_ = repo_id.substr (tail2 + 1);
         }
       else
         {
-          this->version_ = ACE::strnew ("1.0");
+          this->version_ = "1.0";
         }
     }
 
-  return this->version_;
+  return *this->version_;
 }
 
 void
-AST_Decl::version (char *value)
+AST_Decl::version (std::string_view value)
 {
   // Previous #pragma version or #pragma id make this illegal.
-  if ((!this->version_ || !ACE_OS::strcmp (this->version_, value))
+  if ((!this->version_ || std::string_view (*this->version_) == value)
       && !this->typeid_set_)
     {
-      delete [] this->version_;
-      this->version_ = value;
+      std::string version_value (value);
+      this->version_ = std::move (version_value);
 
       // Repo id is now computed eagerly, so a version set must update
       // is as well.
@@ -883,7 +889,7 @@ AST_Decl::version (char *value)
           std::string::size_type const pos = repo_id.rfind (':');
           if (pos != std::string::npos)
             {
-              repo_id.replace (pos + 1, std::string::npos, value);
+              repo_id.replace (pos + 1, std::string::npos, *this->version_);
               this->repoID_ = std::move (repo_id);
             }
         }
@@ -892,6 +898,15 @@ AST_Decl::version (char *value)
     {
       idl_global->err ()->version_reset_error ();
     }
+}
+
+void
+AST_Decl::version (char *value)
+{
+  // The checked-in generated lexer still passes an owned C string.
+  std::string version_value (value);
+  delete [] value;
+  this->version (version_value);
 }
 
 bool

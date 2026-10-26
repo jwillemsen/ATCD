@@ -286,7 +286,7 @@ idl_error_header (UTL_Error::ErrorCode c, long lineno, ACE_CString s)
   idl_global->err ()->last_error_lineno = line_number;
   ACE_ERROR ((LM_ERROR,
               "Error - %C: \"%C\", line %d: %C",
-              idl_global->prog_name (),
+              idl_global->prog_name ().data (),
               s.c_str (),
               line_number,
               error_string (c)));
@@ -311,7 +311,7 @@ idl_warning_header (UTL_Error::ErrorCode c, long lineno, ACE_CString s)
   idl_global->err ()->last_warning_lineno = lineno;
   ACE_ERROR ((LM_WARNING,
               "Warning - %C: \"%C\", line %d: %C",
-              idl_global->prog_name (),
+              idl_global->prog_name ().data (),
               s.c_str (),
               line_number,
               error_string (c)));

@@ -375,7 +375,7 @@ FE_init ()
   idl_global->set_import (true);
   idl_global->set_in_main_file (false);
   idl_global->set_lineno (-1);
-  idl_global->set_prog_name (nullptr);
+  idl_global->clear_prog_name ();
 
   idl_global->set_local_escapes ({});
   idl_global->set_compile_flags (0);
@@ -495,7 +495,7 @@ FE_get_cpp_loc_from_env ()
     }
   else
     {
-      cpp_loc = idl_global->cpp_location ();
+      cpp_loc = idl_global->cpp_location ().value_or (std::string_view {}).data ();
     }
 
   return cpp_loc;

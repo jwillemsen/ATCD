@@ -122,8 +122,8 @@ DRV_usage ()
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%C: usage: %C [[flag|file] ...] [-- file ...]\n"),
-              idl_global->prog_name (),
-              idl_global->prog_name ()));
+              idl_global->prog_name ().data (),
+              idl_global->prog_name ().data ()));
 
   ACE_DEBUG ((LM_DEBUG,
     ACE_TEXT ("Legal flags:\n")

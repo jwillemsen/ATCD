@@ -373,11 +373,12 @@ public:
   bool             in_main_file () const;   // Are we?
   void             set_in_main_file (bool);     // Set it
 
-  char const *prog_name () const;     // Invoked as..
-  void             set_prog_name (char const *);  // Set it
+  std::string_view prog_name () const;
+  void set_prog_name (std::string_view name);
+  void clear_prog_name ();
 
-  char const *cpp_location () const;  // Where's CPP?
-  void             set_cpp_location (char const *);// Set it
+  std::optional<std::string_view> cpp_location () const;
+  void set_cpp_location (std::string_view location);
 
   long             compile_flags () const;  // What flags are on?
   void             set_compile_flags (long);    // Turn some on or off
@@ -918,8 +919,8 @@ private:
   UTL_String                 *pd_stripped_filename {}; // Stripped filename
   bool                       pd_import {};             // Is import on?
   bool                       pd_in_main_file {};       // Are we in it?
-  char const                 *pd_prog_name {};         // Argv[0]
-  char const                 *pd_cpp_location {};      // Where to find CPP
+  std::string pd_prog_name {};
+  std::optional<std::string> pd_cpp_location {};
   long                       pd_compile_flags {};      // Compile flags
   std::string                 pd_local_escapes {};     // Trapdoor argument
   UTL_Indenter               *pd_indent {};            // Indent object

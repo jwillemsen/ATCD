@@ -1776,7 +1776,7 @@ BE_GlobalData::dds_impl (std::string_view val)
       ACE_ERROR ((LM_ERROR,
                   ACE_TEXT ("%C: invalid or unknown ")
                   ACE_TEXT ("argument <%C> to -Wb,dds_impl\n"),
-                  idl_global->prog_name (),
+                  idl_global->prog_name ().data (),
                   value.c_str ()));
     }
 }

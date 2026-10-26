@@ -407,29 +407,40 @@ IDL_GlobalData::set_stripped_filename (UTL_String *nm)
 }
 
 // Get or set cache value for argv[0]
-char const *
+std::string_view
 IDL_GlobalData::prog_name () const
 {
   return this->pd_prog_name;
 }
 
 void
-IDL_GlobalData::set_prog_name (char const *pn)
+IDL_GlobalData::set_prog_name (std::string_view name)
 {
-  this->pd_prog_name = pn;
-}
-
-// Get or set location to find C preprocessor
-char const *
-IDL_GlobalData::cpp_location () const
-{
-  return this->pd_cpp_location;
+  this->pd_prog_name = name;
 }
 
 void
-IDL_GlobalData::set_cpp_location (char const *l)
+IDL_GlobalData::clear_prog_name ()
 {
-  this->pd_cpp_location = l;
+  this->pd_prog_name.clear ();
+}
+
+// Get or set location to find C preprocessor
+std::optional<std::string_view>
+IDL_GlobalData::cpp_location () const
+{
+  if (this->pd_cpp_location)
+    {
+      return *this->pd_cpp_location;
+    }
+
+  return std::nullopt;
+}
+
+void
+IDL_GlobalData::set_cpp_location (std::string_view location)
+{
+  this->pd_cpp_location = location;
 }
 
 // Get or set IDL compiler flags

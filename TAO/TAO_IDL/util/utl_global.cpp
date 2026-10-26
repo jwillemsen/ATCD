@@ -501,17 +501,14 @@ IDL_GlobalData::set_indent (UTL_Indenter *i)
 
 // Have we seen this #include file name before?
 long
-IDL_GlobalData::seen_include_file_before (char *n)
+IDL_GlobalData::seen_include_file_before (std::string_view filename)
 {
-  unsigned long i;
-  char *incl = nullptr;
-  char *tmp = n;
-
-  for (i = 0; i < this->pd_n_include_file_names; ++i)
+  for (unsigned long i = 0; i < this->pd_n_include_file_names; ++i)
     {
-      incl = this->pd_include_file_names[i]->get_string ();
+      std::string_view const include_name =
+        this->pd_include_file_names[i]->get_string_view ().value_or (std::string_view {});
 
-      if (ACE_OS::strcmp (tmp, incl) == 0)
+      if (filename == include_name)
         {
           return ++pSeenOnce[i];
         }
@@ -525,7 +522,8 @@ void
 IDL_GlobalData::store_include_file_name (UTL_String *n)
 {
   // Check if we need to store it at all or whether we've seen it already.
-  if (this->seen_include_file_before (n->get_string ()))
+  if (this->seen_include_file_before (
+        n->get_string_view ().value_or (std::string_view {})))
     {
       n->destroy ();
       delete n; // Don't keep filenames we don't store!

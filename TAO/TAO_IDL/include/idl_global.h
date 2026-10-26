@@ -537,7 +537,7 @@ public:
   void update_prefix (char *filename);
   // Do repo id prefix bookkeeping when the file changes.
 
-  long seen_include_file_before (char *);
+  long seen_include_file_before (std::string_view filename);
   // Seen this include before?
 
   long last_seen_index () const;

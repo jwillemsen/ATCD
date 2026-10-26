@@ -126,7 +126,7 @@ be_interface::be_interface (UTL_ScopedName *n,
 be_interface::~be_interface () = default;
 
 std::string_view
-be_interface::local_name ()
+be_interface::local_name () const
 {
   // Return the local name.
 //  return this->strategy_->local_name ();

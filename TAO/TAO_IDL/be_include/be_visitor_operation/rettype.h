@@ -102,7 +102,7 @@ public:
   int visit_valuebox (be_valuebox *node) override;
 
 private:
-  std::string_view type_name (be_type *node);
+  std::string_view type_name (be_type *node) const;
 
 private:
   TAO_OutStream *os;

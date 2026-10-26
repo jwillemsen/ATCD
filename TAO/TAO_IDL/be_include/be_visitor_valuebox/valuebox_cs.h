@@ -70,9 +70,9 @@ public:
 
 private:
   /// Generate virtual destructor.
-  void emit_destructor ();
+  void emit_destructor () const;
 
-  int emit_for_predef_enum (std::string_view marshal_arg);
+  int emit_for_predef_enum (std::string_view marshal_arg) const;
 };
 
 #endif /* _BE_VISITOR_VALUEBOX_CS_H_ */

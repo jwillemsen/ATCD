@@ -297,7 +297,7 @@ be_visitor_operation_rettype::visit_valuebox (
 }
 
 std::string_view
-be_visitor_operation_rettype::type_name (be_type *node)
+be_visitor_operation_rettype::type_name (be_type *node) const
 {
   be_type *bt = nullptr;
 

@@ -723,7 +723,7 @@ be_visitor_valuebox_cs::visit_union (be_union *)
 }
 
 void
-be_visitor_valuebox_cs::emit_destructor ()
+be_visitor_valuebox_cs::emit_destructor () const
 {
   TAO_OutStream & os = *this->ctx_->stream ();
 
@@ -736,7 +736,7 @@ be_visitor_valuebox_cs::emit_destructor ()
 }
 
 int
-be_visitor_valuebox_cs::emit_for_predef_enum (std::string_view marshal_arg)
+be_visitor_valuebox_cs::emit_for_predef_enum (std::string_view marshal_arg) const
 {
   TAO_OutStream & os = *this->ctx_->stream ();
 

@@ -16,6 +16,8 @@
 #include "be_visitor_structure/cdr_op_cs.h"
 #include "be_visitor_union/cdr_op_cs.h"
 
+#include <string_view>
+
 be_visitor_field_cdr_op_cs::be_visitor_field_cdr_op_cs (
       be_visitor_context *ctx)
   : be_visitor_decl (ctx)
@@ -115,7 +117,8 @@ be_visitor_field_cdr_op_cs::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           node->local_name ()->get_string ());
+                           node->local_name ()->get_string_view ().value_or (
+                             std::string_view ("")).data ());
         }
       else
         {
@@ -1069,7 +1072,8 @@ be_visitor_cdr_op_field_decl::visit_array (be_array *node)
           ACE_OS::sprintf (fname,
                            "%s::_%s",
                            parent->full_name ().data (),
-                           node->local_name ()->get_string ());
+                           node->local_name ()->get_string_view ().value_or (
+                             std::string_view ("")).data ());
         }
       else
         {

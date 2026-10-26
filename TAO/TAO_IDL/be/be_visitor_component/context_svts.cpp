@@ -29,7 +29,7 @@ be_visitor_context_svts::visit_component (be_component *node)
   node_ = node;
 
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   std::string_view const lname = node_->local_name ();
   const char *global = (sname_str == "" ? "" : "::");
 
@@ -119,10 +119,10 @@ be_visitor_context_svts::visit_publishes (be_publishes *node)
   AST_Type *obj = node->publishes_type ();
   const char *port_name =
     node->local_name ()->get_string ();
-  const char *fname = obj->full_name ();
+  std::string_view const fname = obj->full_name ();
   const char *lname = obj->local_name ()->get_string ();
   ACE_CString sname_str (
-    ScopeAsDecl (obj->defined_in ())->full_name ());
+    ScopeAsDecl (obj->defined_in ())->full_name ().data ());
 
   os_ << be_nl_2
       << "template <typename CONTAINER_TYPE, typename BASE>" << be_nl
@@ -256,7 +256,7 @@ be_visitor_context_svts::visit_emits (be_emits *node)
   const char *port_name =
     node->local_name ()->get_string ();
 
-  const char *fname = obj->full_name ();
+  std::string_view const fname = obj->full_name ();
   const char *lname = obj->local_name ()->get_string ();
 
   os_ << be_nl_2
@@ -320,7 +320,7 @@ void
 be_visitor_context_svts::gen_uses_simplex (AST_Type *obj,
                                           const char *port_name)
 {
-  const char *fname = obj->full_name ();
+  std::string_view const fname = obj->full_name ();
 
   os_ << be_nl_2
       << "template <typename CONTAINER_TYPE, typename BASE>" << be_nl
@@ -377,7 +377,7 @@ be_visitor_context_svts::gen_uses_multiplex (
   AST_Type *obj,
   const char *port_name)
 {
-  const char *fname = obj->full_name ();
+  std::string_view const fname = obj->full_name ();
 
   os_ << be_nl_2
       << "template <typename CONTAINER_TYPE, typename BASE>" << be_nl

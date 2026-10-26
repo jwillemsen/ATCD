@@ -93,14 +93,14 @@ be_visitor_valuetype_field_cdr_cs::visit_array (be_array *node)
             dynamic_cast<be_scope*> (node->defined_in ())->decl ();
           ACE_OS::sprintf (fname,
                            "%s::_%s",
-                           parent->full_name (),
+                           parent->full_name ().data (),
                            node->local_name ()->get_string ());
         }
       else
         {
           ACE_OS::sprintf (fname,
                            "_%s",
-                           node->full_name ());
+                           node->full_name ().data ());
         }
     }
   else
@@ -108,7 +108,7 @@ be_visitor_valuetype_field_cdr_cs::visit_array (be_array *node)
       // Typedefed node.
       ACE_OS::sprintf (fname,
                        "%s",
-                       node->full_name ());
+                       node->full_name ().data ());
     }
 
   // Check what is the code generation substate. Are we generating
@@ -965,14 +965,14 @@ be_visitor_valuetype_field_cdr_decl::visit_array (be_array *node)
             dynamic_cast<be_scope*> (node->defined_in ())->decl ();
           ACE_OS::sprintf (fname,
                            "%s::_%s",
-                           parent->full_name (),
+                           parent->full_name ().data (),
                            node->local_name ()->get_string ());
         }
       else
         {
           ACE_OS::sprintf (fname,
                            "_%s",
-                           node->full_name ());
+                           node->full_name ().data ());
         }
     }
   else
@@ -980,7 +980,7 @@ be_visitor_valuetype_field_cdr_decl::visit_array (be_array *node)
       // Typedefed node.
       ACE_OS::sprintf (fname,
                        "%s",
-                       node->full_name ());
+                       node->full_name ().data ());
     }
 
   // Check what is the code generation substate. Are we generating code for

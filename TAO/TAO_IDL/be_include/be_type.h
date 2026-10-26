@@ -43,8 +43,8 @@ public:
   /// Type name of a node used when generating declarations for smart
   /// proxies.
   virtual std::string nested_sp_type_name (be_decl *use_scope,
-                                           char const * suffix = nullptr,
-                                           char const * prefix = nullptr);
+                                           std::string_view suffix = {},
+                                           std::string_view prefix = {}) const;
 
   /// Compute the value of the member.
   void gen_fwd_helper_name ();

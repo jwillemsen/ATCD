@@ -45,7 +45,7 @@ be_visitor_sequence_any_op_ch::visit_sequence (be_sequence *node)
 
   *os << be_nl_2;
 
-  ACE_CString name;
+  std::string name;
 
   bool alt = be_global->alt_mapping ();
 

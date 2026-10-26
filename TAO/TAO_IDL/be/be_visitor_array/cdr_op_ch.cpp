@@ -100,7 +100,7 @@ be_visitor_array_cdr_op_ch::visit_array (be_array *node)
   be_scope* scope = dynamic_cast<be_scope*> (node->defined_in ());
   be_decl* parent = scope->decl ();
   be_typedef *td = this->ctx_->tdef ();
-  ACE_CString arg_name (ACE_CString (parent->full_name ())
+  ACE_CString arg_name (ACE_CString (parent->full_name ().data ())
                         + "::"
                         + (td == nullptr ? "_" : "")
                         + node->local_name ()->get_string ()

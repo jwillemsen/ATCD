@@ -25,7 +25,7 @@ be_visitor_servant_svs::visit_component (be_component *node)
   node_ = node;
 
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   const char *sname = sname_str.c_str ();
   std::string_view const lname = node->local_name ();
   const char *global = (sname_str == "" ? "" : "::");
@@ -263,9 +263,9 @@ be_visitor_servant_svs::visit_provides (be_provides *node)
   const char *port_name = prefix.c_str ();
 
   AST_Type *obj = node->provides_type ();
-  const char *obj_name = obj->full_name ();
+  std::string_view const obj_name = obj->full_name ();
   AST_Decl *scope = ScopeAsDecl (obj->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   const char *sname = sname_str.c_str ();
 
   // Avoid '_cxx_' prefix.
@@ -352,7 +352,7 @@ be_visitor_servant_svs::visit_uses (be_uses *node)
   prefix += node->local_name ()->get_string ();
   const char *port_name = prefix.c_str ();
 
-  const char *obj_name = node->uses_type ()->full_name ();
+  std::string_view const obj_name = node->uses_type ()->full_name ();
   bool const is_multiple = node->is_multiple ();
 
   os_ << be_nl_2
@@ -428,7 +428,7 @@ be_visitor_servant_svs::visit_publishes (be_publishes *node)
       return 0;
     }
 
-  const char *obj_name = node->publishes_type ()->full_name ();
+  std::string_view const obj_name = node->publishes_type ()->full_name ();
   const char *port_name = node->local_name ()->get_string ();
 
   os_ << be_nl_2
@@ -464,7 +464,7 @@ be_visitor_servant_svs::visit_emits (be_emits *node)
       return 0;
     }
 
-  const char *obj_name = node->emits_type ()->full_name ();
+  std::string_view const obj_name = node->emits_type ()->full_name ();
   const char *port_name = node->local_name ()->get_string ();
 
   os_ << be_nl_2
@@ -497,12 +497,12 @@ be_visitor_servant_svs::visit_consumes (be_consumes *node)
 
   std::string_view const comp_lname = node_->local_name ();
   ACE_CString comp_sname_str (
-    ScopeAsDecl (node_->defined_in ())->full_name ());
+    ScopeAsDecl (node_->defined_in ())->full_name ().data ());
   const char *comp_sname = comp_sname_str.c_str ();
   const char *global = (comp_sname_str == "" ? "" : "::");
 
   const char *lname = obj->local_name ()->get_string ();
-  const char *fname = obj->full_name ();
+  std::string_view const fname = obj->full_name ();
 
   os_ << be_nl_2
       << comp_lname << "_Servant::" << lname << "Consumer_"
@@ -650,9 +650,9 @@ be_visitor_servant_svs::gen_provides_top ()
     }
 
   ACE_CString comp_sname_str (
-    ScopeAsDecl (node_->defined_in ())->full_name ());
+    ScopeAsDecl (node_->defined_in ())->full_name ().data ());
   const char *global = (comp_sname_str == "" ? "" : "::");
-  ACE_CString sname_str (ScopeAsDecl (node_->defined_in ())->full_name ());
+  ACE_CString sname_str (ScopeAsDecl (node_->defined_in ())->full_name ().data ());
 
   os_ << be_nl_2
       << "/// CIAO-specific." << be_nl
@@ -1064,7 +1064,7 @@ be_visitor_obv_factory_reg::gen_obv_factory_registration (AST_Type *t)
 {
   if (be_global->gen_ciao_valuefactory_reg ())
     {
-      const char *fname = t->full_name ();
+      std::string_view const fname = t->full_name ();
 
       os_ << "TAO_OBV_REGISTER_FACTORY (" << be_idt_nl
           << "::" << fname << "_init," << be_nl
@@ -1195,7 +1195,7 @@ be_visitor_connect_block::visit_uses (be_uses *node)
   prefix += node->local_name ()->get_string ();
   const char *port_name = prefix.c_str ();
 
-  const char *obj_name = node->uses_type ()->full_name ();
+  std::string_view const obj_name = node->uses_type ()->full_name ();
   bool const is_multiple = node->is_multiple ();
 
   os_ << be_nl_2
@@ -1289,7 +1289,7 @@ be_visitor_receptacle_desc::visit_uses (be_uses *node)
 
   os_ << be_nl_2;
 
-  ACE_CString sname_str (comp_->full_name ());
+  ACE_CString sname_str (comp_->full_name ().data ());
   const char *sname = sname_str.c_str ();
 
   const char *global = (sname_str == "" ? "" : "::");
@@ -1347,7 +1347,7 @@ int
 be_visitor_subscribe_block::visit_publishes (
   be_publishes *node)
 {
-  const char *obj_name =
+  std::string_view const obj_name =
     node->publishes_type ()->full_name ();
   const char *port_name =
     node->local_name ()->get_string ();
@@ -1452,7 +1452,7 @@ int
 be_visitor_connect_consumer_block::visit_emits (
   be_emits *node)
 {
-  const char *obj_name =
+  std::string_view const obj_name =
     node->emits_type ()->full_name ();
   const char *port_name =
     node->local_name ()->get_string ();

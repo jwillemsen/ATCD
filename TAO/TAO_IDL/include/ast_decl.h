@@ -73,6 +73,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ace/SString.h"
 #include "ace/Vector_T.h"
 
+#include <optional>
+#include <string>
 #include <string_view>
 
 class Identifier;
@@ -217,10 +219,10 @@ public:
   bool in_main_file ();
   void set_in_main_file (bool is_it);
 
-  UTL_Scope *defined_in ();
+  UTL_Scope *defined_in () const;
   void set_defined_in (UTL_Scope *);
 
-  NodeType node_type ();
+  NodeType node_type () const;
 
   long line ();
   void set_line (long l);
@@ -244,10 +246,10 @@ public:
                                   char const *sufix);
   // Apply prefix and suffix to the local name and return.
 
-  virtual char const *full_name ();
+  virtual std::string_view full_name () const;
   // Return the stringified full name.
 
-  virtual char const *flat_name ();
+  virtual std::string_view flat_name () const;
   // Return the flattened full scoped name.
 
   char const *repoID ();
@@ -300,7 +302,7 @@ public:
   bool has_ancestor (AST_Decl *s);
 
   // Return TRUE if "this" is a child of "s".
-  bool is_child (AST_Decl *s);
+  bool is_child (AST_Decl *s) const;
 
   bool is_nested ();
   // Determines if we are inside of a nested scope or not.
@@ -400,7 +402,7 @@ protected:
   char *repoID_ {};
   // Repository ID.
 
-  char *flat_name_ {};
+  mutable std::optional<std::string> flat_name_;
   // Flattened fully scoped name.
 
   int contains_wstring_ {-1};
@@ -411,10 +413,10 @@ protected:
   void compute_repoID ();
   // Computes the repoID.
 
-  void compute_full_name ();
+  void compute_full_name () const;
   // Computes the stringified scoped name.
 
-  void compute_flat_name ();
+  void compute_flat_name () const;
   // Compute the flattened fully scoped name.
 
   static std::string_view node_type_to_string (NodeType nt);
@@ -457,7 +459,7 @@ private:
   Identifier *pd_original_local_name {};
   // _cxx_ removed if any.
 
-  char *full_name_ {};
+  mutable std::optional<std::string> full_name_;
   // Our full scoped name.
 
   char *prefix_ {};

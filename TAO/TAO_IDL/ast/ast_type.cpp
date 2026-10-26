@@ -180,8 +180,8 @@ AST_Type::has_constructor (bool value)
 // Return the type name.
 std::string
 AST_Type::nested_type_name (AST_Decl *use_scope,
-                            char const * suffix,
-                            char const * prefix)
+                            std::string_view suffix,
+                            std::string_view prefix) const
 {
   return this->nested_name (this->local_name ()->get_string (),
                             this->full_name (),
@@ -215,11 +215,11 @@ AST_Type::legal_for_primary_key () const
 
 // This is the real thing used by the method above.
 std::string
-AST_Type::nested_name (char const * local_name,
-                       char const * full_name,
+AST_Type::nested_name (std::string_view local_name,
+                       std::string_view full_name,
                        AST_Decl *use_scope,
-                       char const * suffix,
-                       char const * prefix)
+                       std::string_view suffix,
+                       std::string_view prefix) const
 {
   // Some compilers do not like generating a fully scoped name for a type that
   // was defined in the same enclosing scope in which it was defined. For such,
@@ -248,7 +248,7 @@ AST_Type::nested_name (char const * local_name,
   bool const in_root =
     (def_scope != nullptr && def_scope->node_type () == AST_Decl::NT_root)
     || ((this->node_type () == AST_Decl::NT_pre_defined
-        && ACE_OS::strcmp (this->flat_name (), "CORBA_TypeCode") == 0));
+        && this->flat_name () == "CORBA_TypeCode"));
 
   std::string const fname (this->full_name ());
   bool const corba_type = fname.find ("CORBA::") == 0;
@@ -267,13 +267,13 @@ AST_Type::nested_name (char const * local_name,
       // If the scopes are identical, don't supply them.
       if (def_name == use_name)
         {
-          if (prefix != nullptr)
+          if (!prefix.empty ())
             {
               nested_name.append (prefix);
             }
 
           nested_name.append (local_name);
-          if (suffix != nullptr)
+          if (!suffix.empty ())
             {
               nested_name.append (suffix);
             }
@@ -324,14 +324,14 @@ AST_Type::nested_name (char const * local_name,
               nested_name.append ("::");
             }
 
-          if (prefix != nullptr)
+          if (!prefix.empty ())
             {
               nested_name.append (prefix);
             }
 
           nested_name.append (local_name);
 
-          if (suffix != nullptr)
+          if (!suffix.empty ())
             {
               nested_name.append (suffix);
             }
@@ -341,14 +341,14 @@ AST_Type::nested_name (char const * local_name,
     }
 
   // Otherwise just emit our full_name.
-  if (prefix != nullptr)
+  if (!prefix.empty ())
     {
       nested_name.append (prefix);
     }
 
   nested_name.append (full_name);
 
-  if (suffix != nullptr)
+  if (!suffix.empty ())
     {
       nested_name.append (suffix);
     }
@@ -357,9 +357,10 @@ AST_Type::nested_name (char const * local_name,
 }
 
 bool
-AST_Type::match_names (AST_Type *t, ACE_Unbounded_Queue<AST_Type *> &list)
+AST_Type::match_names (AST_Type *t,
+                       ACE_Unbounded_Queue<AST_Type *> const &list) const
 {
-  for (ACE_Unbounded_Queue_Iterator<AST_Type *> iter (list);
+  for (ACE_Unbounded_Queue_Const_Iterator<AST_Type *> iter (list);
        !iter.done ();
        (void) iter.advance ())
     {
@@ -368,8 +369,7 @@ AST_Type::match_names (AST_Type *t, ACE_Unbounded_Queue<AST_Type *> &list)
 
       (void) iter.next (temp);
 
-      if (!ACE_OS::strcmp (t->full_name (),
-                           (*temp)->full_name ()))
+      if (t->full_name () == (*temp)->full_name ())
         {
           return true;
         }

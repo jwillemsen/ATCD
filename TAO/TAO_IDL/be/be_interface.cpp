@@ -1277,7 +1277,7 @@ be_interface::gen_optable_entries (be_interface *derived_interface,
               ACE_CString tmp (full_skeleton_name);
               if (tmp.strstr ("AMH_") != ACE_String_Base_Const::npos)
                 {
-                  ACE_CString name (d->full_name ());
+                  ACE_CString name (d->full_name ().data ());
                   ACE_String_Base_Const::size_type const last = name.rfind(':') - 1;
                   name = name.substring (0, last);
                   if (name.rfind (':') != ACE_String_Base_Const::npos)
@@ -1353,7 +1353,7 @@ be_interface::gen_optable_entries (be_interface *derived_interface,
               // or _get_ in between the namespace and attribute name.
 
               //determine the correct namespace
-              ACE_CString nspace (d->full_name ());
+              ACE_CString nspace (d->full_name ().data ());
               ACE_String_Base_Const::size_type const pos = nspace.rfind(':');
               nspace = nspace.substring(0, pos + 1);
 
@@ -2189,12 +2189,11 @@ be_interface::original_interface ()
 }
 
 bool
-be_interface::is_event_consumer ()
+be_interface::is_event_consumer () const
 {
   return
     this->pd_n_inherits == 1
-    && ACE_OS::strcmp (this->pd_inherits[0]->full_name (),
-                       "Components::EventConsumerBase") == 0;
+    && this->pd_inherits[0]->full_name () == "Components::EventConsumerBase";
 }
 
 void
@@ -2585,14 +2584,14 @@ be_interface::flat_client_enclosing_scope ()
 {
   if (!this->flat_client_scope_computed_)
     {
-      const char *full_name = this->flat_name ();
+      std::string_view const full_name = this->flat_name ();
       const char *name =
         this->original_local_name ()->get_string ();
 
       size_t offset = ACE_OS::strlen (name);
-      size_t length = ACE_OS::strlen (full_name) - offset;
+      size_t length = full_name.size () - offset;
 
-      this->flat_client_scope_.assign (full_name, length);
+      this->flat_client_scope_.assign (full_name.data (), length);
       this->flat_client_scope_computed_ = true;
     }
 

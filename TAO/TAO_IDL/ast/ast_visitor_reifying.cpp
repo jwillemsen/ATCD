@@ -704,7 +704,7 @@ UTL_ScopedName *
 ast_visitor_reifying::template_module_rel_name (AST_Decl *d)
 {
   AST_Decl *tmp = d;
-  ACE_CString name (d->full_name ());
+  std::string name (d->full_name ());
 
   while (tmp != nullptr)
     {
@@ -712,9 +712,9 @@ ast_visitor_reifying::template_module_rel_name (AST_Decl *d)
         {
           ACE_CString head (tmp->local_name ()->get_string ());
 
-          ACE_CString::size_type start = name.find (head) + 2;
+          std::string::size_type start = name.find (head.c_str ()) + 2;
 
-          ACE_CString tail (name.substr (start + head.length ()));
+          std::string tail (name.substr (start + head.length ()));
 
           return FE_Utils::string_to_scoped_name (tail.c_str ());
         }

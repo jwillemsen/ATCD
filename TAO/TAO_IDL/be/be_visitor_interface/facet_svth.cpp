@@ -35,11 +35,11 @@ be_visitor_facet_svth::visit_interface (be_interface *node)
 
   be_decl *scope =
     dynamic_cast<be_scope*> (node->defined_in ())->decl ();
-  ACE_CString suffix (scope->flat_name ());
+  std::string suffix (scope->flat_name ());
 
   if (suffix != "")
     {
-      suffix = ACE_CString ("_") + suffix;
+      suffix.insert (0, "_");
     }
 
   os_ << be_nl_2
@@ -53,9 +53,6 @@ be_visitor_facet_svth::visit_interface (be_interface *node)
       << ": public ::CIAO::Facet_Servant_Base_T<BASE, EXEC, "
       << "CONTEXT>" << be_uidt_nl << "{" << be_nl
       << "public:" << be_idt_nl;
-
-  AST_Decl *s = ScopeAsDecl (node->defined_in ());
-  ACE_CString sname_str (s->full_name ());
 
   os_ << lname << "_Servant_T (" << be_idt_nl
       << "typename EXEC::_ptr_type executor," << be_nl

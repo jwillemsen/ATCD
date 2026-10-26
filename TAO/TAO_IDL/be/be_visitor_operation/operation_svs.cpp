@@ -98,7 +98,8 @@ be_visitor_operation_svs::gen_op_body (be_operation *node)
   os_ << be_nl
       << "{" << be_idt_nl;
 
-  ACE_CString sname_str (ScopeAsDecl (scope_->defined_in ())->full_name ());
+  std::string_view const sname_str =
+    ScopeAsDecl (scope_->defined_in ())->full_name ();
   const char *global = (sname_str == "" ? "" : "::");
 
   if (this->ctx_->state () == TAO_CodeGen::TAO_ROOT_SVTS)

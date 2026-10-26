@@ -82,7 +82,7 @@ void
 be_visitor_component_svs::gen_entrypoint (AST_Component *node)
 {
   ACE_CString sname_str (
-    ScopeAsDecl (node->defined_in ())->full_name ());
+    ScopeAsDecl (node->defined_in ())->full_name ().data ());
   const char *sname = sname_str.c_str ();
   const char *lname = node->local_name ()->get_string ();
   const char *global = (sname_str == "" ? "" : "::");

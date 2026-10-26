@@ -262,8 +262,8 @@ int be_visitor_exception_cs::visit_exception (be_exception *node)
       *os << "}" << be_nl_2;
     }
 
-  if ((ACE_OS::strcmp (node->full_name (), "CORBA::InvalidPolicies") == 0) ||
-      (ACE_OS::strcmp (node->full_name (), "CORBA::PolicyError") == 0))
+  if (node->full_name () == "CORBA::InvalidPolicies"
+      || node->full_name () == "CORBA::PolicyError")
     {
       *os << "// TAO extension - the virtual _type method." << be_nl
           << "::CORBA::TypeCode_ptr " << node->name ()
@@ -292,8 +292,8 @@ int be_visitor_exception_cs::visit_exception (be_exception *node)
       *os << be_nl_2;
     }
 
-  if ((ACE_OS::strcmp (node->full_name (), "CORBA::InvalidPolicies") != 0) &&
-      (ACE_OS::strcmp (node->full_name (), "CORBA::PolicyError") != 0))
+  if (node->full_name () != "CORBA::InvalidPolicies"
+      && node->full_name () != "CORBA::PolicyError")
     {
       if (be_global->tc_support ())
         {

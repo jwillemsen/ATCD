@@ -948,17 +948,17 @@ UTL_ScopedName *
 be_visitor_xplicit_pre_proc::xplicit_iface_rel_name (AST_Decl *d)
 {
   AST_Decl *tmp = d;
-  ACE_CString name (d->full_name ());
+  std::string name (d->full_name ());
 
   while (tmp != nullptr)
     {
       if (dynamic_cast<be_home*> (tmp) != nullptr)
         {
-          ACE_CString head (tmp->local_name ()->get_string ());
+          std::string head (tmp->local_name ()->get_string ());
 
-          ACE_CString::size_type start = name.find (head) + 2;
+          std::string::size_type start = name.find (head) + 2;
 
-          ACE_CString tail (name.substr (start + head.length ()));
+          std::string tail (name.substr (start + head.length ()));
 
           return FE_Utils::string_to_scoped_name (tail.c_str ());
         }

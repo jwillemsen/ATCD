@@ -439,7 +439,7 @@ public:
   void set_dcps_sequence_type (char const * seq_type);
 
   // BE calls to check whether pragma for this sequence has been set
-  bool dcps_sequence_type_defined (char const * seq_type);
+  bool dcps_sequence_type_defined (std::string_view seq_type) const;
 
   // FE calls when #pragma DCPS_GEN_ZERO_COPY_READ is processed
   void dcps_gen_zero_copy_read (bool value);

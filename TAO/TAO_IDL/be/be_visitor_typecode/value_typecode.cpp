@@ -73,8 +73,8 @@ TAO::be_visitor_value_typecode::visit_valuetype (be_valuetype * node)
     node->data_members_count (AST_Field::vis_PUBLIC)
     + node->data_members_count (AST_Field::vis_PRIVATE);
 
-  ACE_CString const fields_name (ACE_CString ("_tao_fields_")
-                                 + node->flat_name ());
+  std::string fields_name ("_tao_fields_");
+  fields_name += node->flat_name ();
 
   // Generate array containing value field characteristics.
   os << "static TAO::TypeCode::Value_Field<char const *, "

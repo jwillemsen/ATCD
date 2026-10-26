@@ -25,7 +25,7 @@ IdentifierHelper::type_name (be_type *t, be_visitor *visitor)
         switch (pdt->pt ())
           {
             case AST_PredefinedType::PT_pseudo:
-              return t->full_name ();
+              return std::string (t->full_name ());
             case AST_PredefinedType::PT_object:
               return "Object";
             case AST_PredefinedType::PT_any:

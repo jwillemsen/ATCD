@@ -117,7 +117,7 @@ be_visitor_null_return_value::visit_predefined_type (be_predefined_type *node)
 int
 be_visitor_null_return_value::visit_sequence (be_sequence *node)
 {
-  const char *fname = node->full_name ();
+  std::string_view fname = node->full_name ();
   be_typedef *td = this->ctx_->tdef ();
 
   if (td != nullptr)

@@ -201,7 +201,7 @@ be_visitor_facet_ami_exs::init ()
 {
   UTL_Scope *s = this->iface_->defined_in ();
   ACE_CString handler_str (
-    ScopeAsDecl (this->iface_->defined_in ())->full_name ());
+    ScopeAsDecl (this->iface_->defined_in ())->full_name ().data ());
   handler_str += "::AMI_";
   ACE_CString tmp (this->iface_->local_name ().data ());
   handler_str += tmp.substr (ACE_OS::strlen ("AMI4CCM_"));
@@ -238,7 +238,7 @@ be_visitor_facet_ami_exs::gen_reply_handler_class ()
   const char *suffix = "_reply_handler";
   UTL_Scope *s = this->iface_->defined_in ();
   AST_Decl *scope = ScopeAsDecl (s);
-  const char *scope_name = scope->full_name ();
+  std::string_view const scope_name = scope->full_name ();
   bool global = (scope->node_type () == AST_Decl::NT_root);
   const char *smart_scope = (global ? "" : "::");
   std::string_view const iface_name = this->iface_->local_name ();
@@ -272,7 +272,7 @@ be_visitor_facet_ami_exs::gen_reply_handler_class ()
   /// visit the scope of the AMI_xxxHandler interface generated
   /// by -GC, which must be applied to this IDL file.
   ACE_CString handler_str (
-    ScopeAsDecl (this->iface_->defined_in ())->full_name ());
+    ScopeAsDecl (this->iface_->defined_in ())->full_name ().data ());
   handler_str += "::AMI_";
   ACE_CString tmp (this->iface_->local_name ().data ());
   handler_str += tmp.substr (ACE_OS::strlen ("AMI4CCM_"));
@@ -323,7 +323,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
   this->for_reply_handler_ = false;
 
   const char *suffix = "_exec_i";
-  const char *scope_name =
+  std::string_view const scope_name =
     ScopeAsDecl (this->iface_->defined_in ())->full_name ();
   std::string_view const iface_name = this->iface_->local_name ();
 
@@ -340,7 +340,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
       << "}";
 
     ACE_CString handler_str (
-    ScopeAsDecl (this->iface_->defined_in ())->full_name ());
+    ScopeAsDecl (this->iface_->defined_in ())->full_name ().data ());
     ACE_CString tmp (this->iface_->local_name ().data ());
     handler_str += "::";
     handler_str += tmp;
@@ -380,7 +380,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
                         ACE_TEXT ("interface failed\n")));
       }
 
-  ACE_CString scope_str (scope_name, nullptr, false);
+  ACE_CString scope_str (scope_name.data (), nullptr, false);
 
   os_ << be_nl_2
       << "void" << be_nl
@@ -467,7 +467,7 @@ be_visitor_facet_ami_exs::gen_reply_hander_op (be_operation *node)
       AST_Argument *arg =
         dynamic_cast<AST_Argument*> (d);
       AST_Type *t = arg->field_type ();
-      ACE_CString type_name = t->full_name ();
+      ACE_CString type_name (t->full_name ().data ());
 
       if (type_name == "Messaging::ExceptionHolder")
         {

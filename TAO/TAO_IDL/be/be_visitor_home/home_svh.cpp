@@ -118,7 +118,7 @@ int
 be_visitor_home_svh::gen_servant_class ()
 {
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   char const *sname = sname_str.c_str ();
 
   // No '_cxx_' prefix.

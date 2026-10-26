@@ -164,8 +164,8 @@ public:
     ACE_GCC_FORMAT_ATTRIBUTE (printf, 2, 3);
 
   /// Generate a #if !defined, #defined macro
-  int gen_ifdef_macro (const char *flat_name,
-                       const char *suffix = nullptr,
+  int gen_ifdef_macro (std::string_view flat_name,
+                       std::string_view suffix = {},
                        bool add_stream_type_suffix = true);
 
   /// Generate an endif statement

@@ -120,10 +120,11 @@ be_visitor_amh_rh_operation_ss::visit_operation (be_operation *node)
   // 3) The argument takes an implied valuetype generated from the
   //    original interface
   // 4) The implied valuetype ends in ExceptionHolder
-  const char *last_underbar = ACE_OS::strrchr (node->full_name (), '_');
+  std::string_view const node_name = node->full_name ();
+  size_t const last_underbar = node_name.rfind ('_');
 
-  if (last_underbar != nullptr
-      && ACE_OS::strcmp (last_underbar, "_excep") == 0)
+  if (last_underbar != std::string_view::npos
+      && node_name.substr (last_underbar) == "_excep")
     {
       if (node->nmembers () == 1)
         {
@@ -140,11 +141,11 @@ be_visitor_amh_rh_operation_ss::visit_operation (be_operation *node)
               if (vt != nullptr
                   && vt->original_interface () == intf->original_interface ())
                 {
-                  const char *last_E =
-                    ACE_OS::strrchr (vt->full_name (), 'E');
+                  std::string_view const vt_name = vt->full_name ();
+                  size_t const last_E = vt_name.rfind ('E');
 
-                  if (last_E != nullptr
-                      && ACE_OS::strcmp (last_E, "ExceptionHolder") == 0)
+                  if (last_E != std::string_view::npos
+                      && vt_name.substr (last_E) == "ExceptionHolder")
                     {
                       is_an_exception_reply = 1;
                     }

@@ -262,7 +262,7 @@ be_visitor_executor_exs::visit_component (be_component *node)
       << be_global->ciao_container_type () << "Component.";
 
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   const char *sname = sname_str.c_str ();
   const char *global = (sname_str == "" ? "" : "::");
   os_ << be_nl_2
@@ -330,7 +330,7 @@ be_visitor_executor_exs::visit_provides (be_provides *node)
     obj->original_local_name ()->get_string ();
 
   AST_Decl *scope = ScopeAsDecl (obj->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   const char *sname = sname_str.c_str ();
   const char *global = (sname_str == "" ? "" : "::");
 

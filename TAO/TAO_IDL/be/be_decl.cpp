@@ -96,10 +96,10 @@ be_decl::compute_full_name  (const char *prefix,
         }
 
       // Parent name.
-      result_str = ACE_CString (parent->full_name ());
+      result_str = ACE_CString (parent->full_name ().data ());
 
       // _
-      if (ACE_OS::strcmp (parent->full_name (), "") != 0)
+      if (!parent->full_name ().empty ())
         {
           result_str += ACE_CString ("::");
         }
@@ -164,10 +164,10 @@ be_decl::compute_flat_name  (const char *prefix,
         }
 
       // Parent name.
-      result_str = ACE_CString (parent->flat_name ());
+      result_str = ACE_CString (parent->flat_name ().data ());
 
       // _
-      if (ACE_OS::strcmp (parent->flat_name (), "") != 0)
+      if (!parent->flat_name ().empty ())
         result_str += "_";
 
       // Prefix.

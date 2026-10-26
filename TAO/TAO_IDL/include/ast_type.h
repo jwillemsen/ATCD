@@ -120,8 +120,8 @@ public:
 
   // Type name of a node used when generating declarations.
   std::string nested_type_name (AST_Decl *d,
-                                char const * suffix = nullptr,
-                                char const * prefix = nullptr);
+                                std::string_view suffix = {},
+                                std::string_view prefix = {}) const;
 
   // Utility function to make sure we are using the unaliased type.
   AST_Type *unaliased_type ();
@@ -142,13 +142,14 @@ protected:
   virtual int compute_size_type ();
 
   // Type name of a node used when generating declarations.
-  std::string nested_name (char const * local_name,
-                           char const * full_name,
+  std::string nested_name (std::string_view local_name,
+                           std::string_view full_name,
                            AST_Decl *use_scope,
-                           char const * suffix,
-                           char const * prefix);
+                           std::string_view suffix,
+                           std::string_view prefix) const;
 
-  bool match_names (AST_Type *t, ACE_Unbounded_Queue<AST_Type *> &list);
+  bool match_names (AST_Type *t,
+                    ACE_Unbounded_Queue<AST_Type *> const &list) const;
 
 protected:
   // Has the full definition been added to the Interface Repository?

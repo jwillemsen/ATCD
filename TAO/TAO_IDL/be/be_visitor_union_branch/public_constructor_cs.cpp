@@ -108,18 +108,18 @@ be_visitor_union_branch_public_constructor_cs::visit_array (be_array *node)
       if (bt->is_nested ())
         {
           be_decl *parent = dynamic_cast<be_scope*> (bt->defined_in ())->decl ();
-          ACE_OS::sprintf (fname, "%s::_%s", parent->full_name (),
+          ACE_OS::sprintf (fname, "%s::_%s", parent->full_name ().data (),
                            bt->local_name ()->get_string ());
         }
       else
         {
-          ACE_OS::sprintf (fname, "_%s", bt->full_name ());
+          ACE_OS::sprintf (fname, "_%s", bt->full_name ().data ());
         }
     }
   else
     {
       // typedefed node
-      ACE_OS::sprintf (fname, "%s", bt->full_name ());
+      ACE_OS::sprintf (fname, "%s", bt->full_name ().data ());
     }
 
   // set the discriminant to the appropriate label

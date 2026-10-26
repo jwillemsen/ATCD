@@ -162,7 +162,7 @@ be_visitor_interface_ch::visit_interface (be_interface *node)
       << "(TAO_OutputCDR &cdr);";
 
   // If we are generating CORBA Policy we need to add some more methods
-  if (ACE_OS::strcmp (node->full_name (), "CORBA::Policy") == 0)
+  if (node->full_name () == "CORBA::Policy")
     {
       *os << be_nl
           << "virtual CORBA::Boolean _tao_encode (TAO_OutputCDR &);" << be_nl

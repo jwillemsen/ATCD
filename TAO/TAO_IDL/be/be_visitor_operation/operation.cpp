@@ -64,9 +64,10 @@ be_visitor_operation::is_amh_exception_holder (be_interface *node)
   if (node->local_name ().substr (0, 4) == "AMH_")
     {
       //ACE_DEBUG ((LM_DEBUG, "Passed first test of amh_excepholder\n"));
-      const char *last_E = ACE_OS::strrchr (node->full_name (), 'E');
-      if (last_E != nullptr
-          && ACE_OS::strcmp (last_E, "ExceptionHolder") == 0)
+      std::string_view const full_name = node->full_name ();
+      size_t const last_E = full_name.rfind ('E');
+      if (last_E != std::string_view::npos
+          && full_name.substr (last_E) == "ExceptionHolder")
         {
           //ACE_DEBUG ((LM_DEBUG, "be_visitor_operation: Passed second test of amh_excepholder\n"));
           is_an_amh_exception_holder = 1;

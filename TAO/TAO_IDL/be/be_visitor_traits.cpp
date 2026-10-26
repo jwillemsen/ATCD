@@ -116,7 +116,7 @@ be_visitor_traits::visit_interface (be_interface *node)
     {
       os->gen_ifdef_macro (node->flat_name (), "traits", false);
 
-      const char *fname = node->full_name ();
+      std::string_view const fname = node->full_name ();
 
       *os << be_nl_2
           << "template<>" << be_nl
@@ -401,7 +401,7 @@ be_visitor_traits::visit_array (be_array *node)
       return 0;
     }
 
-  ACE_CString name_holder;
+  std::string name_holder;
 
   if (node->is_nested ())
     {
@@ -423,7 +423,7 @@ be_visitor_traits::visit_array (be_array *node)
       name_holder = node->full_name ();
     }
 
-  const char *name = name_holder.fast_rep ();
+  const char *name = name_holder.c_str ();
 
   TAO_OutStream *os = this->ctx_->stream ();
 

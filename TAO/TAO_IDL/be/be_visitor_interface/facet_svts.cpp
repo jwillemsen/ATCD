@@ -36,15 +36,15 @@ be_visitor_facet_svts::visit_interface (be_interface *node)
   be_decl *scope =
     dynamic_cast<be_scope*> (node->defined_in ())->decl ();
 
-  ACE_CString sname_str (scope->full_name ());
+  std::string_view const sname_str = scope->full_name ();
 
   const char *global = (sname_str == "" ? "" : "::");
 
-  ACE_CString suffix (scope->flat_name ());
+  std::string suffix (scope->flat_name ());
 
   if (suffix != "")
     {
-      suffix = ACE_CString ("_") + suffix;
+      suffix.insert (0, "_");
     }
 
   os_ << be_nl_2

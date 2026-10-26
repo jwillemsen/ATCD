@@ -90,9 +90,8 @@ TAO::be_visitor_struct_typecode::visit (AST_Structure * node,
                         -1);
     }
 
-  ACE_CString const tao_fields ("_tao_fields_");
-  ACE_CString const fields_name (tao_fields
-                                 + node->flat_name ());
+  std::string fields_name ("_tao_fields_");
+  fields_name += node->flat_name ();
 
   // Generate array containing struct field characteristics.
   os << "static TAO::TypeCode::Struct_Field<" << be_idt_nl

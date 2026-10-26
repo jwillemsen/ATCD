@@ -28,7 +28,7 @@ be_visitor_context_svth::visit_component (be_component *node)
   node_ = node;
 
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   const char *sname = sname_str.c_str ();
 
   // No '_cxx_' prefix.
@@ -148,7 +148,7 @@ be_visitor_context_svth::visit_uses (be_uses *node)
   prefix += node->local_name ()->get_string ();
   const char *port_name = prefix.c_str ();
 
-  const char *obj_name = node->uses_type ()->full_name ();
+  std::string_view const obj_name = node->uses_type ()->full_name ();
   bool const is_multiple = node->is_multiple ();
 
   os_ << be_uidt_nl << be_nl
@@ -214,7 +214,7 @@ be_visitor_context_svth::visit_uses (be_uses *node)
 int
 be_visitor_context_svth::visit_publishes (be_publishes *node)
 {
-  const char *obj_name = node->publishes_type ()->full_name ();
+  std::string_view const obj_name = node->publishes_type ()->full_name ();
   const char *port_name = node->local_name ()->get_string ();
 
   os_ << be_uidt_nl << be_nl
@@ -252,7 +252,7 @@ be_visitor_context_svth::visit_publishes (be_publishes *node)
 int
 be_visitor_context_svth::visit_emits (be_emits *node)
 {
-  const char *obj_name = node->emits_type ()->full_name ();
+  std::string_view const obj_name = node->emits_type ()->full_name ();
   const char *port_name = node->local_name ()->get_string ();
 
   os_ << be_uidt_nl << be_nl

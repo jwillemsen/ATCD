@@ -1592,18 +1592,20 @@ IDL_GlobalData::set_dcps_sequence_type (char const * seq_type)
 }
 
 bool
-IDL_GlobalData::dcps_sequence_type_defined (char const * seq_type)
+IDL_GlobalData::dcps_sequence_type_defined (std::string_view seq_type) const
 {
   char **tmp = nullptr;
 
-  for (ACE_Unbounded_Queue_Iterator<char *>riter (
+  for (ACE_Unbounded_Queue_Const_Iterator<char *> riter (
          this->dcps_sequence_types_list_);
        riter.done () == 0;
        riter.advance ())
     {
       riter.next (tmp);
-      if (ACE_OS::strcmp (*tmp, seq_type) == 0)
-        return true;
+      if (seq_type == *tmp)
+        {
+          return true;
+        }
     }
   return false;
 }

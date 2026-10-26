@@ -108,7 +108,7 @@ be_visitor_interface_cs::visit_interface (be_interface *node)
     }
 
   // If we are generating CORBA Policy we need to add some more methods
-  if (ACE_OS::strcmp (node->full_name (), "CORBA::Policy") == 0)
+  if (node->full_name () == "CORBA::Policy")
     {
       *os << be_nl
           << "CORBA::Boolean" << be_nl

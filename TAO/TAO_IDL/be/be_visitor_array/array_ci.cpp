@@ -105,7 +105,7 @@ int be_visitor_array_ci::visit_array (be_array *node)
     {
       // Typedefed node.
       ACE_OS::sprintf (fname, "%s",
-                       node->full_name ());
+                       node->full_name ().data ());
       ACE_OS::sprintf (lname, "%s",
                        node->local_name ()->get_string ());
     }
@@ -120,7 +120,7 @@ int be_visitor_array_ci::visit_array (be_array *node)
             dynamic_cast<be_scope*> (node->defined_in ())->decl ();
           ACE_OS::sprintf (fname,
                            "%s::_%s",
-                           parent->full_name (),
+                           parent->full_name ().data (),
                            node->local_name ()->get_string ());
           ACE_OS::sprintf (lname,
                            "_%s",
@@ -130,7 +130,7 @@ int be_visitor_array_ci::visit_array (be_array *node)
         {
           ACE_OS::sprintf (fname,
                            "_%s",
-                           node->full_name ());
+                           node->full_name ().data ());
           ACE_OS::sprintf (lname,
                            "_%s",
                            node->local_name ()->get_string ());
@@ -149,11 +149,11 @@ int be_visitor_array_ci::visit_array (be_array *node)
   if (nt == AST_Decl::NT_typedef)
     {
       be_typedef *td = dynamic_cast<be_typedef*> (bt);
-      unique = td->primitive_base_type ()->flat_name ();
+      unique = td->primitive_base_type ()->flat_name ().data ();
     }
   else
     {
-      unique = bt->flat_name ();
+      unique = bt->flat_name ().data ();
     }
 
   char buf[NAMEBUFSIZE];

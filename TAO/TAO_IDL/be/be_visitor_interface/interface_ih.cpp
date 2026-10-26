@@ -36,7 +36,7 @@ be_visitor_interface_ih::visit_interface (be_interface *node)
 
   // Generate the skeleton class name.
 
-  ACE_OS::sprintf (namebuf, "%s", node->flat_name ());
+  ACE_OS::sprintf (namebuf, "%s", node->flat_name ().data ());
 
   if (be_global->gen_impl_debug_info ())
     {
@@ -136,10 +136,7 @@ be_visitor_interface_ih::method_helper (be_interface *derived,
                                         be_interface *node,
                                         TAO_OutStream *os)
 {
-  int compare =
-    ACE_OS::strcmp (derived->flat_name (), node->flat_name ());
-
-  if (compare != 0)
+  if (derived->flat_name () != node->flat_name ())
     {
       be_visitor_context ctx;
       ctx.state (TAO_CodeGen::TAO_ROOT_IH);

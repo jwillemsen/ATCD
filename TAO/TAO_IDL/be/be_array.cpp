@@ -163,7 +163,7 @@ be_array::compute_tc_name ()
 
   ACE_CString local_tc_name =
     ACE_CString ("tc_")
-    + ACE_CString (this->flat_name ());
+    + ACE_CString (this->flat_name ().data ());
 
   Identifier * typecode_scope = nullptr;
   ACE_NEW (typecode_scope,
@@ -237,7 +237,7 @@ be_array::gen_ostream_operator (TAO_OutStream *os,
 {
   be_scope* scope = dynamic_cast<be_scope*> (this->defined_in ());
   be_decl* parent = scope->decl ();
-  ACE_CString arg_name (ACE_CString (parent->full_name ())
+  ACE_CString arg_name (ACE_CString (parent->full_name ().data ())
                         + "::"
                         + (use_underscore ? "_" : "")
                         + this->local_name ()->get_string ()
@@ -312,7 +312,7 @@ be_array::gen_member_ostream_operator (TAO_OutStream *os,
 {
   be_scope* scope = dynamic_cast<be_scope*> (this->defined_in ());
   be_decl* parent = scope->decl ();
-  ACE_CString decl_name (ACE_CString (parent->full_name ())
+  ACE_CString decl_name (ACE_CString (parent->full_name ().data ())
                          + "::"
                          + (use_underscore ? "_" : "")
                          + this->local_name ()->get_string ());

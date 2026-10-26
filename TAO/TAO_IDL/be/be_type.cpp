@@ -135,8 +135,8 @@ be_type::tc_name ()
 // to construct the full name ourselves.
 std::string
 be_type::nested_sp_type_name (be_decl *use_scope,
-                              char const * suffix,
-                              char const * prefix)
+                              std::string_view suffix,
+                              std::string_view prefix) const
 {
   // Our defining scope.
   be_scope *const defining_scope =
@@ -144,15 +144,16 @@ be_type::nested_sp_type_name (be_decl *use_scope,
   AST_Decl *const defining_decl = defining_scope != nullptr
     ? defining_scope->decl () : nullptr;
 
-  std::string full_name = defining_decl != nullptr ? defining_decl->full_name () : "";
+  std::string full_name = defining_decl != nullptr
+    ? std::string (defining_decl->full_name ()) : "";
   full_name.append ("::TAO_");
   full_name.append (this->flat_name ());
 
   std::string local_name ("TAO_");
   local_name.append (this->flat_name ());
 
-  return this->nested_name (local_name.c_str (),
-                            full_name.c_str (),
+  return this->nested_name (local_name,
+                            full_name,
                             use_scope,
                             suffix,
                             prefix);

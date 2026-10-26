@@ -129,12 +129,13 @@ be_visitor_home_svs::visit_factory (be_factory *node)
   else
     {
       ACE_CString comp_sname_str (
-        ScopeAsDecl (comp_->defined_in ())->full_name ());
+        ScopeAsDecl (comp_->defined_in ())->full_name ().data ());
       char const *comp_sname = comp_sname_str.c_str ();
       char const *comp_lname = comp_->local_name ()->get_string ();
       char const *global = (comp_sname_str == "" ? "" : "::");
 
-      ACE_CString sname_str (ScopeAsDecl (node_->defined_in ())->full_name ());
+      ACE_CString sname_str (
+        ScopeAsDecl (node_->defined_in ())->full_name ().data ());
 
       os_ << sname_str << global << "CCM_" << node_->original_local_name ()
           << "_var executor = " << be_idt_nl
@@ -201,7 +202,7 @@ int
 be_visitor_home_svs::gen_servant_class ()
 {
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   char const *sname = sname_str.c_str ();
 
   // Avoid '_cxx_' prefix.
@@ -377,7 +378,7 @@ void
 be_visitor_home_svs::gen_entrypoint ()
 {
   ACE_CString sname_str (
-    ScopeAsDecl (node_->defined_in ())->full_name ());
+    ScopeAsDecl (node_->defined_in ())->full_name ().data ());
   char const *sname = sname_str.c_str ();
 
   // Avoid _cxx_ prefix.

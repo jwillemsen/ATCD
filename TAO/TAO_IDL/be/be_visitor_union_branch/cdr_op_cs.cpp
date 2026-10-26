@@ -117,20 +117,20 @@ be_visitor_union_branch_cdr_op_cs::visit_array (be_array *node)
             dynamic_cast<be_scope*> (node->defined_in ())->decl ();
           ACE_OS::sprintf (fname,
                            "%s::_%s",
-                           parent->full_name (),
+                           parent->full_name ().data (),
                            node->local_name ()->get_string ());
         }
       else
         {
           ACE_OS::sprintf (fname,
                            "_%s",
-                           node->full_name ());
+                           node->full_name ().data ());
         }
     }
   else
     {
       // Typedefed node.
-      ACE_OS::sprintf (fname, "%s", node->full_name ());
+      ACE_OS::sprintf (fname, "%s", node->full_name ().data ());
     }
 
   // Check what is the code generations substate. Are we generating code for

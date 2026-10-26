@@ -26,9 +26,8 @@ TAO::be_visitor_enum_typecode::visit_enum (be_enum * node)
 
   TAO_INSERT_COMMENT (&os);
 
-  ACE_CString const tao_enumerators ("_tao_enumerators_");
-  ACE_CString const enumerators_name (tao_enumerators
-                                      + node->flat_name ());
+  std::string enumerators_name ("_tao_enumerators_");
+  enumerators_name += node->flat_name ();
 
   // Generate array containing enum field characteristics.
   os << "static char const * const "

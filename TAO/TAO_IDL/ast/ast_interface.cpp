@@ -351,8 +351,8 @@ AST_Interface::fwd_redefinition_helper (AST_Interface *&i,
 
           if (nt == AST_Decl::NT_struct_fwd || nt == AST_Decl::NT_union_fwd)
             {
-              idl_global->err ()->redef_error (i->full_name (),
-                                               d->full_name ());
+              idl_global->err ()->redef_error (i->full_name ().data (),
+                                               d->full_name ().data ());
               return;
             }
         }
@@ -503,7 +503,7 @@ AST_Interface::insert_non_dup (AST_Type *t,
         }
     }
 
-  const char *full_name = t->full_name ();
+  std::string_view const full_name = t->full_name ();
 
   // Initialize an iterator to search the queue for duplicates.
   for (ACE_Unbounded_Queue_Iterator<AST_Type *> q_iter (
@@ -517,8 +517,7 @@ AST_Interface::insert_non_dup (AST_Type *t,
 
       (void) q_iter.next (temp);
 
-      if (!ACE_OS::strcmp (full_name,
-                           (*temp)->full_name ()))
+      if (full_name == (*temp)->full_name ())
         {
           // We exist in this queue and cannot be inserted.
           return 0;
@@ -537,8 +536,7 @@ AST_Interface::insert_non_dup (AST_Type *t,
 
       (void) del_q_iter.next (temp);
 
-      if (!ACE_OS::strcmp (full_name,
-                           (*temp)->full_name ()))
+      if (full_name == (*temp)->full_name ())
         {
           // We exist in this del_queue and cannot be inserted.
           return 0;

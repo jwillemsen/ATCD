@@ -220,14 +220,14 @@ be_visitor_args_decl::visit_array (be_array *node)
 
           ACE_OS::sprintf (fname,
                            "%s::_%s",
-                           parent->full_name (),
+                           parent->full_name ().data (),
                            node->local_name ()->get_string ());
         }
       else
         {
           ACE_OS::sprintf (fname,
                            "_%s",
-                           node->full_name ());
+                           node->full_name ().data ());
         }
     }
   else
@@ -235,7 +235,7 @@ be_visitor_args_decl::visit_array (be_array *node)
       // Typedefed node.
       ACE_OS::sprintf (fname,
                        "%s",
-                       node->full_name ());
+                       node->full_name ().data ());
     }
 
   if (f->direction () != AST_Argument::dir_IN)

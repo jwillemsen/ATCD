@@ -54,7 +54,7 @@ int be_visitor_array_cs::visit_array (be_array *node)
     {
       // Typedefed node.
       ACE_OS::sprintf (fname, "%s",
-                       node->full_name ());
+                       node->full_name ().data ());
       ACE_OS::sprintf (lname, "%s",
                        node->local_name ()->get_string ());
     }
@@ -69,7 +69,7 @@ int be_visitor_array_cs::visit_array (be_array *node)
             dynamic_cast<be_scope*> (node->defined_in ())->decl ();
           ACE_OS::sprintf (fname,
                            "%s::_%s",
-                           parent->full_name (),
+                           parent->full_name ().data (),
                            node->local_name ()->get_string ());
           ACE_OS::sprintf (lname,
                            "_%s",
@@ -79,7 +79,7 @@ int be_visitor_array_cs::visit_array (be_array *node)
         {
           ACE_OS::sprintf (fname,
                            "_%s",
-                           node->full_name ());
+                           node->full_name ().data ());
           ACE_OS::sprintf (lname,
                            "_%s",
                            node->local_name ()->get_string ());

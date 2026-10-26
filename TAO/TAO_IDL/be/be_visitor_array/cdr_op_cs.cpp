@@ -126,7 +126,7 @@ be_visitor_array_cdr_op_cs::visit_array (be_array *node)
 
   if (!use_underscore)
     {
-      ACE_OS::sprintf (fname, "%s", node->full_name ());
+      ACE_OS::sprintf (fname, "%s", node->full_name ().data ());
     }
   else
     {
@@ -141,14 +141,14 @@ be_visitor_array_cdr_op_cs::visit_array (be_array *node)
             dynamic_cast<be_scope*> (node->defined_in ())->decl ();
           ACE_OS::sprintf (fname,
                            "%s::_%s",
-                           parent->full_name (),
+                           parent->full_name ().data (),
                            node->local_name ()->get_string ());
         }
       else
         {
           ACE_OS::sprintf (fname,
                            "_%s",
-                           node->full_name ());
+                           node->full_name ().data ());
         }
     }
 

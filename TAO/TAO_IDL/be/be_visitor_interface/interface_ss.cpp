@@ -429,7 +429,7 @@ be_visitor_interface_ss::generate_proxy_classes (be_interface *node)
 ACE_CString
 be_visitor_interface_ss::generate_flat_name (be_interface *node)
 {
-  return ACE_CString (node->flat_name ());
+  return ACE_CString (node->flat_name ().data ());
 }
 
 ACE_CString

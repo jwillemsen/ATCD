@@ -26,7 +26,7 @@ be_visitor_servant_svh::visit_component (be_component *node)
   node_ = node;
 
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
-  ACE_CString sname_str (scope->full_name ());
+  ACE_CString sname_str (scope->full_name ().data ());
   const char *sname = sname_str.c_str ();
 
   // No '_cxx_' prefix.
@@ -155,7 +155,7 @@ be_visitor_servant_svh::visit_provides (be_provides *node)
   ACE_CString prefix (this->ctx_->port_prefix ());
   prefix += node->local_name ()->get_string ();
   const char *port_name = prefix.c_str ();
-  const char *obj_name = node->provides_type ()->full_name ();
+  std::string_view const obj_name = node->provides_type ()->full_name ();
 
   if (!be_global->gen_lwccm ())
     {
@@ -192,7 +192,7 @@ be_visitor_servant_svh::visit_uses (be_uses *node)
   ACE_CString prefix (this->ctx_->port_prefix ());
   prefix +=node->local_name ()->get_string ();
   const char *port_name = prefix.c_str ();
-  const char *obj_name = node->uses_type ()->full_name ();
+  std::string_view const obj_name = node->uses_type ()->full_name ();
   bool const is_multiple = node->is_multiple ();
 
   os_ << be_uidt_nl << be_nl
@@ -239,7 +239,7 @@ be_visitor_servant_svh::visit_publishes (be_publishes *node)
 {
   if(!be_global->gen_noeventccm () && !be_global->gen_lwccm ())
     {
-      const char *obj_name = node->publishes_type ()->full_name ();
+      std::string_view const obj_name = node->publishes_type ()->full_name ();
       const char *port_name = node->local_name ()->get_string ();
 
       os_ << be_uidt_nl << be_nl
@@ -262,7 +262,7 @@ be_visitor_servant_svh::visit_emits (be_emits *node)
 {
    if(!be_global->gen_noeventccm () && !be_global->gen_lwccm ())
     {
-      const char *obj_name = node->emits_type ()->full_name ();
+      std::string_view const obj_name = node->emits_type ()->full_name ();
       const char *port_name = node->local_name ()->get_string ();
 
       os_ << be_nl_2
@@ -282,16 +282,16 @@ be_visitor_servant_svh::visit_consumes (be_consumes *node)
 {
   if(!be_global->gen_noeventccm ())
     {
-      const char *obj_name = node->consumes_type ()->full_name ();
+      std::string_view const obj_name = node->consumes_type ()->full_name ();
       const char *port_name = node->local_name ()->get_string ();
 
-      ACE_CString holder (obj_name);
+      ACE_CString holder (obj_name.data ());
       ACE_CString::size_type pos = holder.rfind (':');
       const char *ev_lname = nullptr;
 
       if (pos == ACE_CString::npos)
         {
-          ev_lname = obj_name;
+          ev_lname = obj_name.data ();
         }
       else
         {
@@ -312,7 +312,7 @@ be_visitor_servant_svh::visit_consumes (be_consumes *node)
           << "public:" << be_idt_nl;
 
       ACE_CString sname_str (
-        ScopeAsDecl (node_->defined_in ())->full_name ());
+        ScopeAsDecl (node_->defined_in ())->full_name ().data ());
       const char *sname = sname_str.c_str ();
       std::string_view const lname = node_->local_name ();
       const char *global = (sname_str == "" ? "" : "::");

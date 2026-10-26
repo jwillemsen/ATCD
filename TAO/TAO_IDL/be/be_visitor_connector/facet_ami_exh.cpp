@@ -172,7 +172,7 @@ be_visitor_facet_ami_exh::init (bool for_impl)
 {
   UTL_Scope *s = this->iface_->defined_in ();
   AST_Decl *scope = ScopeAsDecl (s);
-  this->scope_name_ = scope->full_name ();
+  this->scope_name_ = scope->full_name ().data ();
   bool global = (scope->node_type () == AST_Decl::NT_root);
   this->smart_scope_ = (global ? "" : "::");
   this->iface_name_ = this->iface_->local_name ();
@@ -265,7 +265,7 @@ be_visitor_facet_ami_exh::gen_facet_executor_class ()
 
   const char *suffix = "_exec_i";
   const char *scope_name =
-    ScopeAsDecl (this->iface_->defined_in ())->full_name ();
+    ScopeAsDecl (this->iface_->defined_in ())->full_name ().data ();
   std::string_view const iface_name = this->iface_->local_name ();
 
   os_ << be_nl_2
@@ -283,7 +283,7 @@ be_visitor_facet_ami_exh::gen_facet_executor_class ()
 
 
   ACE_CString handler_str (
-  ScopeAsDecl (this->iface_->defined_in ())->full_name ());
+  ScopeAsDecl (this->iface_->defined_in ())->full_name ().data ());
   ACE_CString tmp (this->iface_->local_name ().data ());
   handler_str += "::";
   handler_str += tmp;

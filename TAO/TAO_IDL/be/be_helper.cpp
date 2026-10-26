@@ -223,13 +223,13 @@ TAO_OutStream::nl ()
 
 // Macro generation.
 int
-TAO_OutStream::gen_ifdef_macro (const char *flat_name,
-                                const char *suffix,
+TAO_OutStream::gen_ifdef_macro (std::string_view flat_name,
+                                std::string_view suffix,
                                 bool add_stream_type_suffix)
 {
   std::string macro = "_" + tao_cg->upcase (flat_name) + "_";
 
-  if (suffix != nullptr)
+  if (!suffix.empty ())
     {
       macro += "_" + tao_cg->upcase (suffix) + "_";
     }

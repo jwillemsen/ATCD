@@ -103,21 +103,21 @@ be_visitor_valuebox_field_ch::visit_array (be_array *node)
                  dynamic_cast<be_scope*> (bt->defined_in ())->decl ();
           ACE_OS::sprintf (fname,
                            "%s::_%s",
-                           parent->full_name (),
+                           parent->full_name ().data (),
                            bt->local_name ()->get_string ());
         }
       else
         {
           ACE_OS::sprintf (fname,
                            "_%s",
-                           bt->full_name ());
+                           bt->full_name ().data ());
         }
     }
   else
     { // Typedefed node.
       ACE_OS::sprintf (fname,
                        "%s",
-                       bt->full_name ());
+                       bt->full_name ().data ());
     }
 
 

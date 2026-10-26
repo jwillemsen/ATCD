@@ -58,7 +58,7 @@ be_visitor_valuetype_init_cs::visit_valuetype (be_valuetype *node)
                   NAMEBUFSIZE);
   ACE_OS::sprintf (fname,
                    "%s_init",
-                   node->full_name ());
+                   node->full_name ().data ());
 
   ACE_OS::memset (lname,
                   '\0',

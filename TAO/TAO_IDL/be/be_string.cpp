@@ -135,7 +135,7 @@ be_string::compute_tc_name ()
 
       ACE_CString local_tc_name =
         ACE_CString ("tc_")
-        + ACE_CString (this->flat_name ());
+        + ACE_CString (this->flat_name ().data ());
 
       Identifier * typecode_scope = nullptr;
       ACE_NEW (typecode_scope,

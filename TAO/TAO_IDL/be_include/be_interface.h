@@ -234,7 +234,7 @@ public:
   be_interface *original_interface ();
 
   /// Is EventConsumerBase our parent?
-  bool is_event_consumer ();
+  bool is_event_consumer () const;
 
   /**
    * Common code for facet generation, whether we are

@@ -410,7 +410,7 @@ protected:
   int contains_wstring_ {-1};
   // If we are a scope, do we contain a wstring at some level?
 
-  void dump_i (ACE_OSTREAM_TYPE &o, char const *s) const;
+  void dump_i (ACE_OSTREAM_TYPE &o, std::string_view s) const;
 
   void compute_repoID ();
   // Computes the repoID.

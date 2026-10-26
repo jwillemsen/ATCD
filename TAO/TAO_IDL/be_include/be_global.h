@@ -493,10 +493,10 @@ public:
   std::optional<std::string_view> implementation_hdr_ending () const;
 
   ///Get implementation class prefix
-  const char* impl_class_prefix () const;
+  std::string_view impl_class_prefix () const;
 
   ///Get implementation class suffix
-  const char* impl_class_suffix () const;
+  std::string_view impl_class_suffix () const;
 
   /// Get the implementation_skel_ending.
   std::optional<std::string_view> implementation_skel_ending () const;
@@ -583,7 +583,7 @@ public:
 
   /// For optionally controlling the container type, default is Session
   void ciao_container_type (std::string_view s);
-  const char* ciao_container_type () const;
+  std::string_view ciao_container_type () const;
 
   /// Set the clonable_in_args.
   void use_clonable_in_args (bool clonable);
@@ -1029,10 +1029,10 @@ private:
   std::optional<std::string> implementation_skel_ending_ {"I.cpp"};
 
   /// Implementaion class prefix
-  std::optional<std::string> impl_class_prefix_ {""};
+  std::string impl_class_prefix_;
 
   /// Implementation class suffix
-  std::optional<std::string> impl_class_suffix_ {"_i"};
+  std::string impl_class_suffix_ {"_i"};
 
   /// Server's template hdr file name ending. Default is "S_T.h".
   std::optional<std::string> server_template_hdr_ending_ {"S_T.h"};
@@ -1096,7 +1096,7 @@ private:
 
   /// CIAO container type
   /// Default is "Session".
-  std::optional<std::string> ciao_container_type_ {"Session"};
+  std::string ciao_container_type_ {"Session"};
 
   /**
    * Directory where all the IDL-Compiler-Generated files are to be

@@ -130,18 +130,16 @@ be_visitor_executor_exh::visit_component (be_component *node)
   //    << "Component. */" << be_nl
       << "//@{";
 
-  const char *container_type = be_global->ciao_container_type ();
-
   os_ << be_nl_2
       << "/// Setter for container context for this component" << be_nl
       << "/// @param[in] ctx - Container context" << be_nl
       << "virtual void set_"
-      << tao_cg->downcase (container_type)
+      << tao_cg->downcase (be_global->ciao_container_type ())
       << "_context ("
       << "::Components::" << be_global->ciao_container_type ()
       << "Context_ptr ctx);";
 
-  if (ACE_OS::strcmp (be_global->ciao_container_type (), "Session") == 0)
+  if (be_global->ciao_container_type () == "Session")
     {
       os_ << be_nl_2
           << "/// Component state change method to configuration_complete state" << be_nl

@@ -91,12 +91,10 @@ be_visitor_executor_ami_exs::visit_connector (be_connector *node)
                         -1);
     }
 
-  const char *container_type = be_global->ciao_container_type ();
-
   os_ << be_nl_2
       << "void" << be_nl
       << class_name << "::set_"
-      << tao_cg->downcase (container_type)
+      << tao_cg->downcase (be_global->ciao_container_type ())
       << "_context (" << be_idt_nl
       << "::Components::" << be_global->ciao_container_type ()
       << "Context_ptr ctx)"
@@ -105,7 +103,7 @@ be_visitor_executor_ami_exs::visit_connector (be_connector *node)
    for (int i = 0; i < port_nr; i ++)
     {
       os_ << "this->facet_exec_" << i << "_->set_"
-      << tao_cg->downcase (container_type)
+      << tao_cg->downcase (be_global->ciao_container_type ())
       << "_context "
       << "(ctx);" << be_nl;
    }

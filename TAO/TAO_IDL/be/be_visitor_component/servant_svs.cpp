@@ -533,7 +533,7 @@ be_visitor_servant_svs::visit_consumes (be_consumes *node)
       << port_name << "_Servant::_get_component ()" << be_nl
       << "{" << be_idt_nl;
 
-  if (ACE_OS::strcmp (be_global->ciao_container_type (), "Session") == 0)
+  if (be_global->ciao_container_type () == "Session")
     {
       os_ << "return this->ctx_->get_CCM_object ();";
     }

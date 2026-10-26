@@ -343,11 +343,9 @@ be_visitor_facet_ami_exh::gen_facet_executor_class ()
        }
    }
 
-  const char *container_type = be_global->ciao_container_type ();
-
   os_ << be_nl_2
       << "virtual void set_"
-      << tao_cg->downcase (container_type)
+      << tao_cg->downcase (be_global->ciao_container_type ())
       << "_context ("
       << "::Components::"
       << be_global->ciao_container_type () << "Context_ptr ctx);";

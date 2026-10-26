@@ -54,11 +54,9 @@ be_visitor_executor_ami_exh::visit_connector (be_connector *node)
                         -1);
     }
 
-  const char *container_type = be_global->ciao_container_type ();
-
   os_ << be_nl_2
       << "virtual void set_"
-      << tao_cg->downcase (container_type)
+      << tao_cg->downcase (be_global->ciao_container_type ())
       << "_context ("
       << "::Components::" << be_global->ciao_container_type ()
       << "Context_ptr ctx);"

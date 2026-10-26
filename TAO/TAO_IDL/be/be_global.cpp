@@ -1079,10 +1079,10 @@ BE_GlobalData::impl_class_suffix (std::string_view s)
   this->impl_class_suffix_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::impl_class_prefix () const
 {
-  return this->impl_class_prefix_ ? this->impl_class_prefix_->c_str () : nullptr;
+  return this->impl_class_prefix_;
 }
 
 std::optional<std::string_view>
@@ -1091,10 +1091,10 @@ BE_GlobalData::implementation_hdr_ending () const
   return optional_string_view (this->implementation_hdr_ending_);
 }
 
-const char*
+std::string_view
 BE_GlobalData::impl_class_suffix () const
 {
-  return this->impl_class_suffix_ ? this->impl_class_suffix_->c_str () : nullptr;
+  return this->impl_class_suffix_;
 }
 
 std::optional<std::string_view>
@@ -1386,10 +1386,10 @@ BE_GlobalData::ciao_container_type (std::string_view s)
   this->ciao_container_type_ = s;
 }
 
-const char *
+std::string_view
 BE_GlobalData::ciao_container_type () const
 {
-  return this->ciao_container_type_ ? this->ciao_container_type_->c_str () : nullptr;
+  return this->ciao_container_type_;
 }
 
 void
@@ -1819,8 +1819,8 @@ BE_GlobalData::destroy ()
   this->server_hdr_ending_.reset ();
   this->implementation_hdr_ending_.reset ();
   this->implementation_skel_ending_.reset ();
-  this->impl_class_prefix_.reset ();
-  this->impl_class_suffix_.reset ();
+  this->impl_class_prefix_.clear ();
+  this->impl_class_suffix_.clear ();
   this->server_template_hdr_ending_.reset ();
   this->server_skeleton_ending_.reset ();
   this->server_template_skeleton_ending_.reset ();
@@ -1840,7 +1840,7 @@ BE_GlobalData::destroy ()
   this->ciao_ami_conn_idl_ending_.reset ();
   this->ciao_ami_conn_impl_hdr_ending_.reset ();
   this->ciao_ami_conn_impl_src_ending_.reset ();
-  this->ciao_container_type_.reset ();
+  this->ciao_container_type_.clear ();
 
   this->output_dir_.reset ();
   this->stub_include_dir_.reset ();

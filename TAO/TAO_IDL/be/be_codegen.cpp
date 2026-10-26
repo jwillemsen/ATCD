@@ -39,22 +39,22 @@ TAO_CodeGen::~TAO_CodeGen () = default;
 
 // Change the string to all upper case.
 std::string
-TAO_CodeGen::upcase (const char *str)
+TAO_CodeGen::upcase (std::string_view str)
 {
   std::string upcase_str;
-  upcase_str.reserve (ACE_OS::strlen (str));
+  upcase_str.reserve (str.size ());
 
   // Convert letters in str to upper case.
-  for (char const *p = str; *p != '\0'; ++p)
+  for (char c : str)
     {
-      if (ACE_OS::ace_isalpha (*p))
+      if (ACE_OS::ace_isalpha (c))
         {
-          upcase_str.push_back (static_cast<char> (ACE_OS::ace_toupper (*p)));
+          upcase_str.push_back (static_cast<char> (ACE_OS::ace_toupper (c)));
         }
       else
         {
           // Copy it as it is.
-          upcase_str.push_back (*p);
+          upcase_str.push_back (c);
         }
     }
 
@@ -63,22 +63,22 @@ TAO_CodeGen::upcase (const char *str)
 
 // Change the string to all lower case.
 std::string
-TAO_CodeGen::downcase (const char *str)
+TAO_CodeGen::downcase (std::string_view str)
 {
   std::string downcase_str;
-  downcase_str.reserve (ACE_OS::strlen (str));
+  downcase_str.reserve (str.size ());
 
-  // Convert letters in str to upper case.
-  for (char const *p = str; *p != '\0'; ++p)
+  // Convert letters in str to lower case.
+  for (char c : str)
     {
-      if (ACE_OS::ace_isalpha (*p))
+      if (ACE_OS::ace_isalpha (c))
         {
-          downcase_str.push_back (static_cast<char> (ACE_OS::ace_tolower (*p)));
+          downcase_str.push_back (static_cast<char> (ACE_OS::ace_tolower (c)));
         }
       else
         {
           // Copy it as it is.
-          downcase_str.push_back (*p);
+          downcase_str.push_back (c);
         }
     }
 
@@ -3195,24 +3195,26 @@ TAO_CodeGen::gen_typecode_includes (TAO_OutStream * stream)
 void
 TAO_CodeGen::gen_svnt_hdr_includes (TAO_OutStream *stream)
 {
-  ACE_CString container_file ("ciao/Containers/");
-  container_file += be_global->ciao_container_type ();
+  std::string const container_type (be_global->ciao_container_type ());
+
+  std::string container_file ("ciao/Containers/");
+  container_file += container_type;
   container_file += "/";
-  container_file += be_global->ciao_container_type ();
+  container_file += container_type;
   container_file += "_ContainerC.h";
 
   this->gen_standard_include (stream, container_file.c_str ());
 
-  ACE_CString context_file ("ciao/Contexts/");
-  context_file += be_global->ciao_container_type ();
+  std::string context_file ("ciao/Contexts/");
+  context_file += container_type;
   context_file += "/";
-  context_file += be_global->ciao_container_type ();
+  context_file += container_type;
   context_file += "_Context_T.h";
 
   this->gen_standard_include (stream, context_file.c_str ());
 
-  ACE_CString servant_file ("ciao/Servants/");
-  servant_file += be_global->ciao_container_type ();
+  std::string servant_file ("ciao/Servants/");
+  servant_file += container_type;
   servant_file += "/Servant_Impl_T.h";
 
   this->gen_standard_include (stream, servant_file.c_str ());
@@ -3229,8 +3231,9 @@ TAO_CodeGen::gen_svnt_hdr_includes (TAO_OutStream *stream)
 void
 TAO_CodeGen::gen_svnt_tmpl_hdr_includes (TAO_OutStream *stream)
 {
-  ACE_CString servant_file ("ciao/Servants/");
-  servant_file += be_global->ciao_container_type ();
+  std::string const container_type (be_global->ciao_container_type ());
+  std::string servant_file ("ciao/Servants/");
+  servant_file += container_type;
   servant_file += "/Servant_Impl_T.h";
 
   this->gen_standard_include (stream, servant_file.c_str ());
@@ -3314,10 +3317,11 @@ TAO_CodeGen::gen_exec_idl_includes ()
   this->gen_standard_include (this->ciao_exec_idl_, "ccm/CCM_HomeExecutorBase.idl");
 
 
-  ACE_CString component_file ("ccm/");
-  component_file += be_global->ciao_container_type ();
+  std::string const container_type (be_global->ciao_container_type ());
+  std::string component_file ("ccm/");
+  component_file += container_type;
   component_file += "/CCM_";
-  component_file += be_global->ciao_container_type ();
+  component_file += container_type;
   component_file += "Component.idl";
 
   this->gen_standard_include (this->ciao_exec_idl_, component_file.c_str ());

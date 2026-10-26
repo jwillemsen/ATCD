@@ -382,12 +382,10 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
 
   ACE_CString scope_str (scope_name, nullptr, false);
 
-  const char *container_type = be_global->ciao_container_type ();
-
   os_ << be_nl_2
       << "void" << be_nl
       << iface_name << "_exec_i::set_"
-      << tao_cg->downcase (container_type)
+      << tao_cg->downcase (be_global->ciao_container_type ())
       << "_context ("
       << be_idt_nl
       << "::Components::" << be_global->ciao_container_type ()

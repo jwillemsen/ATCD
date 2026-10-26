@@ -265,12 +265,10 @@ be_visitor_executor_exs::visit_component (be_component *node)
   ACE_CString sname_str (scope->full_name ());
   const char *sname = sname_str.c_str ();
   const char *global = (sname_str == "" ? "" : "::");
-  const char *container_type = be_global->ciao_container_type ();
-
   os_ << be_nl_2
       << "void" << be_nl
       << lname << "_exec_i::set_"
-      << tao_cg->downcase (container_type)
+      << tao_cg->downcase (be_global->ciao_container_type ())
       << "_context (" << be_idt_nl
       << "::Components::" << be_global->ciao_container_type ()
       << "Context_ptr ctx)" << be_uidt_nl
@@ -285,7 +283,7 @@ be_visitor_executor_exs::visit_component (be_component *node)
       << "}" << be_uidt << be_uidt_nl
       << "}";
 
-  if (ACE_OS::strcmp (be_global->ciao_container_type (), "Session") == 0)
+  if (be_global->ciao_container_type () == "Session")
     {
       os_ << be_nl_2
           << "void" << be_nl

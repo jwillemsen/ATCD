@@ -112,6 +112,12 @@ public:
   }
   // Get contents of utl_string as a non-owning view, if present.
 
+  std::string_view get_string_view_or_empty () const
+  {
+    return this->p_str != nullptr ? std::string_view (this->p_str) : std::string_view {};
+  }
+  // Get contents of utl_string as a non-owning view, or an empty view if absent.
+
   char *get_canonical_rep ();
   // Get canonical representation. This is (implemented as) the all upper
   // case corresponding string.

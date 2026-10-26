@@ -506,7 +506,7 @@ IDL_GlobalData::seen_include_file_before (std::string_view filename)
   for (unsigned long i = 0; i < this->pd_n_include_file_names; ++i)
     {
       std::string_view const include_name =
-        this->pd_include_file_names[i]->get_string_view ().value_or (std::string_view {});
+        this->pd_include_file_names[i]->get_string_view_or_empty ();
 
       if (filename == include_name)
         {
@@ -523,7 +523,7 @@ IDL_GlobalData::store_include_file_name (UTL_String *n)
 {
   // Check if we need to store it at all or whether we've seen it already.
   if (this->seen_include_file_before (
-        n->get_string_view ().value_or (std::string_view {})))
+        n->get_string_view_or_empty ()))
     {
       n->destroy ();
       delete n; // Don't keep filenames we don't store!
@@ -896,21 +896,24 @@ IDL_GlobalData::update_prefix (char *filename)
       return;
     }
 
-  char *fstring = this->pd_filename->get_string ();
-  char *tail = fstring + ACE_OS::strlen (fstring) - 3;
+  std::string_view const current_filename =
+    this->pd_filename->get_string_view_or_empty ();
+  std::string_view const next_filename (filename);
 
   // We have to do this check because some preprocessors (gcc 3.2
   // on RedHat Linux 7.1, for one) output the same filename
   // multiple times for no apparent reason, and we don't want it
   // to clear the prefix.
-  if (ACE_OS::strcmp (fstring, filename) == 0
-      || ACE_OS::strcmp (tail, ".cc") == 0)
+  if (current_filename == next_filename
+      || (current_filename.size () >= 3
+          && current_filename.substr (current_filename.size () - 3) == ".cc"))
     {
       return;
     }
 
   ACE_CString tmp ("", nullptr, false);
-  char *main_filename = this->pd_main_filename->get_string ();
+  std::string_view const main_filename =
+    this->pd_main_filename->get_string_view_or_empty ();
 
   char *prefix = nullptr;
   int status = this->file_prefixes_.find (filename, prefix);
@@ -937,8 +940,8 @@ IDL_GlobalData::update_prefix (char *filename)
   // file, so we push a blank prefix on the stack, which may
   // possibly be changed later.
   if (this->seen_include_file_before (filename) != 0
-      || ACE_OS::strcmp (filename, main_filename) == 0
-      || ACE_OS::strcmp (filename, this->pd_filename->get_string ()) != 0)
+      || next_filename == main_filename
+      || next_filename != current_filename)
     {
       if (!this->pd_in_main_file)
         {
@@ -950,7 +953,7 @@ IDL_GlobalData::update_prefix (char *filename)
           // new file at global scope. If there is a non-null prefix
           // stored in the table under our not-yet-changed filename,
           // pop it.
-          if (status == 0 && ACE_OS::strcmp (prefix, "") != 0)
+          if (status == 0 && !std::string_view (prefix).empty ())
             {
               char *trash = nullptr;
               this->pragma_prefixes_.pop (trash);

@@ -171,7 +171,7 @@ UTL_StrList::dump (ACE_OSTREAM_TYPE &o)
           first = second = false;
         }
 
-      std::string_view const s = i.item ()->get_string_view ().value_or (std::string_view {});
+      std::string_view const s = i.item ()->get_string_view_or_empty ();
       o << s;
 
       if (first)

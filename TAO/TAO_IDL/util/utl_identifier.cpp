@@ -109,6 +109,12 @@ Identifier::get_string_view () const
   return *this->string_;
 }
 
+std::string_view
+Identifier::get_string_view_or_empty () const
+{
+  return this->string_ ? std::string_view (*this->string_) : std::string_view {};
+}
+
 void
 Identifier::replace_string (std::string_view s)
 {

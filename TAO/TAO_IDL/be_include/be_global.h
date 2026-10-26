@@ -457,25 +457,25 @@ public:
   void client_hdr_ending (std::string_view s);
 
   /// Get the client_hdr_ending.
-  const char* client_hdr_ending () const;
+  std::optional<std::string_view> client_hdr_ending () const;
 
   /// Set the client_inline_ending.
   void client_inline_ending (std::string_view s);
 
   /// Get the client_inline_ending.
-  const char* client_inline_ending () const;
+  std::optional<std::string_view> client_inline_ending () const;
 
   /// Set the client_stub_ending.
   void  client_stub_ending (std::string_view s);
 
   /// Get the client_stub_ending.
-  const char* client_stub_ending () const;
+  std::optional<std::string_view> client_stub_ending () const;
 
   /// Set the server_hdr_ending.
   void server_hdr_ending (std::string_view s);
 
   /// Get the server_hdr_ending.
-  const char* server_hdr_ending () const;
+  std::optional<std::string_view> server_hdr_ending () const;
 
   /// Set the implementation_hdr_ending.
   void implementation_hdr_ending (std::string_view s);
@@ -490,7 +490,7 @@ public:
   void implementation_skel_ending (std::string_view s);
 
   /// Get the implementation_hdr_ending.
-  const char* implementation_hdr_ending () const;
+  std::optional<std::string_view> implementation_hdr_ending () const;
 
   ///Get implementation class prefix
   const char* impl_class_prefix () const;
@@ -499,87 +499,87 @@ public:
   const char* impl_class_suffix () const;
 
   /// Get the implementation_skel_ending.
-  const char* implementation_skel_ending () const;
+  std::optional<std::string_view> implementation_skel_ending () const;
 
   /// Set the server_template_hdr_ending.
   void server_template_hdr_ending (std::string_view s);
 
   /// Get the server_template_hdr_ending.
-  const char* server_template_hdr_ending () const;
+  std::optional<std::string_view> server_template_hdr_ending () const;
 
   /// Set the server_skeleton_ending.
   void server_skeleton_ending (std::string_view s);
 
   /// Get the server_skeleton_ending.
-  const char* server_skeleton_ending () const;
+  std::optional<std::string_view> server_skeleton_ending () const;
 
   /// Set the server_template_skeleton_ending.
   void server_template_skeleton_ending (std::string_view s);
 
   /// Get the server_template_skeleton_ending.
-  const char* server_template_skeleton_ending () const;
+  std::optional<std::string_view> server_template_skeleton_ending () const;
 
   /// Set the anyop_header_ending.
   void anyop_header_ending (std::string_view s);
 
   /// Get the anyop_header_ending.
-  const char* anyop_header_ending () const;
+  std::optional<std::string_view> anyop_header_ending () const;
 
   /// Set the anyop_source_ending.
   void anyop_source_ending (std::string_view s);
 
   /// Get the anyop_source_ending.
-  const char* anyop_source_ending () const;
+  std::optional<std::string_view> anyop_source_ending () const;
 
   /// Similar to above, but for CIAO servant and executor
   /// impl and executor IDL files, if generated.
   void ciao_svnt_header_template_ending (std::string_view s);
-  const char* ciao_svnt_header_template_ending () const;
+  std::optional<std::string_view> ciao_svnt_header_template_ending () const;
 
   void ciao_svnt_source_template_ending (std::string_view s);
-  const char* ciao_svnt_source_template_ending () const;
+  std::optional<std::string_view> ciao_svnt_source_template_ending () const;
 
   void ciao_svnt_header_ending (std::string_view s);
-  const char* ciao_svnt_header_ending () const;
+  std::optional<std::string_view> ciao_svnt_header_ending () const;
 
   void ciao_svnt_source_ending (std::string_view s);
-  const char* ciao_svnt_source_ending () const;
+  std::optional<std::string_view> ciao_svnt_source_ending () const;
 
   void ciao_exec_header_ending (std::string_view s);
-  const char* ciao_exec_header_ending () const;
+  std::optional<std::string_view> ciao_exec_header_ending () const;
 
   void ciao_exec_source_ending (std::string_view s);
-  const char* ciao_exec_source_ending () const;
+  std::optional<std::string_view> ciao_exec_source_ending () const;
 
   void ciao_exec_stub_header_ending (std::string_view s);
-  const char* ciao_exec_stub_header_ending () const;
+  std::optional<std::string_view> ciao_exec_stub_header_ending () const;
 
   void ciao_exec_idl_ending (std::string_view s);
-  const char* ciao_exec_idl_ending () const;
+  std::optional<std::string_view> ciao_exec_idl_ending () const;
 
   void ciao_conn_header_ending (std::string_view s);
-  const char* ciao_conn_header_ending () const;
+  std::optional<std::string_view> ciao_conn_header_ending () const;
 
   void ciao_conn_source_ending (std::string_view s);
-  const char* ciao_conn_source_ending () const;
+  std::optional<std::string_view> ciao_conn_source_ending () const;
 
   /// For generating TypeSupport header file includes.
   void dds_typesupport_hdr_ending (std::string_view s);
-  const char* dds_typesupport_hdr_ending () const;
+  std::optional<std::string_view> dds_typesupport_hdr_ending () const;
 
   /// For optionally generating CIAO AMI connector IDL file.
   void ciao_ami_conn_idl_ending (std::string_view s);
-  const char* ciao_ami_conn_idl_ending () const;
+  std::optional<std::string_view> ciao_ami_conn_idl_ending () const;
 
   /// For optionally generating CIAO AMI reply handler
   /// impl header file.
   void ciao_ami_conn_impl_hdr_ending (std::string_view s);
-  const char* ciao_ami_conn_impl_hdr_ending () const;
+  std::optional<std::string_view> ciao_ami_conn_impl_hdr_ending () const;
 
   /// For optionally generating CIAO AMI reply handler
   /// impl source file.
   void ciao_ami_conn_impl_src_ending (std::string_view s);
-  const char* ciao_ami_conn_impl_src_ending () const;
+  std::optional<std::string_view> ciao_ami_conn_impl_src_ending () const;
 
   /// For optionally controlling the container type, default is Session
   void ciao_container_type (std::string_view s);

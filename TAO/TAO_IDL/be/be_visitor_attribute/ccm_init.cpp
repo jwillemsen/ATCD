@@ -12,6 +12,8 @@
 
 #include "attribute.h"
 
+#include <string_view>
+
 be_visitor_attribute_ccm_init::be_visitor_attribute_ccm_init (
     be_visitor_context *ctx)
   : be_visitor_any_extracted_type_decl (ctx)
@@ -185,7 +187,7 @@ be_visitor_attribute_ccm_init::emit_init_block ()
       << "throw ::CORBA::BAD_PARAM ();" << be_uidt_nl
       << "}" << be_uidt_nl << be_nl
       << "this->" << this->ctx_->port_prefix ().c_str ()
-      << attr_->local_name ()->get_string ()
+      << attr_->local_name ()->get_string_view ().value_or (std::string_view {})
       << " (";
 
   be_visitor_attribute_set_from_extracted arg_emitter (this->ctx_);
@@ -229,7 +231,7 @@ be_visitor_attribute_ccm_init::open_if_block ()
   os_ << be_nl_2
       << "if (ACE_OS::strcmp (descr_name, \""
       << this->ctx_->port_prefix ().c_str ()
-      << attr_->local_name ()->get_string ()
+      << attr_->local_name ()->get_string_view ().value_or (std::string_view {})
       << "\") == 0)" << be_idt_nl
       << "{" << be_idt_nl;
 }

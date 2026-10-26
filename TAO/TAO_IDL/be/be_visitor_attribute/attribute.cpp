@@ -11,6 +11,8 @@
 
 #include "attribute.h"
 
+#include <string_view>
+
 #include <string>
 
 // Attribute gets mapped to one or possibly two operations based on whether
@@ -55,7 +57,7 @@ be_visitor_attribute::visit_attribute (be_attribute *node)
   UTL_Scope *s = node->defined_in ();
   AST_Decl *d = ScopeAsDecl (s);
   std::string op_name (this->ctx_->port_prefix ());
-  op_name += node->local_name ()->get_string ();
+  op_name += node->local_name ()->get_string_view ().value_or (std::string_view {});
   Identifier *op_id = nullptr;
   ACE_NEW_RETURN (op_id,
                   Identifier (op_name.c_str ()),

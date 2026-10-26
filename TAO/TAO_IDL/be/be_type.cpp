@@ -133,46 +133,26 @@ be_type::tc_name ()
 //
 // We can use the flat_name() method for the local_name parm but have
 // to construct the full name ourselves.
-const char *
+std::string
 be_type::nested_sp_type_name (be_decl *use_scope,
-                              const char *suffix,
-                              const char *prefix)
+                              char const * suffix,
+                              char const * prefix)
 {
   // Our defining scope.
-  be_decl *fu_scope = nullptr;
+  be_scope *const defining_scope =
+    this->defined_in () ? dynamic_cast<be_scope *> (this->defined_in ()) : nullptr;
+  AST_Decl *const defining_decl = defining_scope != nullptr
+    ? defining_scope->decl () : nullptr;
 
-  char fu_name [NAMEBUFSIZE];
-  char fl_name [NAMEBUFSIZE];
+  std::string full_name = defining_decl != nullptr ? defining_decl->full_name () : "";
+  full_name.append ("::TAO_");
+  full_name.append (this->flat_name ());
 
-  ACE_OS::memset (fu_name,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string local_name ("TAO_");
+  local_name.append (this->flat_name ());
 
-  ACE_OS::memset (fl_name,
-                  '\0',
-                  NAMEBUFSIZE);
-
-  fu_scope = this->defined_in ()
-               ? dynamic_cast<be_scope*> (this->defined_in ())->decl ()
-               : nullptr;
-
-  ACE_OS::strcat (fu_name,
-                  (fu_scope != nullptr ? fu_scope->full_name () : ""));
-
-  ACE_OS::strcat (fu_name,
-                  "::TAO_");
-
-  ACE_OS::strcat (fu_name,
-                  this->flat_name());
-
-  ACE_OS::strcat (fl_name,
-                  "TAO_");
-
-  ACE_OS::strcat (fl_name,
-                  this->flat_name());
-
-  return this->nested_name (fl_name,
-                            fu_name,
+  return this->nested_name (local_name.c_str (),
+                            full_name.c_str (),
                             use_scope,
                             suffix,
                             prefix);

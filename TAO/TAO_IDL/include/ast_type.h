@@ -69,6 +69,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 #include "ace/Unbounded_Queue.h"
 
+#include <string>
+
 // Class for all IDL types
 //
 // This is useful wherever any IDL type defining construct can appear
@@ -117,9 +119,9 @@ public:
   void ifr_fwd_added (bool val);
 
   // Type name of a node used when generating declarations.
-  char const *nested_type_name (AST_Decl *d,
-                                char const *suffix = nullptr,
-                                char const *prefix = nullptr);
+  std::string nested_type_name (AST_Decl *d,
+                                char const * suffix = nullptr,
+                                char const * prefix = nullptr);
 
   // Utility function to make sure we are using the unaliased type.
   AST_Type *unaliased_type ();
@@ -140,11 +142,11 @@ protected:
   virtual int compute_size_type ();
 
   // Type name of a node used when generating declarations.
-  char const *nested_name (char const *local_name,
-                           char const *full_name,
+  std::string nested_name (char const * local_name,
+                           char const * full_name,
                            AST_Decl *use_scope,
-                           char const *suffix,
-                           char const *prefix);
+                           char const * suffix,
+                           char const * prefix);
 
   bool match_names (AST_Type *t, ACE_Unbounded_Queue<AST_Type *> &list);
 
@@ -162,9 +164,6 @@ protected:
   // Attribute that helps a union determine whether a member
   // should be included by value or by reference.
   bool has_constructor_ {};
-
-  // For the corresponding method.
-  char *nested_type_name_ {};
 
   // Storage once the value has been computed.
   long in_recursion_ {-1};

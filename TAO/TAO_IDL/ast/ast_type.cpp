@@ -74,7 +74,6 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ace/Log_Msg.h"
 #include "ace/OS_NS_string.h"
 #include "ace/OS_NS_stdio.h"
-#include "ace/OS_Memory.h"
 
 AST_Type::AST_Type (AST_Decl::NodeType nt,
                     UTL_ScopedName *n)
@@ -178,14 +177,11 @@ AST_Type::has_constructor (bool value)
     }
 }
 
-// Caution: returns the same buffer pointer even if the contents may change
-// in the next call.  (return std::string anyone?)
-//
-// Return the type name
-const char *
+// Return the type name.
+std::string
 AST_Type::nested_type_name (AST_Decl *use_scope,
-                            const char *suffix,
-                            const char *prefix)
+                            char const * suffix,
+                            char const * prefix)
 {
   return this->nested_name (this->local_name ()->get_string (),
                             this->full_name (),
@@ -218,12 +214,12 @@ AST_Type::legal_for_primary_key () const
 }
 
 // This is the real thing used by the method above.
-const char *
-AST_Type::nested_name (const char* local_name,
-                       const char* full_name,
+std::string
+AST_Type::nested_name (char const * local_name,
+                       char const * full_name,
                        AST_Decl *use_scope,
-                       const char *suffix,
-                       const char *prefix)
+                       char const * suffix,
+                       char const * prefix)
 {
   // Some compilers do not like generating a fully scoped name for a type that
   // was defined in the same enclosing scope in which it was defined. For such,
@@ -234,39 +230,7 @@ AST_Type::nested_name (const char* local_name,
   // need to ensure that it was not defined in any of our ancestor
   // scopes as well.
 
-  // Thus we need some sort of relative name to be generated.
-  if (this->nested_type_name_ == nullptr)
-    {
-      ACE_NEW_RETURN (this->nested_type_name_,
-                      char[NAMEBUFSIZE],
-                      nullptr);
-    }
-
-  // Hold the fully scoped name.
-  char def_name [NAMEBUFSIZE];
-  char use_name [NAMEBUFSIZE];
-
-  // These point to the prev, curr and next component in the scope.
-  char *def_curr = def_name;
-  char *def_next = nullptr;
-  char *use_curr = use_name;
-  char *use_next = nullptr;
-
-  // How many chars to compare.
-  int len_to_match = 0;
-
-  // Initialize the buffers.
-  ACE_OS::memset (this->nested_type_name_,
-                  '\0',
-                  NAMEBUFSIZE);
-
-  ACE_OS::memset (def_name,
-                  '\0',
-                  NAMEBUFSIZE);
-
-  ACE_OS::memset (use_name,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string nested_name;
 
   // Traverse every component of the def_scope and use_scope beginning at the
   // root and proceeding towards the leaf trying to see if the components
@@ -276,215 +240,120 @@ AST_Type::nested_name (const char* local_name,
   // This adds the global double colon for type names using the canonical
   // CORBA namespace, replacing the ad hoc spot
   // generations of "::" here and there, which have now been removed.
-  UTL_Scope *s = this->defined_in ();
-  AST_Decl *def_scope = s != nullptr ? ScopeAsDecl (s) : nullptr;
+  UTL_Scope * const s = this->defined_in ();
+  AST_Decl * const def_scope = s != nullptr ? ScopeAsDecl (s) : nullptr;
 
   // TypeCode is a special case for predefined types, since it's
   // defined in the CORBA module.
-  bool in_root =
+  bool const in_root =
     (def_scope != nullptr && def_scope->node_type () == AST_Decl::NT_root)
     || ((this->node_type () == AST_Decl::NT_pre_defined
         && ACE_OS::strcmp (this->flat_name (), "CORBA_TypeCode") == 0));
 
-  ACE_CString fname (this->full_name ());
-  bool corba_type = fname.find ("CORBA::") == 0;
+  std::string const fname (this->full_name ());
+  bool const corba_type = fname.find ("CORBA::") == 0;
 
   if (in_root && corba_type)
     {
-      ACE_OS::strcat (this->nested_type_name_, "::");
+      nested_name.append ("::");
     }
 
   if (def_scope != nullptr && !in_root && use_scope != nullptr)
     // If both scopes exist and that we are not in the root scope.
     {
-      ACE_OS::strcpy (def_name,
-                      def_scope->full_name ());
-
-      ACE_OS::strcpy (use_name,
-                      use_scope->full_name ());
-
-      // Find the first occurrence of a :: and advance
-      // the next pointers accordingly.
-      def_next = ACE_OS::strstr (def_curr, "::");
-      use_next = ACE_OS::strstr (use_curr, "::");
+      std::string const def_name (def_scope->full_name ());
+      std::string const use_name (use_scope->full_name ());
 
       // If the scopes are identical, don't supply them.
-      if  (ACE_OS::strcmp (def_name, use_name) == 0)
+      if (def_name == use_name)
         {
           if (prefix != nullptr)
             {
-              ACE_OS::strcat (this->nested_type_name_,
-                              prefix);
+              nested_name.append (prefix);
             }
 
-          ACE_OS::strcat (this->nested_type_name_,
-                          local_name);
+          nested_name.append (local_name);
           if (suffix != nullptr)
             {
-              ACE_OS::strcat (this->nested_type_name_,
-                              suffix);
+              nested_name.append (suffix);
             }
 
-          return this->nested_type_name_;
+          return nested_name;
         }
 
-      if (def_next != nullptr)
-        {
-          len_to_match =
-            static_cast<int> (ACE_OS::strlen (def_curr)) -
-            static_cast<int> (ACE_OS::strlen (def_next));
-        }
-      else
-        {
-          len_to_match = static_cast<int> (ACE_OS::strlen (def_curr));
-        }
+      std::string::size_type def_pos = 0;
+      std::string::size_type use_pos = 0;
+      std::string::size_type common_end = 0;
 
-      if (use_next != nullptr)
+      while (def_pos < def_name.length () && use_pos < use_name.length ())
         {
-          const int len =
-            static_cast<int> (ACE_OS::strlen (use_curr)) -
-            static_cast<int> (ACE_OS::strlen (use_next));
+          std::string::size_type const def_next = def_name.find ("::", def_pos);
+          std::string::size_type const use_next = use_name.find ("::", use_pos);
+          std::string::size_type const def_end =
+            def_next == std::string::npos ? def_name.length () : def_next;
+          std::string::size_type const use_end =
+            use_next == std::string::npos ? use_name.length () : use_next;
 
-          if (len > len_to_match)
+          if (def_name.compare (def_pos, def_end - def_pos,
+                                use_name, use_pos, use_end - use_pos) != 0)
             {
-              len_to_match = len;
+              break;
             }
+
+          common_end = def_end;
+
+          if (def_next == std::string::npos || use_next == std::string::npos)
+            {
+              break;
+            }
+
+          def_pos = def_next + 2;
+          use_pos = use_next + 2;
         }
-      else
+
+      if (common_end != 0)
         {
-          const int len = static_cast<int> (ACE_OS::strlen (use_curr));
+          nested_name.append (def_name, 0, common_end);
+          nested_name.append ("::");
 
-          if (len > len_to_match)
+          std::string::size_type const def_remainder =
+            common_end + (common_end < def_name.length () ? 2 : 0);
+          if (def_remainder < def_name.length ())
             {
-              len_to_match = len;
-            }
-        }
-
-      if (ACE_OS::strncmp (def_curr,
-                           use_curr,
-                           len_to_match)
-            == 0)
-        {
-          // Initialize the first argument.
-          ACE_OS::strncat (this->nested_type_name_,
-                           def_curr,
-                           len_to_match);
-
-          // Shift the current scopes to the next level.
-          def_curr = (def_next ? (def_next + 2) : nullptr); // Skip the ::
-          use_curr = (use_next ? (use_next + 2) : nullptr); // Skip the ::
-
-          while (def_curr && use_curr)
-            {
-              // Find the first occurrence of a :: and advance the
-              // next pointers accordingly.
-              def_next = ACE_OS::strstr (def_curr, "::");
-              use_next = ACE_OS::strstr (use_curr, "::");
-
-              if (def_next != nullptr)
-                {
-                  len_to_match =
-                    static_cast<int> (ACE_OS::strlen (def_curr)) -
-                    static_cast<int> (ACE_OS::strlen (def_next));
-                }
-              else
-                {
-                  len_to_match = static_cast<int> (ACE_OS::strlen (def_curr));
-                }
-
-              if (use_next != nullptr)
-                {
-                  int len  =
-                    static_cast<int> (ACE_OS::strlen (use_curr)) -
-                    static_cast<int> (ACE_OS::strlen (use_next));
-
-                  if (len > len_to_match)
-                    {
-                      len_to_match = len;
-                    }
-                }
-              else
-                {
-                  const int len = static_cast<int> (ACE_OS::strlen (use_curr));
-
-                  if (len > len_to_match)
-                    {
-                      len_to_match = len;
-                    }
-                }
-
-              if (ACE_OS::strncmp (def_curr,
-                                   use_curr,
-                                   len_to_match)
-                    == 0)
-                {
-                  // They have same prefix, append to arg1.
-                  ACE_OS::strcat (this->nested_type_name_,
-                                  "::");
-
-                  ACE_OS::strncat (this->nested_type_name_,
-                                   def_curr,
-                                   len_to_match);
-
-                  def_curr = (def_next ? (def_next + 2) : nullptr); // Skip the ::
-                  use_curr = (use_next ? (use_next + 2) : nullptr); // Skip the ::
-                }
-              else
-                {
-                  // No match. This is the end of the first argument. Get out
-                  // of the loop as no more comparisons are necessary.
-                  break;
-                }
+              nested_name.append (def_name, def_remainder, std::string::npos);
+              nested_name.append ("::");
             }
 
-          // Start the 2nd argument of the macro.
-          ACE_OS::strcat (this->nested_type_name_, "::");
-
-          // Copy the remaining def_name (if any are left).
-          if (def_curr != nullptr)
-            {
-              ACE_OS::strcat (this->nested_type_name_,
-                              def_curr);
-
-              ACE_OS::strcat (this->nested_type_name_,
-                              "::");
-            }
-
-          // Append our local name.
           if (prefix != nullptr)
             {
-              ACE_OS::strcat (this->nested_type_name_, prefix);
+              nested_name.append (prefix);
             }
 
-          ACE_OS::strcat (this->nested_type_name_,
-                          local_name);
+          nested_name.append (local_name);
 
           if (suffix != nullptr)
             {
-              ACE_OS::strcat (this->nested_type_name_,
-                              suffix);
+              nested_name.append (suffix);
             }
 
-          return this->nested_type_name_;
+          return nested_name;
         } // End of if the root prefixes match.
     }
 
   // Otherwise just emit our full_name.
   if (prefix != nullptr)
     {
-      ACE_OS::strcat (this->nested_type_name_, prefix);
+      nested_name.append (prefix);
     }
 
-  ACE_OS::strcat (this->nested_type_name_,
-                  full_name);
+  nested_name.append (full_name);
 
   if (suffix != nullptr)
     {
-      ACE_OS::strcat (this->nested_type_name_,
-                      suffix);
+      nested_name.append (suffix);
     }
 
-  return this->nested_type_name_;
+  return nested_name;
 }
 
 bool
@@ -518,8 +387,5 @@ AST_Type::ast_accept (ast_visitor *visitor)
 void
 AST_Type::destroy ()
 {
-  delete [] this->nested_type_name_;
-  this->nested_type_name_ = nullptr;
-
   this->AST_Decl::destroy ();
 }

@@ -46,7 +46,7 @@ namespace
     return type_name;
   }
 
-  void
+  [[maybe_unused]] void
   emit_valuebox_type_name (TAO_OutStream *os,
                            std::string_view prefix,
                            UTL_IdList *name,

@@ -615,7 +615,7 @@ public:
    * to be kept. Default is current directory from which the
    * <tao_idl> is called.
    */
-  void output_dir (const char* s);
+  void output_dir (std::string_view s);
 
   /**
    * Get the directory where all the IDL-Compiler-Generated files are
@@ -626,7 +626,7 @@ public:
 
   /// Set the path for all *C.* file includes.
   /// Default is local directory or $TAO_ROOT/tao.
-  void stub_include_dir (const char* s);
+  void stub_include_dir (std::string_view s);
 
   /// Get the path for all *C.* file includes.
   /// Default is local directory or $TAO_ROOT/tao.
@@ -634,7 +634,7 @@ public:
 
   /// Set the directory where all the *S.* files are
   /// to be kept. Default is output_dir_.
-  void skel_output_dir (const char* s);
+  void skel_output_dir (std::string_view s);
 
   /// Get the directory where all the *S.* files are
   /// to be kept. Default is output_dir_.
@@ -642,7 +642,7 @@ public:
 
   /// Set the directory where all the *A.* files are
   /// to be kept. Default is output_dir_.
-  void anyop_output_dir (const char* s);
+  void anyop_output_dir (std::string_view s);
 
   /// Get the directory where all the *A.* files are
   /// to be kept. Default is output_dir_.
@@ -650,7 +650,7 @@ public:
 
   /// Set the directory where all the *exec.* files are
   /// to be kept. Default is output_dir_.
-  void exec_output_dir (const char* s);
+  void exec_output_dir (std::string_view s);
 
   /// Get the directory where all the *exec.* files are
   /// to be kept. Default is output_dir_.
@@ -1103,34 +1103,34 @@ private:
    * kept. Default value is 0 for this string which means the current
    * directory from which the <tao_idl> is called.
    */
-  char *output_dir_ {};
+  std::optional<std::string> output_dir_;
 
   /**
    * Path for all *C.* includes. Default value is 0, in which case
    * the local directory or $TAO_ROOT/tao is used.
    */
-  char *stub_include_dir_ {};
+  std::optional<std::string> stub_include_dir_;
 
   /**
    * Directory where all the *S.* files are to be
    * kept. Default value is 0 for this string which means the
    * value for output_dir_ is used.
    */
-  char *skel_output_dir_ {};
+  std::optional<std::string> skel_output_dir_;
 
   /**
    * Directory where all the *A.* files are to be
    * kept. Default value is 0 for this string which means the
    * value for output_dir_ is used.
    */
-  char *anyop_output_dir_ {};
+  std::optional<std::string> anyop_output_dir_;
 
   /**
     * Directory where all the *exec.* files are to be
     * kept. Default value is 0 for this string which means the
     * value for output_dir_ is used.
     */
-  char *exec_output_dir_ {};
+  std::optional<std::string> exec_output_dir_;
 
 
   /// do we support Any operators?

@@ -1410,16 +1410,15 @@ BE_GlobalData::ciao_container_type () const
 }
 
 void
-BE_GlobalData::output_dir (const char* s)
+BE_GlobalData::output_dir (std::string_view s)
 {
-  ACE::strdelete (this->output_dir_);
-  this->output_dir_ = ACE::strnew (s);
+  this->output_dir_ = s;
 }
 
 const char*
 BE_GlobalData::output_dir () const
 {
-  return this->output_dir_;
+  return this->output_dir_ ? this->output_dir_->c_str () : nullptr;
 }
 bool
 BE_GlobalData::overwrite_not_exec () const
@@ -1434,55 +1433,51 @@ BE_GlobalData::overwrite_not_exec (bool val)
 }
 
 void
-BE_GlobalData::skel_output_dir (const char* s)
+BE_GlobalData::skel_output_dir (std::string_view s)
 {
-  ACE::strdelete (this->skel_output_dir_);
-  this->skel_output_dir_ = ACE::strnew (s);
+  this->skel_output_dir_ = s;
 }
 
 const char*
 BE_GlobalData::skel_output_dir () const
 {
-  return this->skel_output_dir_;
+  return this->skel_output_dir_ ? this->skel_output_dir_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::stub_include_dir (const char* s)
+BE_GlobalData::stub_include_dir (std::string_view s)
 {
-  ACE::strdelete (this->stub_include_dir_);
-  this->stub_include_dir_ = ACE::strnew (s);
+  this->stub_include_dir_ = s;
 }
 
 const char*
 BE_GlobalData::stub_include_dir () const
 {
-  return this->stub_include_dir_;
+  return this->stub_include_dir_ ? this->stub_include_dir_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::anyop_output_dir (const char* s)
+BE_GlobalData::anyop_output_dir (std::string_view s)
 {
-  ACE::strdelete (this->anyop_output_dir_);
-  this->anyop_output_dir_ = ACE::strnew (s);
+  this->anyop_output_dir_ = s;
 }
 
 const char*
 BE_GlobalData::anyop_output_dir () const
 {
-  return this->anyop_output_dir_;
+  return this->anyop_output_dir_ ? this->anyop_output_dir_->c_str () : nullptr;
 }
 
 void
-BE_GlobalData::exec_output_dir (const char* s)
+BE_GlobalData::exec_output_dir (std::string_view s)
 {
-  ACE::strdelete (this->exec_output_dir_);
-  this->exec_output_dir_ = ACE::strnew (s);
+  this->exec_output_dir_ = s;
 }
 
 const char*
 BE_GlobalData::exec_output_dir () const
 {
-  return this->exec_output_dir_;
+  return this->exec_output_dir_ ? this->exec_output_dir_->c_str () : nullptr;
 }
 void
 BE_GlobalData::any_support (bool val)
@@ -1864,20 +1859,11 @@ BE_GlobalData::destroy ()
   this->ciao_ami_conn_impl_src_ending_.reset ();
   this->ciao_container_type_.reset ();
 
-  ACE::strdelete (this->output_dir_);
-  this->output_dir_ = nullptr;
-
-  ACE::strdelete (this->stub_include_dir_);
-  this->stub_include_dir_ = nullptr;
-
-  ACE::strdelete (this->skel_output_dir_);
-  this->skel_output_dir_ = nullptr;
-
-  ACE::strdelete (this->anyop_output_dir_);
-  this->anyop_output_dir_ = nullptr;
-
-  ACE::strdelete (this->exec_output_dir_);
-  this->exec_output_dir_ = nullptr;
+  this->output_dir_.reset ();
+  this->stub_include_dir_.reset ();
+  this->skel_output_dir_.reset ();
+  this->anyop_output_dir_.reset ();
+  this->exec_output_dir_.reset ();
 
   if (nullptr != this->messaging_)
     {

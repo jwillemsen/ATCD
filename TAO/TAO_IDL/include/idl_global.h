@@ -500,7 +500,7 @@ public:
   void ident_string (std::string_view s);
   // Set the value of the #ident string.
 
-  std::optional<std::string_view> ident_string () const;
+  std::string_view ident_string () const;
   // Get the value of the #ident string.
 
   void case_diff_error (bool);
@@ -952,7 +952,7 @@ private:
   // Temp directory where which we can rewsolve in drv_preproc.cpp by
   // checking for  TEMP env variable otherwise we assign to /tmp/.
 
-  std::optional<std::string> ident_string_;
+  std::string ident_string_;
   // Holds a string that begins with #ident, to be passed from the IDL
   // file to the generated files.
 

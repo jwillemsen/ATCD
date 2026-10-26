@@ -1980,11 +1980,11 @@ TAO_CodeGen::gperf_input_filename () const
 void
 TAO_CodeGen::gen_ident_string (TAO_OutStream *stream) const
 {
-  std::optional<std::string_view> const str = idl_global->ident_string ();
+  std::string_view const str = idl_global->ident_string ();
 
-  if (str)
+  if (!str.empty ())
     {
-      *stream << "#" << *str << be_nl_2;
+      *stream << "#" << str << be_nl_2;
     }
 }
 

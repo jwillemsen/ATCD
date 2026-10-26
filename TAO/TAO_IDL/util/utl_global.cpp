@@ -733,14 +733,13 @@ IDL_GlobalData::gperf_path () const
 void
 IDL_GlobalData::ident_string (std::string_view s)
 {
-  this->ident_string_.emplace (s);
+  this->ident_string_ = s;
 }
 
-std::optional<std::string_view>
+std::string_view
 IDL_GlobalData::ident_string () const
 {
-  return this->ident_string_ ? std::optional<std::string_view> (*this->ident_string_)
-                             : std::nullopt;
+  return this->ident_string_;
 }
 
 void
@@ -1328,7 +1327,7 @@ IDL_GlobalData::fini ()
   this->tao_root_.reset ();
   this->gperf_path_.reset ();
   this->temp_dir_.reset ();
-  this->ident_string_.reset ();
+  this->ident_string_.clear ();
   delete [] this->pd_include_file_names;
   this->pd_include_file_names = nullptr;
 

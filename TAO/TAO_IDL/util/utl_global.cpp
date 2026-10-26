@@ -453,23 +453,26 @@ IDL_GlobalData::set_compile_flags (long cf)
   this->pd_compile_flags = cf;
 }
 
-// Get or set local escapes string. This provides an additional
-// mechanism to pass information to a BE.
-char *
-IDL_GlobalData::local_escapes ()
+// Get local escapes. This provides an additional mechanism to pass
+// information to a BE.
+std::string_view
+IDL_GlobalData::local_escapes () const
 {
   return this->pd_local_escapes;
 }
 
+// Append a local escape.
 void
-IDL_GlobalData::set_local_escapes (char const *e)
+IDL_GlobalData::append_local_escape (std::string_view escape)
 {
-  if (this->pd_local_escapes != nullptr)
-    {
-      delete [] this->pd_local_escapes;
-    }
+  this->pd_local_escapes.append (escape);
+  this->pd_local_escapes.push_back (' ');
+}
 
-  this->pd_local_escapes = ACE::strnew (e);
+void
+IDL_GlobalData::set_local_escapes (std::string_view escapes)
+{
+  this->pd_local_escapes = escapes;
 }
 
 // Get or set indent object
@@ -1317,8 +1320,7 @@ IDL_GlobalData::fini ()
   this->pd_gen = nullptr;
   delete this->pd_indent;
   this->pd_indent = nullptr;
-  delete [] this->pd_local_escapes;
-  this->pd_local_escapes = nullptr;
+  this->pd_local_escapes.clear ();
   this->tao_root_.reset ();
   this->gperf_path_.reset ();
   this->temp_dir_.reset ();

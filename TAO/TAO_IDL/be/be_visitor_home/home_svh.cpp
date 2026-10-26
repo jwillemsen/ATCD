@@ -11,6 +11,8 @@
 
 #include "home.h"
 
+#include <string_view>
+
 be_visitor_home_svh::be_visitor_home_svh (be_visitor_context *ctx)
   : be_visitor_scope (ctx),
     os_ (*ctx->stream ()),
@@ -122,10 +124,11 @@ be_visitor_home_svh::gen_servant_class ()
   char const *sname = sname_str.c_str ();
 
   // No '_cxx_' prefix.
-  char const *lname =
-    node_->original_local_name ()->get_string ();
+  std::string_view const lname =
+    node_->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
-  char const *clname = comp_->local_name ()->get_string ();
+  std::string_view const clname =
+    comp_->local_name ()->get_string_view ().value_or (std::string_view {});
   char const *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl

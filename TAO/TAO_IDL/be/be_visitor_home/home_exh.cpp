@@ -11,6 +11,8 @@
 
 #include "home.h"
 
+#include <string_view>
+
 be_visitor_home_exh::be_visitor_home_exh (be_visitor_context *ctx)
   : be_visitor_scope (ctx),
     os_ (*ctx->stream ()),
@@ -97,8 +99,8 @@ int
 be_visitor_home_exh::gen_exec_class ()
 {
   // We don't want a '_cxx_' prefix here.
-  char const *lname =
-    node_->original_local_name ()->get_string ();
+  std::string_view const lname =
+    node_->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
   os_ << be_nl
       << "/**" << be_nl

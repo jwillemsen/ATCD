@@ -11,6 +11,8 @@
 
 #include "home.h"
 
+#include <string_view>
+
 be_visitor_home_svs::be_visitor_home_svs (be_visitor_context *ctx)
   : be_visitor_scope (ctx),
     os_ (*ctx->stream ()),
@@ -102,7 +104,7 @@ be_visitor_home_svs::visit_factory (be_factory *node)
 
   os_ << be_nl_2
       << "::" << c->name () << "_ptr" << be_nl
-      << node_->original_local_name ()->get_string ()
+      << node_->original_local_name ()->get_string_view ().value_or (std::string_view {})
       << "_Servant::" << node->local_name ();
 
   be_visitor_operation_arglist al_visitor (this->ctx_);
@@ -131,7 +133,8 @@ be_visitor_home_svs::visit_factory (be_factory *node)
       ACE_CString comp_sname_str (
         ScopeAsDecl (comp_->defined_in ())->full_name ().data ());
       char const *comp_sname = comp_sname_str.c_str ();
-      char const *comp_lname = comp_->local_name ()->get_string ();
+      std::string_view const comp_lname =
+        comp_->local_name ()->get_string_view ().value_or (std::string_view {});
       char const *global = (comp_sname_str == "" ? "" : "::");
 
       ACE_CString sname_str (
@@ -206,10 +209,11 @@ be_visitor_home_svs::gen_servant_class ()
   char const *sname = sname_str.c_str ();
 
   // Avoid '_cxx_' prefix.
-  char const *lname =
-    node_->original_local_name ()->get_string ();
+  std::string_view const lname =
+    node_->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
-  char const *clname = comp_->local_name ()->get_string ();
+  std::string_view const clname =
+    comp_->local_name ()->get_string_view ().value_or (std::string_view {});
   char const *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl
@@ -382,8 +386,8 @@ be_visitor_home_svs::gen_entrypoint ()
   char const *sname = sname_str.c_str ();
 
   // Avoid _cxx_ prefix.
-  char const *lname =
-    node_->original_local_name ()->get_string ();
+  std::string_view const lname =
+    node_->original_local_name ()->get_string_view ().value_or (std::string_view {});
 
   char const *global = (sname_str == "" ? "" : "::");
 

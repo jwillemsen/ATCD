@@ -261,7 +261,7 @@ error_string (UTL_Error::ErrorCode c)
 static char const *
 get_filename (AST_Decl *node = nullptr)
 {
-  return node ? node->file_name ().c_str ()
+  return node ? node->file_name ().data ()
     : idl_global->filename ()->get_string ();
 }
 
@@ -1463,8 +1463,8 @@ UTL_Error::scope_masking_error (AST_Decl *masked,
                                 AST_Decl *masking)
 {
   char const *this_file = idl_global->filename ()->get_string ();
-  char const *masked_file = masked->file_name ().c_str ();
-  char const *masking_file = masking->file_name ().c_str ();
+  char const *masked_file = masked->file_name ().data ();
+  char const *masking_file = masking->file_name ().data ();
 
   idl_error_header (EIDL_MISC);
   ACE_ERROR ((LM_ERROR,

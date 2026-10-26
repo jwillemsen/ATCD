@@ -227,13 +227,13 @@ public:
   long line ();
   void set_line (long l);
 
-  ACE_CString & file_name ();
-  void set_file_name (ACE_CString s);
+  std::string_view file_name () const;
+  void set_file_name (std::string_view s);
 
-  UTL_ScopedName *name ();
+  UTL_ScopedName *name () const;
 
-  UTL_ScopedName *compute_name (char const *prefix,
-                                char const *suffix);
+  UTL_ScopedName *compute_name (std::string_view prefix,
+                                std::string_view suffix) const;
   // Variation of the <name>. Computes scoped name string, applying
   // prefix and suffix to the local name component.
 
@@ -242,8 +242,8 @@ public:
   Identifier *local_name () const;
   void local_name (Identifier *id);
 
-  Identifier *compute_local_name (char const *prefix,
-                                  char const *sufix);
+  Identifier *compute_local_name (std::string_view prefix,
+                                  std::string_view suffix) const;
   // Apply prefix and suffix to the local name and return.
 
   virtual std::string_view full_name () const;
@@ -448,7 +448,7 @@ private:
   long pd_line;
   // Line defined in.
 
-  ACE_CString pd_file_name;
+  std::string pd_file_name;
   // What file defined in.
 
   UTL_ScopedName *pd_name {};

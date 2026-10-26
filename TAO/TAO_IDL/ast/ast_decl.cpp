@@ -84,6 +84,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 // FUZZ: disable check_for_streams_include
 #include <ace/streams.h>
 #include <ace/OS_NS_stdio.h>
+#include <ace/OS_NS_stdlib.h>
 
 COMMON_Base::COMMON_Base (bool local,
                           bool abstract)
@@ -431,10 +432,8 @@ AST_Decl::compute_repoID ()
       return;
     }
 
-  size_t namelen = 4; // for the prefix "IDL:"
-  long first = true;
-  long second = false;
-  char *name = nullptr;
+  bool first = true;
+  bool second = false;
   std::string_view prefix = this->prefix_;
   UTL_Scope *scope = this->defined_in ();
 
@@ -452,9 +451,6 @@ AST_Decl::compute_repoID ()
       scope = parent->defined_in ();
     }
 
-  // in the first loop compute the total length
-  namelen += prefix.size () + 1;
-
   const char *version = this->version_;
   scope = this->defined_in ();
 
@@ -466,16 +462,15 @@ AST_Decl::compute_repoID ()
       scope = parent->defined_in ();
     }
 
-  if (version)
+  std::string repo_id ("IDL:");
+
+  if (!prefix.empty ())
     {
-      // Version member string + ':'
-      namelen += ACE_OS::strlen (version) + 1;
+      repo_id += prefix;
+      repo_id += '/';
     }
-  else
-    {
-      // For ":1.0"
-      namelen += 4;
-    }
+
+  std::string_view const cxx_prefix ("_cxx_");
 
   for (UTL_IdListActiveIterator i (this->name ());
        !i.is_done ();
@@ -483,81 +478,27 @@ AST_Decl::compute_repoID ()
     {
       if (!first)
         {
-          namelen += 1; // for "/"
+          repo_id += '/';
         }
       else if (second)
         {
           first = second = false;
         }
 
-      // Print the identifier.
-      name = i.item ()->get_string ();
-      size_t item_len = ACE_OS::strlen (name);
+      std::string_view const name (i.item ()->get_string ());
 
-      if (ACE_OS::strstr (name, "_cxx_") == name)
+      if (name.compare (0, cxx_prefix.size (), cxx_prefix) == 0)
         {
-          namelen += (item_len - ACE_OS::strlen ("_cxx_"));
+          repo_id += name.substr (cxx_prefix.size ());
         }
       else
         {
-          namelen += item_len;
+          repo_id += name;
         }
 
       if (first)
         {
-          if (ACE_OS::strcmp (name, ""))
-            {
-              // Does not start with a "".
-              first = false;
-            }
-          else
-            {
-              second = true;
-            }
-        }
-    }
-
-  ACE_NEW (this->repoID_, char [namelen + 1]);
-  ACE_OS::sprintf (this->repoID_, "IDL:");
-
-  if (!prefix.empty ())
-    {
-      ACE_OS::strcat (this->repoID_, prefix.data ());
-      ACE_OS::strcat (this->repoID_, "/");
-    }
-
-  first = true;
-  second = false;
-
-  for (UTL_IdListActiveIterator j (this->name ());
-       !j.is_done ();
-       j.next ())
-    {
-      if (!first)
-        {
-          ACE_OS::strcat (this->repoID_, "/");
-        }
-      else if (second)
-        {
-          first = second = false;
-        }
-
-      // Print the identifier.
-      name = j.item ()->get_string ();
-
-      if (ACE_OS::strstr (name, "_cxx_") == name)
-        {
-          ACE_OS::strcat (this->repoID_,
-                          name + ACE_OS::strlen ("_cxx_"));
-        }
-      else
-        {
-          ACE_OS::strcat (this->repoID_, name);
-        }
-
-      if (first)
-        {
-          if (ACE_OS::strcmp (name, ""))
+          if (!name.empty ())
             {
               // Does not start with a "".
               first = false;
@@ -571,13 +512,15 @@ AST_Decl::compute_repoID ()
 
   if (version)
     {
-      ACE_OS::strcat (this->repoID_, ":");
-      ACE_OS::strcat (this->repoID_, version);
+      repo_id += ':';
+      repo_id += version;
     }
   else
     {
-      ACE_OS::strcat (this->repoID_, ":1.0");
+      repo_id += ":1.0";
     }
+
+  this->repoID_ = ACE::strnew (repo_id.c_str ());
 }
 
 // Public operations.
@@ -1106,20 +1049,20 @@ AST_Decl::set_line (long l)
   this->pd_line = l;
 }
 
-ACE_CString &
-AST_Decl::file_name ()
+std::string_view
+AST_Decl::file_name () const
 {
   return this->pd_file_name;
 }
 
 void
-AST_Decl::set_file_name (ACE_CString s)
+AST_Decl::set_file_name (std::string_view s)
 {
   this->pd_file_name = s;
 }
 
 UTL_ScopedName *
-AST_Decl::name ()
+AST_Decl::name () const
 {
   return this->pd_name;
 }
@@ -1130,27 +1073,19 @@ AST_Decl::name ()
 // Variation of the <name>. Computes scoped name string, applying
 // prefix and suffix to the local name component.
 UTL_ScopedName *
-AST_Decl::compute_name (const char *prefix,
-                        const char *suffix)
+AST_Decl::compute_name (std::string_view prefix,
+                        std::string_view suffix) const
 {
-  if (!prefix || !suffix)
-    {
-      return nullptr;
-    }
-
   // Prepare prefix_<local_name>_suffix string.
 
-  ACE_CString suffix_str (suffix);
-  ACE_CString local_str (this->local_name ()->get_string ());
-
-  ACE_CString result_local_str (prefix);
-  result_local_str += local_str;
-  result_local_str += suffix_str;
+  std::string result_local_name_string (prefix);
+  result_local_name_string += this->local_name ()->get_string ();
+  result_local_name_string += suffix;
 
   // Identifier for the resulting local name.
   Identifier *result_local_id = nullptr;
   ACE_NEW_RETURN (result_local_id,
-                  Identifier (result_local_str.c_str ()),
+                  Identifier (result_local_name_string),
                   nullptr);
 
   // UTL_Scoped name for the resulting local name.
@@ -1256,27 +1191,17 @@ AST_Decl::local_name (Identifier *id)
 }
 
 Identifier *
-AST_Decl::compute_local_name (const char *prefix,
-                              const char *suffix)
+AST_Decl::compute_local_name (std::string_view prefix,
+                              std::string_view suffix) const
 {
-  if (!prefix || !suffix)
-    {
-      return nullptr;
-    }
-
-  // Init the result with prefix.
-  ACE_CString result_str (prefix);
-
-  // Put local.
-  result_str += ACE_CString (this->local_name ()->get_string ());
-
-  // Put suffix.
-  result_str += ACE_CString (suffix);
+  std::string result_name (prefix);
+  result_name += this->local_name ()->get_string ();
+  result_name += suffix;
 
   // Identifier for the resulting local name.
   Identifier *result_id = nullptr;
   ACE_NEW_RETURN (result_id,
-                  Identifier (result_str.c_str ()),
+                  Identifier (result_name),
                   nullptr);
 
   return result_id;
@@ -1291,18 +1216,15 @@ void
 AST_Decl::original_local_name (Identifier *local_name)
 {
   // Remove _cxx_ if it is present.
-  if (ACE_OS::strstr (local_name->get_string (), "_cxx_")
-        == local_name->get_string ())
+  std::string_view const name (local_name->get_string ());
+  std::string_view const cxx_prefix ("_cxx_");
+  if (name.compare (0, cxx_prefix.size (), cxx_prefix) == 0)
     {
-      // AACE_CString class is good to do this stuff.
-      ACE_CString name_str (local_name->get_string ());
-
-      // Remove _cxx_.
-      name_str = name_str.substr (ACE_OS::strlen ("_cxx_"));
+      std::string const original_name (name.substr (cxx_prefix.size ()));
 
       // Assign to the Identifier variable.
       ACE_NEW (this->pd_original_local_name,
-               Identifier (name_str.c_str ()));
+               Identifier (original_name));
     }
   else
     {

@@ -221,7 +221,7 @@ IDL_GlobalData::scopes ()
 
 // Get or set root of AST
 AST_Root *
-IDL_GlobalData::root ()
+IDL_GlobalData::root () const
 {
   return this->pd_root;
 }
@@ -234,7 +234,7 @@ IDL_GlobalData::set_root (AST_Root *r)
 
 // Get or set generator object
 AST_Generator *
-IDL_GlobalData::gen ()
+IDL_GlobalData::gen () const
 {
   return this->pd_gen;
 }
@@ -247,7 +247,7 @@ IDL_GlobalData::set_gen (AST_Generator *g)
 
 // Get or set PrimaryKeyBase object
 AST_ValueType *
-IDL_GlobalData::primary_key_base ()
+IDL_GlobalData::primary_key_base () const
 {
   return this->pd_primary_key_base;
 }
@@ -260,7 +260,7 @@ IDL_GlobalData::primary_key_base (AST_ValueType *v)
 
 // Get or set error object
 UTL_Error *
-IDL_GlobalData::err ()
+IDL_GlobalData::err () const
 {
   return this->pd_err;
 }
@@ -273,7 +273,7 @@ IDL_GlobalData::set_err (UTL_Error *e)
 
 // Get or set error count
 int
-IDL_GlobalData::err_count ()
+IDL_GlobalData::err_count () const
 {
   return this->pd_err_count;
 }
@@ -286,7 +286,7 @@ IDL_GlobalData::set_err_count (int c)
 
 // Get or set line number
 long
-IDL_GlobalData::lineno ()
+IDL_GlobalData::lineno () const
 {
   return this->pd_lineno;
 }
@@ -299,7 +299,7 @@ IDL_GlobalData::set_lineno (long n)
 
 // Get or set file name being read now
 UTL_String *
-IDL_GlobalData::filename ()
+IDL_GlobalData::filename () const
 {
   return this->pd_filename;
 }
@@ -319,7 +319,7 @@ IDL_GlobalData::set_filename (UTL_String *s)
 
 // Get or set main file name
 UTL_String *
-IDL_GlobalData::main_filename ()
+IDL_GlobalData::main_filename () const
 {
   return this->pd_main_filename;
 }
@@ -338,7 +338,7 @@ IDL_GlobalData::set_main_filename (UTL_String *n)
 
 // Get or set real file name
 UTL_String *
-IDL_GlobalData::real_filename ()
+IDL_GlobalData::real_filename () const
 {
   return this->pd_real_filename;
 }
@@ -358,13 +358,13 @@ IDL_GlobalData::set_real_filename (UTL_String *n)
 
 // Get or set indicator whether import is on
 bool
-IDL_GlobalData::imported ()
+IDL_GlobalData::imported () const
 {
   return this->pd_in_main_file ? false : pd_import;
 }
 
 bool
-IDL_GlobalData::import ()
+IDL_GlobalData::import () const
 {
   return this->pd_import;
 }
@@ -377,7 +377,7 @@ IDL_GlobalData::set_import (bool is_in)
 
 // Get or set indicator whether we're reading the main file now
 bool
-IDL_GlobalData::in_main_file ()
+IDL_GlobalData::in_main_file () const
 {
   return this->pd_in_main_file;
 }
@@ -390,7 +390,7 @@ IDL_GlobalData::set_in_main_file (bool is_in)
 
 // Get or set stripped file name
 UTL_String *
-IDL_GlobalData::stripped_filename ()
+IDL_GlobalData::stripped_filename () const
 {
   return this->pd_stripped_filename;
 }
@@ -408,7 +408,7 @@ IDL_GlobalData::set_stripped_filename (UTL_String *nm)
 
 // Get or set cache value for argv[0]
 char const *
-IDL_GlobalData::prog_name ()
+IDL_GlobalData::prog_name () const
 {
   return this->pd_prog_name;
 }
@@ -421,7 +421,7 @@ IDL_GlobalData::set_prog_name (char const *pn)
 
 // Get or set location to find C preprocessor
 char const *
-IDL_GlobalData::cpp_location ()
+IDL_GlobalData::cpp_location () const
 {
   return this->pd_cpp_location;
 }
@@ -434,7 +434,7 @@ IDL_GlobalData::set_cpp_location (char const *l)
 
 // Get or set IDL compiler flags
 long
-IDL_GlobalData::compile_flags ()
+IDL_GlobalData::compile_flags () const
 {
   return this->pd_compile_flags;
 }
@@ -477,7 +477,7 @@ IDL_GlobalData::set_local_escapes (std::string_view escapes)
 
 // Get or set indent object
 UTL_Indenter *
-IDL_GlobalData::indent ()
+IDL_GlobalData::indent () const
 {
   return this->pd_indent;
 }
@@ -568,7 +568,7 @@ IDL_GlobalData::set_include_file_names (UTL_String **ns)
 }
 
 UTL_String **
-IDL_GlobalData::include_file_names ()
+IDL_GlobalData::include_file_names () const
 {
   return this->pd_include_file_names;
 }
@@ -580,7 +580,7 @@ IDL_GlobalData::set_n_include_file_names (unsigned long n)
 }
 
 unsigned long
-IDL_GlobalData::n_include_file_names ()
+IDL_GlobalData::n_include_file_names () const
 {
   return pd_n_include_file_names;
 }

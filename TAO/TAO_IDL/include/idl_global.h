@@ -332,69 +332,69 @@ public:
   // Operations
   UTL_ScopeStack   &scopes ();              // Scopes stack
 
-  AST_Root         *root ();                // Root of AST
+  AST_Root         *root () const;          // Root of AST
   void             set_root (AST_Root *);       // Set it
 
-  AST_Generator    *gen ();                 // Generator
+  AST_Generator    *gen () const;           // Generator
   void             set_gen (AST_Generator *);   // Set it
 
-  AST_ValueType    *primary_key_base ();    // PrimaryKeyBase
+  AST_ValueType    *primary_key_base () const; // PrimaryKeyBase
   void             primary_key_base (AST_ValueType *);   // Set it
 
-  UTL_Error        *err ();                 // Error reporter
+  UTL_Error        *err () const;           // Error reporter
   void             set_err (UTL_Error *);       // Set it
 
-  int              err_count ();            // How many errors?
+  int              err_count () const;      // How many errors?
   void             set_err_count (int);         // Set it
 
-  long             lineno ();               // Where in file?
+  long             lineno () const;         // Where in file?
   void             set_lineno (long);           // Set it
 
-  UTL_String       *filename ();            // What file?
+  UTL_String       *filename () const;      // What file?
   void             set_filename (UTL_String *); // Set it
 
-  UTL_String       *main_filename ();       // What's the main
+  UTL_String       *main_filename () const; // What's the main
                                                 // file name?
   void             set_main_filename (UTL_String *);
                                                 // Set it
 
-  UTL_String       *real_filename ();       // What's the real
+  UTL_String       *real_filename () const; // What's the real
                                                 // file name?
   void             set_real_filename (UTL_String *);
                                                 // Set it
 
-  UTL_String       *stripped_filename ();   // Stripped filename
+  UTL_String       *stripped_filename () const; // Stripped filename
   void             set_stripped_filename (UTL_String *);  // Set it
 
-  bool             imported ();             // Are we imported?
-  bool             import ();               // Is import on?
+  bool             imported () const;       // Are we imported?
+  bool             import () const;         // Is import on?
   void             set_import (bool);           // Set it
 
-  bool             in_main_file ();         // Are we?
+  bool             in_main_file () const;   // Are we?
   void             set_in_main_file (bool);     // Set it
 
-  char const *prog_name ();           // Invoked as..
+  char const *prog_name () const;     // Invoked as..
   void             set_prog_name (char const *);  // Set it
 
-  char const *cpp_location ();        // Where's CPP?
+  char const *cpp_location () const;  // Where's CPP?
   void             set_cpp_location (char const *);// Set it
 
-  long             compile_flags ();        // What flags are on?
+  long             compile_flags () const;  // What flags are on?
   void             set_compile_flags (long);    // Turn some on or off
 
   std::string_view local_escapes () const;
   void             append_local_escape (std::string_view escape);
   void             set_local_escapes (std::string_view escapes);
 
-  UTL_Indenter     *indent ();              // Get indenter
+  UTL_Indenter     *indent () const;        // Get indenter
   void             set_indent (UTL_Indenter *); // Set it
 
   void             store_include_file_name (UTL_String *);
 
-  UTL_String       **include_file_names (); // Array of file names
+  UTL_String       **include_file_names () const; // Array of file names
   void             set_include_file_names (UTL_String **); // Set it
 
-  unsigned long    n_include_file_names (); // How many
+  unsigned long    n_include_file_names () const; // How many
   void             set_n_include_file_names (unsigned long n);
 
   void             reset_flag_seen ();

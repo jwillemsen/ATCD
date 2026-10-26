@@ -16,6 +16,8 @@
 #include "ast_valuetype.h"
 #include "ast_field.h"
 
+#include <string_view>
+
 class TAO_OutStream;
 
 /**
@@ -118,7 +120,7 @@ public:
                                        TAO_OutStream *os);
 
   /// Accessor to the member.
-  const char *fwd_helper_name () const;
+  std::string_view fwd_helper_name () const;
 
   // There are three possible situations.
   // (1) If there is no initializers but at least one operation.

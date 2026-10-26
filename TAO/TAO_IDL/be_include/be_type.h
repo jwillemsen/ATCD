@@ -18,6 +18,7 @@
 #include "ast_type.h"
 
 #include <string>
+#include <string_view>
 
 #include "ace/SString.h"
 
@@ -59,8 +60,8 @@ public:
                                             bool accessor = false);
 
   /// Accessor to the member.
-  const char *fwd_helper_name () const;
-  void fwd_helper_name (const char *name);
+  std::string_view fwd_helper_name () const;
+  void fwd_helper_name (std::string_view name);
 
   /// Generate _var and _out typedefs for structs and unions.
   void gen_common_varout (TAO_OutStream *os);
@@ -102,7 +103,7 @@ protected:
   UTL_ScopedName *tc_name_ {};
 
   /// Used by interfaces, valuetypes and arrays to name helper structs.
-  ACE_CString fwd_helper_name_;
+  std::string fwd_helper_name_;
 
   /// Have we generated our _var and _out class typedefs yet?
   bool common_varout_gen_ {};

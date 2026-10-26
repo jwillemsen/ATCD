@@ -279,7 +279,7 @@ be_map::smart_fwd_helper_name (AST_Decl *ctx_scope,
       return "tao_" + std::string (elem->local_name ()->get_string ());
     }
 
-  return elem->fwd_helper_name ();
+  return std::string (elem->fwd_helper_name ());
 }
 
 void

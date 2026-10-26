@@ -172,10 +172,10 @@ be_valuetype::full_obv_skel_name ()
   return this->full_obv_skel_name_;
 }
 
-const char *
+std::string_view
 be_valuetype::fwd_helper_name () const
 {
-  return this->fwd_helper_name_.fast_rep ();
+  return {this->fwd_helper_name_.data (), this->fwd_helper_name_.size ()};
 }
 
 be_valuetype::FactoryStyle

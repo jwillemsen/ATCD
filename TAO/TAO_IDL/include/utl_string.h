@@ -116,10 +116,10 @@ public:
   // Get canonical representation. This is (implemented as) the all upper
   // case corresponding string.
 
-  bool compare (UTL_String *s);
+  bool compare (UTL_String const *s) const;
   // Compare two UTL_String *
 
-  bool compare_quiet (UTL_String *s);
+  bool compare_quiet (UTL_String const *s) const;
   // Like the above but without error or warning message output.
 
   static bool strcmp_caseless (

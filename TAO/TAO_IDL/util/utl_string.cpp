@@ -231,17 +231,19 @@ UTL_String::destroy ()
 
 // Compare two UTL_String *.
 bool
-UTL_String::compare (UTL_String *s)
+UTL_String::compare (UTL_String const *s) const
 {
-  return (this->p_str != nullptr && s != nullptr && s->get_string () != nullptr &&
-          compare (this->p_str, s->get_string ()));
+  std::optional<std::string_view> const lhs = this->get_string_view ();
+  std::optional<std::string_view> const rhs = s != nullptr ? s->get_string_view () : std::nullopt;
+  return lhs && rhs && compare (lhs->data (), rhs->data ());
 }
 
 bool
-UTL_String::compare_quiet (UTL_String *s)
+UTL_String::compare_quiet (UTL_String const *s) const
 {
-  return (this->p_str != nullptr && s != nullptr && s->get_string () != nullptr &&
-          compare_quiet (this->p_str, s->get_string ()));
+  std::optional<std::string_view> const lhs = this->get_string_view ();
+  std::optional<std::string_view> const rhs = s != nullptr ? s->get_string_view () : std::nullopt;
+  return lhs && rhs && compare_quiet (lhs->data (), rhs->data ());
 }
 
 // Get the canonical representation from a String.

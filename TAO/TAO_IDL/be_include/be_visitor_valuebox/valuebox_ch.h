@@ -15,6 +15,8 @@
 #ifndef _BE_VISITOR_VALUEBOX_CH_H_
 #define _BE_VISITOR_VALUEBOX_CH_H_
 
+#include <string_view>
+
 /**
  * @class be_visitor_valuebox_ch
  *
@@ -75,19 +77,19 @@ private:
 
   void emit_constructor_one_arg (be_decl *node,
                                  char const *type_suffix,
-                                 char const *const_prefix,
+                                 std::string_view const_prefix,
                                  char const *ref_modifier);
 
   void emit_copy_constructor ();
 
   void emit_assignment (be_decl *node,
                         char const *type_suffix,
-                        char const *const_prefix,
+                        std::string_view const_prefix,
                         char const *ref_modifier);
 
   void emit_boxed_access (be_decl *node,
                           char const *type_suffix,
-                          char const *const_prefix,
+                          std::string_view const_prefix,
                           char const *in_ref_modifier,
                           char const *out_ref_modifier);
 

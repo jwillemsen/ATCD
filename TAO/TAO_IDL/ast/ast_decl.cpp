@@ -725,7 +725,7 @@ AST_Decl::compute_flat_name ()
     }
 }
 
-const char *
+std::string_view
 AST_Decl::node_type_to_string (NodeType nt)
 {
   switch (nt)
@@ -832,7 +832,7 @@ AST_Decl::node_type_to_string (NodeType nt)
 
 const char *AST_Decl::node_type_name () const
 {
-  return node_type_to_string (pd_node_type);
+  return node_type_to_string (pd_node_type).data ();
 }
 
 // Return TRUE if one of my ancestor scopes is "s"

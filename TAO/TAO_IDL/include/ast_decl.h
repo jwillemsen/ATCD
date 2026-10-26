@@ -73,6 +73,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ace/SString.h"
 #include "ace/Vector_T.h"
 
+#include <string_view>
+
 class Identifier;
 class UTL_Scope;
 class UTL_String;
@@ -415,7 +417,7 @@ protected:
   void compute_flat_name ();
   // Compute the flattened fully scoped name.
 
-  static char const *node_type_to_string (NodeType nt);
+  static std::string_view node_type_to_string (NodeType nt);
   // Convert a NodeType to a string for dumping.
 
   /// Annotations applied to this IDL element

@@ -500,8 +500,8 @@ void
 be_visitor_valuebox_union_member_ci::emit_member_set (
   be_decl *field,
   be_type *field_type,
-  std::string const &const_arg,
-  std::string const &arg_modifier)
+  std::string_view const_arg,
+  std::string_view arg_modifier)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
@@ -521,8 +521,8 @@ void
 be_visitor_valuebox_union_member_ci::emit_member_get (
   be_decl *field,
   be_type *field_type,
-  std::string const &const_prefix,
-  std::string const &type_suffix,
+  std::string_view const_prefix,
+  std::string_view type_suffix,
   char const *const_method)
 {
   TAO_OutStream *os = this->ctx_->stream ();

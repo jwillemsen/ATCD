@@ -16,7 +16,7 @@
 #ifndef _BE_VISITOR_VALUEBOX_UNION_MEMBER_CI_H_
 #define _BE_VISITOR_VALUEBOX_UNION_MEMBER_CI_H_
 
-#include <string>
+#include <string_view>
 
 /**
  * @class be_visitor_valuebox_union_member_ci
@@ -82,13 +82,13 @@ public:
 private:
   void emit_member_set (be_decl *field,
                         be_type *field_type,
-                        std::string const &const_arg,
-                        std::string const &arg_modifier);
+                        std::string_view const_arg,
+                        std::string_view arg_modifier);
 
   void emit_member_get (be_decl *field,
                         be_type *field_type,
-                        std::string const &const_prefix,
-                        std::string const &type_suffix,
+                        std::string_view const_prefix,
+                        std::string_view type_suffix,
                         char const *const_method);
 
 private:

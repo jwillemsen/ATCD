@@ -650,7 +650,7 @@ DRV_cpp_post_init ()
 {
   char idl_version_arg[128];
   ACE_OS::sprintf (idl_version_arg, "-D__TAO_IDL_IDL_VERSION=%s",
-    idl_global->idl_version_.to_macro ());
+    idl_global->idl_version_.to_macro ().data ());
   DRV_cpp_putarg (idl_version_arg);
 
   DRV_cpp_putarg ("-D__TAO_IDL_FEATURES="

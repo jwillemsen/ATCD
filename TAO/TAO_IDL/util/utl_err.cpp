@@ -1550,7 +1550,7 @@ UTL_Error::idl_version_error (char const *reason)
   ACE_ERROR ((LM_ERROR,
     ACE_TEXT ("\n%C\nCurrent IDL version is %C, use --idl-version VERSION to ")
     ACE_TEXT ("set the IDL version to use.\n"),
-    reason, idl_global->idl_version_.to_string ()
+    reason, idl_global->idl_version_.to_string ().data ()
     ));
 }
 

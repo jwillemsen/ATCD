@@ -743,7 +743,7 @@ be_visitor_valuebox_ch::emit_default_constructor ()
 void
 be_visitor_valuebox_ch::emit_constructor_one_arg (be_decl *node,
                                                   char const *type_suffix,
-                                                  char const *const_prefix,
+                                                  std::string_view const_prefix,
                                                   char const *ref_modifier)
 {
   TAO_OutStream *os = this->ctx_->stream ();
@@ -773,7 +773,7 @@ be_visitor_valuebox_ch::emit_copy_constructor ()
 void
 be_visitor_valuebox_ch::emit_assignment (be_decl *node,
                                          char const *type_suffix,
-                                         char const *const_prefix,
+                                         std::string_view const_prefix,
                                          char const *ref_modifier)
 {
   TAO_OutStream *os = this->ctx_->stream ();
@@ -790,7 +790,7 @@ be_visitor_valuebox_ch::emit_assignment (be_decl *node,
 void
 be_visitor_valuebox_ch::emit_boxed_access (be_decl *node,
                                            char const *type_suffix,
-                                           char const *const_prefix,
+                                           std::string_view const_prefix,
                                            char const *in_ref_modifier,
                                            char const *out_ref_modifier)
 {

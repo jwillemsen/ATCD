@@ -420,13 +420,13 @@ public:
   void stripped_filename (std::string_view s);
 
   /// Set text that opens a "versioned" namespace.
-  void versioning_begin (const char* s);
+  void versioning_begin (std::string_view s);
 
   /// Get text that opens a "versioned" namespace.
   const char * versioning_begin () const;
 
   /// Set include file for "versioned" namespace.
-  void versioning_include (const char* s);
+  void versioning_include (std::string_view s);
 
   /// Get include file for "versioned" namespace.
   const char * versioning_include () const;
@@ -436,7 +436,7 @@ public:
   const char * core_versioning_begin () const;
 
   /// Set text that closes a "versioned" namespace.
-  void versioning_end (const char* s);
+  void versioning_end (std::string_view s);
 
   /// Get text that closes a "versioned" namespace.
   const char * versioning_end () const;
@@ -989,26 +989,26 @@ private:
 
   /// Text that opens a "versioned" namespace for core TAO and orbsvcs
   /// related code.
-  ACE_CString core_versioning_begin_;
+  std::string core_versioning_begin_;
 
   /// Text that closes a "versioned" namespace for core TAO and
   /// orbsvcs related code.
-  ACE_CString core_versioning_end_;
+  std::string core_versioning_end_;
 
   /// Text that opens a "versioned" namespace for CORBA::Any operators
-  ACE_CString anyops_versioning_begin_;
+  std::string anyops_versioning_begin_;
 
   /// Text that closes a "versioned" namespace for CORBA::Any operators
-  ACE_CString anyops_versioning_end_;
+  std::string anyops_versioning_end_;
 
   /// Text that opens a "versioned" namespace.
-  ACE_CString versioning_begin_;
+  std::string versioning_begin_;
 
   /// Text that closes a "versioned" namespace.
-  ACE_CString versioning_end_;
+  std::string versioning_end_;
 
   /// Include for versioned namespace include
-  ACE_CString versioning_include_;
+  std::string versioning_include_;
 
   /// Client's header file name ending. Default is "C.h".
   std::optional<std::string> client_hdr_ending_ {"C.h"};

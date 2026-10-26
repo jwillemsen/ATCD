@@ -948,7 +948,7 @@ BE_GlobalData::versioning_begin () const
 }
 
 void
-BE_GlobalData::versioning_include (const char * s)
+BE_GlobalData::versioning_include (std::string_view s)
 {
   this->versioning_include_ = s;
 }
@@ -966,12 +966,11 @@ BE_GlobalData::core_versioning_begin () const
 }
 
 void
-BE_GlobalData::versioning_end (const char * s)
+BE_GlobalData::versioning_end (std::string_view s)
 {
-  this->versioning_end_ =
-    ACE_CString ("\n\n")
-    + ACE_CString (s)
-    + ACE_CString ("\n\n");
+  this->versioning_end_ = "\n\n";
+  this->versioning_end_.append (s);
+  this->versioning_end_.append ("\n\n");
 
   this->core_versioning_begin_ =
     this->versioning_end_ + // Yes, "end".
@@ -982,12 +981,11 @@ BE_GlobalData::versioning_end (const char * s)
 }
 
 void
-BE_GlobalData::versioning_begin (const char * s)
+BE_GlobalData::versioning_begin (std::string_view s)
 {
-  this->versioning_begin_ =
-    ACE_CString ("\n\n")
-    + ACE_CString (s)
-    + ACE_CString ("\n\n");
+  this->versioning_begin_ = "\n\n";
+  this->versioning_begin_.append (s);
+  this->versioning_begin_.append ("\n\n");
 
   this->core_versioning_end_ =
     core_versioned_ns_end

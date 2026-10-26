@@ -800,7 +800,7 @@ be_visitor_ccm_pre_proc::gen_push_op (be_eventtype *node,
     {
       UTL_ScopedName *op_full_name =
         this->create_scoped_name ("push_",
-                                  node->local_name (),
+                                  node->local_name ().data (),
                                   nullptr,
                                   consumer);
       be_operation *push_op = nullptr;
@@ -817,7 +817,7 @@ be_visitor_ccm_pre_proc::gen_push_op (be_eventtype *node,
       ACE_CString arg_string ("the_",
                               nullptr,
                               false);
-      arg_string += node->local_name ();
+      arg_string += node->local_name ().data ();
       Identifier arg_id (arg_string.fast_rep ());
       UTL_ScopedName arg_name (&arg_id,
                                nullptr);
@@ -1477,7 +1477,7 @@ be_visitor_ccm_pre_proc::create_event_consumer (be_eventtype *node)
 
   UTL_ScopedName *consumer_name =
     this->create_scoped_name (nullptr,
-                              node->local_name (),
+                              node->local_name ().data (),
                               "Consumer",
                               ScopeAsDecl (node->defined_in ()));
 
@@ -1630,7 +1630,7 @@ be_visitor_ccm_pre_proc::create_implicit (be_home *node)
 
   UTL_ScopedName *implicit_name =
     this->create_scoped_name (nullptr,
-                              node->local_name (),
+                              node->local_name ().data (),
                               "Implicit",
                               ScopeAsDecl (node->defined_in ()));
 
@@ -1674,7 +1674,7 @@ be_visitor_ccm_pre_proc::create_equivalent (be_home *node,
   UTL_Scope *s = node->defined_in ();
   UTL_ScopedName *equiv_name =
     this->create_scoped_name (nullptr,
-                              node->local_name (),
+                              node->local_name ().data (),
                               nullptr,
                               ScopeAsDecl (s));
   UTL_NameList tail (implicit->name (),
@@ -1719,7 +1719,7 @@ be_visitor_ccm_pre_proc::create_equivalent (be_home *node,
     static_cast<UTL_ScopedName *> (node->name ()->copy ());
   UTL_ScopedName *mangled_name =
     this->create_scoped_name (nullptr,
-                              node->local_name (),
+                              node->local_name ().data (),
                               "_tao_home_name_extension",
                               ScopeAsDecl (s));
   node->set_name (mangled_name);
@@ -1894,7 +1894,7 @@ be_visitor_ccm_pre_proc::generate_ami4ccm_uses ()
         {
           ACE_CString iname ("AMI4CCM_");
 
-          iname += iface->local_name ();
+          iname += iface->local_name ().data ();
           Identifier itmp_id (iname.c_str ());
           UTL_ScopedName itmp_sn (&itmp_id, nullptr);
 

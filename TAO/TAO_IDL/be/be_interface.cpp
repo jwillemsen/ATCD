@@ -125,7 +125,7 @@ be_interface::be_interface (UTL_ScopedName *n,
 
 be_interface::~be_interface () = default;
 
-const char *
+std::string_view
 be_interface::local_name ()
 {
   // Return the local name.
@@ -657,7 +657,7 @@ be_interface::gen_var_out_seq_decls ()
       return;
     }
 
-  const char *lname = this->local_name ();
+  std::string_view const lname = this->local_name ();
   TAO_OutStream *os = tao_cg->client_header ();
 
   TAO_INSERT_COMMENT (os);
@@ -673,8 +673,7 @@ be_interface::gen_var_out_seq_decls ()
   // execution of the IDL compiler) there is nothing
   // to tell the IDL compiler that this interface is in any
   // way special. All we can do is search for the prefix.
-  ACE_CString test (lname, nullptr, false);
-  bool has_ami4ccm_prefix = (test.find ("AMI4CCM_") == 0);
+  bool has_ami4ccm_prefix = (lname.find ("AMI4CCM_") == 0);
 
   bool already_ami =
     (this->is_ami_rh ()
@@ -2705,12 +2704,11 @@ be_interface::client_enclosing_scope ()
 {
   if (!this->client_scope_computed_)
     {
-      const char *full_name = this->full_name ();
-      const char *name = this->local_name ();
+      std::string_view const full_name (this->full_name ());
+      std::string_view const name = this->local_name ();
 
-      size_t offset = ACE_OS::strlen (name);
-      size_t length = ACE_OS::strlen (full_name) - offset;
-      this->client_scope_.assign (full_name, length);
+      size_t const length = full_name.size () - name.size ();
+      this->client_scope_.assign (full_name.data (), length);
       this->client_scope_computed_ = true;
     }
 

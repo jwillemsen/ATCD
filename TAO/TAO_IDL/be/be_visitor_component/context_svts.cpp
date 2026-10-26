@@ -30,7 +30,7 @@ be_visitor_context_svts::visit_component (be_component *node)
 
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
   ACE_CString sname_str (scope->full_name ());
-  const char *lname = node_->local_name ();
+  std::string_view const lname = node_->local_name ();
   const char *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl

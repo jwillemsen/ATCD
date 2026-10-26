@@ -203,7 +203,7 @@ be_visitor_facet_ami_exs::init ()
   ACE_CString handler_str (
     ScopeAsDecl (this->iface_->defined_in ())->full_name ());
   handler_str += "::AMI_";
-  ACE_CString tmp (this->iface_->local_name ());
+  ACE_CString tmp (this->iface_->local_name ().data ());
   handler_str += tmp.substr (ACE_OS::strlen ("AMI4CCM_"));
   handler_str += "Handler";
 
@@ -241,7 +241,7 @@ be_visitor_facet_ami_exs::gen_reply_handler_class ()
   const char *scope_name = scope->full_name ();
   bool global = (scope->node_type () == AST_Decl::NT_root);
   const char *smart_scope = (global ? "" : "::");
-  const char *iface_name = this->iface_->local_name ();
+  std::string_view const iface_name = this->iface_->local_name ();
 
   os_ << be_nl
       << iface_name << suffix << "::"
@@ -274,7 +274,7 @@ be_visitor_facet_ami_exs::gen_reply_handler_class ()
   ACE_CString handler_str (
     ScopeAsDecl (this->iface_->defined_in ())->full_name ());
   handler_str += "::AMI_";
-  ACE_CString tmp (this->iface_->local_name ());
+  ACE_CString tmp (this->iface_->local_name ().data ());
   handler_str += tmp.substr (ACE_OS::strlen ("AMI4CCM_"));
   handler_str += "Handler";
 
@@ -325,7 +325,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
   const char *suffix = "_exec_i";
   const char *scope_name =
     ScopeAsDecl (this->iface_->defined_in ())->full_name ();
-  const char *iface_name = this->iface_->local_name ();
+  std::string_view const iface_name = this->iface_->local_name ();
 
   os_ << be_nl_2
       << iface_name << suffix << "::"
@@ -341,7 +341,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
 
     ACE_CString handler_str (
     ScopeAsDecl (this->iface_->defined_in ())->full_name ());
-    ACE_CString tmp (this->iface_->local_name ());
+    ACE_CString tmp (this->iface_->local_name ().data ());
     handler_str += "::";
     handler_str += tmp;
 
@@ -551,7 +551,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_op (be_operation *node)
   const char *smart_scope = (global ? "" : "::");
 
   const char *prefix = "AMI4CCM_";
-  ACE_CString iface_str (this->iface_->local_name ());
+  ACE_CString iface_str (this->iface_->local_name ().data ());
   ACE_CString orig_iface_str (
     iface_str.substr (ACE_OS::strlen (prefix)));
   const char *orig_iface_name = orig_iface_str.c_str ();
@@ -682,7 +682,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_sync_op (be_operation *node)
   bool global = (scope->node_type () == AST_Decl::NT_root);
   const char *smart_scope = (global ? "" : "::");
 
-  ACE_CString iface_str (this->iface_->local_name ());
+  ACE_CString iface_str (this->iface_->local_name ().data ());
   const char *orig_iface_name = iface_str.c_str ();
   os_ << be_nl
       << "{" << be_idt_nl;

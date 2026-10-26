@@ -49,11 +49,11 @@ be_visitor_valuetype_sh::visit_valuetype (be_valuetype *node)
     {
       // We are outermost.
       class_name += "POA_";
-      class_name += node->local_name ();
+      class_name += node->local_name ().data ();
     }
   else
     {
-      class_name +=  node->local_name ();
+      class_name +=  node->local_name ().data ();
     }
 
   TAO_INSERT_COMMENT (os);

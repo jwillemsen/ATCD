@@ -187,7 +187,7 @@ be_visitor_facet_ami_exh::init (bool for_impl)
   this->handler_str_ += this->smart_scope_;
 
   this->handler_str_ += (for_impl ? "" : "AMI_");
-  ACE_CString tmp (this->iface_name_);
+  ACE_CString tmp (this->iface_name_.data ());
   this->handler_str_ +=
     (for_impl ? tmp : tmp.substr (ACE_OS::strlen ("AMI4CCM_")));
   this->handler_str_ += (for_impl ? "Reply" : "");
@@ -266,7 +266,7 @@ be_visitor_facet_ami_exh::gen_facet_executor_class ()
   const char *suffix = "_exec_i";
   const char *scope_name =
     ScopeAsDecl (this->iface_->defined_in ())->full_name ();
-  const char *iface_name = this->iface_->local_name ();
+  std::string_view const iface_name = this->iface_->local_name ();
 
   os_ << be_nl_2
       << "class " << export_macro_ << " "
@@ -284,7 +284,7 @@ be_visitor_facet_ami_exh::gen_facet_executor_class ()
 
   ACE_CString handler_str (
   ScopeAsDecl (this->iface_->defined_in ())->full_name ());
-  ACE_CString tmp (this->iface_->local_name ());
+  ACE_CString tmp (this->iface_->local_name ().data ());
   handler_str += "::";
   handler_str += tmp;
 

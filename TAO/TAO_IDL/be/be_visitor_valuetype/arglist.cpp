@@ -35,7 +35,7 @@ be_visitor_obv_operation_arglist::is_amh_exception_holder (be_operation *node)
 
   if (iface != nullptr)
     {
-      if (ACE_OS::strncmp (iface->local_name (), "AMH_", 4) == 0)
+      if (iface->local_name ().substr (0, 4) == "AMH_")
         {
           char const *last_E = ACE_OS::strrchr (iface->full_name (), 'E');
 

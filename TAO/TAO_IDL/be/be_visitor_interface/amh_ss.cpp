@@ -55,7 +55,7 @@ be_visitor_amh_interface_ss::this_method (be_interface *node)
   //const char *non_amh_name = node->full_name () + 4;
   std::string non_amh_name;
   non_amh_name += node->client_enclosing_scope ();
-  non_amh_name += node->local_name ();
+  non_amh_name += node->local_name ().data ();
 
   ACE_CString full_skel_name_holder =
     this->generate_full_skel_name (node);
@@ -281,7 +281,7 @@ ACE_CString
 be_visitor_amh_interface_ss::generate_local_name (be_interface *node)
 {
   ACE_CString local_name = "AMH_";
-  local_name += node->local_name ();
+  local_name += node->local_name ().data ();
   return local_name;
 }
 

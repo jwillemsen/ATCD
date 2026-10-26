@@ -124,7 +124,7 @@ be_visitor_valuetype_ss::visit_eventtype (be_eventtype *node)
 ACE_CString
 be_visitor_valuetype_ss::generate_local_name (be_valuetype *node)
 {
-  return ACE_CString (node->local_name ());
+  return ACE_CString (node->local_name ().data ());
 }
 
 ACE_CString

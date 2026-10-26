@@ -139,7 +139,7 @@ be_visitor_operation_ss::gen_skel_operation_body (be_operation * node,
   ACE_CString upcall_command_name =
     this->ctx_->port_prefix ()
     + ACE_CString (node->local_name ()->get_string ()) + "_"
-    + ACE_CString (intf->local_name ());
+    + ACE_CString (intf->local_name ().data ());
 
   // Check if we are an attribute node in disguise.
   if (this->ctx_->attribute ())

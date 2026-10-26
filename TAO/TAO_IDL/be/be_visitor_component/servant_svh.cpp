@@ -314,7 +314,7 @@ be_visitor_servant_svh::visit_consumes (be_consumes *node)
       ACE_CString sname_str (
         ScopeAsDecl (node_->defined_in ())->full_name ());
       const char *sname = sname_str.c_str ();
-      const char *lname = node_->local_name ();
+      std::string_view const lname = node_->local_name ();
       const char *global = (sname_str == "" ? "" : "::");
 
       os_ << ev_lname << "Consumer_" << port_name

@@ -873,7 +873,7 @@ be_visitor_valuetype::gen_init_impl (be_valuetype *node)
                   NAMEBUFSIZE);
   ACE_OS::sprintf (lname,
                    "%s_init",
-                   node->local_name ());
+                   node->local_name ().data ());
 
   // Destructor.
   *os << fname << "::~" << lname << " ()" << be_nl
@@ -959,7 +959,7 @@ be_visitor_valuetype::obv_have_ref_counter (be_valuetype* node)
 bool
 be_visitor_valuetype::is_amh_exception_holder (be_valuetype *node)
 {
- if (ACE_OS::strncmp (node->local_name (), "AMH_", 4) == 0)
+ if (node->local_name ().substr (0, 4) == "AMH_")
    {
      char const *last_E =
       ACE_OS::strrchr (node->full_name (), 'E');

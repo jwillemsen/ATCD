@@ -134,7 +134,7 @@ be_visitor_executor_exs::visit_component (be_component *node)
       return 0;
     }
   node_ = node;
-  const char *lname = node->local_name ();
+  std::string_view const lname = node->local_name ();
 
   os_ << be_nl_2
       << comment_start_border_ << be_nl

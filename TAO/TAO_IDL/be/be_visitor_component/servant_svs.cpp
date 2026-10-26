@@ -27,7 +27,7 @@ be_visitor_servant_svs::visit_component (be_component *node)
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
   ACE_CString sname_str (scope->full_name ());
   const char *sname = sname_str.c_str ();
-  const char *lname = node->local_name ();
+  std::string_view const lname = node->local_name ();
   const char *global = (sname_str == "" ? "" : "::");
   AST_Decl::NodeType nt = this->node_->node_type ();
 
@@ -495,7 +495,7 @@ be_visitor_servant_svs::visit_consumes (be_consumes *node)
   AST_Type  *obj = node->consumes_type ();
   const char *port_name = node->local_name ()->get_string ();
 
-  const char *comp_lname = node_->local_name ();
+  std::string_view const comp_lname = node_->local_name ();
   ACE_CString comp_sname_str (
     ScopeAsDecl (node_->defined_in ())->full_name ());
   const char *comp_sname = comp_sname_str.c_str ();

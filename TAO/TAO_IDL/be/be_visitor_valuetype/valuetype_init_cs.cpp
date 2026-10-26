@@ -65,7 +65,7 @@ be_visitor_valuetype_init_cs::visit_valuetype (be_valuetype *node)
                   NAMEBUFSIZE);
   ACE_OS::sprintf (lname,
                    "%s_init",
-                   node->local_name ());
+                   node->local_name ().data ());
 
   TAO_INSERT_COMMENT (os);
 

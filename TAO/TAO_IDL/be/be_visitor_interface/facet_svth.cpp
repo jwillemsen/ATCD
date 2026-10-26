@@ -31,7 +31,7 @@ be_visitor_facet_svth::visit_interface (be_interface *node)
       return 0;
     }
 
-  const char *lname = node->local_name ();
+  std::string_view const lname = node->local_name ();
 
   be_decl *scope =
     dynamic_cast<be_scope*> (node->defined_in ())->decl ();

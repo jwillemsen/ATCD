@@ -60,14 +60,8 @@ int
 be_visitor_operation::is_amh_exception_holder (be_interface *node)
 {
   int is_an_amh_exception_holder = 0;
-  const char *amh_underbar = "AMH_";
-  const char *node_name = node->local_name ();
 
-  if( amh_underbar[0] == node_name[0] &&
-      amh_underbar[1] == node_name[1] &&
-      amh_underbar[2] == node_name[2] &&
-      amh_underbar[3] == node_name[3]
-      ) // node name starts with "AMH_"
+  if (node->local_name ().substr (0, 4) == "AMH_")
     {
       //ACE_DEBUG ((LM_DEBUG, "Passed first test of amh_excepholder\n"));
       const char *last_E = ACE_OS::strrchr (node->full_name (), 'E');

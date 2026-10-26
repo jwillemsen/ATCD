@@ -13,6 +13,8 @@
 #ifndef _BE_COMPONENT_FACET_AMI_EXH_H_
 #define _BE_COMPONENT_FACET_AMI_EXH_H_
 
+#include <string_view>
+
 class be_visitor_facet_ami_exh
   : public be_visitor_component_scope
 {
@@ -48,7 +50,7 @@ protected:
   be_interface *callback_iface_ {};
   ACE_CString handler_str_;
   const char *scope_name_ {};
-  const char *iface_name_ {};
+  std::string_view iface_name_ {};
   const char *smart_scope_ {};
   bool sync_ {};
 

@@ -58,11 +58,11 @@ be_visitor_interface_sh::visit_interface (be_interface *node)
     {
       // We are outermost.
       class_name += "POA_";
-      class_name += node->local_name ();
+      class_name += node->local_name ().data ();
     }
   else
     {
-      class_name +=  node->local_name ();
+      class_name +=  node->local_name ().data ();
     }
 
   *os << be_nl_2;

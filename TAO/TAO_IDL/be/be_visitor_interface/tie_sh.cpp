@@ -48,20 +48,20 @@ be_visitor_interface_tie_sh::visit_interface (be_interface *node)
     {
       ACE_OS::sprintf (namebuf,
                        "%s",
-                       node->local_name ());
+                       node->local_name ().data ());
       ACE_OS::sprintf (tiename,
                        "%s_tie",
-                       node->local_name ());
+                       node->local_name ().data ());
     }
   else
     {
       // We are outermost.
       ACE_OS::sprintf (namebuf,
                        "POA_%s",
-                       node->local_name ());
+                       node->local_name ().data ());
       ACE_OS::sprintf (tiename,
                        "POA_%s_tie",
-                       node->local_name ());
+                       node->local_name ().data ());
     }
 
   // Now generate the class definition.

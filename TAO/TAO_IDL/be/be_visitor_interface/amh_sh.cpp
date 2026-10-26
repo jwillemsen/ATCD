@@ -49,12 +49,12 @@ be_visitor_amh_interface_sh::visit_interface (be_interface *node)
     {
       // We are outermost.
       class_name += "POA_AMH_";
-      class_name += node->local_name ();
+      class_name += node->local_name ().data ();
     }
   else
     {
       class_name += "AMH_";
-      class_name +=  node->local_name ();
+      class_name +=  node->local_name ().data ();
     }
 
   // Generate the skeleton class name.
@@ -365,7 +365,7 @@ be_visitor_amh_interface_sh::this_method (be_interface *node)
   TAO_OutStream *os = this->ctx_->stream ();
 
   std::string non_amh_name (node->client_enclosing_scope ());
-  non_amh_name += node->local_name ();
+  non_amh_name += node->local_name ().data ();
 
   // Print out the _this() method.  The _this() method for AMH
   // interfaces is "special", because the returned type is not exactly

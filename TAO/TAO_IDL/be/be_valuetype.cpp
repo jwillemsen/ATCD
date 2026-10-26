@@ -560,7 +560,7 @@ be_valuetype::gen_var_out_seq_decls ()
   os->gen_ifdef_macro (this->flat_name (),
                        "var_out");
 
-  const char *lname = this->local_name ();
+  std::string_view const lname = this->local_name ();
 
   *os << be_nl_2
       << "class " << lname << ";" << be_nl

@@ -56,19 +56,19 @@ be_visitor_interface_tie_ss::visit_interface (be_interface *node)
     {
       ACE_OS::sprintf (localskelname,
                        "POA_%s",
-                       node->local_name ());
+                       node->local_name ().data ());
       ACE_OS::sprintf (localtiename,
                        "POA_%s_tie",
-                       node->local_name ());
+                       node->local_name ().data ());
     }
   else
     {
       ACE_OS::sprintf (localskelname,
                        "%s",
-                       node->local_name ());
+                       node->local_name ().data ());
       ACE_OS::sprintf (localtiename,
                        "%s_tie",
-                       node->local_name ());
+                       node->local_name ().data ());
     }
 
   TAO_OutStream *os = this->ctx_->stream ();

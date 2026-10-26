@@ -60,7 +60,7 @@ be_visitor_amh_rh_interface_ss::visit_interface (be_interface *node)
     }
 
   ACE_CString rh_skel_class_name (rh_skel_class_name_prefix);
-  rh_skel_class_name += node->local_name ();
+  rh_skel_class_name += node->local_name ().data ();
 
   TAO_INSERT_COMMENT (os);
 

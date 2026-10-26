@@ -435,7 +435,7 @@ be_visitor_interface_ss::generate_flat_name (be_interface *node)
 ACE_CString
 be_visitor_interface_ss::generate_local_name (be_interface *node)
 {
-  return ACE_CString (node->local_name ());
+  return ACE_CString (node->local_name ().data ());
 }
 
 ACE_CString

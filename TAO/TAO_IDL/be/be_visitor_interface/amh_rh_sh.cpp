@@ -35,7 +35,7 @@ be_visitor_amh_rh_interface_sh::visit_interface (be_interface *node)
 
   // Generate the skeleton class name, use the AMH-node name as a
   // basis, this is AMH_<InterfaceName>ResponseHandler...
-  ACE_CString rh_base_class_name = node->local_name ();
+  ACE_CString rh_base_class_name (node->local_name ().data ());
   // ...and prepend either the "TAO_" prefix...
   ACE_CString rh_skel_class_name =  "TAO_";
 

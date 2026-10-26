@@ -402,7 +402,8 @@ AST_Decl::compute_full_name () const
             }
 
           // Print the identifier.
-          std::string_view const name (i.item ()->get_string ());
+          std::string_view const name =
+            i.item ()->get_string_view ().value_or (std::string_view {});
           this->full_name_->append (name);
           if (first)
             {
@@ -490,7 +491,8 @@ AST_Decl::compute_repoID () const
           first = second = false;
         }
 
-      std::string_view const name (i.item ()->get_string ());
+      std::string_view const name =
+        i.item ()->get_string_view ().value_or (std::string_view {});
 
       if (name.compare (0, cxx_prefix.size (), cxx_prefix) == 0)
         {
@@ -568,7 +570,8 @@ AST_Decl::compute_flat_name () const
           // _cxx_ prefix, if any.
           Identifier *tmp = i.item ()->copy ();
           FE_Utils::original_local_name (tmp);
-          std::string_view const item_name (tmp->get_string ());
+          std::string_view const item_name =
+            tmp->get_string_view ().value_or (std::string_view {});
           this->flat_name_->append (item_name);
 
           if (first)
@@ -1093,7 +1096,8 @@ AST_Decl::compute_name (std::string_view prefix,
   // Prepare prefix_<local_name>_suffix string.
 
   std::string result_local_name_string (prefix);
-  result_local_name_string += this->local_name ()->get_string ();
+  result_local_name_string +=
+    this->local_name ()->get_string_view ().value_or (std::string_view {});
   result_local_name_string += suffix;
 
   // Identifier for the resulting local name.
@@ -1208,7 +1212,8 @@ AST_Decl::compute_local_name (std::string_view prefix,
                               std::string_view suffix) const
 {
   std::string result_name (prefix);
-  result_name += this->local_name ()->get_string ();
+  result_name +=
+    this->local_name ()->get_string_view ().value_or (std::string_view {});
   result_name += suffix;
 
   // Identifier for the resulting local name.
@@ -1229,7 +1234,8 @@ void
 AST_Decl::original_local_name (Identifier *local_name)
 {
   // Remove _cxx_ if it is present.
-  std::string_view const name (local_name->get_string ());
+  std::string_view const name =
+    local_name->get_string_view ().value_or (std::string_view {});
   std::string_view const cxx_prefix ("_cxx_");
   if (name.compare (0, cxx_prefix.size (), cxx_prefix) == 0)
     {

@@ -95,6 +95,7 @@ public:
   ///{
   char *get_string ();
   char const *get_string () const;
+  std::optional<std::string_view> get_string_view () const;
   ///}
 
   void replace_string (std::string_view s);

@@ -98,6 +98,17 @@ Identifier::get_string () const
   return this->string_ ? this->string_->c_str () : nullptr;
 }
 
+std::optional<std::string_view>
+Identifier::get_string_view () const
+{
+  if (!this->string_)
+    {
+      return std::nullopt;
+    }
+
+  return *this->string_;
+}
+
 void
 Identifier::replace_string (std::string_view s)
 {

@@ -674,10 +674,10 @@ BE_GlobalData::be_get_ciao_ami_conn_impl_src_fname (
                                    base_name_only);
 }
 
-const char*
+std::string_view
 BE_GlobalData::skel_export_macro () const
 {
-  return this->skel_export_macro_ ? this->skel_export_macro_->c_str () : "";
+  return this->skel_export_macro_;
 }
 
 void
@@ -710,10 +710,10 @@ BE_GlobalData::skel_export_file (std::string_view s)
   this->skel_export_file_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::stub_export_macro () const
 {
-  return this->stub_export_macro_ ? this->stub_export_macro_->c_str () : "";
+  return this->stub_export_macro_;
 }
 
 void
@@ -746,10 +746,10 @@ BE_GlobalData::stub_export_file (std::string_view s)
   this->stub_export_file_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::anyop_export_macro () const
 {
-  return this->anyop_export_macro_ ? this->anyop_export_macro_->c_str () : "";
+  return this->anyop_export_macro_;
 }
 
 void
@@ -770,10 +770,10 @@ BE_GlobalData::anyop_export_include (std::string_view s)
   this->anyop_export_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::exec_export_macro () const
 {
-  return this->exec_export_macro_ ? this->exec_export_macro_->c_str () : "";
+  return this->exec_export_macro_;
 }
 
 void
@@ -794,10 +794,10 @@ BE_GlobalData::exec_export_include (std::string_view s)
   this->exec_export_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::svnt_export_macro () const
 {
-  return this->svnt_export_macro_ ? this->svnt_export_macro_->c_str () : "";
+  return this->svnt_export_macro_;
 }
 
 void
@@ -818,10 +818,10 @@ BE_GlobalData::svnt_export_include (std::string_view s)
   this->svnt_export_include_ = s;
 }
 
-const char*
+std::string_view
 BE_GlobalData::conn_export_macro () const
 {
-  return this->conn_export_macro_ ? this->conn_export_macro_->c_str () : "";
+  return this->conn_export_macro_;
 }
 
 void
@@ -1791,19 +1791,19 @@ BE_GlobalData::dds_impl () const
 void
 BE_GlobalData::destroy ()
 {
-  this->skel_export_macro_.reset ();
+  this->skel_export_macro_.clear ();
   this->skel_export_include_.reset ();
   this->skel_export_file_.reset ();
-  this->stub_export_macro_.reset ();
+  this->stub_export_macro_.clear ();
   this->stub_export_include_.reset ();
   this->stub_export_file_.reset ();
-  this->anyop_export_macro_.reset ();
+  this->anyop_export_macro_.clear ();
   this->anyop_export_include_.reset ();
-  this->exec_export_macro_.reset ();
+  this->exec_export_macro_.clear ();
   this->exec_export_include_.reset ();
-  this->svnt_export_macro_.reset ();
+  this->svnt_export_macro_.clear ();
   this->svnt_export_include_.reset ();
-  this->conn_export_macro_.reset ();
+  this->conn_export_macro_.clear ();
   this->conn_export_include_.reset ();
   this->pch_include_.reset ();
   this->pre_include_.reset ();

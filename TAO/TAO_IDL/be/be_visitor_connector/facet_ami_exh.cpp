@@ -218,7 +218,7 @@ be_visitor_facet_ami_exh::gen_reply_handler_class ()
   if (this->sync_)
     return 0;
   os_ << be_nl
-      << "class " << this->export_macro_.c_str () << " "
+      << "class " << this->export_macro_ << " "
       << this->iface_name_ << suffix << be_idt_nl
       << ": public ::POA_" << this->handler_str_.c_str ()
       << be_uidt_nl
@@ -269,7 +269,7 @@ be_visitor_facet_ami_exh::gen_facet_executor_class ()
   const char *iface_name = this->iface_->local_name ();
 
   os_ << be_nl_2
-      << "class " << export_macro_.c_str () << " "
+      << "class " << export_macro_ << " "
       << iface_name << suffix << be_idt_nl
       << ": public virtual ::" << scope_name << "::CCM_"
       << iface_name << "," << be_idt_nl

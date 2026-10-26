@@ -387,7 +387,7 @@ be_visitor_home_svs::gen_entrypoint ()
   char const *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl_2
-      << "extern \"C\" " << export_macro_.c_str ()
+      << "extern \"C\" " << export_macro_
       << " ::PortableServer::Servant" << be_nl
       << "create_" << node_->flat_name ()
       << "_Servant (" << be_idt_nl

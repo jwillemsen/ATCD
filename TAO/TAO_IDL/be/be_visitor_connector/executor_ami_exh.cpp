@@ -34,7 +34,7 @@ be_visitor_executor_ami_exh::visit_connector (be_connector *node)
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
 
   os_ << be_nl_2
-      << "class " << this->export_macro_.c_str () << " "
+      << "class " << this->export_macro_ << " "
       << scope->local_name () << suffix << be_idt_nl
       << ": public virtual AMI4CCM_Connector_Exec," << be_idt_nl
       << "public virtual ::CORBA::LocalObject"

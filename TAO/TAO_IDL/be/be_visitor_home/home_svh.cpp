@@ -129,7 +129,7 @@ be_visitor_home_svh::gen_servant_class ()
   char const *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl
-      << "class " << export_macro_.c_str () << " " << lname
+      << "class " << export_macro_ << " " << lname
       << "_Servant" << be_idt_nl
       << ": public virtual" << be_idt << be_idt_nl
       << "::CIAO::"
@@ -243,7 +243,7 @@ void
 be_visitor_home_svh::gen_entrypoint ()
 {
   os_ << be_nl_2
-      << "extern \"C\" " << export_macro_.c_str ()
+      << "extern \"C\" " << export_macro_
       << " ::PortableServer::Servant" << be_nl
       << "create_" << node_->flat_name ()
       << "_Servant (" << be_idt_nl

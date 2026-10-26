@@ -88,7 +88,7 @@ be_visitor_component_svs::gen_entrypoint (AST_Component *node)
   const char *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl_2
-      << "extern \"C\" " << export_macro_.c_str ()
+      << "extern \"C\" " << export_macro_
       << " ::PortableServer::Servant" << be_nl
       << "create_" << node->flat_name ()
       << "_Servant (" << be_idt_nl

@@ -1993,7 +1993,7 @@ void
 TAO_CodeGen::gen_export_files ()
 {
   if (be_global->gen_stub_export_hdr_file ()
-      && be_global->stub_export_macro () != nullptr
+      && !be_global->stub_export_macro ().empty ()
       && (be_global->stub_export_include () != nullptr || be_global->stub_export_file () != nullptr))
     {
       this->gen_export_file (
@@ -2003,7 +2003,7 @@ TAO_CodeGen::gen_export_files ()
     }
 
   if (be_global->gen_skel_export_hdr_file ()
-      && be_global->skel_export_macro () != nullptr
+      && !be_global->skel_export_macro ().empty ()
       && be_global->skel_export_include () != nullptr)
     {
       this->gen_export_file (
@@ -2014,7 +2014,7 @@ TAO_CodeGen::gen_export_files ()
     }
 
   if (be_global->gen_svnt_export_hdr_file ()
-      && be_global->svnt_export_macro () != nullptr
+      && !be_global->svnt_export_macro ().empty ()
       && be_global->svnt_export_include () != nullptr)
     {
       this->gen_export_file (
@@ -2024,7 +2024,7 @@ TAO_CodeGen::gen_export_files ()
     }
 
   if (be_global->gen_exec_export_hdr_file ()
-      && be_global->exec_export_macro () != nullptr
+      && !be_global->exec_export_macro ().empty ()
       && be_global->exec_export_include () != nullptr)
     {
       this->gen_export_file (
@@ -2034,7 +2034,7 @@ TAO_CodeGen::gen_export_files ()
     }
 
   if (be_global->gen_conn_export_hdr_file ()
-      && be_global->conn_export_macro () != nullptr
+      && !be_global->conn_export_macro ().empty ()
       && be_global->conn_export_include () != nullptr)
     {
       this->gen_export_file (
@@ -2046,19 +2046,20 @@ TAO_CodeGen::gen_export_files ()
 
 void
 TAO_CodeGen::gen_export_file (const char *filename,
-                              const char *macro,
+                              std::string_view macro,
                               const char *,
                               bool for_skel)
 {
   // Svnt export macro may correctly default to skel
   // export macro, so we just return silently. The
   // null filename check below will catch a real error.
-  if (macro == nullptr)
+  if (macro.empty ())
     {
       return;
     }
 
-  ACE_CString macro_str (macro);
+  std::string const macro_string (macro);
+  ACE_CString macro_str (macro_string.c_str ());
   ACE_CString file_str;
 
   const std::string_view output_path =
@@ -2113,7 +2114,7 @@ TAO_CodeGen::gen_export_file (const char *filename,
                   ACE_TEXT ("TAO_CodeGen::gen_export_file() - ")
                   ACE_TEXT ("Error: export macro %C does not end with ")
                   ACE_TEXT ("\"_Export\""),
-                  macro));
+                  macro_string.c_str ()));
       return;
     }
 

@@ -40,7 +40,7 @@ be_visitor_servant_svh::visit_component (be_component *node)
 //       ::Inherited::Base_comp>
 
   os_ << be_nl_2
-      << "class " << export_macro_.c_str () << " " << lname
+      << "class " << export_macro_ << " " << lname
       << "_Servant" << be_idt_nl
       << ": public virtual" << be_idt << be_idt_nl
       << "::CIAO::" << be_global->ciao_container_type ()
@@ -304,7 +304,7 @@ be_visitor_servant_svh::visit_consumes (be_consumes *node)
 
       os_ << "// Servant class for the " << port_name
           << " consumer." << be_nl
-          << "class " << export_macro_.c_str () << " " << ev_lname
+          << "class " << export_macro_ << " " << ev_lname
           << "Consumer_" << port_name << "_Servant" << be_idt_nl
           << ": public virtual ::POA_" << obj_name << "Consumer"
           << be_uidt_nl

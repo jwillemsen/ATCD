@@ -203,7 +203,7 @@ void
 be_visitor_home_exs::gen_entrypoint ()
 {
   os_ << be_nl_2
-      << "extern \"C\" " << export_macro_.c_str ()
+      << "extern \"C\" " << export_macro_
       << " ::Components::HomeExecutorBase_ptr" << be_nl
       << "create_" << node_->flat_name ()
       << "_Impl ()" << be_nl

@@ -249,9 +249,9 @@ be_visitor_context::export_macro () const
 std::string_view
 be_visitor_context::non_null_export_macro () const
 {
-  const char *anyop_export = be_global->anyop_export_macro ();
+  const std::string_view anyop_export = be_global->anyop_export_macro ();
 
-  return (ACE_OS::strcmp (anyop_export, "") == 0
+  return (anyop_export.empty ()
           ? be_global->stub_export_macro ()
           : anyop_export);
 }

@@ -222,7 +222,7 @@ void
 be_visitor_component_scope::gen_svnt_entrypoint_decl ()
 {
   os_ << be_nl_2
-      << "extern \"C\" " << export_macro_.c_str ()
+      << "extern \"C\" " << export_macro_
       << " ::PortableServer::Servant" << be_nl
       << "create_" << node_->flat_name ()
       << "_Servant (" << be_idt_nl
@@ -243,7 +243,7 @@ be_visitor_component_scope::gen_svnt_entrypoint_defn ()
   const char *global = (sname_str == "" ? "" : "::");
 
   os_ << be_nl_2
-      << "extern \"C\" " << export_macro_.c_str ()
+      << "extern \"C\" " << export_macro_
       << " ::PortableServer::Servant" << be_nl
       << "create_" << node_->flat_name ()
       << "_Servant (" << be_idt_nl
@@ -279,7 +279,7 @@ be_visitor_component_scope::gen_exec_entrypoint_decl ()
   os_ << be_nl_2
       << "/// Factory method and library entry point used by the middleware" << be_nl
       << "/// @return new component instance" << be_nl
-      << "extern \"C\" " << export_macro_.c_str ()
+      << "extern \"C\" " << export_macro_
       << " ::Components::EnterpriseComponent_ptr" << be_nl
       << "create_" << node_->flat_name ()
       << "_Impl ();";
@@ -289,7 +289,7 @@ void
 be_visitor_component_scope::gen_exec_entrypoint_defn ()
 {
   os_ << be_nl_2
-      << "extern \"C\" " << export_macro_.c_str ()
+      << "extern \"C\" " << export_macro_
       << " ::Components::EnterpriseComponent_ptr" << be_nl
       << "create_" << node_->flat_name ()
       << "_Impl ()" << be_nl

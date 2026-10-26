@@ -18,6 +18,7 @@
 #include "ace/Unbounded_Queue.h"
 
 #include <string>
+#include <string_view>
 
 #include "TAO_IDL_BE_Export.h"
 
@@ -436,7 +437,7 @@ private:
   bool is_system_file (const char * idl_name) const;
 
   void gen_export_file (const char *filename,
-                        const char *macro,
+                        std::string_view macro,
                         const char *msg,
                         bool for_skel = false);
 

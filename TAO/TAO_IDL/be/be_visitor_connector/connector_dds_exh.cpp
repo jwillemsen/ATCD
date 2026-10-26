@@ -70,7 +70,7 @@ be_visitor_connector_dds_exh::visit_connector (be_connector *node)
       this->gen_connector_traits ();
 
       os_ << be_nl_2
-          << "class " << this->export_macro_.c_str () << " "
+          << "class " << this->export_macro_ << " "
           << this->node_->local_name () << "_exec_i" << be_idt_nl
           << ": public " << this->base_tname_ << "_Connector_T";
 

@@ -261,7 +261,7 @@ public:
 
   /// Returns the macro name for exporting server side classes in Win32
   /// DLL.
-  const char* skel_export_macro () const;
+  std::string_view skel_export_macro () const;
 
   /// Set the macro name for export server side classes in Win32 DLL.
   void skel_export_macro (std::string_view s);
@@ -284,7 +284,7 @@ public:
 
   /// Returns the macro name for exporting client side classes in Win32
   /// DLL.
-  const char* stub_export_macro () const;
+  std::string_view stub_export_macro () const;
 
   /// Set the macro name for export client side classes in Win32 DLL.
   void stub_export_macro (std::string_view s);
@@ -307,7 +307,7 @@ public:
 
   /// Returns the macro name for exporting *A.h file classes in Win32
   /// DLL.
-  const char* anyop_export_macro () const;
+  std::string_view anyop_export_macro () const;
 
   /// Set the macro name for export *A.h file classes in Win32 DLL.
   void anyop_export_macro (std::string_view s);
@@ -322,7 +322,7 @@ public:
 
   /// Returns the macro name for exporting exec impl classes in Win32
   /// DLL.
-  const char* exec_export_macro () const;
+  std::string_view exec_export_macro () const;
 
   /// Set the macro name for export exec impl classes in Win32 DLL.
   void exec_export_macro (std::string_view s);
@@ -337,7 +337,7 @@ public:
 
   /// Returns the macro name for exporting CIAO svnt classes in Win32
   /// DLL.
-  const char* svnt_export_macro () const;
+  std::string_view svnt_export_macro () const;
 
   /// Set the macro name for export CIAO svnt classes in Win32 DLL.
   void svnt_export_macro (std::string_view s);
@@ -352,7 +352,7 @@ public:
 
   /// Returns the macro name for exporting CIAO connector
   /// classes in Win32 DLL.
-  const char* conn_export_macro () const;
+  std::string_view conn_export_macro () const;
 
   /// Set the macro name for export CIAO connector
   /// classes in Win32 DLL.
@@ -960,23 +960,23 @@ private:
   size_t changing_standard_include_files_ {1};
 
   // Macros and includes used to export classes from generated code.
-  std::optional<std::string> skel_export_macro_;
+  std::string skel_export_macro_;
   std::optional<std::string> skel_export_include_;
   std::optional<std::string> skel_export_file_;
-  std::optional<std::string> stub_export_macro_;
+  std::string stub_export_macro_;
   std::optional<std::string> stub_export_include_;
   std::optional<std::string> stub_export_file_;
 
   // Macro and include used on ORB .pidl files generating to the
   // AnyTypeCode library.
-  std::optional<std::string> anyop_export_macro_;
+  std::string anyop_export_macro_;
   std::optional<std::string> anyop_export_include_;
 
-  std::optional<std::string> exec_export_macro_;
+  std::string exec_export_macro_;
   std::optional<std::string> exec_export_include_;
-  std::optional<std::string> svnt_export_macro_;
+  std::string svnt_export_macro_;
   std::optional<std::string> svnt_export_include_;
-  std::optional<std::string> conn_export_macro_;
+  std::string conn_export_macro_;
   std::optional<std::string> conn_export_include_;
 
   std::optional<std::string> pch_include_;

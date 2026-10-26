@@ -110,9 +110,10 @@ TAO_CodeGen::start_client_header (const std::string &fname)
   // Generate the #ident string, if any.
   this->gen_ident_string (this->client_header_);
 
-  ACE_CString pidl_checker (idl_global->filename ()->get_string ());
-  bool const got_pidl =
-    (pidl_checker.substr (pidl_checker.length () - 5) == ".pidl");
+  std::string_view const filename = idl_global->filename ()->get_string_view ().value_or (
+    std::string_view {});
+  bool const got_pidl = filename.size () >= 5
+    && filename.substr (filename.size () - 5) == ".pidl";
 
   if (!got_pidl)
     {
@@ -761,9 +762,10 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
   *this->anyop_header_ << "\n#include \"tao/AnyTypeCode/Any.h\"\n";
 
   std::string tao_prefix;
-  ACE_CString pidl_checker (idl_global->filename ()->get_string ());
-  bool const got_tao_pidl =
-    (pidl_checker.substr (pidl_checker.length () - 5) == ".pidl");
+  std::string_view const filename = idl_global->filename ()->get_string_view ().value_or (
+    std::string_view {});
+  bool const got_tao_pidl = filename.size () >= 5
+    && filename.substr (filename.size () - 5) == ".pidl";
 
   // If we're here and we have a .pidl file, we need to generate
   // the *C.h include from the tao library, or from the command line
@@ -3339,7 +3341,9 @@ TAO_CodeGen::gen_exec_idl_includes ()
     }
   else
     {
-      this->gen_standard_include (this->ciao_exec_idl_, idl_global->stripped_filename ()->get_string ());
+      this->gen_standard_include (
+        this->ciao_exec_idl_,
+        idl_global->stripped_filename ()->get_string_view ().value_or (std::string_view {}));
     }
 
   char **path_tmp = nullptr;
@@ -3511,7 +3515,9 @@ TAO_CodeGen::gen_ami_conn_idl_includes ()
       this->gen_standard_include (this->ciao_ami_conn_idl_, "connectors/ami4ccm/ami4ccm/ami4ccm.idl");
     }
 
-  this->gen_standard_include (this->ciao_ami_conn_idl_, idl_global->stripped_filename ()->get_string ());
+  this->gen_standard_include (
+    this->ciao_ami_conn_idl_,
+    idl_global->stripped_filename ()->get_string_view ().value_or (std::string_view {}));
 }
 
 void

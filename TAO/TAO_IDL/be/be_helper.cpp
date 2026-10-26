@@ -639,7 +639,9 @@ TAO_OutStream::print (AST_Expression *expr)
       this->TAO_OutStream::print ("%s", ev->u.bval ? "true" : "false");
       break;
     case AST_Expression::EV_string:
-      this->TAO_OutStream::print ("\"%s\"", ev->u.strval->get_string ());
+      *this << '"'
+            << ev->u.strval->get_string_view ().value_or (std::string_view {})
+            << '"';
       break;
     case AST_Expression::EV_wstring:
       this->TAO_OutStream::print ("L\"%s\"", ev->u.wstrval);

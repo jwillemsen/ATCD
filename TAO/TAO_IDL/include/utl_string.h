@@ -72,6 +72,9 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ace/Basic_Types.h"
 #include "ace/SStringfwd.h"
 
+#include <optional>
+#include <string_view>
+
 class TAO_IDL_FE_Export UTL_String
 {
   // =TITLE
@@ -100,6 +103,14 @@ public:
 
   char *get_string () const {return this->p_str;}
   // Get contents of utl_string.
+
+  std::optional<std::string_view> get_string_view () const
+  {
+    return this->p_str != nullptr
+      ? std::optional<std::string_view> (this->p_str)
+      : std::nullopt;
+  }
+  // Get contents of utl_string as a non-owning view, if present.
 
   char *get_canonical_rep ();
   // Get canonical representation. This is (implemented as) the all upper

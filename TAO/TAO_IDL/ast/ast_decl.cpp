@@ -81,6 +81,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include <ast_annotation_appl.h>
 #include <utl_indenter.h>
 
+#include <utility>
+
 // FUZZ: disable check_for_streams_include
 #include <ace/streams.h>
 #include <ace/OS_NS_stdio.h>
@@ -230,8 +232,7 @@ AST_Decl::destroy ()
 
   this->full_name_.reset ();
 
-  delete [] this->repoID_;
-  this->repoID_ = nullptr;
+  this->repoID_.reset ();
 
   this->prefix_.clear ();
 
@@ -334,8 +335,7 @@ AST_Decl::set_prefix_with_typeprefix_r (std::string_view value,
         }
     }
 
-  delete [] this->repoID_;
-  this->repoID_ = nullptr;
+  this->repoID_.reset ();
   this->prefix (prefix_value);
   this->prefix_scope_ = appeared_in;
 
@@ -519,7 +519,7 @@ AST_Decl::compute_repoID ()
       repo_id += ":1.0";
     }
 
-  this->repoID_ = ACE::strnew (repo_id.c_str ());
+  this->repoID_ = std::move (repo_id);
 }
 
 // Public operations.
@@ -798,8 +798,7 @@ AST_Decl::repoID ()
 {
   if (this->pd_node_type == NT_root)
     {
-      delete [] this->repoID_;
-      this->repoID_ = ACE::strnew ("");
+      this->repoID_ = "";
     }
 
   if (!this->repoID_)
@@ -807,14 +806,19 @@ AST_Decl::repoID ()
       this->compute_repoID ();
     }
 
-  return this->repoID_ != nullptr ? this->repoID_ : "";
+  return *this->repoID_;
 }
 
 void
-AST_Decl::repoID (char *value)
+AST_Decl::repoID (std::string_view value)
 {
-  delete [] this->repoID_;
   this->repoID_ = value;
+}
+
+void
+AST_Decl::clear_repoID ()
+{
+  this->repoID_.reset ();
 }
 
 std::string_view
@@ -875,13 +879,12 @@ AST_Decl::version (char *value)
       // is as well.
       if (this->repoID_)
         {
-          ACE_CString tmp (this->repoID_);
-          ACE_CString::size_type const pos = tmp.rfind (':');
-          if (pos != ACE_CString::npos)
+          std::string repo_id (*this->repoID_);
+          std::string::size_type const pos = repo_id.rfind (':');
+          if (pos != std::string::npos)
             {
-              tmp = tmp.substr (0, pos + 1) + value;
-              delete [] this->repoID_;
-              this->repoID_ = ACE::strnew (tmp.fast_rep ());
+              repo_id.replace (pos + 1, std::string::npos, value);
+              this->repoID_ = std::move (repo_id);
             }
         }
     }
@@ -963,10 +966,7 @@ AST_Decl::set_id_with_typeid (std::string_view value)
       return;
     }
 
-  delete [] this->repoID_;
-  this->repoID_ = nullptr;
-  std::string const repo_id (value);
-  this->repoID (ACE::strnew (repo_id.c_str ()));
+  this->repoID (value);
   this->typeid_set_ = true;
 }
 
@@ -1166,8 +1166,7 @@ AST_Decl::set_name (UTL_ScopedName *n)
 
       this->full_name_.reset ();
 
-      delete [] this->repoID_;
-      this->repoID_ = nullptr;
+      this->repoID_.reset ();
     }
 }
 

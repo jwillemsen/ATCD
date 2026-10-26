@@ -253,7 +253,8 @@ public:
   // Return the flattened full scoped name.
 
   std::string_view repoID ();
-  void repoID (char *value);
+  void repoID (std::string_view value);
+  void clear_repoID ();
   // Accessors for the repository ID.
 
   std::string_view prefix () const;
@@ -399,7 +400,7 @@ protected:
   // be_predefined_type' constructor and can be called
   // from be_decl.
 
-  char *repoID_ {};
+  std::optional<std::string> repoID_ {};
   // Repository ID.
 
   mutable std::optional<std::string> flat_name_;

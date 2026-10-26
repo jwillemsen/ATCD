@@ -305,7 +305,7 @@ be_visitor_ami_pre_proc::create_reply_handler (be_interface *node)
   // and set the prefix to the node's prefix. All this is
   // necessary in case the node's prefix was modified after
   // its declaration.
-  reply_handler->AST_Decl::repoID (nullptr);
+  reply_handler->AST_Decl::clear_repoID ();
   reply_handler->prefix (node->prefix ());
 
   reply_handler->gen_fwd_helper_name ();

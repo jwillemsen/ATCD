@@ -82,13 +82,15 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ast_annotation_member.h"
 #include "ast_annotation_appl.h"
 
+#include <string_view>
+
 // FUZZ: disable check_for_streams_include
 #include "ace/streams.h"
 
 #include "ace/Log_Msg.h"
 
-// Convert an error code into a const char *
-static char const *
+// Convert an error code into a message.
+static std::string_view
 error_string (UTL_Error::ErrorCode c)
 {
   switch (c)
@@ -289,7 +291,7 @@ idl_error_header (UTL_Error::ErrorCode c, long lineno, ACE_CString s)
               idl_global->prog_name ().data (),
               s.c_str (),
               line_number,
-              error_string (c)));
+              error_string (c).data ()));
   idl_global->set_err_count (idl_global->err_count () + 1);
 }
 static void
@@ -314,7 +316,7 @@ idl_warning_header (UTL_Error::ErrorCode c, long lineno, ACE_CString s)
               idl_global->prog_name ().data (),
               s.c_str (),
               line_number,
-              error_string (c)));
+              error_string (c).data ()));
 }
 static void
 idl_warning_header (UTL_Error::ErrorCode c, AST_Decl *node = nullptr)
@@ -324,7 +326,7 @@ idl_warning_header (UTL_Error::ErrorCode c, AST_Decl *node = nullptr)
 ///}
 
 // Convert a parse state into a possible error message
-static char const *
+static std::string_view
 parse_state_to_error_message (IDL_GlobalData::ParseState ps)
 {
   switch (ps)
@@ -737,7 +739,7 @@ UTL_Error::syntax_error (IDL_GlobalData::ParseState ps)
                     idl_global->filename ()->get_string ());
   ACE_ERROR ((LM_ERROR,
               "%C\n",
-              parse_state_to_error_message (ps)));
+              parse_state_to_error_message (ps).data ()));
 
   // Better to bail here than to increment the error count and
   // try to avoid further bogus error messages and crashes

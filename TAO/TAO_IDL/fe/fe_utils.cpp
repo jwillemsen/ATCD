@@ -182,29 +182,28 @@ FE_Utils::ExprTypeToPredefinedType (AST_Expression::ExprType et)
 }
 
 UTL_ScopedName *
-FE_Utils::string_to_scoped_name (char const *s)
+FE_Utils::string_to_scoped_name (std::string_view s)
 {
   UTL_ScopedName *retval = nullptr;
-  ACE_CString str (s);
   Identifier *id = nullptr;
   UTL_ScopedName *sn = nullptr;
 
-  while (! str.empty ())
+  while (!s.empty ())
     {
       // Skip a leading double colon.
-      if (str.find (':') == 0)
+      if (s.front () == ':')
         {
-          str = str.substr (2);
+          s.remove_prefix (s.size () > 1 ? 2 : 1);
         }
 
       // Find the next double colon (if any) and get the next
       // name segment.
-      ACE_CString::size_type pos = str.find (':');
-      ACE_CString lname (str.substr (0, pos));
+      std::string_view::size_type const pos = s.find (':');
+      std::string_view const local_name (s.substr (0, pos));
 
       // Construct a UTL_ScopedName segment.
       ACE_NEW_RETURN (id,
-                      Identifier (lname.c_str ()),
+                      Identifier (local_name),
                       nullptr);
 
       ACE_NEW_RETURN (sn,
@@ -223,7 +222,14 @@ FE_Utils::string_to_scoped_name (char const *s)
         }
 
       // Update the working string.
-      str = str.substr (pos);
+      if (pos == std::string_view::npos)
+        {
+          s = {};
+        }
+      else
+        {
+          s.remove_prefix (pos);
+        }
     }
 
   return retval;

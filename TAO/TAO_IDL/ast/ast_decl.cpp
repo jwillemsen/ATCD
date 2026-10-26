@@ -830,9 +830,9 @@ AST_Decl::node_type_to_string (NodeType nt)
     }
 }
 
-const char *AST_Decl::node_type_name () const
+std::string_view AST_Decl::node_type_name () const
 {
-  return node_type_to_string (pd_node_type).data ();
+  return node_type_to_string (pd_node_type);
 }
 
 // Return TRUE if one of my ancestor scopes is "s"

@@ -555,7 +555,7 @@ be_visitor_union_branch_public_ch::visit_seq_map_common (be_type *node)
             ACE_ERROR_RETURN ((LM_ERROR,
                                "(%N:%l) be_visitor_union_branch_public_ch::"
                                "visit_seq_map_common - "
-                               "invalid type: %C\n", node->node_type_name ()),
+                               "invalid type: %C\n", node->node_type_name ().data ()),
                               -1);
           }
       };

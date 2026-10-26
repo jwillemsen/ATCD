@@ -390,7 +390,7 @@ public:
    */
   virtual bool ami_visit ();
 
-  virtual char const *node_type_name() const;
+  virtual std::string_view node_type_name () const;
 
 protected:
   // These are not private because they're used by

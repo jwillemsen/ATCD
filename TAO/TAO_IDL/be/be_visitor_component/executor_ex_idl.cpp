@@ -42,7 +42,7 @@ be_visitor_executor_ex_idl::visit_component (
     }
   else
     {
-      ACE_CString sname_str =
+      std::string sname_str =
         IdentifierHelper::orig_sn (
           ScopeAsDecl (base->defined_in ())->name ());
 
@@ -106,7 +106,7 @@ be_visitor_executor_ex_idl::visit_attribute (be_attribute *node)
 
   os_ << IdentifierHelper::type_name (ft, this);
   os_ << " " << this->ctx_->port_prefix ().c_str ()
-     << IdentifierHelper::try_escape (node->original_local_name ()).c_str ();
+     << IdentifierHelper::try_escape (node->original_local_name ());
 
   this->gen_exception_list (node->get_get_exceptions (),
                            rd_only ? "" : "get");
@@ -167,7 +167,7 @@ be_visitor_executor_ex_idl::visit_provides (
 
   AST_Decl *scope = ScopeAsDecl (impl->defined_in ());
 
-  ACE_CString sname_str =
+  std::string sname_str =
     IdentifierHelper::orig_sn (scope->name ());
   const char *sname = sname_str.c_str ();
 
@@ -196,7 +196,7 @@ be_visitor_executor_ex_idl::visit_consumes (
   os_ << be_nl
       << "void push_" << node->local_name ()->get_string ()
       << " (in ::"
-      << IdentifierHelper::orig_sn (impl->name ()).c_str ()
+      << IdentifierHelper::orig_sn (impl->name ())
       << " e);";
 
   return 0;
@@ -213,7 +213,7 @@ be_visitor_executor_ex_idl::gen_supported ()
     {
       os_ << "," << be_nl
           << "::"
-          << IdentifierHelper::orig_sn (supported[i]->name ()).c_str ();
+          << IdentifierHelper::orig_sn (supported[i]->name ());
     }
 
   os_ << be_uidt;
@@ -234,7 +234,7 @@ be_visitor_executor_ex_idl::gen_exception_list (
            !ei.is_done ();)
         {
           os_ << "::"
-              << IdentifierHelper::orig_sn (ei.item ()->name ()).c_str ();
+              << IdentifierHelper::orig_sn (ei.item ()->name ());
 
           ei.next ();
 

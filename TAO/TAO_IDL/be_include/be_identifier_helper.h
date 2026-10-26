@@ -21,8 +21,6 @@
 #endif /* ACE_LACKS_PRAGMA_ONCE */
 
 #include "TAO_IDL_BE_Export.h"
-#include "ace/SString.h"
-
 #include <string>
 
 class Identifier;
@@ -45,7 +43,7 @@ struct TAO_IDL_BE_Export IdentifierHelper
 
   // Removes '_cxx_ from segments of a scoped name, and optionally
   // de-escape the last segment, if it's to be appended to.
-  static ACE_CString
+  static std::string
   orig_sn (UTL_ScopedName * scoped_name, bool for_idl = true);
 
   // Detects case-insensitive match with IDL keyword.
@@ -54,7 +52,7 @@ struct TAO_IDL_BE_Export IdentifierHelper
 
   // Preserves the 'escape' (leading underscore) in a
   // generated identifier if necessary.
-  static ACE_CString
+  static std::string
   try_escape (Identifier * local_name);
 };
 

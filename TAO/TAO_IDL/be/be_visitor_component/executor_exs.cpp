@@ -378,7 +378,7 @@ be_visitor_executor_exs::visit_consumes (be_consumes *node)
       << "void" << be_nl
       << node_->original_local_name () << "_exec_i::push_"
       << port_name << " (" << be_idt_nl
-      << "::" << IdentifierHelper::orig_sn (obj->name (), false).c_str ()
+      << "::" << IdentifierHelper::orig_sn (obj->name (), false)
       << " * /* ev */)" << be_uidt_nl
       << "{" << be_idt_nl
       << your_code_here_ << be_uidt_nl

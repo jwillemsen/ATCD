@@ -57,7 +57,7 @@ be_visitor_component_ex_idl::visit_component (
 
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
 
-  ACE_CString sname_str =
+  std::string sname_str =
     IdentifierHelper::orig_sn (scope->name ());
   const char *sname = sname_str.c_str ();
 

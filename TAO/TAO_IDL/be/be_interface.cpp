@@ -2211,7 +2211,7 @@ be_interface::gen_facet_idl (TAO_OutStream &os)
      << "local interface CCM_"
      << this->original_local_name ()->get_string_view ().value_or (std::string_view {})
      << " : ::"
-     << IdentifierHelper::orig_sn (this->name ()).c_str ()
+     << IdentifierHelper::orig_sn (this->name ())
      << be_nl
      << "{" << be_idt;
 

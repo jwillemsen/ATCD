@@ -40,7 +40,7 @@ be_visitor_facet_exh::visit_provides (be_provides *node)
   const char *lname = lname_str.c_str ();
 
   AST_Decl *s = ScopeAsDecl (impl->defined_in ());
-  ACE_CString sname_str =
+  std::string sname_str =
     IdentifierHelper::orig_sn (s->name (), false);
   const char *sname = sname_str.c_str ();
   const char *global = (sname_str == "" ? "" : "::");

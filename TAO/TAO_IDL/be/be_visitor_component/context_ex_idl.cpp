@@ -45,7 +45,7 @@ be_visitor_context_ex_idl::visit_component (be_component *node)
       AST_Decl *scope =
         ScopeAsDecl (base->defined_in ());
 
-      ACE_CString sname_str =
+      std::string sname_str =
         IdentifierHelper::orig_sn (scope->name ());
       const char *sname = sname_str.c_str ();
 
@@ -101,13 +101,13 @@ be_visitor_context_ex_idl::visit_uses (be_uses *node)
   // strip it off here.
   if (node->is_multiple ())
     {
-      os_ << IdentifierHelper::orig_sn (node_->name ()).c_str ()
+      os_ << IdentifierHelper::orig_sn (node_->name ())
           << "::" << lname << "Connections get_connections_"
           << lname << " ();";
     }
   else
     {
-      os_ << IdentifierHelper::orig_sn (impl->name ()).c_str ()
+      os_ << IdentifierHelper::orig_sn (impl->name ())
           << " get_connection_" << lname << " ();";
     }
 
@@ -122,7 +122,7 @@ be_visitor_context_ex_idl::visit_publishes (be_publishes *node)
   os_ << be_nl
       << "void push_" << node->local_name ()->get_string ()
       << " (in ::"
-      << IdentifierHelper::orig_sn (impl->name ()).c_str ()
+      << IdentifierHelper::orig_sn (impl->name ())
       << " e);";
 
   return 0;
@@ -136,7 +136,7 @@ be_visitor_context_ex_idl::visit_emits (be_emits *node)
   os_ << be_nl
       << "void push_" << node->local_name ()->get_string ()
       << " (in ::"
-      << IdentifierHelper::orig_sn (impl->name ()).c_str ()
+      << IdentifierHelper::orig_sn (impl->name ())
       << " e);";
 
   return  0;

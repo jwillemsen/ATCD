@@ -7,9 +7,7 @@
 #include "fe_private.h"
 #include "global_extern.h"
 
-ACE_CString IdentifierHelper::tmp_retval_;
-
-const char *
+std::string
 IdentifierHelper::type_name (be_type *t, be_visitor *visitor)
 {
   AST_PredefinedType *pdt = nullptr;
@@ -68,10 +66,7 @@ IdentifierHelper::type_name (be_type *t, be_visitor *visitor)
         return "";
         break;
       default:
-        IdentifierHelper::tmp_retval_ = "::";
-        IdentifierHelper::tmp_retval_ +=
-          IdentifierHelper::orig_sn (t->name ()).c_str ();
-        return IdentifierHelper::tmp_retval_.c_str ();
+        return std::string ("::") + IdentifierHelper::orig_sn (t->name ()).c_str ();
     }
 }
 

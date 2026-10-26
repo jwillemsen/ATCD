@@ -23,6 +23,8 @@
 #include "TAO_IDL_BE_Export.h"
 #include "ace/SString.h"
 
+#include <string>
+
 class Identifier;
 class be_type;
 class be_visitor;
@@ -35,7 +37,7 @@ class be_visitor;
  */
 struct TAO_IDL_BE_Export IdentifierHelper
 {
-  static const char *
+  static std::string
   type_name (be_type *t, be_visitor *visitor);
 
   static Identifier *
@@ -54,8 +56,6 @@ struct TAO_IDL_BE_Export IdentifierHelper
   // generated identifier if necessary.
   static ACE_CString
   try_escape (Identifier * local_name);
-
-  static ACE_CString tmp_retval_;
 };
 
 #endif /* BE_IDENTIFIER_HELPER_H */

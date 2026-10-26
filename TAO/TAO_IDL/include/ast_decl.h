@@ -252,7 +252,7 @@ public:
   virtual std::string_view flat_name () const;
   // Return the flattened full scoped name.
 
-  std::string_view repoID ();
+  std::string_view repoID () const;
   void repoID (std::string_view value);
   void clear_repoID ();
   // Accessors for the repository ID.
@@ -261,7 +261,7 @@ public:
   void prefix (std::string_view value);
   // Accessors for the repository ID prefix.
 
-  std::string_view version ();
+  std::string_view version () const;
   void version (std::string_view value);
   void version (char *value);
   // Accessors for the version_ member.
@@ -401,7 +401,7 @@ protected:
   // be_predefined_type' constructor and can be called
   // from be_decl.
 
-  std::optional<std::string> repoID_ {};
+  mutable std::optional<std::string> repoID_ {};
   // Repository ID.
 
   mutable std::optional<std::string> flat_name_;
@@ -412,7 +412,7 @@ protected:
 
   void dump_i (ACE_OSTREAM_TYPE &o, std::string_view s) const;
 
-  void compute_repoID ();
+  void compute_repoID () const;
   // Computes the repoID.
 
   void compute_full_name () const;
@@ -467,7 +467,7 @@ private:
   std::string prefix_;
   // The repository ID prefix.
 
-  std::optional<std::string> version_ {};
+  mutable std::optional<std::string> version_ {};
   // Set by #pragma version.
 
   bool anonymous_;

@@ -423,7 +423,7 @@ AST_Decl::compute_full_name () const
 
 // Compute stringified repository ID.
 void
-AST_Decl::compute_repoID ()
+AST_Decl::compute_repoID () const
 {
   if (this->repoID_)
     {
@@ -800,7 +800,7 @@ AST_Decl::full_name () const
 }
 
 std::string_view
-AST_Decl::repoID ()
+AST_Decl::repoID () const
 {
   if (this->pd_node_type == NT_root)
     {
@@ -841,7 +841,7 @@ AST_Decl::prefix (std::string_view value)
 }
 
 std::string_view
-AST_Decl::version ()
+AST_Decl::version () const
 {
   if (!this->version_)
     {

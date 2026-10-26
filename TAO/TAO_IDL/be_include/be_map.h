@@ -88,7 +88,7 @@ public:
   void field_node (be_field *node);
 
   /// Helper to create_name, also used by the traits visitor.
-  virtual char *gen_name ();
+  virtual std::string gen_name ();
 
 private:
   std::string smart_fwd_helper_name (AST_Decl *elem_scope,

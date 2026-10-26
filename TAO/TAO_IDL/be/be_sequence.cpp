@@ -130,16 +130,10 @@ be_sequence::primitive_base_type () const
 }
 
 // Helper to create_name.
-char *
+std::string
 be_sequence::gen_name ()
 {
-  char namebuf [NAMEBUFSIZE];
   be_type *bt = nullptr;
-
-  // Reset the buffer.
-  ACE_OS::memset (namebuf,
-                  '\0',
-                  NAMEBUFSIZE);
 
   // Retrieve the base type.
   bt = dynamic_cast<be_type*> (this->base_type ());
@@ -150,7 +144,7 @@ be_sequence::gen_name ()
                          "(%N:%l) be_sequence::"
                          "gen_name - "
                          "bad base type\n"),
-                        0);
+                        {});
     }
 
   // If this is non-zero, add its local name to the generated name,
@@ -168,7 +162,7 @@ be_sequence::gen_name ()
                              "(%N:%l) be_sequence::"
                              "gen_name - "
                              "error converting base type to sequence\n"),
-                            0);
+                            {});
         }
 
       // If the nested sequence were defined in
@@ -181,40 +175,44 @@ be_sequence::gen_name ()
       // template and non-template implementations of IDL sequences.
       UTL_Scope *parent = this->defined_in ();
       seq->set_defined_in (parent);
-      char *seq_name = seq->gen_name ();
+      std::string const seq_name = seq->gen_name ();
+      std::string namebuf = "_tao_seq_";
+      namebuf += seq_name;
+      namebuf += '_';
+      if (fn != nullptr)
+        {
+          namebuf += fn->local_name ()->get_string ();
+        }
 
-      ACE_OS::sprintf (namebuf,
-                       "_tao_seq_%s_%s",
-                       seq_name,
-                       fn ? fn->local_name ()->get_string () : "");
-      ACE::strdelete (seq_name);
+      if (this->unbounded () == false)
+        {
+          namebuf += '_';
+          namebuf += std::to_string (this->max_size ()->ev ()->u.ulval);
+        }
+
+      return namebuf;
     }
   else
     {
-      ACE_OS::sprintf (namebuf,
-                       "_tao_seq_%s_",
-                       bt->flat_name ());
-    }
+      std::string namebuf = "_tao_seq_";
+      namebuf += bt->flat_name ();
+      namebuf += '_';
 
-  // Append the size (if any).
-  if (this->unbounded () == false)
-    {
-      char ulval_str [NAMEBUFSIZE];
-      ACE_OS::sprintf (ulval_str,
-                       "_" ACE_UINT32_FORMAT_SPECIFIER_ASCII,
-                       this->max_size ()->ev ()->u.ulval);
-      ACE_OS::strcat (namebuf,
-                      ulval_str);
-    }
+      if (this->unbounded () == false)
+        {
+          namebuf += '_';
+          namebuf += std::to_string (this->max_size ()->ev ()->u.ulval);
+        }
 
-  return ACE::strnew (namebuf);
+      return namebuf;
+    }
 }
 
 // Create a name for ourselves.
 int
 be_sequence::create_name (be_typedef *node)
 {
-  static char *namebuf = nullptr;
+  std::string namebuf;
   UTL_ScopedName *n = nullptr;
 
   // Scope in which we are defined.
@@ -231,6 +229,10 @@ be_sequence::create_name (be_typedef *node)
     {
       // Generate a local name.
       namebuf = this->gen_name ();
+      if (namebuf.empty ())
+        {
+          return -1;
+        }
 
       // Now see if we have a fully scoped name and if so, generate one.
       UTL_Scope *us = this->defined_in ();
@@ -244,7 +246,7 @@ be_sequence::create_name (be_typedef *node)
 
           Identifier *id = nullptr;
           ACE_NEW_RETURN (id,
-                          Identifier (namebuf),
+                          Identifier (namebuf.c_str ()),
                           -1);
 
           UTL_ScopedName *conc_name = nullptr;
@@ -266,7 +268,6 @@ be_sequence::create_name (be_typedef *node)
           return -1;
         }
 
-      ACE::strdelete (namebuf);
     }
 
   return 0;

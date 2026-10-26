@@ -111,17 +111,11 @@ be_map::primitive_value_type () const
 }
 
 // Helper to create_name.
-char *
+std::string
 be_map::gen_name ()
 {
-  char namebuf [NAMEBUFSIZE];
   be_type *kt = nullptr;
   be_type *vt = nullptr;
-
-  // Reset the buffer.
-  ACE_OS::memset (namebuf,
-                  '\0',
-                  NAMEBUFSIZE);
 
   // Retrieve the base type.
   kt = dynamic_cast<be_type*> (this->key_type ());
@@ -133,36 +127,32 @@ be_map::gen_name ()
                          "(%N:%l) be_map::"
                          "gen_name - "
                          "bad key type\n"),
-                        0);
+                        {});
     }
 
-  if (kt == nullptr)
+  if (vt == nullptr)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
                          "(%N:%l) be_map::"
                          "gen_name - "
                          "bad value type\n"),
-                        0);
+                        {});
     }
 
-  std::snprintf (namebuf,
-                    NAMEBUFSIZE,
-                    "_tao_map_%s_%s_",
-                    kt->flat_name (), vt->flat_name ());
+  std::string namebuf = "_tao_map_";
+  namebuf += kt->flat_name ();
+  namebuf += '_';
+  namebuf += vt->flat_name ();
+  namebuf += '_';
 
   // Append the size (if any).
   if (this->unbounded () == false)
     {
-      char ulval_str [NAMEBUFSIZE];
-      std::snprintf (ulval_str,
-                      NAMEBUFSIZE,
-                      "_" ACE_UINT32_FORMAT_SPECIFIER_ASCII,
-                      this->max_size ()->ev ()->u.ulval);
-      ACE_OS::strcat (namebuf,
-                      ulval_str);
+      namebuf += '_';
+      namebuf += std::to_string (this->max_size ()->ev ()->u.ulval);
     }
 
-  return ACE::strnew (namebuf);
+  return namebuf;
 }
 
 // Create a name for ourselves.
@@ -178,7 +168,11 @@ be_map::create_name (be_typedef *node)
   else
     {
       // Generate a local name.
-      char *namebuf = this->gen_name ();
+      std::string const namebuf = this->gen_name ();
+      if (namebuf.empty ())
+        {
+          return -1;
+        }
 
       // Now see if we have a fully scoped name and if so, generate one.
       be_decl *const scope = dynamic_cast<be_scope*> (defined_in ())->decl ();
@@ -190,7 +184,7 @@ be_map::create_name (be_typedef *node)
 
           Identifier *id = nullptr;
           ACE_NEW_RETURN (id,
-                          Identifier (namebuf),
+                          Identifier (namebuf.c_str ()),
                           -1);
 
           UTL_ScopedName *conc_name = nullptr;
@@ -212,7 +206,6 @@ be_map::create_name (be_typedef *node)
           return -1;
         }
 
-      ACE::strdelete (namebuf);
     }
 
   return 0;

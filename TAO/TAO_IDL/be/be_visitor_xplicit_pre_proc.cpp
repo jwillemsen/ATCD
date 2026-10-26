@@ -37,6 +37,8 @@
 #include "utl_exprlist.h"
 #include "utl_exceptlist.h"
 
+#include <string_view>
+
 #include "fe_obv_header.h"
 #include "nr_extern.h"
 #include "global_extern.h"
@@ -71,7 +73,7 @@ be_visitor_xplicit_pre_proc::visit_home (be_home *node)
   UTL_ScopedName *explicit_name =
     this->create_scoped_name (
       "",
-      node->original_local_name ()->get_string (),
+      node->original_local_name ()->get_string_view ().value_or (std::string_view {}),
       "Explicit",
       m);
 
@@ -954,7 +956,8 @@ be_visitor_xplicit_pre_proc::xplicit_iface_rel_name (AST_Decl *d)
     {
       if (dynamic_cast<be_home*> (tmp) != nullptr)
         {
-          std::string head (tmp->local_name ()->get_string ());
+          std::string head (
+            tmp->local_name ()->get_string_view ().value_or (std::string_view {}));
 
           std::string::size_type start = name.find (head) + 2;
 

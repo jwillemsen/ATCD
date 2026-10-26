@@ -11,6 +11,8 @@
 
 #include "typedef.h"
 
+#include <string_view>
+
 // ******************************************************
 // Typedef visitor for client header
 // ******************************************************
@@ -212,7 +214,7 @@ be_visitor_typedef_ch::visit_array (be_array *node)
       // name for each, which is ok.
       if (tdef->defined_in () == node->defined_in ())
         {
-          td_name = tdef->local_name ()->get_string ();
+          td_name = tdef->local_name ()->get_string_view ().value_or (std::string_view {});
         }
 
       // _alloc

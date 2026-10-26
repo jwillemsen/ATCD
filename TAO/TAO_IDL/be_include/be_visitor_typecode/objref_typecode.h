@@ -13,6 +13,8 @@
 #ifndef TAO_BE_VISITOR_OBJREF_TYPECODE_H
 #define TAO_BE_VISITOR_OBJREF_TYPECODE_H
 
+#include <string_view>
+
 namespace TAO
 {
   /**
@@ -54,10 +56,10 @@ namespace TAO
 
   private:
     /// Generate TypeCode instance.
-    int visit_i (char const * kind,
+    int visit_i (std::string_view kind,
                  std::string_view flat_name,
                  std::string_view repository_id,
-                 char const * original_local_name,
+                 std::string_view original_local_name,
                  be_type * node);
   };
 }

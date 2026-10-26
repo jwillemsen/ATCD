@@ -41,13 +41,13 @@ public:
   /// suffix to the local name and makes a flat name.
   void compute_full_name  (const char *prefix,
                            const char *suffix,
-                           char *&name);
+                           char *&name) const;
 
   /// Both the arguments should be non-null!!!. Applies prefix and
   /// suffix to the local name and makes a flat name.
   void compute_flat_name (const char *prefix,
                           const char *suffix,
-                          char *& name);
+                          char *& name) const;
 
   // End of Methods use by the interface type strategy.
 

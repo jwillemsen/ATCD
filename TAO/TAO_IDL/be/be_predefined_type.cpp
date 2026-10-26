@@ -24,6 +24,8 @@
 #include "ace/ACE.h"
 #include "ace/OS_NS_stdio.h"
 
+#include <string_view>
+
 be_predefined_type::be_predefined_type (
       AST_PredefinedType::PredefinedType t,
       UTL_ScopedName *n)
@@ -227,7 +229,8 @@ be_predefined_type::compute_tc_name ()
         char tcname [100];
         ACE_OS::sprintf (tcname,
                          "_tc_%s",
-                         this->name ()->last_component ()->get_string ());
+                         this->name ()->last_component ()->get_string_view ().value_or (
+                           std::string_view ("")).data ());
 
         ACE_NEW (id,
                  Identifier (tcname));

@@ -26,6 +26,8 @@
 #include "idl_defines.h"
 #include "nr_extern.h"
 
+#include <string_view>
+
 be_type::be_type (AST_Decl::NodeType nt,
                   UTL_ScopedName *n)
   : COMMON_Base (),
@@ -90,7 +92,8 @@ be_type::compute_tc_name ()
 
   ACE_OS::sprintf (namebuf,
                    "_tc_%s",
-                   n->last_component ()->get_string ());
+                   n->last_component ()->get_string_view ().value_or (
+                     std::string_view ("")).data ());
 
   Identifier *id = nullptr;
   ACE_NEW (id,
@@ -164,7 +167,6 @@ be_type::gen_fwd_helper_name ()
 {
   AST_Decl *parent = ScopeAsDecl (this->defined_in ());
   Identifier *segment = nullptr;
-  char *tmp = nullptr;
   this->fwd_helper_name_.clear ();
 
   if (parent != nullptr && parent->node_type () != AST_Decl::NT_root)
@@ -174,14 +176,15 @@ be_type::gen_fwd_helper_name ()
            i.next ())
         {
           segment = i.item ();
-          tmp = segment->get_string ();
+          std::string_view const name =
+            segment->get_string_view ().value_or (std::string_view {});
 
-          if (ACE_OS::strcmp (tmp, "") == 0)
+          if (name.empty ())
             {
               continue;
             }
 
-          this->fwd_helper_name_ += tmp;
+          this->fwd_helper_name_ += name;
           this->fwd_helper_name_ += "::";
         }
     }
@@ -191,7 +194,8 @@ be_type::gen_fwd_helper_name ()
     }
 
   this->fwd_helper_name_ += "tao_";
-  this->fwd_helper_name_ += this->local_name ()->get_string ();
+  this->fwd_helper_name_ += this->local_name ()->get_string_view ().value_or (
+    std::string_view {});
 }
 
 void

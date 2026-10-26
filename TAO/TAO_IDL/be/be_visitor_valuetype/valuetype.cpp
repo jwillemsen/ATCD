@@ -11,6 +11,9 @@
 
 #include "valuetype.h"
 
+#include <string>
+#include <string_view>
+
 be_visitor_valuetype::be_visitor_valuetype (be_visitor_context *ctx)
   : be_visitor_scope (ctx)
 {
@@ -788,9 +791,9 @@ be_visitor_valuetype::gen_obv_init_constructor_args (be_valuetype *node,
 
       *os << (index++ != 0 ? "," : "") << be_nl;
 
-      ACE_CString arg_name ("_tao_init_");
-      arg_name += f->local_name ()->get_string ();
-      Identifier id (arg_name.c_str ());
+      std::string arg_name ("_tao_init_");
+      arg_name += f->local_name ()->get_string_view ().value_or (std::string_view {});
+      Identifier id {std::string_view (arg_name)};
       UTL_ScopedName sn (&id, nullptr);
       be_type *ft = dynamic_cast<be_type*> (f->field_type ());
       bool seen = ft->seen_in_operation ();

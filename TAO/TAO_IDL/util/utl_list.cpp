@@ -137,6 +137,12 @@ UTL_List::tail ()
   return pd_cdr_data;
 }
 
+UTL_List const *
+UTL_List::tail () const
+{
+  return pd_cdr_data;
+}
+
 // Set next list.
 void
 UTL_List::set_tail (UTL_List *l)

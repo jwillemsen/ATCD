@@ -104,12 +104,14 @@ public:
   // Copy the list.
 
   Identifier *head ();
+  Identifier const *head () const;
   // Get element.
 
   Identifier *last_component ();
   // Get last element in this list.
 
   Identifier *first_component ();
+  Identifier const *first_component () const;
   // Get first element in this list holding a non-empty string.
 
   int compare (UTL_IdList *other);
@@ -118,12 +120,12 @@ public:
   /**
    * Return a copy of the contents as a string
    */
-  std::string get_string_copy ();
+  std::string get_string_copy () const;
 
   /**
    * Return true if the list begins with "::"
    */
-  bool is_absolute ();
+  bool is_absolute () const;
 
 private:
   Identifier *pd_car_data;

@@ -113,6 +113,12 @@ UTL_IdList::head ()
   return this->pd_car_data;
 }
 
+Identifier const *
+UTL_IdList::head () const
+{
+  return this->pd_car_data;
+}
+
 // Get last item of this list.
 Identifier *
 UTL_IdList::last_component ()
@@ -135,6 +141,17 @@ UTL_IdList::first_component ()
     }
 
   return ((UTL_IdList *) this->tail ())->first_component ();
+}
+
+Identifier const *
+UTL_IdList::first_component () const
+{
+  if (ACE_OS::strlen (this->pd_car_data->get_string ()) > 0)
+    {
+      return this->pd_car_data;
+    }
+
+  return static_cast<UTL_IdList const *> (this->tail ())->first_component ();
 }
 
 int
@@ -273,7 +290,7 @@ UTL_IdListActiveIterator::item ()
 }
 
 std::string
-UTL_IdList::get_string_copy ()
+UTL_IdList::get_string_copy () const
 {
   /*
    * Absolute Names have "::" as the first item in the idlist, so delimiters
@@ -283,24 +300,23 @@ UTL_IdList::get_string_copy ()
 
   std::string result;
   size_t n = 0;
-  for (UTL_IdListActiveIterator i (this);
-       !i.is_done ();
-       i.next ())
+  UTL_IdList const *item_list = this;
+  while (item_list != nullptr)
     {
       if (n > delimiter_start)
         {
           result.append ("::");
         }
-      char const *item = i.item ()->get_string ();
-      result.append (item);
+      result.append (item_list->head ()->get_string ());
       n++;
+      item_list = static_cast<UTL_IdList const *> (item_list->tail ());
     }
 
   return result;
 }
 
 bool
-UTL_IdList::is_absolute ()
+UTL_IdList::is_absolute () const
 {
   return !ACE_OS::strcmp (first_component ()->get_string (), "::");
 }

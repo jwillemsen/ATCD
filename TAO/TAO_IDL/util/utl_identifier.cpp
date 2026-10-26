@@ -186,14 +186,18 @@ Identifier::compare (Identifier const *o) const
 bool
 Identifier::case_compare (Identifier const *o) const
 {
-  return UTL_String::compare (this->get_string (), o->get_string ());
+  std::optional<std::string_view> const lhs = this->get_string_view ();
+  std::optional<std::string_view> const rhs = o != nullptr ? o->get_string_view () : std::nullopt;
+  return lhs && rhs && UTL_String::compare (lhs->data (), rhs->data ());
 }
 
 // Report no error if the two identifiers differ only in case.
 bool
 Identifier::case_compare_quiet (Identifier const *o) const
 {
-  return UTL_String::compare_quiet (this->get_string (), o->get_string ());
+  std::optional<std::string_view> const lhs = this->get_string_view ();
+  std::optional<std::string_view> const rhs = o != nullptr ? o->get_string_view () : std::nullopt;
+  return lhs && rhs && UTL_String::compare_quiet (lhs->data (), rhs->data ());
 }
 
 Identifier *
@@ -226,8 +230,12 @@ Identifier::dump (ACE_OSTREAM_TYPE &o)
    * Annotation ids are prefixed with '@' to effectively create an alternative
    * namespace for them. This hides that hack from dumping.
    */
-  char const *const name = this->string_->c_str ();
-  o << (!this->string_->empty () && name[0] == '@' ? name + 1 : name);
+  std::string_view name (*this->string_);
+  if (!name.empty () && name.front () == '@')
+    {
+      name.remove_prefix (1);
+    }
+  o << name;
 }
 
 void

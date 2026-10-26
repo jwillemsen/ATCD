@@ -61,7 +61,7 @@ public:
   std::string_view local_name ();
 
   /// Retrieve the fully scoped skel class name.
-  const char *full_skel_name ();
+  std::string_view full_skel_name ();
 
   /// Retrieve the fully qualified collocated class name.
   const char *full_coll_name (int);
@@ -87,19 +87,18 @@ public:
   virtual std::string_view server_enclosing_scope ();
 
   /// Retrieve skeleton name.
-  std::string relative_skel_name (const char *skel_name);
+  std::string relative_skel_name (std::string_view skel_name);
 
   /// Build up the skeleton name.
-  void compute_full_skel_name (const char *prefix,
-                               char *&skel_name);
+  std::string compute_full_skel_name (std::string_view prefix);
 
   /// Compute the collocation names.
   void compute_coll_names (int type,
                            const char *prefix,
                            const char *suffix);
 
-  static std::string relative_name (const char *localname,
-                                    const char *othername);
+  static std::string relative_name (std::string_view localname,
+                                    std::string_view othername);
 
   /// Call the default constructors of all the base classes.
   virtual void gen_def_ctors (TAO_OutStream* os);
@@ -382,7 +381,7 @@ protected:
   /// Are we an AMI4CCM reply handler?
   bool is_ami4ccm_rh_ {};
 
-  char *full_skel_name_ {};
+  std::string full_skel_name_;
 
   char *full_coll_name_ {};
 

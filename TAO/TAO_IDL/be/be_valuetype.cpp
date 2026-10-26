@@ -156,15 +156,14 @@ be_valuetype::opt_accessor ()
 void
 be_valuetype::compute_fullobvskelname ()
 {
-  this->compute_full_skel_name ("OBV_",
-                                this->full_obv_skel_name_);
+  this->full_obv_skel_name_ = this->compute_full_skel_name ("OBV_");
 }
 
 // Retrieve the fully scoped skeleton name.
 std::string_view
 be_valuetype::full_obv_skel_name ()
 {
-  if (nullptr == this->full_obv_skel_name_)
+  if (this->full_obv_skel_name_.empty ())
     {
       this->compute_fullobvskelname ();
     }
@@ -610,8 +609,7 @@ be_valuetype::accept (be_visitor *visitor)
 void
 be_valuetype::destroy ()
 {
-  delete [] this->full_obv_skel_name_;
-  this->full_obv_skel_name_ = nullptr;
+  this->full_obv_skel_name_.clear ();
 
   this->be_interface::destroy ();
   this->AST_ValueType::destroy ();

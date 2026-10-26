@@ -23,7 +23,7 @@ be_visitor_operation_upcall_command_ss::~be_visitor_operation_upcall_command_ss 
 int
 be_visitor_operation_upcall_command_ss::visit (
   be_operation * node,
-  char const * full_skel_name,
+  std::string_view full_skel_name,
   char const * upcall_command_name)
 {
   if (node->is_sendc_ami ())

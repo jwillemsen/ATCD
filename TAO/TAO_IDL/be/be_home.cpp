@@ -116,8 +116,7 @@ be_home::scan (UTL_Scope *s)
 void
 be_home::destroy ()
 {
-  delete [] this->full_skel_name_;
-  this->full_skel_name_ = nullptr;
+  this->full_skel_name_.clear ();
 
   delete [] this->full_coll_name_;
   this->full_coll_name_ = nullptr;

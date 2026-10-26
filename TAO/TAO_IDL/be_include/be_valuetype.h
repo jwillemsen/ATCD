@@ -171,7 +171,7 @@ private:
   bool var_out_seq_decls_gen_ {};
 
   /// To differentiate from the interface skeleton name.
-  char *full_obv_skel_name_ {};
+  std::string full_obv_skel_name_;
 
   /// Flag used by default constructor generator.
   bool is_amh_excep_holder_ {};

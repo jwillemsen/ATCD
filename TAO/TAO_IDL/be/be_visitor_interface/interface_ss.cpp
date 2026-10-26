@@ -441,5 +441,5 @@ be_visitor_interface_ss::generate_local_name (be_interface *node)
 ACE_CString
 be_visitor_interface_ss::generate_full_skel_name  (be_interface *node)
 {
-  return ACE_CString (node->full_skel_name ());
+  return ACE_CString (node->full_skel_name ().data ());
 }

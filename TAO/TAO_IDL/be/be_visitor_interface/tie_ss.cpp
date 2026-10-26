@@ -50,7 +50,7 @@ be_visitor_interface_tie_ss::visit_interface (be_interface *node)
   // We are outermost.
   ACE_OS::sprintf (fulltiename,
                    "%s_tie",
-                   node->full_skel_name ());
+                   node->full_skel_name ().data ());
 
   if (!node->is_nested ())
     {

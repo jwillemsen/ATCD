@@ -130,5 +130,5 @@ be_visitor_valuetype_ss::generate_local_name (be_valuetype *node)
 ACE_CString
 be_visitor_valuetype_ss::generate_full_skel_name (be_valuetype *node)
 {
-  return ACE_CString (node->full_skel_name ());
+  return ACE_CString (node->full_skel_name ().data ());
 }

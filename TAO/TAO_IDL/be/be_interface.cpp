@@ -133,13 +133,12 @@ be_interface::local_name ()
   return this->AST_Decl::local_name ()->get_string ();
 }
 
-const char *
+std::string_view
 be_interface::full_skel_name ()
 {
-  if (this->full_skel_name_ == nullptr)
+  if (this->full_skel_name_.empty ())
     {
-      this->compute_full_skel_name ("POA_",
-                                    this->full_skel_name_);
+      this->full_skel_name_ = this->compute_full_skel_name ("POA_");
     }
 
   return this->full_skel_name_;
@@ -166,65 +165,19 @@ be_interface::local_coll_name (int type)
 }
 
 std::string
-be_interface::relative_skel_name (const char *skel_name)
+be_interface::relative_skel_name (std::string_view skel_name)
 {
   return be_interface::relative_name (this->full_skel_name (),
                                       skel_name);
 }
 
-void
-be_interface::compute_full_skel_name (const char *prefix,
-                                      char *&skel_name)
+std::string
+be_interface::compute_full_skel_name (std::string_view prefix)
 {
-  if (skel_name != nullptr)
-    {
-      return;
-    }
-
-  size_t namelen = ACE_OS::strlen (prefix);
-  long first = true;
-  long second = false;
-  char *item_name = nullptr;
-
-  // In the first loop compute the total length.
-  for (UTL_IdListActiveIterator i (this->name ());
-       !i.is_done ();
-       i.next ())
-    {
-      if (!first)
-        {
-          namelen += 2; // for "::"
-        }
-      else if (second)
-        {
-          first = second = false;
-        }
-
-      // Print the identifier.
-      item_name = i.item ()->get_string ();
-      namelen += ACE_OS::strlen (item_name);
-
-      // Additional 4 for the POA_ characters.
-      if (first)
-        {
-          if (ACE_OS::strcmp (item_name, "") != 0)
-            {
-              // Does not start with a "".
-              first = false;
-            }
-          else
-            {
-              second = true;
-            }
-        }
-    }
-
-  ACE_NEW (skel_name,
-           char [namelen + 1]);
-  skel_name[0] = '\0';
-  first = true;
-  second = false;
-  ACE_OS::strcat (skel_name, prefix);
+  std::string skel_name (prefix);
+  bool first = true;
+  bool second = false;
+  char const *item_name = nullptr;
 
   for (UTL_IdListActiveIterator j (this->name ());
        !j.is_done ();
@@ -232,7 +185,7 @@ be_interface::compute_full_skel_name (const char *prefix,
     {
       if (!first)
         {
-          ACE_OS::strcat (skel_name, "::");
+          skel_name += "::";
         }
       else if (second)
         {
@@ -241,11 +194,11 @@ be_interface::compute_full_skel_name (const char *prefix,
 
       // Print the identifier.
       item_name = j.item ()->get_string ();
-      ACE_OS::strcat (skel_name, item_name);
+      skel_name += item_name;
 
       if (first)
         {
-          if (ACE_OS::strcmp (item_name, "") != 0)
+          if (*item_name != '\0')
             {
               // Does not start with a "".
               first = false;
@@ -256,6 +209,8 @@ be_interface::compute_full_skel_name (const char *prefix,
             }
         }
     }
+
+  return skel_name;
 }
 
 // Compute stringified fully qualified collocated class name.
@@ -404,8 +359,8 @@ be_interface::compute_coll_names (int type,
 }
 
 std::string
-be_interface::relative_name (const char *localname,
-                             const char *othername)
+be_interface::relative_name (std::string_view localname,
+                             std::string_view othername)
 {
   // Some compilers do not like generating a fully scoped name for a
   // type that was defined in the same enclosing scope in which it was
@@ -419,8 +374,8 @@ be_interface::relative_name (const char *localname,
 
   // Thus we need some sort of relative name to be generated.
 
-  std::string_view def_curr (localname);
-  std::string_view use_curr (othername);
+  std::string_view def_curr = localname;
+  std::string_view use_curr = othername;
 
   while (!def_curr.empty () && !use_curr.empty ())
     {
@@ -2271,8 +2226,7 @@ be_interface::op_attr_decl_helper (be_interface * /*derived */,
 void
 be_interface::destroy ()
 {
-  delete [] this->full_skel_name_;
-  this->full_skel_name_ = nullptr;
+  this->full_skel_name_.clear ();
 
   delete [] this->full_coll_name_;
   this->full_coll_name_ = nullptr;

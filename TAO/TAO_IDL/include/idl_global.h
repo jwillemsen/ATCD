@@ -79,6 +79,10 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "fe_utils.h"
 #include "idl_version.h"
 
+#include <optional>
+#include <string>
+#include <string_view>
+
 class AST_Root;
 class AST_Module;
 class AST_Interface;
@@ -470,7 +474,7 @@ public:
   void idl_src_file (UTL_String *);
   // Set the source IDL file that is being parsed.
 
-  void temp_dir (char const *s);
+  void temp_dir (std::string_view s);
   // Set the directory where the IDL compiler can keep all its temp
   // files. By default, IDL compiler looks for TEMP env variable and
   // if it is not set,  "/tmp/" is assigned.
@@ -480,19 +484,19 @@ public:
   // files. By default, IDL compiler looks for TEMP env variable and
   // if it is not set,  "/tmp/" is assigned.
 
-  void tao_root (char const *s);
+  void tao_root (std::string_view s);
   // Set the path of TAO_ROOT.
 
   char const *tao_root () const;
   // Get the path for TAO_ROOT.
 
-  void gperf_path (char const *s);
+  void gperf_path (std::string_view s);
   // Set the path for the perfect hashing program (GPERF).
 
   char const *gperf_path () const;
   // Get the path for the perfect hashing program (GPERF).
 
-  void ident_string (char const *s);
+  void ident_string (std::string_view s);
   // Set the value of the #ident string.
 
   char const *ident_string () const;
@@ -936,18 +940,18 @@ private:
 
   UTL_String                *pd_idl_src_file {};    // IDL source file.
 
-  char *tao_root_ {};
+  std::optional<std::string> tao_root_;
   // Needed if orb.idl is included.
 
-  char *gperf_path_ {};
+  std::optional<std::string> gperf_path_;
   // Path for the perfect hash generator(gperf) program. Default
   // is $ACE_ROOT/bin/gperf.
 
-  char *temp_dir_ {};
+  std::optional<std::string> temp_dir_;
   // Temp directory where which we can rewsolve in drv_preproc.cpp by
   // checking for  TEMP env variable otherwise we assign to /tmp/.
 
-  char *ident_string_ {};
+  std::optional<std::string> ident_string_;
   // Holds a string that begins with #ident, to be passed from the IDL
   // file to the generated files.
 

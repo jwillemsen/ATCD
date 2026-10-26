@@ -256,7 +256,7 @@ public:
   void repoID (char *value);
   // Accessors for the repository ID.
 
-  char const *prefix ();
+  char const *prefix () const;
   void prefix (char const *value);
   // Accessors for the repository ID prefix.
 

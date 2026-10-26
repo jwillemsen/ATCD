@@ -878,7 +878,7 @@ AST_Decl::repoID (char *value)
 }
 
 const char *
-AST_Decl::prefix ()
+AST_Decl::prefix () const
 {
   return this->prefix_;
 }

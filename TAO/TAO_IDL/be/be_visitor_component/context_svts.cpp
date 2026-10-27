@@ -424,7 +424,7 @@ be_visitor_context_svts::gen_uses_multiplex (
       << be_nl
       << "                  ::CORBA::NO_MEMORY ());" << be_uidt_nl
       << "}" << be_uidt_nl << be_nl
-      << "return retv._retn (); " << be_uidt_nl
+      << "return retv._retn ();" << be_uidt_nl
       << "}";
 
   os_ << be_nl_2

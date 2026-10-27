@@ -117,7 +117,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
   if (!got_pidl)
     {
       // Generate the #ifndef clause.
-      this->gen_ifndef_string (fname.c_str (),
+      this->gen_ifndef_string (fname,
                                this->client_header_,
                                "_TAO_IDL_",
                                "_H_");
@@ -125,7 +125,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
   else
     {
       // Generate the #ifndef clause.
-      this->gen_ifndef_string (fname.c_str (),
+      this->gen_ifndef_string (fname,
                                this->client_header_,
                                "_TAO_PIDL_",
                                "_H_");
@@ -412,7 +412,7 @@ TAO_CodeGen::start_server_header (const std::string &fname)
   this->gen_ident_string (this->server_header_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->server_header_,
                            "_TAO_IDL_",
                            "_H_");
@@ -538,7 +538,7 @@ TAO_CodeGen::start_server_template_header (const std::string &fname)
   this->gen_ident_string (this->server_template_header_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->server_template_header_,
                            "_TAO_IDL_",
                            "_H_");
@@ -597,7 +597,7 @@ TAO_CodeGen::start_server_skeletons (const std::string &fname)
     }
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->server_skeletons_,
                            "_TAO_IDL_",
                            "_CPP_");
@@ -649,7 +649,7 @@ TAO_CodeGen::start_server_template_skeletons (const std::string &fname)
   this->gen_ident_string (this->server_template_skeletons_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->server_template_skeletons_,
                            "_TAO_IDL_",
                            "_CPP_");
@@ -725,7 +725,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
   this->gen_ident_string (this->anyop_header_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->anyop_header_,
                            "_TAO_IDL_",
                            "_H_");
@@ -789,7 +789,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
     }
   else
     {
-      *this->anyop_header_ << "\n#include \"" << tao_prefix.c_str ()
+      *this->anyop_header_ << "\n#include \"" << tao_prefix
                            << be_global->be_get_client_hdr_fname ()
                            << "\"";
     }
@@ -960,7 +960,7 @@ TAO_CodeGen::start_ciao_svnt_header (const std::string &fname)
   this->gen_ident_string (this->ciao_svnt_header_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->ciao_svnt_header_,
                            "CIAO_SESSION_",
                            "_H_");
@@ -1097,7 +1097,7 @@ TAO_CodeGen::start_ciao_svnt_template_header (const std::string &fname)
   this->gen_ident_string (this->ciao_svnt_template_header_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->ciao_svnt_template_header_,
                            "CIAO_SERVANT_",
                            "_H_");
@@ -1176,7 +1176,7 @@ TAO_CodeGen::start_ciao_svnt_template_source (const std::string &fname)
   this->gen_ident_string (this->ciao_svnt_template_source_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->ciao_svnt_template_source_,
                            "CIAO_SERVANT_",
                            "_CPP_");
@@ -1238,7 +1238,7 @@ TAO_CodeGen::start_ciao_exec_header (const std::string &fname)
   this->gen_ident_string (this->ciao_exec_header_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->ciao_exec_header_,
                            "CIAO_",
                            "_H_");
@@ -1332,7 +1332,7 @@ TAO_CodeGen::start_ciao_exec_idl (const std::string &fname)
   os << be_nl;
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->ciao_exec_idl_,
                            "_CIAO_",
                            "_IDL_");
@@ -1378,7 +1378,7 @@ TAO_CodeGen::start_ciao_conn_header (const std::string &fname)
   this->gen_ident_string (this->ciao_conn_header_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->ciao_conn_header_,
                            "CIAO_",
                            "_H_");
@@ -1481,7 +1481,7 @@ TAO_CodeGen::start_ciao_ami_conn_idl (const std::string &fname)
   os << be_nl;
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->ciao_ami_conn_idl_,
                            "_CIAO_",
                            "_IDL_");
@@ -1520,7 +1520,7 @@ TAO_CodeGen::start_implementation_header (const std::string &fname)
   this->gen_ident_string (this->implementation_header_);
 
   // Generate the #ifndef clause.
-  this->gen_ifndef_string (fname.c_str (),
+  this->gen_ifndef_string (fname,
                            this->implementation_header_,
                            "",
                            "_H_");
@@ -3170,7 +3170,7 @@ TAO_CodeGen::gen_svnt_hdr_includes (TAO_OutStream *stream)
   container_file += container_type;
   container_file += "_ContainerC.h";
 
-  this->gen_standard_include (stream, container_file.c_str ());
+  this->gen_standard_include (stream, container_file);
 
   std::string context_file ("ciao/Contexts/");
   context_file += container_type;
@@ -3178,13 +3178,13 @@ TAO_CodeGen::gen_svnt_hdr_includes (TAO_OutStream *stream)
   context_file += container_type;
   context_file += "_Context_T.h";
 
-  this->gen_standard_include (stream, context_file.c_str ());
+  this->gen_standard_include (stream, context_file);
 
   std::string servant_file ("ciao/Servants/");
   servant_file += container_type;
   servant_file += "/Servant_Impl_T.h";
 
-  this->gen_standard_include (stream, servant_file.c_str ());
+  this->gen_standard_include (stream, servant_file);
 
   this->gen_standard_include (stream, "ciao/Servants/Home_Servant_Impl_T.h");
 
@@ -3203,7 +3203,7 @@ TAO_CodeGen::gen_svnt_tmpl_hdr_includes (TAO_OutStream *stream)
   servant_file += container_type;
   servant_file += "/Servant_Impl_T.h";
 
-  this->gen_standard_include (stream, servant_file.c_str ());
+  this->gen_standard_include (stream, servant_file);
 
   this->gen_standard_include (stream, "ciao/Servants/Home_Servant_Impl_T.h");
 
@@ -3291,7 +3291,7 @@ TAO_CodeGen::gen_exec_idl_includes ()
   component_file += container_type;
   component_file += "Component.idl";
 
-  this->gen_standard_include (this->ciao_exec_idl_, component_file.c_str ());
+  this->gen_standard_include (this->ciao_exec_idl_, component_file);
 
   if (be_global->ami4ccm_call_back ())
     {
@@ -3354,7 +3354,7 @@ TAO_CodeGen::gen_conn_hdr_includes ()
       std::string_view const ending = be_global->client_hdr_ending_or_empty ();
       lem_str.append (ending.data (), ending.size ());
 
-      this->gen_standard_include (this->ciao_conn_header_, lem_str.c_str ());
+      this->gen_standard_include (this->ciao_conn_header_, lem_str);
     }
 
   *this->ciao_conn_header_ << be_nl;

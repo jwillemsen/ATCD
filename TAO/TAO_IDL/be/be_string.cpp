@@ -150,7 +150,7 @@ be_string::compute_tc_name ()
       this->tc_name_->nconc (tc_scope_conc_name);
 
       ACE_NEW (id,
-               Identifier (local_tc_name.c_str ()));
+               Identifier (local_tc_name));
     }
 
   zero.destroy ();

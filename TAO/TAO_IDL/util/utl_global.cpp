@@ -1346,7 +1346,7 @@ IDL_GlobalData::fini ()
   Include_Path_Info *path_info = nullptr;
 
   for (Unbounded_Paths_Queue_Iterator qiter (this->include_paths_);
-       qiter.done () == 0;
+       !qiter.done ();
        qiter.advance ())
     {
       qiter.next (path_info);
@@ -1358,7 +1358,7 @@ IDL_GlobalData::fini ()
   for (ACE_Unbounded_Queue_Iterator<char *>riter (
             this->rel_include_paths_
           );
-       riter.done () == 0;
+       !riter.done ();
        riter.advance ())
     {
       riter.next (path_tmp);
@@ -1367,7 +1367,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter1 (
          this->ciao_lem_file_names_);
-       iter1.done () == 0;
+       !iter1.done ();
        iter1.advance ())
     {
       iter1.next (path_tmp);
@@ -1376,7 +1376,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter2 (
          this->ciao_rti_ts_file_names_);
-       iter2.done () == 0;
+       !iter2.done ();
        iter2.advance ())
     {
       iter2.next (path_tmp);
@@ -1385,7 +1385,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter3 (
          this->ciao_spl_ts_file_names_);
-       iter3.done () == 0;
+       !iter3.done ();
        iter3.advance ())
     {
       iter3.next (path_tmp);
@@ -1394,7 +1394,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter4 (
          this->ciao_oci_ts_file_names_);
-       iter4.done () == 0;
+       !iter4.done ();
        iter4.advance ())
     {
       iter4.next (path_tmp);
@@ -1403,7 +1403,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter5 (
          this->ciao_ami_iface_names_);
-       iter5.done () == 0;
+       !iter5.done ();
        iter5.advance ())
     {
       iter5.next (path_tmp);
@@ -1412,7 +1412,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter6 (
          this->ciao_ami_recep_names_);
-       iter6.done () == 0;
+       !iter6.done ();
        iter6.advance ())
     {
       iter6.next (path_tmp);
@@ -1421,7 +1421,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter7 (
          this->included_ami_recep_names_);
-       iter7.done () == 0;
+       !iter7.done ();
        iter7.advance ())
     {
       iter7.next (path_tmp);
@@ -1430,7 +1430,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter8 (
          this->ciao_ami_idl_fnames_);
-       iter8.done () == 0;
+       !iter8.done ();
        iter8.advance ())
     {
       iter8.next (path_tmp);
@@ -1439,7 +1439,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter9 (
          this->dds4ccm_impl_fnames_);
-       iter9.done () == 0;
+       !iter9.done ();
        iter9.advance ())
     {
       iter9.next (path_tmp);
@@ -1448,7 +1448,7 @@ IDL_GlobalData::fini ()
 
   for (ACE_Unbounded_Queue_Iterator<char *>iter10 (
          this->dcps_sequence_types_list_);
-       iter10.done () == 0;
+       !iter10.done ();
        iter10.advance ())
     {
       iter10.next (path_tmp);
@@ -1610,7 +1610,7 @@ IDL_GlobalData::dcps_sequence_type_defined (std::string_view seq_type) const
 
   for (ACE_Unbounded_Queue_Const_Iterator<char *> riter (
          this->dcps_sequence_types_list_);
-       riter.done () == 0;
+       !riter.done ();
        riter.advance ())
     {
       riter.next (tmp);

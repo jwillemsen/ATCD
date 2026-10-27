@@ -57,9 +57,7 @@ be_visitor_amh_interface_ss::this_method (be_interface *node)
   non_amh_name += node->client_enclosing_scope ();
   non_amh_name += node->local_name ().data ();
 
-  ACE_CString full_skel_name_holder =
-    this->generate_full_skel_name (node);
-  const char *full_skel_name = full_skel_name_holder.c_str ();
+  std::string const full_skel_name = this->generate_full_skel_name (node);
 
   TAO_INSERT_COMMENT (os);
 
@@ -99,9 +97,7 @@ be_visitor_amh_interface_ss::dispatch_method (be_interface *node)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
-  ACE_CString full_skel_name_holder =
-    this->generate_full_skel_name (node);
-  const char *full_skel_name = full_skel_name_holder.c_str ();
+  std::string const full_skel_name = this->generate_full_skel_name (node);
 
   TAO_INSERT_COMMENT (os);
 
@@ -259,47 +255,27 @@ be_visitor_amh_interface_ss::generate_copy_ctor (be_interface *node,
 
 // ****************************************************************
 
-ACE_CString
+std::string
 be_visitor_amh_interface_ss::generate_flat_name (be_interface *node)
 {
-  // @@ The following code is *NOT* exception-safe.
-  char *buf = nullptr;
-  node->compute_flat_name ("AMH_", "", buf);
-
-  // @@ This whole thing would be more efficient if we could pass the
-  // ACE_CString to compute_flat_name, after all it uses that
-  // internally.
-  ACE_CString result (buf);
-  // buf was allocated using ACE_OS::strdup, so we must use free instead
-  // of delete.
-  ACE_OS::free (buf);
-
+  std::string result (node->flat_client_enclosing_scope ());
+  result += "AMH_";
+  result += node->original_local_name ()->get_string_view_or_empty ();
   return result;
 }
 
-ACE_CString
+std::string
 be_visitor_amh_interface_ss::generate_local_name (be_interface *node)
 {
-  ACE_CString local_name = "AMH_";
-  local_name += node->local_name ().data ();
+  std::string local_name ("AMH_");
+  local_name += node->local_name ();
   return local_name;
 }
 
-ACE_CString
+std::string
 be_visitor_amh_interface_ss::generate_full_skel_name (be_interface *node)
 {
-  // @@ This whole thing would be more efficient if we could pass the
-  // ACE_CString to compute_full_name, after all it uses that
-  // internally.
-  ACE_CString result ("POA_");
-
-  // @@ The following code is *NOT* exception-safe.
-  char *buf = nullptr;
-  node->compute_full_name ("AMH_", "", buf);
-  result += buf;
-  // buf was allocated using ACE_OS::strdup, so we must use free instead
-  // of delete.
-  ACE_OS::free (buf);
-
+  std::string result (node->full_skel_name ());
+  result.insert (result.size () - node->local_name ().size (), "AMH_");
   return result;
 }

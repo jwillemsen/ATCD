@@ -105,7 +105,7 @@ be_visitor_executor_ex_idl::visit_attribute (be_attribute *node)
   be_type *ft = node->field_type ();
 
   os_ << IdentifierHelper::type_name (ft, this);
-  os_ << " " << this->ctx_->port_prefix ().c_str ()
+  os_ << " " << this->ctx_->port_prefix ()
      << IdentifierHelper::try_escape (node->original_local_name ());
 
   this->gen_exception_list (node->get_get_exceptions (),

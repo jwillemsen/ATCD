@@ -69,7 +69,7 @@ be_visitor_component_exh::visit_component (be_component *node)
   for (std::string const &item : idl_global->ciao_ami_recep_names ())
     {
       UTL_ScopedName *sn =
-        FE_Utils::string_to_scoped_name (item.c_str ());
+        FE_Utils::string_to_scoped_name (item);
 
       UTL_Scope *s =
         idl_global->scopes ().top_non_null ();

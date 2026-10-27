@@ -66,7 +66,7 @@ be_visitor_executor_exs::visit_attribute (be_attribute *node)
 
   os_ << be_nl
       << this->node_->original_local_name () << "_exec_i::"
-      << this->ctx_->port_prefix ().c_str ()
+      << this->ctx_->port_prefix ()
       << node->local_name () << " ()" << be_nl
       << "{" << be_idt;
 
@@ -95,7 +95,7 @@ be_visitor_executor_exs::visit_attribute (be_attribute *node)
   os_ << be_nl_2
       << "void" << be_nl
       << this->node_->original_local_name () << "_exec_i::"
-      << this->ctx_->port_prefix ().c_str ()
+      << this->ctx_->port_prefix ()
       << node->local_name () << " (" << be_idt_nl;
 
   be_visitor_attr_setarg_type at_visitor (this->ctx_);

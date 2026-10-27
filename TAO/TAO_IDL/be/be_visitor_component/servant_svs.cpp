@@ -573,7 +573,7 @@ be_visitor_servant_svs::visit_consumes (be_consumes *node)
       << "::" << fname << " * ev_type =" << be_idt_nl
       << "::" << fname << "::_downcast (ev);"
       << be_uidt_nl << be_nl
-      << "if (ev_type != 0)" << be_idt_nl
+      << "if (ev_type != nullptr)" << be_idt_nl
       << "{" << be_idt_nl
       << "this->push_" << lname << " (ev_type);" << be_nl
       << "return;" << be_uidt_nl

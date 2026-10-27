@@ -210,7 +210,7 @@ be_visitor_context_svts::visit_publishes (be_publishes *node)
       << "::Components::Cookie * ck)" << be_uidt_nl
       << "{" << be_idt_nl
       << "ptrdiff_t key = 0UL;" << be_nl_2
-      << "if (ck == 0 || ! ::CIAO::Cookie_Impl::extract (ck, key))"
+      << "if (ck == nullptr || ! ::CIAO::Cookie_Impl::extract (ck, key))"
       << be_idt_nl
       << "{" << be_idt_nl
       << "throw ::Components::InvalidConnection ();" << be_uidt_nl
@@ -487,7 +487,7 @@ be_visitor_context_svts::gen_uses_multiplex (
       << "ptrdiff_t key = 0UL;" << be_nl
       << tao_cg->upcase (port_name)
       << "_TABLE::size_type n = 0UL;" << be_nl_2
-      << "if (ck == 0 || ! ::CIAO::Cookie_Impl::extract (ck, key))"
+      << "if (ck == nullptr || ! ::CIAO::Cookie_Impl::extract (ck, key))"
       << be_idt_nl
       << "{" << be_idt_nl
       << "throw ::Components::InvalidConnection ();" << be_uidt_nl

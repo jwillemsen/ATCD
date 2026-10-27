@@ -379,6 +379,7 @@ public:
   void clear_prog_name ();
 
   std::optional<std::string_view> cpp_location () const;
+  std::string_view cpp_location_or_empty () const;
   void set_cpp_location (std::string_view location);
 
   long             compile_flags () const;  // What flags are on?
@@ -491,6 +492,7 @@ public:
   // Set the path of TAO_ROOT.
 
   std::optional<std::string_view> tao_root () const;
+  std::string_view tao_root_or_empty () const;
   // Get the path for TAO_ROOT.
 
   void gperf_path (std::string_view s);

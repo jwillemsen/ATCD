@@ -989,7 +989,7 @@ DRV_get_orb_idl_includes ()
     {
       // Fall back on $TAO_ROOT/tao/orb.idl if orb.idl is not in the
       // include path.
-      std::string orb_idl_path (idl_global->tao_root ().value_or (std::string_view {}));
+      std::string orb_idl_path (idl_global->tao_root_or_empty ());
       orb_idl_path += '/';
       orb_idl_path += orb_idl;
 

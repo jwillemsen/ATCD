@@ -491,7 +491,7 @@ FE_get_cpp_loc_from_env ()
       return env_preprocessor;
     }
 
-  return std::string (idl_global->cpp_location ().value_or (std::string_view {}));
+  return std::string (idl_global->cpp_location_or_empty ());
 }
 
 std::optional<std::string>

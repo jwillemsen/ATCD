@@ -438,6 +438,14 @@ IDL_GlobalData::cpp_location () const
   return std::nullopt;
 }
 
+std::string_view
+IDL_GlobalData::cpp_location_or_empty () const
+{
+  return this->pd_cpp_location
+    ? std::string_view (*this->pd_cpp_location)
+    : std::string_view {};
+}
+
 void
 IDL_GlobalData::set_cpp_location (std::string_view location)
 {
@@ -725,6 +733,13 @@ IDL_GlobalData::tao_root () const
 {
   return this->tao_root_ ? std::optional<std::string_view> (*this->tao_root_)
                          : std::nullopt;
+}
+
+std::string_view
+IDL_GlobalData::tao_root_or_empty () const
+{
+  return this->tao_root_ ? std::string_view (*this->tao_root_)
+                         : std::string_view {};
 }
 
 void

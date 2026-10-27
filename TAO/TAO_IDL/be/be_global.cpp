@@ -1021,6 +1021,13 @@ BE_GlobalData::client_hdr_ending () const
   return optional_string_view (this->client_hdr_ending_);
 }
 
+std::string_view
+BE_GlobalData::client_hdr_ending_or_empty () const
+{
+  return this->client_hdr_ending_ ? std::string_view (*this->client_hdr_ending_)
+                                  : std::string_view {};
+}
+
 void
 BE_GlobalData::client_inline_ending  (std::string_view s)
 {

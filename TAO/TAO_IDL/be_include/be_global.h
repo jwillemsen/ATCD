@@ -457,6 +457,7 @@ public:
 
   /// Get the client_hdr_ending.
   std::optional<std::string_view> client_hdr_ending () const;
+  std::string_view client_hdr_ending_or_empty () const;
 
   /// Set the client_inline_ending.
   void client_inline_ending (std::string_view s);

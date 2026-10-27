@@ -3412,8 +3412,7 @@ TAO_CodeGen::gen_conn_hdr_includes ()
       riter.next (path_tmp);
       std::string lem_str (*path_tmp);
       lem_str = lem_str.substr (0, lem_str.find (".idl"));
-      const std::string_view ending =
-        be_global->client_hdr_ending ().value_or (std::string_view {});
+      std::string_view const ending = be_global->client_hdr_ending_or_empty ();
       lem_str.append (ending.data (), ending.size ());
 
       this->gen_standard_include (this->ciao_conn_header_, lem_str.c_str ());

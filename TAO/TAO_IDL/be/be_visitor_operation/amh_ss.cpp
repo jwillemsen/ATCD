@@ -323,7 +323,7 @@ be_visitor_amh_operation_ss::generate_shared_prologue (be_decl *node,
 
   *os << "void" << be_nl
       << amh_skel_name << "::"
-      << skel_prefix << this->ctx_->port_prefix ().c_str ()
+      << skel_prefix << this->ctx_->port_prefix ()
       << node->local_name ()
       << "_skel (" << be_idt << be_idt_nl
       << "TAO_ServerRequest & _tao_server_request," << be_nl
@@ -390,7 +390,7 @@ be_visitor_amh_operation_ss::generate_shared_section (be_decl *node,
       << be_nl;
 
   *os <<  "ACE_Utils::Auto_Functor <"
-      << response_handler_implementation_name.c_str ()
+      << response_handler_implementation_name
       << ", TAO::ARH_Refcount_Functor> safe_rd_(_tao_rh_ptr);"
       << be_nl;
 

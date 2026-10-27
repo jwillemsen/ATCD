@@ -124,7 +124,7 @@ be_visitor_amh_operation_sh::generate_shared_prologue (
   TAO_INSERT_COMMENT (os);
 
   *os << "static void " << skel_prefix
-      << this->ctx_->port_prefix ().c_str ()
+      << this->ctx_->port_prefix ()
       << node->local_name ()
       << "_skel (" << be_idt << be_idt_nl
       << "TAO_ServerRequest &_tao_req," << be_nl

@@ -70,7 +70,7 @@ be_visitor_operation_direct_proxy_impl_ss::visit_operation (
         }
     }
 
-  *os << this->ctx_->port_prefix ().c_str ()
+  *os << this->ctx_->port_prefix ()
       << node->local_name () << " (" << be_idt << be_idt_nl
       << "TAO_Abstract_ServantBase  *servant," << be_nl
       << "TAO::Argument **";

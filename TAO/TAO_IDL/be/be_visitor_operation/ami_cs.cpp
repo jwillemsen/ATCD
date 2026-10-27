@@ -75,7 +75,7 @@ be_visitor_operation_ami_cs::visit_operation (be_operation *node)
 
   // Generate the scope::operation name.
   *os << parent->full_name ()
-      << "::" << this->ctx_->port_prefix ().c_str ()
+      << "::" << this->ctx_->port_prefix ()
       << node->local_name ()->get_string_view_or_empty ();
 
   // Generate the argument list with the appropriate mapping (same as

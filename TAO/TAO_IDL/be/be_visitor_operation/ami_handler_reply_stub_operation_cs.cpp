@@ -90,7 +90,7 @@ be_visitor_operation_ami_handler_reply_stub_operation_cs::visit_operation (
   // Generate the operation name.
   *os << "::";
 
-  *os << this->ctx_->port_prefix ().c_str ()
+  *os << this->ctx_->port_prefix ()
       << node->local_name () << "_reply_stub (" << be_idt_nl
       << "TAO_InputCDR &_tao_in," << be_nl
       << "::Messaging::ReplyHandler_ptr _tao_reply_handler," << be_nl

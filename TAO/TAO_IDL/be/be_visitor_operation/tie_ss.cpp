@@ -91,7 +91,7 @@ int be_visitor_operation_tie_ss::visit_operation (be_operation *node)
 
   TAO_INSERT_COMMENT (os);
 
-  *os << "template <class " << template_name.c_str () << ">" << be_nl;
+  *os << "template <class " << template_name << ">" << be_nl;
 
   // Generate the return type mapping (same as in the header file).
   be_visitor_context ctx (*this->ctx_);
@@ -107,8 +107,8 @@ int be_visitor_operation_tie_ss::visit_operation (be_operation *node)
     }
 
   *os << " " << intf->full_skel_name () << "_tie<"
-      << template_name.c_str () << ">::"
-      << this->ctx_->port_prefix ().c_str ()
+      << template_name << ">::"
+      << this->ctx_->port_prefix ()
       << node->local_name () << " ";
 
   // STEP 4: generate the argument list with the appropriate mapping (same as

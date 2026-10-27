@@ -12,6 +12,10 @@
 class TAO_IDL_FE_Export AST_Native : public virtual AST_Exception
 {
 public:
+  AST_Native (AST_Native const &) = delete;
+  AST_Native (AST_Native &&) = delete;
+  AST_Native &operator= (AST_Native const &) = delete;
+  AST_Native &operator= (AST_Native &&) = delete;
   explicit AST_Native (UTL_ScopedName *n);
 
   ~AST_Native () override;

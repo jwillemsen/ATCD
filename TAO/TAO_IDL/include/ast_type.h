@@ -78,6 +78,10 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 class TAO_IDL_FE_Export AST_Type : public virtual AST_Decl
 {
 public:
+  AST_Type (AST_Type const &) = delete;
+  AST_Type (AST_Type &&) = delete;
+  AST_Type &operator= (AST_Type const &) = delete;
+  AST_Type &operator= (AST_Type &&) = delete;
   /// Indicates if we are fixed size or variable. Most useful for structs,
   /// unions, and arrays.
   enum SIZE_TYPE

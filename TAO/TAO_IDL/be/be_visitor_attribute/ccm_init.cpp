@@ -186,7 +186,7 @@ be_visitor_attribute_ccm_init::emit_init_block ()
       << "{" << be_idt_nl
       << "throw ::CORBA::BAD_PARAM ();" << be_uidt_nl
       << "}" << be_uidt_nl << be_nl
-      << "this->" << this->ctx_->port_prefix ().c_str ()
+      << "this->" << this->ctx_->port_prefix ()
       << attr_->local_name ()->get_string_view_or_empty ()
       << " (";
 

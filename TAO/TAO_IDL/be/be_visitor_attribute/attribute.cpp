@@ -60,7 +60,7 @@ be_visitor_attribute::visit_attribute (be_attribute *node)
   op_name += node->local_name ()->get_string_view_or_empty ();
   Identifier *op_id = nullptr;
   ACE_NEW_RETURN (op_id,
-                  Identifier (op_name.c_str ()),
+                  Identifier (op_name),
                   -1);
 
   UTL_ScopedName *op_ln = nullptr;

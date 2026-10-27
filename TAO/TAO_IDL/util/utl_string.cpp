@@ -150,15 +150,6 @@ UTL_String::compare_quiet (std::string_view lhs, std::string_view rhs)
   return result;
 }
 
-// Get canonical representation. This is (implemented as) the all upper
-// case corresponding string.
-void
-UTL_String::get_canonical_rep (char const* src, char *dest)
-{
-  while (0 != (*dest++ = static_cast<char> (ACE_OS::ace_toupper (*src++))))
-    {}
-}
-
 // Get canonical representation. This is the all upper case corresponding string.
 std::string
 UTL_String::get_canonical_rep (std::string_view str)
@@ -177,37 +168,32 @@ UTL_String::get_canonical_rep (std::string_view str)
 
 UTL_String::UTL_String ()
   : copy_taken (false),
-    p_str      (nullptr),
-    c_str      (nullptr)
+    p_str      (nullptr)
 {
 }
 
 UTL_String::UTL_String (char const* str, bool take_copy)
   : copy_taken (str != nullptr ? take_copy : false),
     p_str      (this->copy_taken ? ACE::strnew (str)
-                                 : const_cast<char *>(str)),
-    c_str      (nullptr)
+                                 : const_cast<char *>(str))
 {
 }
 
 UTL_String::UTL_String (std::string_view str)
   : copy_taken (true),
-    p_str (str.empty () ? ACE::strnew ("") : ACE::strndup (str.data (), str.size ())),
-    c_str (nullptr)
+    p_str (str.empty () ? ACE::strnew ("") : ACE::strndup (str.data (), str.size ()))
 {
 }
 
 UTL_String::UTL_String (UTL_String *s, bool force_copy)
   : copy_taken (force_copy ? true : s->copy_taken),
     p_str      (this->copy_taken ? ACE::strnew (s->p_str)
-                                 : const_cast<char *> (s->p_str)),
-    c_str      (nullptr)
+                                 : const_cast<char *> (s->p_str))
 {
 }
 
 UTL_String::~UTL_String ()
 {
-  delete [] this->c_str;
   if (copy_taken)
     {
       ACE::strdelete (this->p_str);
@@ -217,8 +203,7 @@ UTL_String::~UTL_String ()
 void
 UTL_String::destroy ()
 {
-  delete [] this->c_str;
-  this->c_str = nullptr;
+  this->canonical_rep.reset ();
   if (this->copy_taken)
     {
        ACE::strdelete (this->p_str);
@@ -245,17 +230,20 @@ UTL_String::compare_quiet (UTL_String const *s) const
 }
 
 // Get the canonical representation from a String.
-char *
+std::optional<std::string_view>
 UTL_String::get_canonical_rep ()
 {
-  if (this->c_str == nullptr && this->p_str != nullptr)
+  if (this->p_str == nullptr)
     {
-      get_canonical_rep (
-        this->p_str,
-        this->c_str = new char [ACE_OS::strlen (this->p_str)+1]);
+      return std::nullopt;
     }
 
-  return this->c_str;
+  if (!this->canonical_rep)
+    {
+      this->canonical_rep = get_canonical_rep (std::string_view (this->p_str));
+    }
+
+  return std::string_view (*this->canonical_rep);
 }
 
 // AST Dumping.

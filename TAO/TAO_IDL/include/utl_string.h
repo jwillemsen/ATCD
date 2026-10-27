@@ -120,9 +120,8 @@ public:
   }
   // Get contents of utl_string as a non-owning view, or an empty view if absent.
 
-  char *get_canonical_rep ();
-  // Get canonical representation. This is (implemented as) the all upper
-  // case corresponding string.
+  std::optional<std::string_view> get_canonical_rep ();
+  // Get canonical representation as a non-owning view, if present.
 
   bool compare (UTL_String const *s) const;
   // Compare two UTL_String *
@@ -143,10 +142,6 @@ public:
   static bool compare_quiet (std::string_view lhs, std::string_view rhs);
   // Like the above but without error or warning message output.
 
-  static void get_canonical_rep (char const* src, char *dest);
-  // Get canonical representation. This is (implemented as) the all upper
-  // case corresponding string.
-
   static std::string get_canonical_rep (std::string_view str);
   // Get canonical representation. This is (implemented as) the all upper
   // case corresponding string.
@@ -159,8 +154,8 @@ private:
   char *p_str;
   // Storage for characters.
 
-  char *c_str;
-  // Storage for canonicalized string.
+  std::optional<std::string> canonical_rep {};
+  // Cached canonical representation.
 };
 
 #endif           // _STRING_STRING_HH

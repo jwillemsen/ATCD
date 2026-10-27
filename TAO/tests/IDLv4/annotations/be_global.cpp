@@ -21,10 +21,10 @@ BE_GlobalData::destroy ()
 {
 }
 
-ACE_CString
-BE_GlobalData::spawn_options ()
+std::string
+BE_GlobalData::spawn_options () const
 {
-  return idl_global->idl_flags ();
+  return std::string (idl_global->idl_flags ());
 }
 
 void

@@ -19,6 +19,7 @@
 
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include "TAO_IDL_BE_Export.h"
 
@@ -448,7 +449,7 @@ private:
 
   void make_rand_extension (std::string &name);
 
-  void gen_conn_ts_includes (ACE_Unbounded_Queue<char *> &ts_files);
+  void gen_conn_ts_includes (std::vector<std::string> const &ts_files);
 
 private:
   /// Client header stream.

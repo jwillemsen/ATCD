@@ -374,16 +374,10 @@ FE_Utils::create_implied_ami_uses_stuff ()
       return;
     }
 
-  for (ACE_Unbounded_Queue<char *>::CONST_ITERATOR i (
-         idl_global->included_ami_recep_names ());
-       ! i.done ();
-       i.advance ())
+  for (std::string const &item : idl_global->included_ami_recep_names ())
     {
-      char **item = nullptr;
-      i.next (item);
-
       UTL_ScopedName *sn =
-        FE_Utils::string_to_scoped_name (*item);
+        FE_Utils::string_to_scoped_name (item.c_str ());
 
       AST_Decl *d =
         idl_global->root ()->lookup_by_name (sn, true);

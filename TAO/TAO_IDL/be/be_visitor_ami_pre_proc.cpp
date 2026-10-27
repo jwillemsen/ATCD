@@ -1076,11 +1076,11 @@ be_visitor_ami_pre_proc::generate_ami4ccm_idl ()
   /// file containing the local interfaces and connector
   /// associated with each interface in the list.
 
-  ACE_Unbounded_Queue<char *> &ccm_ami_ifaces =
+  std::vector<std::string> const &ccm_ami_ifaces =
     idl_global->ciao_ami_iface_names ();
 
   /// If the queue is empty, we're done.
-  if (ccm_ami_ifaces.size () == 0)
+  if (ccm_ami_ifaces.empty ())
     {
       return 0;
     }
@@ -1100,16 +1100,10 @@ be_visitor_ami_pre_proc::generate_ami4ccm_idl ()
                         -1);
     }
 
-  for (ACE_Unbounded_Queue<char *>::CONST_ITERATOR i (
-         ccm_ami_ifaces);
-       ! i.done ();
-       i.advance ())
+  for (std::string const &item : ccm_ami_ifaces)
     {
-      char **item = nullptr;
-      i.next (item);
-
       UTL_ScopedName *sn =
-        FE_Utils::string_to_scoped_name (*item);
+        FE_Utils::string_to_scoped_name (item.c_str ());
 
       UTL_Scope *s =
         idl_global->scopes ().top_non_null ();

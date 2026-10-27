@@ -1014,10 +1014,13 @@ IDL_GlobalData::add_include_path (char const *s, bool is_system)
 void
 IDL_GlobalData::add_rel_include_path (char const *s)
 {
-  this->rel_include_paths_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->rel_include_paths_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> const &
+std::vector<std::string> const &
 IDL_GlobalData::rel_include_paths () const
 {
   return this->rel_include_paths_;
@@ -1026,11 +1029,14 @@ IDL_GlobalData::rel_include_paths () const
 void
 IDL_GlobalData::add_ciao_lem_file_names (char const *s)
 {
-  this->ciao_lem_file_names_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->ciao_lem_file_names_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::ciao_lem_file_names ()
+std::vector<std::string> const &
+IDL_GlobalData::ciao_lem_file_names () const
 {
   return this->ciao_lem_file_names_;
 }
@@ -1038,11 +1044,14 @@ IDL_GlobalData::ciao_lem_file_names ()
 void
 IDL_GlobalData::add_ciao_rti_ts_file_names (char const *s)
 {
-  this->ciao_rti_ts_file_names_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->ciao_rti_ts_file_names_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::ciao_rti_ts_file_names ()
+std::vector<std::string> const &
+IDL_GlobalData::ciao_rti_ts_file_names () const
 {
   return this->ciao_rti_ts_file_names_;
 }
@@ -1050,11 +1059,14 @@ IDL_GlobalData::ciao_rti_ts_file_names ()
 void
 IDL_GlobalData::add_ciao_spl_ts_file_names (char const *s)
 {
-  this->ciao_spl_ts_file_names_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->ciao_spl_ts_file_names_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::ciao_spl_ts_file_names ()
+std::vector<std::string> const &
+IDL_GlobalData::ciao_spl_ts_file_names () const
 {
   return this->ciao_spl_ts_file_names_;
 }
@@ -1062,11 +1074,14 @@ IDL_GlobalData::ciao_spl_ts_file_names ()
 void
 IDL_GlobalData::add_ciao_oci_ts_file_names (char const *s)
 {
-  this->ciao_oci_ts_file_names_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->ciao_oci_ts_file_names_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::ciao_oci_ts_file_names ()
+std::vector<std::string> const &
+IDL_GlobalData::ciao_oci_ts_file_names () const
 {
   return this->ciao_oci_ts_file_names_;
 }
@@ -1074,11 +1089,14 @@ IDL_GlobalData::ciao_oci_ts_file_names ()
 void
 IDL_GlobalData::add_ciao_coredx_ts_file_names (char const *s)
 {
-  this->ciao_coredx_ts_file_names_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->ciao_coredx_ts_file_names_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::ciao_coredx_ts_file_names ()
+std::vector<std::string> const &
+IDL_GlobalData::ciao_coredx_ts_file_names () const
 {
   return this->ciao_coredx_ts_file_names_;
 }
@@ -1086,11 +1104,14 @@ IDL_GlobalData::ciao_coredx_ts_file_names ()
 void
 IDL_GlobalData::add_ciao_ami_iface_names (char const *s)
 {
-  this->ciao_ami_iface_names_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->ciao_ami_iface_names_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::ciao_ami_iface_names ()
+std::vector<std::string> const &
+IDL_GlobalData::ciao_ami_iface_names () const
 {
   return this->ciao_ami_iface_names_;
 }
@@ -1098,11 +1119,14 @@ IDL_GlobalData::ciao_ami_iface_names ()
 void
 IDL_GlobalData::add_ciao_ami_recep_names (char const *s)
 {
-  this->ciao_ami_recep_names_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->ciao_ami_recep_names_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::ciao_ami_recep_names ()
+std::vector<std::string> const &
+IDL_GlobalData::ciao_ami_recep_names () const
 {
   return this->ciao_ami_recep_names_;
 }
@@ -1110,11 +1134,14 @@ IDL_GlobalData::ciao_ami_recep_names ()
 void
 IDL_GlobalData::add_included_ami_recep_names (char const *s)
 {
-  this->included_ami_recep_names_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->included_ami_recep_names_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::included_ami_recep_names ()
+std::vector<std::string> const &
+IDL_GlobalData::included_ami_recep_names () const
 {
   return this->included_ami_recep_names_;
 }
@@ -1134,11 +1161,14 @@ IDL_GlobalData::included_ami_receps_done (bool val)
 void
 IDL_GlobalData::add_ciao_ami_idl_fnames (char const *s)
 {
-  this->ciao_ami_idl_fnames_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->ciao_ami_idl_fnames_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::ciao_ami_idl_fnames ()
+std::vector<std::string> const &
+IDL_GlobalData::ciao_ami_idl_fnames () const
 {
   return this->ciao_ami_idl_fnames_;
 }
@@ -1146,11 +1176,14 @@ IDL_GlobalData::ciao_ami_idl_fnames ()
 void
 IDL_GlobalData::add_dds4ccm_impl_fnames (char const *s)
 {
-  this->dds4ccm_impl_fnames_.enqueue_tail (ACE::strnew (s));
+  if (s != nullptr)
+    {
+      this->dds4ccm_impl_fnames_.emplace_back (s);
+    }
 }
 
-ACE_Unbounded_Queue<char *> &
-IDL_GlobalData::dds4ccm_impl_fnames ()
+std::vector<std::string> const &
+IDL_GlobalData::dds4ccm_impl_fnames () const
 {
   return this->dds4ccm_impl_fnames_;
 }
@@ -1366,99 +1399,6 @@ IDL_GlobalData::fini ()
     {
       qiter.next (path_info);
       ACE::strdelete (path_info->path_);
-    }
-
-  char **path_tmp  = nullptr;
-
-  for (ACE_Unbounded_Queue_Iterator<char *>riter (
-            this->rel_include_paths_
-          );
-       !riter.done ();
-       riter.advance ())
-    {
-      riter.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter1 (
-         this->ciao_lem_file_names_);
-       !iter1.done ();
-       iter1.advance ())
-    {
-      iter1.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter2 (
-         this->ciao_rti_ts_file_names_);
-       !iter2.done ();
-       iter2.advance ())
-    {
-      iter2.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter3 (
-         this->ciao_spl_ts_file_names_);
-       !iter3.done ();
-       iter3.advance ())
-    {
-      iter3.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter4 (
-         this->ciao_oci_ts_file_names_);
-       !iter4.done ();
-       iter4.advance ())
-    {
-      iter4.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter5 (
-         this->ciao_ami_iface_names_);
-       !iter5.done ();
-       iter5.advance ())
-    {
-      iter5.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter6 (
-         this->ciao_ami_recep_names_);
-       !iter6.done ();
-       iter6.advance ())
-    {
-      iter6.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter7 (
-         this->included_ami_recep_names_);
-       !iter7.done ();
-       iter7.advance ())
-    {
-      iter7.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter8 (
-         this->ciao_ami_idl_fnames_);
-       !iter8.done ();
-       iter8.advance ())
-    {
-      iter8.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-  for (ACE_Unbounded_Queue_Iterator<char *>iter9 (
-         this->dds4ccm_impl_fnames_);
-       !iter9.done ();
-       iter9.advance ())
-    {
-      iter9.next (path_tmp);
-      ACE::strdelete (*path_tmp);
     }
 
   ACE_Hash_Map_Entry<char *, char *> *entry = nullptr;

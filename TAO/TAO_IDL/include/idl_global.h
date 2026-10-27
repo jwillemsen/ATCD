@@ -559,50 +559,50 @@ public:
   // specific paths and false for paths provided by user.
 
   void add_rel_include_path (char const *s);
-  ACE_Unbounded_Queue<char *> const & rel_include_paths () const;
+  std::vector<std::string> const & rel_include_paths () const;
   // Accessor/mutator for the rel_include_paths_ member.
 
   void add_ciao_lem_file_names (char const *s);
-  ACE_Unbounded_Queue<char *> & ciao_lem_file_names ();
+  std::vector<std::string> const & ciao_lem_file_names () const;
   // Accessor/mutator for the ciao_lem_file_names_ member.
 
   void add_ciao_rti_ts_file_names (char const *s);
-  ACE_Unbounded_Queue<char *> & ciao_rti_ts_file_names ();
+  std::vector<std::string> const & ciao_rti_ts_file_names () const;
   // Accessor/mutator for the ciao_rti_ts_file_names_ member.
 
   void add_ciao_spl_ts_file_names (char const *s);
-  ACE_Unbounded_Queue<char *> & ciao_spl_ts_file_names ();
+  std::vector<std::string> const & ciao_spl_ts_file_names () const;
   // Accessor/mutator for the ciao_spl_ts_file_names_ member.
 
   void add_ciao_oci_ts_file_names (char const *s);
-  ACE_Unbounded_Queue<char *> & ciao_oci_ts_file_names ();
+  std::vector<std::string> const & ciao_oci_ts_file_names () const;
   // Accessor/mutator for the ciao_oci_ts_file_names_ member.
 
-    void add_ciao_coredx_ts_file_names (char const *s);
-  ACE_Unbounded_Queue<char *> & ciao_coredx_ts_file_names ();
+  void add_ciao_coredx_ts_file_names (char const *s);
+  std::vector<std::string> const & ciao_coredx_ts_file_names () const;
   // Accessor/mutator for the ciao_coredx_ts_file_names_ member.
 
   void add_ciao_ami_iface_names (char const *s);
-  ACE_Unbounded_Queue<char *> & ciao_ami_iface_names ();
+  std::vector<std::string> const & ciao_ami_iface_names () const;
   // Accessor/mutator for the ciao_ami_iface_names_ member.
 
   void add_ciao_ami_recep_names (char const *s);
-  ACE_Unbounded_Queue<char *> & ciao_ami_recep_names ();
+  std::vector<std::string> const & ciao_ami_recep_names () const;
   // Accessor/mutator for the ciao_ami_recep_names_ member.
 
   void add_included_ami_recep_names (char const *s);
-  ACE_Unbounded_Queue<char *> & included_ami_recep_names ();
+  std::vector<std::string> const & included_ami_recep_names () const;
   // Accessor/mutator for the included_ami_recep_names_ member.
 
   bool included_ami_receps_done () const;
   void included_ami_receps_done (bool val);
 
   void add_ciao_ami_idl_fnames (char const *s);
-  ACE_Unbounded_Queue<char *> & ciao_ami_idl_fnames ();
+  std::vector<std::string> const & ciao_ami_idl_fnames () const;
   // Accessor/mutator for the included_ami_idl_fnames_ member.
 
   void add_dds4ccm_impl_fnames (char const *s);
-  ACE_Unbounded_Queue<char *> & dds4ccm_impl_fnames ();
+  std::vector<std::string> const & dds4ccm_impl_fnames () const;
   // Accessor mutator for the dds4ccm_impl_fnames_ member.
 
   ACE_Unbounded_Queue<AST_Interface *> & mixed_parentage_interfaces ();
@@ -979,7 +979,7 @@ private:
   Unbounded_Paths_Queue include_paths_;
   // List of -I options passed to us.
 
-  ACE_Unbounded_Queue<char *> rel_include_paths_;
+  std::vector<std::string> rel_include_paths_;
   // Used by backends with the -r option.
 
   ACE_Hash_Map_Manager<char *, char *, ACE_Null_Mutex> file_prefixes_;
@@ -1037,38 +1037,38 @@ private:
   // a param holder, it will need this name rather than the
   // name of the alias's referenced param.
 
-  ACE_Unbounded_Queue<char *> ciao_lem_file_names_;
+  std::vector<std::string> ciao_lem_file_names_;
   // Files parsed with ciao lem pragma
 
-  ACE_Unbounded_Queue<char *> ciao_rti_ts_file_names_;
+  std::vector<std::string> ciao_rti_ts_file_names_;
   // Files parsed with RTI typesupport pragma
 
-  ACE_Unbounded_Queue<char *> ciao_spl_ts_file_names_;
+  std::vector<std::string> ciao_spl_ts_file_names_;
   // Files parsed with OpenSplice typesupport pragma
 
-  ACE_Unbounded_Queue<char *> ciao_oci_ts_file_names_;
+  std::vector<std::string> ciao_oci_ts_file_names_;
   // Files parsed with OpenDDS typesupport pragma
 
-  ACE_Unbounded_Queue<char *> ciao_coredx_ts_file_names_;
+  std::vector<std::string> ciao_coredx_ts_file_names_;
   // Files parsed with CoreDX typesupport pragma
 
-  ACE_Unbounded_Queue<char *> ciao_ami_iface_names_;
+  std::vector<std::string> ciao_ami_iface_names_;
   // Interfaces that get a reply handler generated for AMI4CCM.
 
-  ACE_Unbounded_Queue<char *> ciao_ami_recep_names_;
+  std::vector<std::string> ciao_ami_recep_names_;
   // Receptacles that get a sendc_ version added for AMI4CCM.
 
-  ACE_Unbounded_Queue<char *> included_ami_recep_names_;
+  std::vector<std::string> included_ami_recep_names_;
   // We need to do something different with these...
 
   bool included_ami_receps_done_ {};
   // ...but we need to do it only once.
 
-  ACE_Unbounded_Queue<char *> ciao_ami_idl_fnames_;
+  std::vector<std::string> ciao_ami_idl_fnames_;
   // Stores directives from #pragma ciao ami4ccm idl "xxx"
   // or  #pragma ami4ccm idl "xxx".
 
-  ACE_Unbounded_Queue<char *> dds4ccm_impl_fnames_;
+  std::vector<std::string> dds4ccm_impl_fnames_;
   // Stores directives from #pragma dds4ccm impl "xxx".
 
   /**

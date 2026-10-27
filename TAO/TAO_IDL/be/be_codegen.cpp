@@ -248,16 +248,10 @@ TAO_CodeGen::start_client_header (const std::string &fname)
         }
     }
 
-  for (ACE_Unbounded_Queue<char *>::CONST_ITERATOR i (
-         idl_global->ciao_ami_idl_fnames ());
-       !i.done ();
-       i.advance ())
+  for (std::string const &idl_name : idl_global->ciao_ami_idl_fnames ())
     {
-      char **tmp = nullptr;
-      i.next (tmp);
-
       // Make a String out of it.
-      UTL_String idl_name_str (*tmp);
+      UTL_String idl_name_str (idl_name.c_str ());
 
       // Get the clnt header from the IDL file name.
       std::string const client_hdr =
@@ -276,7 +270,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
         {
           ACE_ERROR_RETURN ((LM_ERROR,
                              ACE_TEXT ("\nERROR, invalid file '%C' included"),
-                             *tmp),
+                             idl_name.c_str ()),
                             -1);
         }
     }
@@ -1003,16 +997,9 @@ TAO_CodeGen::start_ciao_svnt_header (const std::string &fname)
      << be_nl;
 
 
-  char **path_tmp = nullptr;
-
-  for (ACE_Unbounded_Queue_Iterator<char *>riter (
-         idl_global->ciao_lem_file_names ());
-       riter.done () == 0;
-       riter.advance ())
+  for (std::string const &path_tmp : idl_global->ciao_lem_file_names ())
     {
-      riter.next (path_tmp);
-
-      std::string_view const filename (*path_tmp);
+      std::string_view const filename (path_tmp);
       constexpr std::string_view exec_idl_suffix = "E.idl";
       // sanity
       if (filename.size () >= exec_idl_suffix.size ()
@@ -2359,16 +2346,9 @@ TAO_CodeGen::gen_stub_hdr_includes ()
 
       if (the_dds_impl == BE_GlobalData::OPENDDS)
         {
-          ACE_Unbounded_Queue<char *> &ts_files =
-            idl_global->ciao_oci_ts_file_names ();
-          char **tmp = nullptr;
-
-          for (ACE_Unbounded_Queue_Iterator<char *> i (ts_files);
-              !i.done ();
-              i.advance ())
+          for (std::string const &ts_file : idl_global->ciao_oci_ts_file_names ())
             {
-              i.next (tmp);
-              this->gen_standard_include (this->client_header_, *tmp);
+              this->gen_standard_include (this->client_header_, ts_file);
             }
         }
     }
@@ -3329,15 +3309,8 @@ TAO_CodeGen::gen_exec_idl_includes ()
         idl_global->stripped_filename ()->get_string_view_or_empty ());
     }
 
-  char **path_tmp = nullptr;
-
-  for (ACE_Unbounded_Queue_Iterator<char *>riter (
-         idl_global->ciao_lem_file_names ());
-       riter.done () == 0;
-       riter.advance ())
+  for (std::string const &path_tmp : idl_global->ciao_lem_file_names ())
     {
-      riter.next (path_tmp);
-
       std::string const exec_idl_fname =
         be_global->be_get_ciao_exec_idl_fname (true);
 
@@ -3348,7 +3321,7 @@ TAO_CodeGen::gen_exec_idl_includes ()
         {
           std::string const test = exec_idl_fname.substr (0, base) + "AE.idl";
 
-          if (std::string_view (*path_tmp).find (test) != std::string_view::npos)
+          if (std::string_view (path_tmp).find (test) != std::string_view::npos)
             {
               // Skip this include for ami4ccm.
               skip_incl = true;
@@ -3356,9 +3329,9 @@ TAO_CodeGen::gen_exec_idl_includes ()
         }
 
       // No need to have the exec IDL file include itself.
-      if (std::string_view (*path_tmp) != exec_idl_fname && !skip_incl)
+      if (path_tmp != exec_idl_fname && !skip_incl)
         {
-          this->gen_standard_include (this->ciao_exec_idl_, *path_tmp);
+          this->gen_standard_include (this->ciao_exec_idl_, path_tmp);
         }
     }
 }
@@ -3374,18 +3347,9 @@ TAO_CodeGen::is_system_file (std::string_view idl_name) const
 void
 TAO_CodeGen::gen_conn_hdr_includes ()
 {
-  ACE_Unbounded_Queue<char *> &lem_file_names =
-    idl_global->ciao_lem_file_names ();
-
-  char **path_tmp  = nullptr;
-
-  for (ACE_Unbounded_Queue_Iterator<char *> riter (
-         lem_file_names);
-       riter.done () == 0;
-       riter.advance ())
+  for (std::string const &path_tmp : idl_global->ciao_lem_file_names ())
     {
-      riter.next (path_tmp);
-      std::string lem_str (*path_tmp);
+      std::string lem_str (path_tmp);
       lem_str = lem_str.substr (0, lem_str.find (".idl"));
       std::string_view const ending = be_global->client_hdr_ending_or_empty ();
       lem_str.append (ending.data (), ending.size ());
@@ -3423,14 +3387,9 @@ TAO_CodeGen::gen_conn_hdr_includes ()
         }
     }
 
-  for (ACE_Unbounded_Queue<char *>::CONST_ITERATOR iiter (
-         idl_global->dds4ccm_impl_fnames ());
-       !iiter.done ();
-       iiter.advance ())
+  for (std::string const &impl_fname : idl_global->dds4ccm_impl_fnames ())
     {
-      iiter.next (path_tmp);
-
-      this->gen_standard_include (this->ciao_conn_header_, *path_tmp);
+      this->gen_standard_include (this->ciao_conn_header_, impl_fname);
     }
 
   if (idl_global->ami_connector_seen_)
@@ -3511,21 +3470,16 @@ TAO_CodeGen::make_rand_extension (std::string &name)
 
 void
 TAO_CodeGen::gen_conn_ts_includes (
-  ACE_Unbounded_Queue<char *> &ts_files)
+  std::vector<std::string> const &ts_files)
 {
-  if (ts_files.size () > 0)
+  if (!ts_files.empty ())
     {
       *this->ciao_conn_header_ << be_nl;
     }
 
-  char **tmp = nullptr;
-
-  for (ACE_Unbounded_Queue_Iterator<char *> i (ts_files);
-       !i.done ();
-       i.advance ())
+  for (std::string const &ts_file : ts_files)
     {
-      i.next (tmp);
-      this->gen_standard_include (this->ciao_conn_header_, *tmp);
+      this->gen_standard_include (this->ciao_conn_header_, ts_file);
     }
 }
 

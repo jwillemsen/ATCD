@@ -778,9 +778,7 @@ AST_Decl::dump (ACE_OSTREAM_TYPE &o)
 void
 AST_Decl::dump_i (ACE_OSTREAM_TYPE &o, std::string_view s) const
 {
-  // Have to use ACE_CString here to avoid ambiguous overload error, see
-  // SString.h for an the overloaded operator << () methods.
-  o << ACE_CString (s.data (), s.size ());
+  o << s;
 }
 
 int

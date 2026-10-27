@@ -251,8 +251,8 @@ AST_Type::nested_name (std::string_view local_name,
     || ((this->node_type () == AST_Decl::NT_pre_defined
         && this->flat_name () == "CORBA_TypeCode"));
 
-  std::string const fname (this->full_name ());
-  bool const corba_type = fname.find ("CORBA::") == 0;
+  std::string_view const fname = this->full_name ();
+  bool const corba_type = fname.substr (0, 7) == "CORBA::";
 
   if (in_root && corba_type)
     {

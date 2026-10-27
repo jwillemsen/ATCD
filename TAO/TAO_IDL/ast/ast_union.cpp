@@ -305,7 +305,7 @@ AST_Union::in_recursion (ACE_Unbounded_Queue<AST_Type *> &list)
 
   // Not in recursion.
   if (self_test)
-    this->in_recursion_ = 0;
+    this->in_recursion_ = false;
   return false;
 }
 
@@ -578,7 +578,7 @@ AST_Union::compute_default_value ()
     case AST_Expression::EV_ushort:
       if (total_case_members > ACE_UINT16_MAX)
         {
-          this->default_value_.computed_ = 0;
+          this->default_value_.computed_ = false;
         }
 
       break;
@@ -590,7 +590,7 @@ AST_Union::compute_default_value ()
       // incomplete (reguardless as to the actual member_count).
       if (total_case_members > ACE_UINT32_MAX)
         {
-          this->default_value_.computed_ = 0;
+          this->default_value_.computed_ = false;
         }
 
       break;
@@ -601,7 +601,7 @@ AST_Union::compute_default_value ()
         {
           // If anyone ever produces a "default clause is invalid here" error
           // after passing through here I will buy them a a house.
-          this->default_value_.computed_ = 0;
+          this->default_value_.computed_ = false;
         }
 
       break;
@@ -609,7 +609,7 @@ AST_Union::compute_default_value ()
     case AST_Expression::EV_int8:
       if (total_case_members > ACE_INT8_MAX)
         {
-          this->default_value_.computed_ = 0;
+          this->default_value_.computed_ = false;
         }
 
       break;
@@ -617,21 +617,21 @@ AST_Union::compute_default_value ()
     case AST_Expression::EV_octet:
       if (total_case_members > ACE_UINT8_MAX)
         {
-          this->default_value_.computed_ = 0;
+          this->default_value_.computed_ = false;
         }
 
       break;
     case AST_Expression::EV_wchar:
       if (total_case_members == ACE_WCHAR_MAX + 1)
         {
-          this->default_value_.computed_ = 0;
+          this->default_value_.computed_ = false;
         }
 
       break;
     case AST_Expression::EV_bool:
       if (total_case_members == 2)
         {
-          this->default_value_.computed_ = 0;
+          this->default_value_.computed_ = false;
         }
 
       break;
@@ -867,7 +867,7 @@ AST_Union::compute_default_value ()
       // default value.
       if (break_loop == 0)
         {
-          this->default_value_.computed_ = 1;
+          this->default_value_.computed_ = true;
         }
 
     } // End of outer while (default_value.computed == -2).

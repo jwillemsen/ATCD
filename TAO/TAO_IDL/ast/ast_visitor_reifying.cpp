@@ -35,6 +35,8 @@
 #include "utl_string.h"
 #include "nr_extern.h"
 
+#include <string_view>
+
 ast_visitor_reifying::ast_visitor_reifying (
       ast_visitor_context *ctx)
   : ast_visitor (),
@@ -632,15 +634,13 @@ ast_visitor_reifying::visit_param_holder (AST_Param_Holder *node)
       FE_Utils::T_Param_Info *item = nullptr;
       iter.next (item);
 
-      ACE_CString name (item->name_);
-
       /// The param holder's info->name_ may be the same as the
       /// node's local name, but if the node comes from an
       /// alias, info->name_ will be the name of the alias's
       /// referenced template module parameter, while the local
       /// name will be that of the corresponding alias param
       /// name, which is what we want.
-      if (std::string_view (name.c_str (), name.length ())
+      if (std::string_view (item->name_.c_str (), item->name_.length ())
           == node->local_name ()->get_string_view_or_empty ())
         {
           AST_Decl **ret_ptr = nullptr;

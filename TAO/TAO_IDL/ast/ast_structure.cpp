@@ -191,7 +191,7 @@ AST_Structure::in_recursion (ACE_Unbounded_Queue<AST_Type *> &list)
 
   // Not in recursion.
   if (self_test)
-    this->in_recursion_ = 0;
+    this->in_recursion_ = false;
   return false;
 }
 
@@ -230,7 +230,7 @@ AST_Structure::is_local ()
         }
       else
         {
-          this->local_struct_ = 0;
+          this->local_struct_ = false;
 
           if (this->nmembers () > 0)
             {
@@ -268,7 +268,7 @@ AST_Structure::contains_wstring ()
             }
         }
 
-      this->contains_wstring_ = 0;
+      this->contains_wstring_ = false;
     }
 
   return this->contains_wstring_;

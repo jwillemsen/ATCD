@@ -64,6 +64,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 // Pass an IDL file through the C preprocessor
 
+#include <string>
+#include <string_view>
 
 #include "idl_defines.h"
 #include "global_extern.h"
@@ -74,7 +76,6 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 #include "ace/Version.h"
 #include "ace/Process.h"
-#include "ace/SString.h"
 #include "ace/Env_Value_T.h"
 #include "ace/ARGV.h"
 #include "ace/Dirent.h"
@@ -365,7 +366,7 @@ DRV_cpp_init ()
 #endif /* TAO_IDL_PREPROCESSOR_ARGS */
 
       // So we can find OMG IDL files, such as `orb.idl'.
-      ACE_CString include_path1, include_path2;
+      std::string include_path1, include_path2;
 
       char* TAO_ROOT = ACE_OS::getenv ("TAO_ROOT");
 
@@ -405,7 +406,7 @@ DRV_cpp_init ()
               // We deal with a case like this below ...
               DRV_add_include_path (include_path1,
                                     TAO_IDL_INCLUDE_DIR,
-                                    0,
+                                    nullptr,
                                     true);
               DRV_add_include_path (include_path2,
                                     TAO_IDL_INCLUDE_DIR,
@@ -466,25 +467,25 @@ DRV_sweep_dirs (char const *rel_path,
     }
 
   ACE_Dirent dir (TCHAR_DIR_DOT);
-  ACE_CString bname (base_path);
-  bname += (bname.length () > 0 ? "/" : "");
+  std::string bname (base_path);
+  bname += (!bname.empty () ? "/" : "");
   bname += rel_path;
   bool include_added = false;
-  char abspath[MAXPATHLEN] = "";
+  char abspath[MAXPATHLEN] = {};
   char *full_path = nullptr;
 
   for (ACE_DIRENT *dir_entry; (dir_entry = dir.read ()) != nullptr;)
     {
       // Skip the ".." and "." files in each directory.
-      if (ACE::isdotdir (dir_entry->d_name) == true)
+      if (ACE::isdotdir (dir_entry->d_name))
         {
           continue;
         }
 
 #if defined (ACE_HAS_TCHAR_DIRENT)
-      ACE_CString lname (ACE_TEXT_ALWAYS_CHAR (dir_entry->d_name));
+      std::string lname (ACE_TEXT_ALWAYS_CHAR (dir_entry->d_name));
 #else
-      ACE_CString lname (dir_entry->d_name);
+      std::string lname (dir_entry->d_name);
 #endif
       ACE_stat stat_buf;
 
@@ -508,7 +509,7 @@ DRV_sweep_dirs (char const *rel_path,
             {
               if (!include_added)
                 {
-                  ACE_CString incl_arg ("-I");
+                  std::string incl_arg ("-I");
                   incl_arg += bname;
                   DRV_cpp_putarg (incl_arg.c_str ());
                   idl_global->add_rel_include_path (bname.c_str ());
@@ -523,7 +524,7 @@ DRV_sweep_dirs (char const *rel_path,
                   include_added = true;
                 }
 
-              ACE_CString fname (bname);
+              std::string fname (bname);
               fname += "/";
               fname += lname;
               DRV_push_file (fname.c_str ());
@@ -552,8 +553,8 @@ DRV_sweep_dirs (char const *rel_path,
   return 0;
 }
 
-ACE_CString&
-DRV_add_include_path (ACE_CString& include_path,
+std::string&
+DRV_add_include_path (std::string& include_path,
                       char const *path,
                       char const *suffix,
                       bool is_system)
@@ -581,7 +582,7 @@ DRV_add_include_path (ACE_CString& include_path,
   // paths, ensure that the path does not
   // end with a directory slash.
   include_path =
-    ACE_CString (path + ('"' == *path),     // Skip leading Quote
+    std::string (path + ('"' == *path),     // Skip leading Quote
                  pathLength
                  - ('"' == *path)           // Don't count leading Quote
                  - ( (1uL < pathLength) &&  // Don't count trailing Quote XOR directory
@@ -598,7 +599,7 @@ DRV_add_include_path (ACE_CString& include_path,
 
   if (suffix != nullptr)
     {
-      if (!include_path.length ()
+      if (include_path.empty ()
           && ((nativeDir == *suffix) || (foreignDir == *suffix)))
         {
           // Path is empty, don't add the
@@ -606,7 +607,7 @@ DRV_add_include_path (ACE_CString& include_path,
           ++suffix;
         }
 
-      if (include_path.length ()
+      if (!include_path.empty ()
           && (*suffix != '\0')
           && (nativeDir != *suffix)
           && (foreignDir != *suffix))
@@ -627,12 +628,12 @@ DRV_add_include_path (ACE_CString& include_path,
     }
 
   // Build up the include string from the new path+suffix
-  ACE_CString include_option ("-I\"", 2 + needToQuote);
-  include_option+= include_path;
+  std::string include_option (needToQuote ? "-I\"" : "-I");
+  include_option += include_path;
 
   if (needToQuote)
     {
-      include_option+= '"';
+      include_option += '"';
     }
 
   DRV_cpp_putarg (include_option.c_str ());
@@ -664,7 +665,7 @@ DRV_cpp_post_init ()
   // Add include path for TAO_ROOT/orbsvcs.
   char* TAO_ROOT = ACE_OS::getenv ("TAO_ROOT");
 
-  ACE_CString include_path3, include_path4, include_path5;
+  std::string include_path3, include_path4, include_path5;
 
   // When adding new dirs here don't forget to update
   // FE_Utils::validate_orb_include accordingly.
@@ -912,10 +913,10 @@ namespace
       return; // Null filename not allowed.
     }
 
-    ACE_CString const name_str (incl_file);
-    ACE_CString const simple ("orb.idl");
-    ACE_CString const nix_path ("tao/orb.idl");
-    ACE_CString const win_path ("tao\\orb.idl");
+    std::string const name_str (incl_file);
+    std::string const simple ("orb.idl");
+    std::string const nix_path ("tao/orb.idl");
+    std::string const win_path ("tao\\orb.idl");
 
     // Some backends pass this file through, others don't.
     if (name_str == simple
@@ -939,7 +940,7 @@ namespace
              && !ACE_OS::strchr (incl_file, '/')
              && !ACE_OS::strchr (incl_file, '\\'))
       {
-        ACE_CString fixed_name ("tao/");
+        std::string fixed_name ("tao/");
         fixed_name += incl_file;
 
         idl_global->add_to_included_idl_files (fixed_name.c_str ());
@@ -1018,7 +1019,7 @@ DRV_get_orb_idl_includes ()
       // Make sure the include directory containing orb.idl is passed
       // to the preprocessor.
       // This should go after user supplied include paths.
-      ACE_CString include_path_arg;
+      std::string include_path_arg;
       DRV_add_include_path (include_path_arg, directory, "/tao", true);
     }
 
@@ -1227,8 +1228,8 @@ DRV_pre_proc (char const *myfile)
       throw Bailout ();
     }
 
-  char tmp_cpp_file [MAXPATHLEN + 1] = { 0 };
-  char tmp_cpp_ifile[MAXPATHLEN + 1] = { 0 };
+  char tmp_cpp_file [MAXPATHLEN + 1] = {};
+  char tmp_cpp_ifile[MAXPATHLEN + 1] = {};
 
   // Append C++ source file extension. Temporary files will be renamed to
   // these filenames when the preprocessor requires an input extension.
@@ -1551,7 +1552,7 @@ DRV_pre_proc (char const *myfile)
                                      preproc))
                != 0)
         {
-          buffer[bytes] = 0;
+          buffer[bytes] = '\0';
           ACE_DEBUG ((LM_DEBUG, buffer));
         }
 

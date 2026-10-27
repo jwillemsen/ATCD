@@ -67,6 +67,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 // May of them could be forward declared..
 #include "ace/SString.h"
+#include "ace/Functor_String.h"
 #include "ace/Hash_Map_Manager_T.h"
 #include "ace/Containers_T.h"
 #include "ace/Synch_Traits.h"
@@ -417,11 +418,9 @@ public:
 
   using DCPS_Data_Type_Info_Iter = ACE_Unbounded_Queue_Iterator<ACE_TString>;
 
-  using DCPS_Type_Info_Map = ACE_Hash_Map_Manager_Ex<char const *,
-                                                      DCPS_Data_Type_Info*,
-                                                      ACE_Hash<char*>,
-                                                      ACE_Equal_To<char*>,
-                                                      ACE_Null_Mutex>;
+  using DCPS_Type_Info_Map = ACE_Hash_Map_Manager<std::string,
+                                                   DCPS_Data_Type_Info*,
+                                                   ACE_Null_Mutex>;
 
   // FE calls when #pragma DCPS_DATA_TYPE is processed
   void add_dcps_data_type (char const * id);

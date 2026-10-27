@@ -1499,9 +1499,6 @@ IDL_GlobalData::fini ()
 
       delete dcps_entry->int_id_;
       dcps_entry->int_id_ = nullptr;
-
-      delete [] dcps_entry->ext_id_;
-      dcps_entry->ext_id_ = nullptr;
     }
 }
 
@@ -1641,18 +1638,15 @@ void
 IDL_GlobalData::add_dcps_data_type (char const * id)
 {
   // Check if the type already exists.
-  DCPS_Data_Type_Info* newinfo ;
+  DCPS_Data_Type_Info *newinfo = nullptr;
+  std::string const type_name (id);
 
-  if (this->dcps_type_info_map_.find (id, newinfo) != 0)
+  if (this->dcps_type_info_map_.find (type_name, newinfo) != 0)
     {
       // No existing entry, add one.
 
-      char* foo_type;
-      ACE_NEW (foo_type, char [ACE_OS::strlen (id) + 1]);
-      ACE_OS::strcpy (foo_type, id);
-
       UTL_ScopedName* t1 =
-        FE_Utils::string_to_scoped_name (foo_type);
+        FE_Utils::string_to_scoped_name (type_name);
 
       // Chained with null Identifier required!!
       UTL_ScopedName* target =
@@ -1662,7 +1656,7 @@ IDL_GlobalData::add_dcps_data_type (char const * id)
       newinfo->name_ = target;
 
       // Add the newly formed entry to the map.
-      if (this->dcps_type_info_map_.bind (foo_type, newinfo) != 0)
+      if (this->dcps_type_info_map_.bind (type_name, newinfo) != 0)
         {
           ACE_ERROR ((LM_ERROR,
                       ACE_TEXT ("Unable to insert type into ")
@@ -1683,9 +1677,10 @@ bool
 IDL_GlobalData::add_dcps_data_key (char const * id, char const * key)
 {
   // Search the map for the type.
-  DCPS_Data_Type_Info* newinfo = nullptr;
+  DCPS_Data_Type_Info *newinfo = nullptr;
+  std::string const type_name (id);
 
-  if (this->dcps_type_info_map_.find (id, newinfo) == 0)
+  if (this->dcps_type_info_map_.find (type_name, newinfo) == 0)
     {
        // Add the new key field to the type.
        newinfo->key_list_.enqueue_tail (ACE_TEXT_CHAR_TO_TCHAR (key));

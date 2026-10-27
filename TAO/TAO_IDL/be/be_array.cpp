@@ -164,9 +164,8 @@ be_array::compute_tc_name ()
            UTL_ScopedName (tao_id,
                            nullptr));
 
-  ACE_CString local_tc_name =
-    ACE_CString ("tc_")
-    + ACE_CString (this->flat_name ().data ());
+  std::string local_tc_name ("tc_");
+  local_tc_name += this->flat_name ();
 
   Identifier * typecode_scope = nullptr;
   ACE_NEW (typecode_scope,
@@ -277,13 +276,12 @@ be_array::gen_ostream_operator (TAO_OutStream *os,
 
   *os << "strm << ";
 
-  ACE_CString instance_name ("_tao_array.in ()");
+  std::string instance_name ("_tao_array.in ()");
 
   for (i = 0; i < ndims; ++i)
     {
-      char *working = instance_name.rep ();
       instance_name += "[i";
-      instance_name += ACE_OS::itoa (i, working, 10);
+      instance_name += std::to_string (i);
       instance_name += "]";
     }
 

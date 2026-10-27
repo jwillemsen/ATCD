@@ -24,7 +24,7 @@ int
 be_visitor_operation_upcall_command_ss::visit (
   be_operation * node,
   std::string_view full_skel_name,
-  char const * upcall_command_name)
+  std::string_view upcall_command_name)
 {
   if (node->is_sendc_ami ())
     {
@@ -215,8 +215,8 @@ be_visitor_operation_upcall_command_ss::gen_upcall (
 
   unsigned int index = 1;
   std::string_view const op_name = node->flat_name ();
-  static constexpr char const *excep_suffix = "_excep";
-  size_t const excep_suffix_len = ACE_OS::strlen (excep_suffix);
+  static constexpr std::string_view excep_suffix = "_excep";
+  std::string_view::size_type const excep_suffix_len = excep_suffix.size ();
   bool excep_method = op_name.size () >= excep_suffix_len
     && op_name.substr (op_name.size () - excep_suffix_len) == excep_suffix;
 
@@ -236,8 +236,9 @@ be_visitor_operation_upcall_command_ss::gen_upcall (
 
           if (value_type != nullptr)
             {
-              static constexpr char const *excepholder = "ExceptionHolder";
-              size_t const excepholder_len = ACE_OS::strlen (excepholder);
+              static constexpr std::string_view excepholder = "ExceptionHolder";
+              std::string_view::size_type const excepholder_len =
+                excepholder.size ();
               std::string_view const param_name = value_type->full_name ();
               size_t const excepholder_pos = param_name.find (excepholder);
               excep_method = excepholder_pos != std::string_view::npos

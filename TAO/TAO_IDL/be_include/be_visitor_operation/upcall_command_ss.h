@@ -34,7 +34,7 @@ public:
   /// upcall_command_name.
   int visit (be_operation * node,
              std::string_view full_skel_name,
-             char const * upcall_command_name);
+             std::string_view upcall_command_name);
 
 private:
   /// Generate the upcall.

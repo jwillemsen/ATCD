@@ -194,7 +194,7 @@ be_visitor_attribute::visit_attribute (be_attribute *node)
       {
         be_visitor_operation_exs visitor (&ctx);
         visitor.scope (this->op_scope_);
-        visitor.class_extension (this->exec_class_extension_.c_str ());
+        visitor.class_extension (this->exec_class_extension_);
         status = get_op.accept (&visitor);
         break;
       }
@@ -365,7 +365,7 @@ be_visitor_attribute::visit_attribute (be_attribute *node)
       {
         be_visitor_operation_exs visitor (&ctx);
         visitor.scope (this->op_scope_);
-        visitor.class_extension (this->exec_class_extension_.c_str ());
+        visitor.class_extension (this->exec_class_extension_);
         status = set_op.accept (&visitor);
         break;
       }
@@ -421,7 +421,7 @@ be_visitor_attribute::op_scope (be_decl *node)
 }
 
 void
-be_visitor_attribute::exec_class_extension (const char *extension)
+be_visitor_attribute::exec_class_extension (std::string_view extension)
 {
   this->exec_class_extension_ = extension;
 }

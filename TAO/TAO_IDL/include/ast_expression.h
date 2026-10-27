@@ -201,6 +201,10 @@ public:
   // Constructor(s).
   AST_Expression (AST_Expression *v,
                   ExprType t);
+  AST_Expression (AST_Expression const &) = delete;
+  AST_Expression (AST_Expression &&) = delete;
+  AST_Expression &operator= (AST_Expression const &) = delete;
+  AST_Expression &operator= (AST_Expression &&) = delete;
 
   AST_Expression (ExprComb c,
                   AST_Expression *v1,
@@ -245,27 +249,27 @@ public:
   virtual ~AST_Expression ();
 
   // Data Accessors.
-  UTL_Scope *defined_in ();
+  UTL_Scope *defined_in () const;
   void set_defined_in (UTL_Scope *d);
 
-  long line ();
+  long line () const;
   void set_line (long l);
 
-  UTL_String *file_name ();
+  UTL_String *file_name () const;
   void set_file_name (UTL_String *f);
 
-  ExprComb ec ();
+  ExprComb ec () const;
 
-  AST_ExprValue *ev ();
+  AST_ExprValue *ev () const;
   void set_ev (AST_ExprValue *new_ev);
 
-  AST_Expression *v1 ();
+  AST_Expression *v1 () const;
   void set_v1 (AST_Expression *e);
 
-  AST_Expression *v2 ();
+  AST_Expression *v2 () const;
   void set_v2 (AST_Expression *e);
 
-  UTL_ScopedName *n ();
+  UTL_ScopedName *n () const;
   void set_n (UTL_ScopedName *new_n);
 
   // AST Dumping.
@@ -306,7 +310,7 @@ public:
 
   /// Pointer to enum of this value if applicable
   ///{
-  AST_Enum *enum_parent ();
+  AST_Enum *enum_parent () const;
   void enum_parent (AST_Enum *node);
   ///}
 

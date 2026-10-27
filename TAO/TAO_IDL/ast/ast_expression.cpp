@@ -2928,7 +2928,7 @@ AST_Expression::destroy ()
 // Data accessors.
 
 UTL_Scope *
-AST_Expression::defined_in ()
+AST_Expression::defined_in () const
 {
   return this->pd_defined_in;
 }
@@ -2940,7 +2940,7 @@ AST_Expression::set_defined_in (UTL_Scope *d)
 }
 
 long
-AST_Expression::line ()
+AST_Expression::line () const
 {
   return this->pd_line;
 }
@@ -2952,7 +2952,7 @@ AST_Expression::set_line (long l)
 }
 
 UTL_String *
-AST_Expression::file_name ()
+AST_Expression::file_name () const
 {
   return this->pd_file_name;
 }
@@ -2964,13 +2964,13 @@ AST_Expression::set_file_name (UTL_String *f)
 }
 
 AST_Expression::ExprComb
-AST_Expression::ec ()
+AST_Expression::ec () const
 {
   return this->pd_ec;
 }
 
 AST_Expression::AST_ExprValue   *
-AST_Expression::ev ()
+AST_Expression::ev () const
 {
   return this->pd_ev;
 }
@@ -2983,7 +2983,7 @@ AST_Expression::set_ev (AST_Expression::AST_ExprValue *new_ev)
 }
 
 AST_Expression *
-AST_Expression::v1 ()
+AST_Expression::v1 () const
 {
   return this->pd_v1;
 }
@@ -2995,7 +2995,7 @@ AST_Expression::set_v1 (AST_Expression *e)
 }
 
 AST_Expression *
-AST_Expression::v2 ()
+AST_Expression::v2 () const
 {
   return this->pd_v2;
 }
@@ -3007,7 +3007,7 @@ AST_Expression::set_v2 (AST_Expression *e)
 }
 
 UTL_ScopedName *
-AST_Expression::n ()
+AST_Expression::n () const
 {
   return this->pd_n;
 }
@@ -3074,7 +3074,7 @@ AST_Expression::exprtype_to_string (ExprType t)
 }
 
 AST_Enum *
-AST_Expression::enum_parent ()
+AST_Expression::enum_parent () const
 {
   return enum_parent_;
 }

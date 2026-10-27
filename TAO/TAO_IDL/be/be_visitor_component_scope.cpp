@@ -238,11 +238,10 @@ be_visitor_component_scope::gen_svnt_entrypoint_decl ()
 void
 be_visitor_component_scope::gen_svnt_entrypoint_defn ()
 {
-  ACE_CString sname_str (
-    ScopeAsDecl (node_->defined_in ())->full_name ().data ());
-  const char *sname = sname_str.c_str ();
+  std::string_view const sname =
+    ScopeAsDecl (node_->defined_in ())->full_name ();
   std::string_view const lname = node_->local_name ();
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl_2
       << "extern \"C\" " << export_macro_

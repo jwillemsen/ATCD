@@ -712,8 +712,8 @@ be_interface::gen_operation_table (const char *flat_name,
   // once for AMH and once the 'normal' way.
 
   bool amh = false;
-  ACE_CString tmp (skeleton_class_name);
-  if (tmp.strstr ("AMH_") != ACE_String_Base_Const::npos)
+  if (std::string_view (skeleton_class_name).find ("AMH_")
+      != std::string_view::npos)
     {
       amh = true;
     }
@@ -1274,26 +1274,27 @@ be_interface::gen_optable_entries (be_interface *derived_interface,
               // we don't know whether this is an AMH class, we
               // need to check this, using the full_skeleton_name
               // TODO: find a more elegant solution for this
-              ACE_CString tmp (full_skeleton_name);
-              if (tmp.strstr ("AMH_") != ACE_String_Base_Const::npos)
+              if (std::string_view (full_skeleton_name).find ("AMH_")
+                  != std::string_view::npos)
                 {
-                  ACE_CString name (d->full_name ().data ());
-                  ACE_String_Base_Const::size_type const last = name.rfind(':') - 1;
-                  name = name.substring (0, last);
-                  if (name.rfind (':') != ACE_String_Base_Const::npos)
+                  std::string name (d->full_name ());
+                  std::string::size_type const last = name.rfind (':') - 1;
+                  name = name.substr (0, last);
+                  if (name.rfind (':') != std::string::npos)
                     {
-                      ACE_CString nspace = name.substring (0, name.rfind (':') - 1);
-                      name = name.substring (name.rfind (':') + 1);
+                      std::string const nspace =
+                        name.substr (0, name.rfind (':') - 1);
+                      name = name.substr (name.rfind (':') + 1);
                       *os << d->original_local_name () << ",std::addressof(POA_"
-                          << nspace.c_str () << "::AMH_"
-                          << name.c_str () << "::"
+                          << nspace << "::AMH_"
+                          << name << "::"
                           << d->original_local_name ()
                           << "_skel),";
                     }
                   else
                     {
                       *os << d->original_local_name () << ",std::addressof(POA_AMH_"
-                          << name.c_str () << "::"
+                          << name << "::"
                           << d->original_local_name ()
                           << "_skel),";
                     }
@@ -1353,14 +1354,14 @@ be_interface::gen_optable_entries (be_interface *derived_interface,
               // or _get_ in between the namespace and attribute name.
 
               //determine the correct namespace
-              ACE_CString nspace (d->full_name ().data ());
-              ACE_String_Base_Const::size_type const pos = nspace.rfind(':');
-              nspace = nspace.substring(0, pos + 1);
+              std::string nspace (d->full_name ());
+              std::string::size_type const pos = nspace.rfind (':');
+              nspace = nspace.substr (0, pos + 1);
 
               if (!d->is_abstract ())
                 {
                   *os << "_get_" << d->original_local_name () << ",std::addressof(POA_"
-                      << nspace.c_str () << "_get_"
+                      << nspace << "_get_"
                       << d->original_local_name () << "_skel),";
 
                   if (be_global->gen_direct_collocation ())

@@ -290,8 +290,8 @@ protected:
                   // with the user classes.
   };
 
-  static const char *suffix_table_[];
-  static const char *tag_table_[];
+  inline static constexpr std::string_view suffix_table_[] = {"_Proxy_Impl"};
+  inline static constexpr std::string_view tag_table_[] = {"_Direct", "_TAO_"};
 
   // Proxy Implementation names.
   mutable std::string direct_proxy_impl_name_;

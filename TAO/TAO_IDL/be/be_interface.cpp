@@ -47,17 +47,6 @@
 #include "ace/OS_NS_unistd.h"
 #include "ace/OS_NS_fcntl.h"
 
-const char *be_interface::suffix_table_[] =
-{
-  "_Proxy_Impl",
-};
-
-const char *be_interface::tag_table_[] =
-{
-  "_Direct",
-  "_TAO_"
-};
-
 be_interface::be_interface (UTL_ScopedName *n,
                             AST_Type **ih,
                             long nih,
@@ -223,9 +212,9 @@ be_interface::compute_coll_names (int type) const
       this->local_coll_name_.clear ();
     }
 
-  static constexpr char const *collocated_names[] = {"_tao_thru_poa_collocated_",
-                                                      "_tao_direct_collocated_"};
-  static constexpr char const *poa = "POA_";
+  static constexpr std::string_view collocated_names[] = {"_tao_thru_poa_collocated_",
+                                                           "_tao_direct_collocated_"};
+  static constexpr std::string_view poa = "POA_";
 
   std::string_view const collocated (collocated_names[type]);
 

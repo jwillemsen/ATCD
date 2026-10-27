@@ -11,6 +11,8 @@
 
 #include "interface.h"
 
+#include <string>
+
 be_visitor_interface_ih::be_visitor_interface_ih (be_visitor_context *ctx)
   : be_visitor_interface (ctx)
 {
@@ -27,16 +29,9 @@ be_visitor_interface_ih::visit_interface (be_interface *node)
     }
 
   TAO_OutStream *os = this->ctx_->stream ();
-  static char namebuf [NAMEBUFSIZE];
-
-
-  ACE_OS::memset (namebuf,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string const namebuf (node->flat_name ());
 
   // Generate the skeleton class name.
-
-  ACE_OS::sprintf (namebuf, "%s", node->flat_name ().data ());
 
   if (be_global->gen_impl_debug_info ())
     {

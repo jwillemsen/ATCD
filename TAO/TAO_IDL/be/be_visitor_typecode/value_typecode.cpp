@@ -84,11 +84,11 @@ TAO::be_visitor_value_typecode::visit_valuetype (be_valuetype * node)
 
   if (count == 0)
     {
-      os << "* const " << fields_name.c_str () << " = nullptr;" << be_nl;
+      os << "* const " << fields_name << " = nullptr;" << be_nl;
     }
   else
     {
-      os << fields_name.c_str () << "[] =" << be_idt_nl
+      os << fields_name << "[] =" << be_idt_nl
          << "{" << be_idt_nl;
 
       if (this->visit_members (node) != 0)

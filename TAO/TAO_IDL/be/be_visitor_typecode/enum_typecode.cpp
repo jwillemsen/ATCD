@@ -31,7 +31,7 @@ TAO::be_visitor_enum_typecode::visit_enum (be_enum * node)
 
   // Generate array containing enum field characteristics.
   os << "static char const * const "
-     << enumerators_name.c_str ()
+     << enumerators_name
      << "[] =" << be_idt_nl
      << "{" << be_idt_nl;
 

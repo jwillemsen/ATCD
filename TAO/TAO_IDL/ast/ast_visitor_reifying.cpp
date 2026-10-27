@@ -640,7 +640,7 @@ ast_visitor_reifying::visit_param_holder (AST_Param_Holder *node)
       /// referenced template module parameter, while the local
       /// name will be that of the corresponding alias param
       /// name, which is what we want.
-      if (std::string_view (item->name_.c_str (), item->name_.length ())
+      if (std::string_view (item->name_)
           == node->local_name ()->get_string_view_or_empty ())
         {
           AST_Decl **ret_ptr = nullptr;

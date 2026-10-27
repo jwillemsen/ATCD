@@ -58,14 +58,10 @@ be_array::be_array (UTL_ScopedName *n,
 int
 be_array::create_name ()
 {
-  char namebuf [NAMEBUFSIZE];
   unsigned long i;
   UTL_ScopedName *n = nullptr;
   be_decl *scope = nullptr;
 
-  ACE_OS::memset (namebuf,
-                  '\0',
-                  NAMEBUFSIZE);
   // Retrieve the base type.
   // The name always starts this way.
   be_type *bt = dynamic_cast<be_type*> (this->base_type ());
@@ -79,9 +75,8 @@ be_array::create_name ()
                         0);
     }
 
-  ACE_OS::sprintf (namebuf,
-                   "_tao_array_%s",
-                   bt->local_name ()->get_string_view_or_empty ().data ());
+  std::string namebuf ("_tao_array_");
+  namebuf += bt->local_name ()->get_string_view_or_empty ();
 
   // Now append dimensions.
   for (i = 0; i < this->n_dims (); ++i)
@@ -99,10 +94,8 @@ be_array::create_name ()
         }
       if (expr->ev ()->et == AST_Expression::EV_ulong)
         {
-          ACE_OS::sprintf (namebuf,
-                           "%s_%d",
-                           namebuf,
-                           ((int)expr->ev ()->u.ulval));
+          namebuf.push_back ('_');
+          namebuf += std::to_string (static_cast<int> (expr->ev ()->u.ulval));
         }
       else
         {
@@ -124,7 +117,7 @@ be_array::create_name ()
 
       Identifier *id = nullptr;
       ACE_NEW_RETURN (id,
-                      Identifier (ACE_OS::strdup (namebuf)),
+                      Identifier (namebuf),
                       -1);
 
       UTL_ScopedName *sn = nullptr;

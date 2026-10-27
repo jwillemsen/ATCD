@@ -26,6 +26,7 @@
 #include "idl_defines.h"
 #include "nr_extern.h"
 
+#include <string>
 #include <string_view>
 
 be_type::be_type (AST_Decl::NodeType nt,
@@ -54,7 +55,6 @@ be_type::~be_type () = default;
 void
 be_type::compute_tc_name ()
 {
-  static char namebuf [NAMEBUFSIZE];
   UTL_ScopedName *n = this->name ();
 
   if (this->tc_name_ != nullptr)
@@ -63,10 +63,6 @@ be_type::compute_tc_name ()
       delete this->tc_name_;
       this->tc_name_ = nullptr;
     }
-
-  ACE_OS::memset (namebuf,
-                  '\0',
-                  NAMEBUFSIZE);
 
   while (n->tail () != nullptr)
     {
@@ -90,9 +86,8 @@ be_type::compute_tc_name ()
       n = (UTL_ScopedName *)n->tail ();
     }
 
-  ACE_OS::sprintf (namebuf,
-                   "_tc_%s",
-                   n->last_component ()->get_string_view_or_empty ().data ());
+  std::string namebuf ("_tc_");
+  namebuf += n->last_component ()->get_string_view_or_empty ();
 
   Identifier *id = nullptr;
   ACE_NEW (id,

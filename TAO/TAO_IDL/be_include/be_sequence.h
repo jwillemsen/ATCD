@@ -21,6 +21,7 @@
 #include "ast_sequence.h"
 
 #include <string>
+#include <string_view>
 
 class AST_Expression;
 class AST_Type;
@@ -93,7 +94,7 @@ public:
   /// Common code for generating the name and parameters of our
   /// template sequence base class.
   int gen_base_class_name (TAO_OutStream *os,
-                           const char * linebreak,
+                           std::string_view linebreak,
                            AST_Decl *elem_scope);
 
   /// Accessors for the member.

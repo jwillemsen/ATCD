@@ -250,7 +250,7 @@ be_sequence::create_name (be_typedef *node)
 
           Identifier *id = nullptr;
           ACE_NEW_RETURN (id,
-                          Identifier (namebuf.c_str ()),
+                          Identifier (namebuf),
                           -1);
 
           UTL_ScopedName *conc_name = nullptr;
@@ -509,7 +509,7 @@ be_sequence::instance_name () const
 
 int
 be_sequence::gen_base_class_name (TAO_OutStream *os,
-                                  const char * linebreak,
+                                  std::string_view linebreak,
                                   AST_Decl *ctx_scope)
 {
   be_type *elem = dynamic_cast<be_type*> (this->base_type ());
@@ -729,7 +729,7 @@ be_sequence::gen_base_class_name (TAO_OutStream *os,
                                     -1);
                 }
 
-              const char *tag = "";
+              std::string_view tag;
               if (base_type->node_type () == AST_Decl::NT_pre_defined)
                 {
                   be_predefined_type *const predefined_type =
@@ -815,7 +815,7 @@ be_sequence::compute_tc_name ()
 
   Identifier * id = nullptr;
   ACE_NEW (id,
-           Identifier (local_tc_name.c_str ()));
+           Identifier (local_tc_name));
 
   UTL_ScopedName * conc_name = nullptr;
   ACE_NEW (conc_name,

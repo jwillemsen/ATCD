@@ -173,7 +173,7 @@ be_array::compute_tc_name ()
 
   Identifier * id = nullptr;
   ACE_NEW (id,
-           Identifier (local_tc_name.c_str ()));
+           Identifier (local_tc_name));
 
   UTL_ScopedName * conc_name = nullptr;
   ACE_NEW (conc_name,
@@ -243,7 +243,7 @@ be_array::gen_ostream_operator (TAO_OutStream *os,
   *os << be_nl
       << "std::ostream& operator<< (" << be_idt << be_idt_nl
       << "std::ostream &strm," << be_nl
-      << "const " << arg_name.c_str () << be_uidt_nl
+      << "const " << arg_name << be_uidt_nl
       << ")" << be_uidt_nl
       << "{" << be_idt_nl
       << "strm << \"" << this->name () << "\";" <<  be_nl_2;
@@ -313,8 +313,8 @@ be_array::gen_member_ostream_operator (TAO_OutStream *os,
 
  // The container is always const, so the member is const as well,
  // but we have to cast it away for the forany constructor.
- *os << decl_name.c_str () << "_forany ("
-     << "const_cast< " << decl_name.c_str () << "_slice *> (";
+ *os << decl_name << "_forany ("
+     << "const_cast< " << decl_name << "_slice *> (";
 
   this->be_type::gen_member_ostream_operator (os,
                                               instance_name,

@@ -47,8 +47,8 @@ public:
   int visit_valuetype (be_valuetype *) override;
 
 protected:
-  const char * var_name_ {"_extract_val"};
-  const char * tmp_name_ {"_extract_tmp"};
+  char const * var_name_ {"_extract_val"};
+  char const * tmp_name_ {"_extract_tmp"};
 };
 
 #endif /* BE_VISITOR_ANY_EXTRACTED_TYPE_DECL_H */

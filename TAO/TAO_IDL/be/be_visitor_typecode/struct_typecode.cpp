@@ -12,6 +12,8 @@
 
 #include "typecode.h"
 
+#include <string_view>
+
 TAO::be_visitor_struct_typecode::be_visitor_struct_typecode (
   be_visitor_context * ctx)
   : be_visitor_typecode_defn (ctx)
@@ -119,9 +121,9 @@ TAO::be_visitor_struct_typecode::visit (AST_Structure * node,
          << "};" << be_uidt << be_uidt << be_uidt << be_nl_2;
     }
 
-  static constexpr char StringType[]      = "char const *";
-  static constexpr char TypeCodeType[]    = "::CORBA::TypeCode_ptr const *";
-  static constexpr char MemberArrayType[] = "TAO::TypeCode::Struct_Field";
+  static constexpr std::string_view StringType = "char const *";
+  static constexpr std::string_view TypeCodeType = "::CORBA::TypeCode_ptr const *";
+  static constexpr std::string_view MemberArrayType = "TAO::TypeCode::Struct_Field";
 
   // Generate the TypeCode instantiation.
   os << "static ";

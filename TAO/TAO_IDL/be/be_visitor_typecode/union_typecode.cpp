@@ -12,6 +12,8 @@
 
 #include "typecode.h"
 
+#include <string_view>
+
 TAO::be_visitor_union_typecode::be_visitor_union_typecode (
   be_visitor_context * ctx)
   : be_visitor_typecode_defn (ctx)
@@ -79,9 +81,9 @@ TAO::be_visitor_union_typecode::visit_union (be_union * node)
       return -1;
     }
 
-  static constexpr char StringType[]      = "char const *";
-  static constexpr char TypeCodeType[]    = "::CORBA::TypeCode_ptr const *";
-  static constexpr char MemberArrayType[] =
+  static constexpr std::string_view StringType = "char const *";
+  static constexpr std::string_view TypeCodeType = "::CORBA::TypeCode_ptr const *";
+  static constexpr std::string_view MemberArrayType =
     "TAO::TypeCode::Case<char const *, "
     "::CORBA::TypeCode_ptr const *> const * const *";
 

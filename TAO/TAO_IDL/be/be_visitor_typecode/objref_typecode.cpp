@@ -12,6 +12,8 @@
 
 #include "typecode.h"
 
+#include <string_view>
+
 TAO::be_visitor_objref_typecode::be_visitor_objref_typecode (
   be_visitor_context * ctx)
   : be_visitor_typecode_defn (ctx)
@@ -24,13 +26,13 @@ TAO::be_visitor_objref_typecode::visit_interface (be_interface * node)
   if (!node->is_defined ())
     return this->gen_forward_declared_typecode (node);
 
-  static constexpr char abstract_interface[] = "abstract_interface";
-  static constexpr char component[]          = "component";
-  static constexpr char home[]               = "home";
-  static constexpr char local_interface[]    = "local_interface";
-  static constexpr char objref[]             = "objref";
+  static constexpr std::string_view abstract_interface = "abstract_interface";
+  static constexpr std::string_view component = "component";
+  static constexpr std::string_view home = "home";
+  static constexpr std::string_view local_interface = "local_interface";
+  static constexpr std::string_view objref = "objref";
 
-  char const * kind = nullptr;
+  std::string_view kind;
 
   if (dynamic_cast<be_component *> (node))
     kind = component;

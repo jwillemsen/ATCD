@@ -12,6 +12,8 @@
 
 #include "typecode.h"
 
+#include <string_view>
+
 TAO::be_visitor_value_typecode::be_visitor_value_typecode (
   be_visitor_context * ctx)
   : be_visitor_typecode_defn (ctx)
@@ -100,9 +102,9 @@ TAO::be_visitor_value_typecode::visit_valuetype (be_valuetype * node)
 
   // Generate the TypeCode instantiation.
 
-  static constexpr char StringType[]      = "char const *";
-  static constexpr char TypeCodeType[]    = "::CORBA::TypeCode_ptr const *";
-  static constexpr char MemberArrayType[] =
+  static constexpr std::string_view StringType = "char const *";
+  static constexpr std::string_view TypeCodeType = "::CORBA::TypeCode_ptr const *";
+  static constexpr std::string_view MemberArrayType =
     "TAO::TypeCode::Value_Field<char const *, "
     "::CORBA::TypeCode_ptr const *> const *";
 

@@ -131,16 +131,16 @@ public:
   // Like the above but without error or warning message output.
 
   static bool strcmp_caseless (
-    char const* lhs,
-    char const* rhs,
+    std::string_view lhs,
+    std::string_view rhs,
     bool &mixed_case);
   // Caseless string compare returns true if match, mixed_case is
   // true if match only true due to ignoring case differences.
 
-  static bool compare (char const* lhs, char const* rhs);
-  // Compare two const char * (like the UTL_String compare)
+  static bool compare (std::string_view lhs, std::string_view rhs);
+  // Compare two strings (like the UTL_String compare)
 
-  static bool compare_quiet (char const* lhs, char const* rhs);
+  static bool compare_quiet (std::string_view lhs, std::string_view rhs);
   // Like the above but without error or warning message output.
 
   static void get_canonical_rep (char const* src, char *dest);

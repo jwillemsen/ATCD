@@ -194,7 +194,7 @@ Identifier::case_compare (Identifier const *o) const
 {
   std::optional<std::string_view> const lhs = this->get_string_view ();
   std::optional<std::string_view> const rhs = o != nullptr ? o->get_string_view () : std::nullopt;
-  return lhs && rhs && UTL_String::compare (lhs->data (), rhs->data ());
+  return lhs && rhs && UTL_String::compare (*lhs, *rhs);
 }
 
 // Report no error if the two identifiers differ only in case.
@@ -203,7 +203,7 @@ Identifier::case_compare_quiet (Identifier const *o) const
 {
   std::optional<std::string_view> const lhs = this->get_string_view ();
   std::optional<std::string_view> const rhs = o != nullptr ? o->get_string_view () : std::nullopt;
-  return lhs && rhs && UTL_String::compare_quiet (lhs->data (), rhs->data ());
+  return lhs && rhs && UTL_String::compare_quiet (*lhs, *rhs);
 }
 
 Identifier *

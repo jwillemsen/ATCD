@@ -230,20 +230,20 @@ UTL_Scope::idl_keyword_clash (Identifier *e)
 
   // Convert the identifier string into a
   // canonical (uppercase) form as a ACE_CString
-  char *tmp = e->get_string ();
-  ACE_CString ext_id (tmp);
+  std::string_view const name = e->get_string_view_or_empty ();
+  ACE_CString ext_id (name.empty () ? "" : name.data ());
   UTL_String::get_canonical_rep (ext_id);
 
   if (!idl_global->idl_keywords ().find (ext_id))
     {
       if (idl_global->case_diff_error ())
         {
-          idl_global->err ()->idl_keyword_error (tmp);
+          idl_global->err ()->idl_keyword_error (name);
 
           return -1;
         }
 
-      idl_global->err ()->idl_keyword_warning (tmp);
+      idl_global->err ()->idl_keyword_warning (name);
     }
 
   return 0;
@@ -1523,7 +1523,7 @@ UTL_Scope::add_to_scope (AST_Decl *e,
     }
 
   Identifier *decl_name = e->local_name ();
-  char *decl_string = decl_name->get_string ();
+  std::string_view const decl_string = decl_name->get_string_view_or_empty ();
   AST_Decl::NodeType new_nt = e->node_type ();
 
   // First, make sure there's no clash between e, that was
@@ -1536,7 +1536,7 @@ UTL_Scope::add_to_scope (AST_Decl *e,
     {
       // A local declaration doesn't use a scoped name.
       Identifier *ref_name = (*tmp)->local_name ();
-      char *ref_string = ref_name->get_string ();
+      std::string_view const ref_string = ref_name->get_string_view_or_empty ();
 
       // If the names compare exactly, it's a redefini8tion
       // error, unless they're both modules (which can be
@@ -1587,8 +1587,8 @@ UTL_Scope::add_to_scope (AST_Decl *e,
       if (decl_name->compare (parent_name))
         {
           idl_global->err ()->redef_error (
-                                  decl_name->get_string (),
-                                  parent_name->get_string ()
+                                  decl_name->get_string_view_or_empty (),
+                                  parent_name->get_string_view_or_empty ()
                                 );
 
           // if we try to continue from here, we risk a crash.
@@ -1599,8 +1599,8 @@ UTL_Scope::add_to_scope (AST_Decl *e,
           if (idl_global->case_diff_error ())
             {
               idl_global->err ()->name_case_error (
-                                      decl_name->get_string (),
-                                      parent_name->get_string ()
+                                      decl_name->get_string_view_or_empty (),
+                                      parent_name->get_string_view_or_empty ()
                                     );
 
               // if we try to continue from here, we risk a crash.
@@ -1609,8 +1609,8 @@ UTL_Scope::add_to_scope (AST_Decl *e,
           else
             {
               idl_global->err ()->name_case_warning (
-                                      decl_name->get_string (),
-                                      parent_name->get_string ()
+                                      decl_name->get_string_view_or_empty (),
+                                      parent_name->get_string_view_or_empty ()
                                     );
             }
         }
@@ -1734,8 +1734,9 @@ UTL_Scope::referenced (AST_Decl *const e,
               && e->defined_in () == this
               && id->compare (*name_tmp))
             {
-              idl_global->err ()->redef_error (id->get_string (),
-                                               (*name_tmp)->get_string ());
+              idl_global->err ()->redef_error (
+                id->get_string_view_or_empty (),
+                (*name_tmp)->get_string_view_or_empty ());
               return true;
             }
           // No clash if one or the other of the identifiers was escaped.
@@ -1745,15 +1746,15 @@ UTL_Scope::referenced (AST_Decl *const e,
               if (idl_global->case_diff_error ())
                 {
                   idl_global->err ()->name_case_error (
-                                          id->get_string (),
-                                          (*name_tmp)->get_string ()
+                                          id->get_string_view_or_empty (),
+                                          (*name_tmp)->get_string_view_or_empty ()
                                         );
                 }
               else
                 {
                   idl_global->err ()->name_case_warning (
-                                          id->get_string (),
-                                          (*name_tmp)->get_string ()
+                                          id->get_string_view_or_empty (),
+                                          (*name_tmp)->get_string_view_or_empty ()
                                         );
                 }
 

@@ -82,6 +82,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ast_annotation_member.h"
 #include "ast_annotation_appl.h"
 
+#include <string>
 #include <string_view>
 
 // FUZZ: disable check_for_streams_include
@@ -1246,58 +1247,66 @@ UTL_Error::enum_val_lookup_failure (AST_Union *u,
 
 // Report clash between declared and referenced indentifiers.
 void
-UTL_Error::redef_error (char const *b, char const *n)
+UTL_Error::redef_error (std::string_view b, std::string_view n)
 {
+  std::string const b_string (b);
+  std::string const n_string (n);
   idl_error_header (EIDL_REDEF);
   ACE_ERROR ((LM_ERROR,
               "\"%s\" and \"%s\"\n",
-              b,
-              n));
+              b_string.c_str (),
+              n_string.c_str ()));
 }
 
 // Report two or more spellings for an identifier.
 void
-UTL_Error::name_case_error (char *b, char *n)
+UTL_Error::name_case_error (std::string_view b, std::string_view n)
 {
+  std::string const b_string (b);
+  std::string const n_string (n);
   idl_error_header (EIDL_NAME_CASE_ERROR);
   ACE_ERROR ((LM_ERROR,
               "\"%C\" and \"%C\"\n",
-              b,
-              n));
+              b_string.c_str (),
+              n_string.c_str ()));
 }
 
 void
-UTL_Error::name_case_warning (char *b,
-                              char *n)
+UTL_Error::name_case_warning (std::string_view b,
+                              std::string_view n)
 {
   if (idl_global->print_warnings ())
     {
+      std::string const b_string (b);
+      std::string const n_string (n);
       idl_warning_header (EIDL_NAME_CASE_WARNING);
       ACE_ERROR ((LM_WARNING,
                   "\"%C\" and \"%C\"\n",
-                  b,
-                  n));
+                  b_string.c_str (),
+                  n_string.c_str ()));
     }
 }
 
 void
-UTL_Error::idl_keyword_error (char *n)
+UTL_Error::idl_keyword_error (std::string_view n)
 {
+  std::string const name (n);
   idl_error_header (EIDL_KEYWORD_ERROR);
   ACE_ERROR ((LM_ERROR,
               "\"%C\"\n",
-              n));
+              name.c_str ()));
 }
 
 void
-UTL_Error::idl_keyword_warning (char *n)
+UTL_Error::idl_keyword_warning (std::string_view n)
 {
   if (idl_global->print_warnings ())
     {
+      std::string const name (n);
       idl_warning_header (EIDL_KEYWORD_WARNING);
       ACE_ERROR ((LM_ERROR,
                   "\"%C\"\n",
-                  n));
+                  name.c_str ()));
     }
 }
 

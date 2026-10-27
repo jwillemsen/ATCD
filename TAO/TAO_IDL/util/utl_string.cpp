@@ -75,76 +75,59 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include <string>
 
 //////////////////////////////////////////////////////////////////////
-//// Static functions may be used by non-UTL_String i.e. const char *
+//// Static functions may be used by non-UTL_String instances.
 //////////////////////////////////////////////////////////////////////
 
 bool
 UTL_String::strcmp_caseless (
-  char const* lhs,
-  char const* rhs,
+  std::string_view lhs,
+  std::string_view rhs,
   bool &mixed_case)
 {
-  int difference;
-
-  // Advance until (difference between the strings is found) or (End of String)
-  while (0 == (difference = static_cast<int> (*lhs) - static_cast<int> (*rhs)) && *lhs)
+  mixed_case = false;
+  if (lhs.size () != rhs.size ())
     {
-      ++lhs;
-      ++rhs;
+      return false;
     }
 
-  // If not (End of Strings, therefore difference found above) check if a
-  // caseless match would work instead.
-  mixed_case=
-    (*lhs &&
-     *rhs &&
-     !(static_cast<int> (ACE_OS::ace_toupper (*lhs)) -
-       static_cast<int> (ACE_OS::ace_toupper (*rhs))
-    ) );
-  if (mixed_case)
+  for (size_t i = 0; i < lhs.size (); ++i)
     {
-      ++lhs;
-      ++rhs;
-
-      // Continue caseless compare until (difference between strings) or (End of String)
-      while (0 == (difference = static_cast<int> (ACE_OS::ace_toupper (*lhs)) -
-                                static_cast<int> (ACE_OS::ace_toupper (*rhs))) && *lhs)
+      if (lhs[i] != rhs[i])
         {
-          ++lhs;
-          ++rhs;
+          if (ACE_OS::ace_toupper (lhs[i]) != ACE_OS::ace_toupper (rhs[i]))
+            {
+              return false;
+            }
+
+          mixed_case = true;
         }
     }
 
-  // true is match (no difference found), false is difference found.
-  return !difference;
+  return true;
 }
 
-// Compare two const char *.
+// Compare two strings.
 bool
-UTL_String::compare (char const* lhs, char const* rhs)
+UTL_String::compare (std::string_view lhs, std::string_view rhs)
 {
   bool result= false;
   bool mixed=  false;
 
-  if (lhs != nullptr && rhs != nullptr && strcmp_caseless (lhs, rhs, mixed))
+  if (strcmp_caseless (lhs, rhs, mixed))
     {
       result= !mixed;
       if (mixed) // Strings match (differing case)
         {
           if (idl_global->case_diff_error ())
             {
-              idl_global->err ()->name_case_error (
-                  const_cast<char *> (lhs),
-                  const_cast<char *> (rhs));
+              idl_global->err ()->name_case_error (lhs, rhs);
 
               // If we try to continue from here, we risk a crash.
               throw Bailout ();
             }
           else
             {
-              idl_global->err ()->name_case_warning (
-                const_cast<char *> (lhs),
-                const_cast<char *> (rhs));
+              idl_global->err ()->name_case_warning (lhs, rhs);
             }
         }
     }
@@ -154,12 +137,12 @@ UTL_String::compare (char const* lhs, char const* rhs)
 
 // Like the above but without error or warning message output.
 bool
-UTL_String::compare_quiet (char const* lhs, char const* rhs)
+UTL_String::compare_quiet (std::string_view lhs, std::string_view rhs)
 {
   bool result= false;
   bool mixed=  false;
 
-  if (lhs != nullptr && rhs != nullptr && strcmp_caseless (lhs, rhs, mixed))
+  if (strcmp_caseless (lhs, rhs, mixed))
     {
       result= mixed;
     }
@@ -242,7 +225,7 @@ UTL_String::compare (UTL_String const *s) const
 {
   std::optional<std::string_view> const lhs = this->get_string_view ();
   std::optional<std::string_view> const rhs = s != nullptr ? s->get_string_view () : std::nullopt;
-  return lhs && rhs && compare (lhs->data (), rhs->data ());
+  return lhs && rhs && compare (*lhs, *rhs);
 }
 
 bool
@@ -250,7 +233,7 @@ UTL_String::compare_quiet (UTL_String const *s) const
 {
   std::optional<std::string_view> const lhs = this->get_string_view ();
   std::optional<std::string_view> const rhs = s != nullptr ? s->get_string_view () : std::nullopt;
-  return lhs && rhs && compare_quiet (lhs->data (), rhs->data ());
+  return lhs && rhs && compare_quiet (*lhs, *rhs);
 }
 
 // Get the canonical representation from a String.

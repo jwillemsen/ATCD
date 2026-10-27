@@ -120,8 +120,7 @@ int
 be_visitor_home_svh::gen_servant_class ()
 {
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
-  char const *sname = sname_str.c_str ();
+  std::string_view const sname = scope->full_name ();
 
   // No '_cxx_' prefix.
   std::string_view const lname =
@@ -129,7 +128,7 @@ be_visitor_home_svh::gen_servant_class ()
 
   std::string_view const clname =
     comp_->local_name ()->get_string_view_or_empty ();
-  char const *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl
       << "class " << export_macro_ << " " << lname

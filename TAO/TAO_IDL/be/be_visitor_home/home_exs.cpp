@@ -75,11 +75,10 @@ int
 be_visitor_home_exs::visit_factory (be_factory *node)
 {
   AST_Decl *scope = ScopeAsDecl (comp_->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
-  char const *sname = sname_str.c_str ();
+  std::string_view const sname = scope->full_name ();
   std::string_view const lname =
     comp_->local_name ()->get_string_view_or_empty ();
-  char const *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl_2
       << "::Components::EnterpriseComponent_ptr" << be_nl

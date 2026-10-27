@@ -130,19 +130,18 @@ be_visitor_home_svs::visit_factory (be_factory *node)
     }
   else
     {
-      ACE_CString comp_sname_str (
-        ScopeAsDecl (comp_->defined_in ())->full_name ().data ());
-      char const *comp_sname = comp_sname_str.c_str ();
+      std::string_view const comp_sname =
+        ScopeAsDecl (comp_->defined_in ())->full_name ();
       std::string_view const comp_lname =
         comp_->local_name ()->get_string_view_or_empty ();
-      char const *global = (comp_sname_str == "" ? "" : "::");
+      std::string_view const global = comp_sname.empty () ? "" : "::";
 
-      ACE_CString sname_str (
-        ScopeAsDecl (node_->defined_in ())->full_name ().data ());
+      std::string_view const sname =
+        ScopeAsDecl (node_->defined_in ())->full_name ();
 
-      os_ << sname_str << global << "CCM_" << node_->original_local_name ()
+      os_ << sname << global << "CCM_" << node_->original_local_name ()
           << "_var executor =" << be_idt_nl
-          << sname_str << global << "CCM_" << node_->original_local_name ()
+          << sname << global << "CCM_" << node_->original_local_name ()
           << "::_duplicate (this->executor_.in ());" << be_uidt
           << be_nl_2;
 
@@ -205,8 +204,7 @@ int
 be_visitor_home_svs::gen_servant_class ()
 {
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
-  char const *sname = sname_str.c_str ();
+  std::string_view const sname = scope->full_name ();
 
   // Avoid '_cxx_' prefix.
   std::string_view const lname =
@@ -214,7 +212,7 @@ be_visitor_home_svs::gen_servant_class ()
 
   std::string_view const clname =
     comp_->local_name ()->get_string_view_or_empty ();
-  char const *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl
       << lname << "_Servant::"
@@ -381,15 +379,14 @@ be_visitor_home_svs::gen_servant_class ()
 void
 be_visitor_home_svs::gen_entrypoint ()
 {
-  ACE_CString sname_str (
-    ScopeAsDecl (node_->defined_in ())->full_name ().data ());
-  char const *sname = sname_str.c_str ();
+  std::string_view const sname =
+    ScopeAsDecl (node_->defined_in ())->full_name ();
 
   // Avoid _cxx_ prefix.
   std::string_view const lname =
     node_->original_local_name ()->get_string_view_or_empty ();
 
-  char const *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl_2
       << "extern \"C\" " << export_macro_

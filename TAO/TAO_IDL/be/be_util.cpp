@@ -162,157 +162,159 @@ be_util::prep_be_arg (char *s)
        arg != nullptr;
        arg = ACE_OS::strtok_r (nullptr, ",", &last))
     {
-      if (ACE_OS::strstr (arg, arg_macro) == arg)
+      std::string_view const argument (arg);
+
+      if (argument.substr (0, sizeof (arg_macro) - 1) == arg_macro)
         {
           char* val = arg + sizeof (arg_macro) - 1;
           be_global->skel_export_macro (val);
           be_global->stub_export_macro (val);
           be_global->anyop_export_macro (val);
         }
-      else if (ACE_OS::strstr (arg, arg_include) == arg)
+      else if (argument.substr (0, sizeof (arg_include) - 1) == arg_include)
         {
           char* val = arg + sizeof (arg_include) - 1;
           be_global->stub_export_include (val);
         }
-      else if (ACE_OS::strstr (arg, skel_arg_macro) == arg)
+      else if (argument.substr (0, sizeof (skel_arg_macro) - 1) == skel_arg_macro)
         {
           char* val = arg + sizeof (skel_arg_macro) - 1;
           be_global->skel_export_macro (val);
         }
-      else if (ACE_OS::strstr (arg, skel_arg_include) == arg)
+      else if (argument.substr (0, sizeof (skel_arg_include) - 1) == skel_arg_include)
         {
           char* val = arg + sizeof (skel_arg_include) - 1;
           be_global->skel_export_include (val);
         }
-      else if (ACE_OS::strstr (arg, skel_arg_file) == arg)
+      else if (argument.substr (0, sizeof (skel_arg_file) - 1) == skel_arg_file)
         {
           char* val = arg + sizeof (skel_arg_file) - 1;
           be_global->skel_export_file (val);
         }
-      else if (ACE_OS::strstr (arg, stub_arg_macro) == arg)
+      else if (argument.substr (0, sizeof (stub_arg_macro) - 1) == stub_arg_macro)
         {
           char* val = arg + sizeof (stub_arg_macro) - 1;
           be_global->stub_export_macro (val);
         }
-      else if (ACE_OS::strstr (arg, stub_arg_include) == arg)
+      else if (argument.substr (0, sizeof (stub_arg_include) - 1) == stub_arg_include)
         {
           char* val = arg + sizeof (stub_arg_include) - 1;
           be_global->stub_export_include (val);
         }
-      else if (ACE_OS::strstr (arg, stub_arg_file) == arg)
+      else if (argument.substr (0, sizeof (stub_arg_file) - 1) == stub_arg_file)
         {
           char* val = arg + sizeof (stub_arg_file) - 1;
           be_global->stub_export_file (val);
         }
-      else if (ACE_OS::strstr (arg, anyop_arg_macro) == arg)
+      else if (argument.substr (0, sizeof (anyop_arg_macro) - 1) == anyop_arg_macro)
         {
           char* val = arg + sizeof (anyop_arg_macro) - 1;
           be_global->anyop_export_macro (val);
         }
-      else if (ACE_OS::strstr (arg, anyop_arg_include) == arg)
+      else if (argument.substr (0, sizeof (anyop_arg_include) - 1) == anyop_arg_include)
         {
           char* val = arg + sizeof (anyop_arg_include) - 1;
           be_global->anyop_export_include (val);
         }
-      else if (ACE_OS::strstr (arg, exec_arg_macro) == arg)
+      else if (argument.substr (0, sizeof (exec_arg_macro) - 1) == exec_arg_macro)
         {
           char* val = arg + sizeof (exec_arg_macro) - 1;
           be_global->exec_export_macro (val);
         }
-      else if (ACE_OS::strstr (arg, exec_arg_include) == arg)
+      else if (argument.substr (0, sizeof (exec_arg_include) - 1) == exec_arg_include)
         {
           char* val = arg + sizeof (exec_arg_include) - 1;
           be_global->exec_export_include (val);
         }
-      else if (ACE_OS::strstr (arg, svnt_arg_macro) == arg)
+      else if (argument.substr (0, sizeof (svnt_arg_macro) - 1) == svnt_arg_macro)
         {
           char* val = arg + sizeof (svnt_arg_macro) - 1;
           be_global->svnt_export_macro (val);
         }
-      else if (ACE_OS::strstr (arg, svnt_arg_include) == arg)
+      else if (argument.substr (0, sizeof (svnt_arg_include) - 1) == svnt_arg_include)
         {
           char* val = arg + sizeof (svnt_arg_include) - 1;
           be_global->svnt_export_include (val);
         }
-      else if (ACE_OS::strstr (arg, conn_arg_macro) == arg)
+      else if (argument.substr (0, sizeof (conn_arg_macro) - 1) == conn_arg_macro)
         {
           char* val = arg + sizeof (conn_arg_macro) - 1;
           be_global->conn_export_macro (val);
         }
-      else if (ACE_OS::strstr (arg, conn_arg_include) == arg)
+      else if (argument.substr (0, sizeof (conn_arg_include) - 1) == conn_arg_include)
         {
           char* val = arg + sizeof (conn_arg_include) - 1;
           be_global->conn_export_include (val);
         }
-      else if (ACE_OS::strstr (arg, arg_pch_include) == arg)
+      else if (argument.substr (0, sizeof (arg_pch_include) - 1) == arg_pch_include)
         {
           char* val = arg + sizeof (arg_pch_include) - 1;
           be_global->pch_include (val);
         }
-      else if (ACE_OS::strstr (arg, arg_pre_include) == arg)
+      else if (argument.substr (0, sizeof (arg_pre_include) - 1) == arg_pre_include)
         {
           char* val = arg + sizeof (arg_pre_include) - 1;
           be_global->pre_include (val);
         }
-      else if (ACE_OS::strstr (arg, arg_post_include) == arg)
+      else if (argument.substr (0, sizeof (arg_post_include) - 1) == arg_post_include)
         {
           char* val = arg + sizeof (arg_post_include) - 1;
           be_global->post_include (val);
         }
-      else if (ACE_OS::strstr (arg, include_guard) == arg)
+      else if (argument.substr (0, sizeof (include_guard) - 1) == include_guard)
         {
           char* val = arg + sizeof (include_guard) - 1;
           be_global->include_guard (val);
         }
-      else if (ACE_OS::strstr (arg, safe_include) == arg)
+      else if (argument.substr (0, sizeof (safe_include) - 1) == safe_include)
         {
           char* val = arg + sizeof (safe_include) - 1;
           be_global->safe_include (val);
         }
-      else if (ACE_OS::strstr (arg, unique_include) == arg)
+      else if (argument.substr (0, sizeof (unique_include) - 1) == unique_include)
         {
           char* val = arg + sizeof (unique_include) - 1;
           be_global->unique_include (val);
         }
-      else if (ACE_OS::strstr (arg, stripped_filename) == arg)
+      else if (argument.substr (0, sizeof (stripped_filename) - 1) == stripped_filename)
         {
           char* val = arg + sizeof (stripped_filename) - 1;
           be_global->stripped_filename (val);
         }
-      else if (ACE_OS::strstr (arg, obv_opt_accessor) == arg)
+      else if (argument.substr (0, sizeof (obv_opt_accessor) - 1) == obv_opt_accessor)
         {
           be_global->obv_opt_accessor (true);
         }
-      else if (ACE_OS::strstr (arg, ciao_container_type) == arg)
+      else if (argument.substr (0, sizeof (ciao_container_type) - 1) == ciao_container_type)
         {
           char* val = arg + sizeof (ciao_container_type) - 1;
           be_global->ciao_container_type (val);
         }
-      else if (ACE_OS::strstr (arg, arg_versioning_begin) == arg)
+      else if (argument.substr (0, sizeof (arg_versioning_begin) - 1) == arg_versioning_begin)
         {
           char const * const val =
             arg + sizeof (arg_versioning_begin) - 1;
           be_global->versioning_begin (val);
         }
-      else if (ACE_OS::strstr (arg, arg_versioning_end) == arg)
+      else if (argument.substr (0, sizeof (arg_versioning_end) - 1) == arg_versioning_end)
         {
           char const * const val =
             arg + sizeof (arg_versioning_end) - 1;
           be_global->versioning_end (val);
         }
-      else if (ACE_OS::strstr (arg, arg_versioning_include) == arg)
+      else if (argument.substr (0, sizeof (arg_versioning_include) - 1) == arg_versioning_include)
         {
           char const * const val =
             arg + sizeof (arg_versioning_include) - 1;
           be_global->versioning_include (val);
         }
-      else if (ACE_OS::strstr (arg, dds_impl) == arg)
+      else if (argument.substr (0, sizeof (dds_impl) - 1) == dds_impl)
         {
           char const * const val =
             arg + sizeof (dds_impl) - 1;
           be_global->dds_impl (val);
         }
-      else if (ACE_OS::strstr (arg, no_fixed_err) == arg)
+      else if (argument.substr (0, sizeof (no_fixed_err) - 1) == no_fixed_err)
         {
           be_global->no_fixed_err (true);
         }

@@ -437,7 +437,7 @@ void
 FE_extract_env_include_paths (ACE_Unbounded_Queue<ACE_CString> &list)
 {
   ACE_Env_Value<char*> incl_paths (ACE_TEXT ("INCLUDE"),
-                                   (char *) nullptr);
+                                   nullptr);
   char const *aggr_str = incl_paths;
 
   if (aggr_str != nullptr)
@@ -485,11 +485,11 @@ FE_get_cpp_loc_from_env ()
 
   // See if TAO_IDL_PREPROCESSOR is defined.
   ACE_Env_Value<char*> preprocessor (ACE_TEXT ("TAO_IDL_PREPROCESSOR"),
-                                     (char *) nullptr);
+                                     nullptr);
 
   // Set cpp_loc to the built in location, unless it has been overriden by
   // environment variables.
-  if (preprocessor != 0)
+  if (preprocessor != nullptr)
     {
       cpp_loc = preprocessor;
     }
@@ -508,9 +508,9 @@ FE_get_cpp_args_from_env ()
 
   // Added some customizable preprocessor options
   ACE_Env_Value<char*> args1 (ACE_TEXT ("TAO_IDL_PREPROCESSOR_ARGS"),
-                              (char *) nullptr);
+                              nullptr);
 
-  if (args1 != 0)
+  if (args1 != nullptr)
     {
       cpp_args = args1;
     }

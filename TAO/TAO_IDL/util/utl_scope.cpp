@@ -112,8 +112,6 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "nr_extern.h"
 #include "global_extern.h"
 
-#include "ace/OS_NS_strings.h"
-
 // FUZZ: disable check_for_streams_include
 #include "ace/streams.h"
 
@@ -924,27 +922,28 @@ UTL_Scope::lookup_pseudo (Identifier *e)
     }
 
   bool *seen = nullptr;
-  char *name_string = e->get_string ();
+  std::string_view const name = e->get_string_view_or_empty ();
+  bool mixed_case = false;
   UTL_Scope *start_scope = idl_global->corba_module ();
 
-  if (ACE_OS::strcasecmp (name_string, "TypeCode") == 0
-      || ACE_OS::strcasecmp (name_string, "TCKind") == 0)
+  if (UTL_String::strcmp_caseless (name, "TypeCode", mixed_case)
+      || UTL_String::strcmp_caseless (name, "TCKind", mixed_case))
     {
       this->which_pseudo_ = PSEUDO_TYPECODE;
       start_scope = this;
       seen = &idl_global->typecode_seen_;
     }
-  else if (ACE_OS::strcasecmp (name_string, "Object") == 0)
+  else if (UTL_String::strcmp_caseless (name, "Object", mixed_case))
     {
       this->which_pseudo_ = PSEUDO_OBJECT;
       seen = &idl_global->base_object_seen_;
     }
-  else if (ACE_OS::strcasecmp (name_string, "ValueBase") == 0)
+  else if (UTL_String::strcmp_caseless (name, "ValueBase", mixed_case))
     {
       this->which_pseudo_ = PSEUDO_VALUEBASE;
       seen = &idl_global->valuebase_seen_;
     }
-  else if (ACE_OS::strcasecmp (name_string, "AbstractBase") == 0)
+  else if (UTL_String::strcmp_caseless (name, "AbstractBase", mixed_case))
     {
       this->which_pseudo_ = PSEUDO_ABSTRACTBASE;
       seen = &idl_global->abstractbase_seen_;

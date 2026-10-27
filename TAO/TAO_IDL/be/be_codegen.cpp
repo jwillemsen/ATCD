@@ -1710,40 +1710,33 @@ TAO_CodeGen::end_implementation_header (const std::string &fname)
       return -1;
     }
 
-  const char *suffix = ACE_OS::strrchr (fname.c_str (), '.');
-
-  if (suffix == nullptr)
-    {
-      // File seems to have no extension, so let us take the name
-      // as it is.
-      suffix = fname.c_str ();
-    }
-
-  char macro_name [NAMEBUFSIZE] = { 0 };
+  std::string macro_name;
+  size_t const extension = fname.find_last_of ('.');
+  size_t const length = extension == std::string::npos ? 0 : extension;
+  macro_name.reserve (length + 3);
 
   // Convert letters in fname to upper case.
-  for (int i = 0; i < (suffix - fname.c_str ()); ++i)
+  for (size_t i = 0; i < length; ++i)
     {
       if (ACE_OS::ace_isalpha (fname [i]))
         {
-          macro_name[i] = static_cast<char> (ACE_OS::ace_toupper (fname [i]));
+          macro_name.push_back (static_cast<char> (ACE_OS::ace_toupper (fname [i])));
         }
       else if (ACE_OS::ace_isdigit (fname [i]))
         {
-          macro_name[i] = fname[i];
+          macro_name.push_back (fname [i]);
         }
       else
         {
-          macro_name[i] = '_';
+          macro_name.push_back ('_');
         }
     }
 
-  ACE_OS::strcat (macro_name,
-                  "_H_");
+  macro_name += "_H_";
 
   // Code to put the last #endif.
   this->implementation_header_->print ("\n#endif /* %s  */\n",
-                                       macro_name);
+                                       macro_name.c_str ());
   return 0;
 }
 
@@ -2211,58 +2204,46 @@ TAO_CodeGen::gen_system_include (TAO_OutStream *stream,
 }
 
 void
-TAO_CodeGen::gen_ifndef_string (const char *fname,
+TAO_CodeGen::gen_ifndef_string (std::string_view fname,
                                 TAO_OutStream *stream,
-                                const char *prefix,
-                                const char *suffix)
+                                std::string_view prefix,
+                                std::string_view suffix)
 {
-  char macro_name [NAMEBUFSIZE] = { 0 };
-
-  const char *extension = ACE_OS::strrchr (fname, '.');
-
-  if (extension == nullptr)
-    {
-      // File seems to have no extension, so let us take the name
-      // as it is.
-      extension = fname;
-    }
-
-  ACE_OS::sprintf (macro_name, "%s", prefix);
-
-  size_t offset = ACE_OS::strlen (prefix);
+  size_t const extension = fname.find_last_of ('.');
+  size_t const length = extension == std::string_view::npos ? 0 : extension;
+  std::string macro_name (prefix);
+  macro_name.reserve (prefix.size () + length + suffix.size () + 7);
 
   // Convert letters in fname to upper case.
-  for (int i = 0; i < (extension - fname); i++)
+  for (size_t i = 0; i < length; ++i)
     {
       if (ACE_OS::ace_isalpha (fname [i]))
         {
-          macro_name[i + offset] = static_cast<char> (ACE_OS::ace_toupper (fname [i]));
+          macro_name.push_back (static_cast<char> (ACE_OS::ace_toupper (fname [i])));
         }
       else if (ACE_OS::ace_isdigit (fname [i]))
         {
-          macro_name[i + offset] = fname[i];
+          macro_name.push_back (fname [i]);
         }
       else
         {
-          macro_name[i + offset] = '_';
+          macro_name.push_back ('_');
         }
     }
 
   if (be_global->gen_unique_guards ())
     {
-      ACE_OS::strcat (macro_name, "_XXXXXX");
-      char * const t = ACE_OS::strstr (macro_name, "XXXXXX");
-
-      this->make_rand_extension (t);
+      macro_name += '_';
+      this->make_rand_extension (macro_name);
     }
 
-  ACE_OS::strcat (macro_name, suffix);
+  macro_name += suffix;
 
   // Generate the #ifndef ... #define statements.
   stream->print ("#ifndef %s\n",
-                 macro_name);
+                 macro_name.c_str ());
   stream->print ("#define %s\n\n",
-                 macro_name);
+                 macro_name.c_str ());
 }
 
 void
@@ -3362,29 +3343,23 @@ TAO_CodeGen::gen_exec_idl_includes ()
 
       bool skip_incl = false;
       // special case for ami4ccm, if xxxE.idl. don't include xxxAE.idl.
-      char *exe_idl_fname = ACE_OS::strdup(exec_idl_fname.c_str ());
-      char * base = ACE_OS::strstr(exe_idl_fname, "E.idl");
-      if (base != nullptr)
+      size_t const base = exec_idl_fname.find ("E.idl");
+      if (base != std::string::npos)
         {
-          static char test[MAXPATHLEN];
-          ACE_OS::memset (test, 0, MAXPATHLEN);
+          std::string const test = exec_idl_fname.substr (0, base) + "AE.idl";
 
-          ACE_OS::strncpy(test, exe_idl_fname, base - exe_idl_fname);
-          ACE_OS::strcat (test, "AE.idl");
+          if (std::string_view (*path_tmp).find (test) != std::string_view::npos)
+            {
+              // Skip this include for ami4ccm.
+              skip_incl = true;
+            }
+        }
 
-          if (ACE_OS::strstr ( *path_tmp,  test) != nullptr)
-           {
-             //skip include
-             skip_incl = true;
-           }
-
-       }
-        /// No need to have the exec IDL file include itself.
-       if ((std::string_view (*path_tmp) != exec_idl_fname) &&
-           (!skip_incl))
-         {
-            this->gen_standard_include (this->ciao_exec_idl_, *path_tmp);
-         }
+      // No need to have the exec IDL file include itself.
+      if (std::string_view (*path_tmp) != exec_idl_fname && !skip_incl)
+        {
+          this->gen_standard_include (this->ciao_exec_idl_, *path_tmp);
+        }
     }
 }
 
@@ -3520,18 +3495,18 @@ TAO_CodeGen::gen_ami_conn_idl_includes ()
 }
 
 void
-TAO_CodeGen::make_rand_extension (char * const t)
+TAO_CodeGen::make_rand_extension (std::string &name)
 {
   // random device and engine
-  size_t const length = ACE_OS::strlen (t);
   std::random_device rd;  // non-deterministic generator
   std::mt19937 gen(rd()); // mersenne twister engine
   char constexpr alphabet[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   std::uniform_int_distribution<size_t> dist(0, sizeof(alphabet) - 2); // exclude null
 
-  for (size_t i = 0; i < length; ++i) {
-      t[i] = alphabet[dist(gen)];
-  }
+  for (size_t i = 0; i < 6; ++i)
+    {
+      name.push_back (alphabet[dist(gen)]);
+    }
 }
 
 void

@@ -407,10 +407,10 @@ public:
   void destroy ();
 
 private:
-  void gen_ifndef_string (const char *fname,
+  void gen_ifndef_string (std::string_view fname,
                           TAO_OutStream *stream,
-                          const char *prefix,
-                          const char *suffix);
+                          std::string_view prefix,
+                          std::string_view suffix);
 
   /// Utility methods for generating file includes.
   void gen_stub_hdr_includes ();
@@ -446,7 +446,7 @@ private:
                         const char *msg,
                         bool for_skel = false);
 
-  void make_rand_extension (char * const t);
+  void make_rand_extension (std::string &name);
 
   void gen_conn_ts_includes (ACE_Unbounded_Queue<char *> &ts_files);
 

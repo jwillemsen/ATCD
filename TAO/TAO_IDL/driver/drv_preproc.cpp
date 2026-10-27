@@ -111,10 +111,6 @@ constexpr ACE_TCHAR DIR_DOT_DOT[] = ACE_TEXT("..");
 constexpr char DIR_DOT_DOT[] = "..";
 #endif /* ACE_HAS_TCHAR_DIRENT */
 
-// File names.
-static char tmp_file [MAXPATHLEN + 1] {};
-static char tmp_ifile[MAXPATHLEN + 1] {};
-
 #if defined (ACE_CC_PREPROCESSOR_DIRECT_INPUT)
 static constexpr bool copy_input_file = false;
 #else
@@ -1136,83 +1132,62 @@ DRV_pre_proc (char const *myfile)
   static constexpr char tao_idlf_template[] = "tao-idlf_XXXXXX";
   static constexpr char tao_idli_template[] = "tao-idli_XXXXXX";
 
-  size_t const tlen = tmpdir.size () + sizeof (temp_file_extension);
+  std::string tmp_file (tmpdir);
+  tmp_file += tao_idlf_template;
 
-  // Prevent a buffer overrun.
-  if (tlen + sizeof (tao_idlf_template) > sizeof (tmp_file)
-      || tlen + sizeof (tao_idli_template) > sizeof (tmp_ifile))
-    {
-      ACE_ERROR ((LM_ERROR,
-                  "%C: temporary path/filename length is greater than "
-                  "length allowed by platform\n",
-                  idl_global->prog_name ().data ()));
-
-      throw Bailout ();
-    }
-
-  ACE_OS::strcpy (tmp_file, tmpdir.data ());
+  std::string tmp_ifile;
   if (copy_input_file)
     {
-      ACE_OS::strcpy (tmp_ifile, tmpdir.data ());
-    }
-
-  // Append temporary filename template to temporary directory.
-  ACE_OS::strcat (tmp_file,  tao_idlf_template);
-  if (copy_input_file)
-    {
-      ACE_OS::strcat (tmp_ifile, tao_idli_template);
+      tmp_ifile = tmpdir;
+      tmp_ifile += tao_idli_template;
     }
 
   ACE_HANDLE ti_fd = ACE_INVALID_HANDLE;
   if (copy_input_file)
     {
-      ti_fd = ACE_OS::mkstemp (tmp_ifile);
+      ti_fd = ACE_OS::mkstemp (tmp_ifile.data ());
       if (ti_fd == ACE_INVALID_HANDLE)
         {
           ACE_ERROR ((LM_ERROR,
                       "%C: Unable to create temporary file \"%C\": %m\n",
                       idl_global->prog_name ().data (),
-                      tmp_ifile));
+                      tmp_ifile.c_str ()));
 
           throw Bailout ();
         }
     }
 
-  ACE_HANDLE const tf_fd = ACE_OS::mkstemp (tmp_file);
+  ACE_HANDLE const tf_fd = ACE_OS::mkstemp (tmp_file.data ());
 
   if (tf_fd == ACE_INVALID_HANDLE)
     {
       ACE_ERROR ((LM_ERROR,
                   "%C: Unable to create temporary file \"%C\": %m\n",
                   idl_global->prog_name ().data (),
-                  tmp_file));
+                  tmp_file.c_str ()));
 
       if (copy_input_file)
         {
-          (void) ACE_OS::unlink (tmp_ifile);
+          (void) ACE_OS::unlink (tmp_ifile.c_str ());
         }
       throw Bailout ();
     }
 
-  char tmp_cpp_file [MAXPATHLEN + 1] = {};
-  char tmp_cpp_ifile[MAXPATHLEN + 1] = {};
-
   // Append C++ source file extension. Temporary files will be renamed to
   // these filenames when the preprocessor requires an input extension.
-  ACE_OS::strcpy (tmp_cpp_file,  tmp_file);
+  std::string tmp_cpp_file (tmp_file);
+  tmp_cpp_file += temp_file_extension;
+
+  std::string tmp_cpp_ifile;
   if (copy_input_file)
     {
-      ACE_OS::strcpy (tmp_cpp_ifile, tmp_ifile);
-    }
-  ACE_OS::strcat (tmp_cpp_file,  temp_file_extension);
-  if (copy_input_file)
-    {
-      ACE_OS::strcat (tmp_cpp_ifile, temp_file_extension);
+      tmp_cpp_ifile = tmp_ifile;
+      tmp_cpp_ifile += temp_file_extension;
     }
 
-  char * const t_file  = copy_input_file ? tmp_cpp_file : tmp_file;
-  char * const t_ifile = tmp_cpp_ifile;
-  char const * const input_file = copy_input_file ? t_ifile : myfile;
+  std::string const &t_file = copy_input_file ? tmp_cpp_file : tmp_file;
+  std::string const &t_ifile = tmp_cpp_ifile;
+  char const * const input_file = copy_input_file ? t_ifile.c_str () : myfile;
 
   ACE_OS::close (tf_fd);
 
@@ -1227,9 +1202,9 @@ DRV_pre_proc (char const *myfile)
                   myfile));
       if (copy_input_file)
         {
-          (void) ACE_OS::unlink (tmp_ifile);
+          (void) ACE_OS::unlink (tmp_ifile.c_str ());
         }
-      (void) ACE_OS::unlink (tmp_file);
+      (void) ACE_OS::unlink (tmp_file.c_str ());
       throw Bailout ();
     }
 
@@ -1237,7 +1212,7 @@ DRV_pre_proc (char const *myfile)
     {
       DRV_copy_input (file,
                       ACE_OS::fdopen (ti_fd, ACE_TEXT("w")),
-                      tmp_ifile,
+                      tmp_ifile.c_str (),
                       myfile);
     }
   else
@@ -1272,7 +1247,7 @@ DRV_pre_proc (char const *myfile)
   // works on NT.
   ACE_Process process;
 
-  DRV_cpp_expand_output_arg (t_file);
+  DRV_cpp_expand_output_arg (t_file.c_str ());
   DRV_cpp_putarg (input_file);
   DRV_cpp_putarg (nullptr); // Null terminate the DRV_arglist.
 
@@ -1296,46 +1271,48 @@ DRV_pre_proc (char const *myfile)
 
       if (copy_input_file)
         {
-          (void) ACE_OS::unlink (tmp_ifile);
+          (void) ACE_OS::unlink (tmp_ifile.c_str ());
         }
-      (void) ACE_OS::unlink (tmp_file);
+      (void) ACE_OS::unlink (tmp_file.c_str ());
       throw Bailout ();
     }
 
   // Rename temporary files so that they have extensions accepted
   // by the preprocessor.  Renaming is (supposed to be) an atomic
   // operation so we shouldn't be susceptible to attack.
-  if (copy_input_file && ACE_OS::rename (tmp_file, t_file) != 0)
+  if (copy_input_file
+      && ACE_OS::rename (tmp_file.c_str (), t_file.c_str ()) != 0)
     {
       ACE_ERROR ((LM_ERROR,
                   "%C: Unable to rename temporary "
                   "file \"%C\" to \"%C\": %m\n",
                   idl_global->prog_name ().data (),
-                  tmp_file,
-                  t_file));
+                  tmp_file.c_str (),
+                  t_file.c_str ()));
 
 
-      (void) ACE_OS::unlink (tmp_ifile);
-      (void) ACE_OS::unlink (tmp_file);
+      (void) ACE_OS::unlink (tmp_ifile.c_str ());
+      (void) ACE_OS::unlink (tmp_file.c_str ());
       throw Bailout ();
     }
 
-  if (copy_input_file && ACE_OS::rename (tmp_ifile, t_ifile) != 0)
+  if (copy_input_file
+      && ACE_OS::rename (tmp_ifile.c_str (), t_ifile.c_str ()) != 0)
     {
       ACE_ERROR ((LM_ERROR,
                   "%C: Unable to rename temporary "
                   "file \"%C\" to \"%C\": %m\n",
                   idl_global->prog_name ().data (),
-                  tmp_ifile,
-                  t_ifile));
+                  tmp_ifile.c_str (),
+                  t_ifile.c_str ()));
 
-      (void) ACE_OS::unlink (tmp_ifile);
-      (void) ACE_OS::unlink (t_file);
+      (void) ACE_OS::unlink (tmp_ifile.c_str ());
+      (void) ACE_OS::unlink (t_file.c_str ());
       throw Bailout ();
     }
 
   // Remove any existing output file.
-  (void) ACE_OS::unlink (t_file);
+  (void) ACE_OS::unlink (t_file.c_str ());
 
   ACE_HANDLE fd = ACE_INVALID_HANDLE;
 
@@ -1344,7 +1321,7 @@ DRV_pre_proc (char const *myfile)
       // If the following open() fails, then we're either being hit with a
       // symbolic link attack, or another process opened the file before
       // us.
-      fd = ACE_OS::open (t_file,
+      fd = ACE_OS::open (t_file.c_str (),
                          O_WRONLY | O_CREAT | O_EXCL,
                          ACE_DEFAULT_FILE_PERMS);
 
@@ -1354,10 +1331,10 @@ DRV_pre_proc (char const *myfile)
                       "%C: cannot open temp file"
                       " \"%C\" for writing: %m\n",
                       idl_global->prog_name ().data (),
-                      t_file));
+                      t_file.c_str ()));
 
-          (void) ACE_OS::unlink (t_file);
-          (void) ACE_OS::unlink (t_ifile);
+          (void) ACE_OS::unlink (t_file.c_str ());
+          (void) ACE_OS::unlink (t_ifile.c_str ());
           throw Bailout ();
         }
 
@@ -1385,8 +1362,8 @@ DRV_pre_proc (char const *myfile)
                   DRV_arglist[0]));
 
 
-      (void) ACE_OS::unlink (t_file);
-      (void) ACE_OS::unlink (t_ifile);
+      (void) ACE_OS::unlink (t_file.c_str ());
+      (void) ACE_OS::unlink (t_ifile.c_str ());
       throw Bailout ();
     }
 
@@ -1398,10 +1375,10 @@ DRV_pre_proc (char const *myfile)
           ACE_ERROR ((LM_ERROR,
             "%C: cannot close temp file \"%C\" on parent: %m\n",
                       idl_global->prog_name ().data (),
-                      t_file));
+                      t_file.c_str ()));
 
-          (void) ACE_OS::unlink (t_file);
-          (void) ACE_OS::unlink (t_ifile);
+          (void) ACE_OS::unlink (t_file.c_str ());
+          (void) ACE_OS::unlink (t_ifile.c_str ());
           throw Bailout ();
         }
     }
@@ -1421,8 +1398,8 @@ DRV_pre_proc (char const *myfile)
                   "%C: wait for child process failed\n",
                   idl_global->prog_name ().data ()));
 
-      (void) ACE_OS::unlink (t_file);
-      (void) ACE_OS::unlink (t_ifile);
+      (void) ACE_OS::unlink (t_file.c_str ());
+      (void) ACE_OS::unlink (t_ifile.c_str ());
       throw Bailout ();
     }
 
@@ -1439,8 +1416,8 @@ DRV_pre_proc (char const *myfile)
                       idl_global->prog_name ().data (),
                       DRV_arglist[0]));
 
-          (void) ACE_OS::unlink (t_file);
-          (void) ACE_OS::unlink (t_ifile);
+          (void) ACE_OS::unlink (t_file.c_str ());
+          (void) ACE_OS::unlink (t_ifile.c_str ());
           throw Bailout ();
         }
     }
@@ -1455,8 +1432,8 @@ DRV_pre_proc (char const *myfile)
                   idl_global->prog_name ().data (),
                   DRV_arglist[0]));
 
-      (void) ACE_OS::unlink (t_file);
-      (void) ACE_OS::unlink (t_ifile);
+      (void) ACE_OS::unlink (t_file.c_str ());
+      (void) ACE_OS::unlink (t_ifile.c_str ());
       throw Bailout ();
     }
   // TODO: Manage problems in the
@@ -1464,7 +1441,7 @@ DRV_pre_proc (char const *myfile)
   // version the current process
   // would exit if the pre-processor
   // returned with error.
-  FILE * const yyin = ACE_OS::fopen (t_file, "r");
+  FILE * const yyin = ACE_OS::fopen (t_file.c_str (), "r");
 
   if (yyin == nullptr)
     {
@@ -1472,10 +1449,10 @@ DRV_pre_proc (char const *myfile)
                   "%C: Could not open cpp "
                   "output file \"%C\": %m\n",
                   idl_global->prog_name ().data (),
-                  t_file));
+                  t_file.c_str ()));
 
-      (void) ACE_OS::unlink (t_file);
-      (void) ACE_OS::unlink (t_ifile);
+      (void) ACE_OS::unlink (t_file.c_str ());
+      (void) ACE_OS::unlink (t_ifile.c_str ());
       throw Bailout ();
     }
 
@@ -1483,7 +1460,7 @@ DRV_pre_proc (char const *myfile)
 
   if (idl_global->compile_flags () & IDL_CF_ONLY_PREPROC)
     {
-      FILE *preproc = ACE_OS::fopen (t_file, "r");
+      FILE *preproc = ACE_OS::fopen (t_file.c_str (), "r");
       char buffer[ACE_MAXLOGMSGLEN];
       size_t bytes;
 
@@ -1493,10 +1470,10 @@ DRV_pre_proc (char const *myfile)
                       "%C: Could not open cpp "
                       "output file \"%C\": %m\n",
                       idl_global->prog_name ().data (),
-                      t_file));
+                      t_file.c_str ()));
 
-          (void) ACE_OS::unlink (t_file);
-          (void) ACE_OS::unlink (t_ifile);
+          (void) ACE_OS::unlink (t_file.c_str ());
+          (void) ACE_OS::unlink (t_ifile.c_str ());
           throw Bailout ();
         }
 
@@ -1523,24 +1500,24 @@ DRV_pre_proc (char const *myfile)
       ACE_OS::fclose (preproc);
     }
 
-  if (copy_input_file && ACE_OS::unlink (t_ifile) == -1)
+  if (copy_input_file && ACE_OS::unlink (t_ifile.c_str ()) == -1)
     {
       ACE_ERROR ((LM_ERROR,
                   "%C: Could not remove cpp "
                   "input file \"%C\": %m\n",
                   idl_global->prog_name ().data (),
-                  t_ifile));
+                  t_ifile.c_str ()));
 
       throw Bailout ();
     }
 
-  if (ACE_OS::unlink (t_file) == -1)
+  if (ACE_OS::unlink (t_file.c_str ()) == -1)
     {
       ACE_ERROR ((LM_ERROR,
                   "%C: Could not remove cpp "
                   "output file \"%C\": %m\n",
                   idl_global->prog_name ().data (),
-                  t_file));
+                  t_file.c_str ()));
 
       throw Bailout ();
     }

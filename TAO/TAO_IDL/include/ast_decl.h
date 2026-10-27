@@ -187,6 +187,10 @@ public:
   AST_Decl (NodeType type,
             UTL_ScopedName *n,
             bool anonymous = false);
+  AST_Decl (AST_Decl const &) = delete;
+  AST_Decl (AST_Decl &&) = delete;
+  AST_Decl &operator= (AST_Decl const &) = delete;
+  AST_Decl &operator= (AST_Decl &&) = delete;
 
   /**
    * A sort of copy constructor that creates a copy of the AST_Decl for a new

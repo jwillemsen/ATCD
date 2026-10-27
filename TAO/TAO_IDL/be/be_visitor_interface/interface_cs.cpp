@@ -396,7 +396,7 @@ be_visitor_interface_cs::visit_interface (be_interface *node)
 }
 
 bool
-be_visitor_interface_cs::gen_xxx_narrow (const char *pre,
+be_visitor_interface_cs::gen_xxx_narrow (std::string_view pre,
                                          be_interface *node)
 {
   TAO_OutStream *os = this->ctx_->stream ();
@@ -440,7 +440,7 @@ be_visitor_interface_cs::gen_xxx_narrow (const char *pre,
       *os << be_idt << be_idt_nl;
 
       *os << "_tao_objref";
-      if (ACE_OS::strcmp (pre, "narrow") == 0)
+      if (pre == "narrow")
         {
           *os << "," << be_nl
               << "\"" << node->repoID () << "\"";
@@ -471,7 +471,7 @@ be_visitor_interface_cs::gen_xxx_narrow (const char *pre,
 
       *os << "_tao_objref";
 
-      if (ACE_OS::strcmp (pre, "narrow") == 0)
+      if (pre == "narrow")
         {
           *os << ", "
               << "\"" << node->repoID () << "\"";

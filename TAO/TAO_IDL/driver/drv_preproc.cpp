@@ -776,7 +776,7 @@ namespace
   char
   DRV_skip_over_white_spaces (char const *&input)
   {
-    while (*input != 0)
+    while (*input != '\0')
       {
         // Skip the spaces, tabs, vertical-tabs and form feeds.
         while (' ' == *input ||
@@ -1069,7 +1069,7 @@ DRV_copy_input (FILE *fin,
   char buf[2*MAXPATHLEN];
   char *d = buf;
 
-  for (char const *s = orig_filename; *s != 0; ++s)
+  for (char const *s = orig_filename; *s != '\0'; ++s)
     {
       if (*s == '\\')
         {
@@ -1081,7 +1081,7 @@ DRV_copy_input (FILE *fin,
       ++d;
     }
 
-  *d = 0;
+  *d = '\0';
   ACE_OS::fprintf (f,
                    "#line 1 \"%s\"\n",
                    buf);
@@ -1121,7 +1121,7 @@ DRV_stripped_name (char *fn)
       }
 
     l = ACE_OS::strlen (n);
-    int slash_found = 0;
+    bool slash_found = false;
 
     for (n += l - 1; n >= fn && !slash_found; n--)
       {

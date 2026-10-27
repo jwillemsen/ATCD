@@ -65,6 +65,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 // drv_args.cpp - Argument parsing for IDL compiler main driver
 
 #include <string>
+#include <string_view>
 
 #include "idl_defines.h"
 #include "global_extern.h"
@@ -100,13 +101,13 @@ DRV_push_file (char const *s)
 
 // Prepare a CPP argument
 static void
-DRV_prep_cpp_arg (char *s)
+DRV_prep_cpp_arg (char const *s)
 {
-  std::string instr (s);
+  std::string_view instr (s);
   std::string newarg;
   newarg.reserve (512);
 
-  for (std::string::size_type pos = instr.find_first_of (',');
+  for (std::string_view::size_type pos = instr.find_first_of (',');
        pos != std::string::npos;
        instr = instr.substr (pos + 1), pos = instr.find_first_of (','))
     {
@@ -202,7 +203,7 @@ DRV_parse_args (long ac, char **av)
 
           switch (av[i][1])
             {
-            case 0:
+            case '\0':
               // One or more letters expected after the dash.
               ACE_ERROR ((
                   LM_ERROR,

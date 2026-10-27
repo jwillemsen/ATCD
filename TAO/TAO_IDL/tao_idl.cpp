@@ -88,7 +88,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #  include "ace/streams.h"
 #endif /* ! ACE_LACKS_IOSTREAM_TOTALLY */
 
-extern const ACE_TCHAR *DRV_arglist[];
+extern ACE_TCHAR const *DRV_arglist[];
 extern unsigned long DRV_argcount;
 
 char *DRV_files[NFILES];
@@ -190,7 +190,7 @@ DRV_cleanup ()
 */
 
 void
-DRV_drive (const char *s)
+DRV_drive (char const *s)
 {
   // Set the name of the IDL file we are parsing. This is useful to
   // the backend when it generates C++ headers and files.
@@ -439,7 +439,7 @@ ACE_TMAIN (int argc, ACE_TCHAR *argv[])
           ACE_OS::unlink (idl_global->big_file_name ().data ());
         }
     }
-  catch (const Bailout &bailout)
+  catch (Bailout const &bailout)
     {
       if (bailout.increment_errors_)
         {

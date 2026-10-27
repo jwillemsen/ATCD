@@ -927,7 +927,6 @@ IDL_GlobalData::update_prefix (char *filename)
       return;
     }
 
-  ACE_CString tmp ("", nullptr, false);
   std::string_view const main_filename =
     this->pd_main_filename->get_string_view_or_empty ();
 
@@ -979,7 +978,7 @@ IDL_GlobalData::update_prefix (char *filename)
     }
   else
     {
-      this->pragma_prefixes_.push (tmp.rep ());
+      this->pragma_prefixes_.push (ACE::strnew (""));
     }
 }
 

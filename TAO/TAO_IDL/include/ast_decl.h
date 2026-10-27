@@ -217,10 +217,10 @@ public:
 
   // Data Accessors.
 
-  bool imported ();
+  bool imported () const;
   void set_imported (bool is_it);
 
-  bool in_main_file ();
+  bool in_main_file () const;
   void set_in_main_file (bool is_it);
 
   UTL_Scope *defined_in () const;
@@ -228,7 +228,7 @@ public:
 
   NodeType node_type () const;
 
-  long line ();
+  long line () const;
   void set_line (long l);
 
   std::string_view file_name () const;
@@ -310,7 +310,7 @@ public:
   // Return TRUE if "this" is a child of "s".
   bool is_child (AST_Decl *s) const;
 
-  bool is_nested ();
+  bool is_nested () const;
   // Determines if we are inside of a nested scope or not.
 
   UTL_ScopedName *last_referenced_as () const;

@@ -140,7 +140,7 @@ AST_Argument::destroy ()
 }
 
 AST_Argument::Direction
-AST_Argument::direction ()
+AST_Argument::direction () const
 {
   return this->pd_direction;
 }

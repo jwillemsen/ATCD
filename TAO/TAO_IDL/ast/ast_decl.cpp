@@ -759,7 +759,7 @@ AST_Decl::is_child (AST_Decl *s) const
 }
 
 bool
-AST_Decl::is_nested ()
+AST_Decl::is_nested () const
 {
   AST_Decl *d = ScopeAsDecl (this->defined_in ());
 
@@ -1013,7 +1013,7 @@ AST_Decl::set_prefix_with_typeprefix (std::string_view value)
 }
 
 bool
-AST_Decl::imported ()
+AST_Decl::imported () const
 {
   return this->pd_imported;
 }
@@ -1025,7 +1025,7 @@ AST_Decl::set_imported (bool is_it)
 }
 
 bool
-AST_Decl::in_main_file ()
+AST_Decl::in_main_file () const
 {
   return this->pd_in_main_file;
 }
@@ -1055,7 +1055,7 @@ AST_Decl::node_type () const
 }
 
 long
-AST_Decl::line ()
+AST_Decl::line () const
 {
   return this->pd_line;
 }

@@ -135,7 +135,7 @@ AST_Operation::~AST_Operation () = default;
 // Public operations.
 
 bool
-AST_Operation::void_return_type ()
+AST_Operation::void_return_type () const
 {
   AST_Type* type = this->return_type ();
 
@@ -526,25 +526,25 @@ AST_Operation::ast_accept (ast_visitor *visitor)
 // Data accessors
 
 AST_Type *
-AST_Operation::return_type ()
+AST_Operation::return_type () const
 {
   return this->pd_return_type;
 }
 
 AST_Operation::Flags
-AST_Operation::flags ()
+AST_Operation::flags () const
 {
   return this->pd_flags;
 }
 
 UTL_StrList *
-AST_Operation::context ()
+AST_Operation::context () const
 {
   return this->pd_context;
 }
 
 UTL_ExceptList *
-AST_Operation::exceptions ()
+AST_Operation::exceptions () const
 {
   return this->pd_exceptions;
 }

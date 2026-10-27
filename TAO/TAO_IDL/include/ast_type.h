@@ -107,15 +107,15 @@ public:
   // Accessors/mutators for the private members.
 
   // Accessor for protected member.
-  bool has_constructor ();
+  bool has_constructor () const;
 
   // Mutator for protected member.
   void has_constructor (bool value);
 
-  bool ifr_added ();
+  bool ifr_added () const;
   void ifr_added (bool val);
 
-  bool ifr_fwd_added ();
+  bool ifr_fwd_added () const;
   void ifr_fwd_added (bool val);
 
   // Type name of a node used when generating declarations.

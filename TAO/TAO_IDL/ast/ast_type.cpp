@@ -136,7 +136,7 @@ AST_Type::in_recursion (ACE_Unbounded_Queue<AST_Type *> & /*list*/)
 }
 
 bool
-AST_Type::ifr_added ()
+AST_Type::ifr_added () const
 {
   return this->ifr_added_;
 }
@@ -148,7 +148,7 @@ AST_Type::ifr_added (bool val)
 }
 
 bool
-AST_Type::ifr_fwd_added ()
+AST_Type::ifr_fwd_added () const
 {
   return this->ifr_fwd_added_;
 }
@@ -160,7 +160,7 @@ AST_Type::ifr_fwd_added (bool val)
 }
 
 bool
-AST_Type::has_constructor ()
+AST_Type::has_constructor () const
 {
   return this->has_constructor_;
 }

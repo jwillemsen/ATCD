@@ -86,10 +86,10 @@ public:
 
   ~AST_Factory () override;
 
-  UTL_ExceptList *exceptions ();
+  UTL_ExceptList *exceptions () const;
   // Return exception list.
 
-  int n_exceptions ();
+  int n_exceptions () const;
   // Return exception count.
 
   virtual int argument_count ();

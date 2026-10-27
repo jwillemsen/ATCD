@@ -89,7 +89,7 @@ public:
   ~AST_Argument () override;
 
   // Data Accessors.
-  Direction direction ();
+  Direction direction () const;
 
   // AST Dumping.
   void dump (ACE_OSTREAM_TYPE &o) override;

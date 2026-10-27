@@ -982,7 +982,7 @@ DRV_get_orb_idl_includes ()
   static constexpr char orb_idl[] = "tao/orb.idl";
 
  // Search for orb.idl in supplied include file search paths.
-  char const * directory = nullptr;
+  std::string directory;
   FILE * fp = FE_Utils::open_included_file (orb_idl, directory);
 
   if (fp == nullptr)
@@ -1010,7 +1010,7 @@ DRV_get_orb_idl_includes ()
       // to the preprocessor.
       // This should go after user supplied include paths.
       std::string include_path_arg;
-      DRV_add_include_path (include_path_arg, directory, "/tao", true);
+      DRV_add_include_path (include_path_arg, directory.c_str (), "/tao", true);
     }
 
   while (DRV_get_line (fp))

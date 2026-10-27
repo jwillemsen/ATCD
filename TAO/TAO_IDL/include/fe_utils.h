@@ -91,8 +91,8 @@ struct TAO_IDL_FE_Export FE_Utils
   /// supplied include paths.  If the file was successfully opened, the
   /// directory within which it was found is returned as well.
   static FILE *
-  open_included_file (char const * filename,
-                      char const *& directory);
+  open_included_file (std::string_view filename,
+                      std::string &directory);
 
   static bool
   is_include_file_found (std::string &inc_file,

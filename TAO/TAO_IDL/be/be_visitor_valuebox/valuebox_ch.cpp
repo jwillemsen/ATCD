@@ -424,7 +424,7 @@ be_visitor_valuebox_ch::visit_string (be_string *node)
   *os << "// Accessor" << be_nl;
 
   // Accessor function takes no arguments and returns a const char *
-  *os << valuebox_type_name ("const ", node->full_name ()).c_str ()
+  *os << valuebox_type_name ("const ", node->full_name ())
       << " _value () const;" << be_nl_2;
 
   *os << "// Modifiers" << be_nl;
@@ -434,7 +434,7 @@ be_visitor_valuebox_ch::visit_string (be_string *node)
 
   // Modifier function with one argument of type const char *
   *os << "void _value ("
-      << valuebox_type_name ("const ", node->full_name ()).c_str ()
+      << valuebox_type_name ("const ", node->full_name ())
       << " val);"
       << be_nl;
 
@@ -753,7 +753,7 @@ be_visitor_valuebox_ch::emit_constructor_one_arg (be_decl *node,
 
   // Public constructor with one argument of underlying type
   *os << vb_node->local_name () << " ("
-      << valuebox_type_name (const_prefix, node->full_name (), type_suffix).c_str ()
+      << valuebox_type_name (const_prefix, node->full_name (), type_suffix)
       << ref_modifier << " val);" << be_nl;
 }
 
@@ -782,7 +782,7 @@ be_visitor_valuebox_ch::emit_assignment (be_decl *node,
   be_decl * vb_node = this->ctx_->node ();
 
   *os << vb_node->local_name () << "& operator= ("
-      << valuebox_type_name (const_prefix, node->full_name (), type_suffix).c_str ()
+      << valuebox_type_name (const_prefix, node->full_name (), type_suffix)
       << ref_modifier << " val);"
       << be_nl_2;
 }
@@ -799,7 +799,7 @@ be_visitor_valuebox_ch::emit_boxed_access (be_decl *node,
   *os << "// Access to the boxed value for method signatures" << be_nl;
 
   // Access to the boxed value for method signatures
-  *os << valuebox_type_name (const_prefix, node->full_name (), type_suffix).c_str ()
+  *os << valuebox_type_name (const_prefix, node->full_name (), type_suffix)
       << in_ref_modifier << " _boxed_in () const;" << be_nl
       << node->full_name () << type_suffix << "&"
       << " _boxed_inout ();" << be_nl

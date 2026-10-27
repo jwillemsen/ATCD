@@ -861,22 +861,10 @@ be_visitor_valuetype::gen_init_impl (be_valuetype *node)
   TAO_OutStream *os = this->ctx_->stream ();
   os->indent ();
 
-  char fname [NAMEBUFSIZE];  // to hold the full and
-  char lname [NAMEBUFSIZE];  // local _out names
-
-  ACE_OS::memset (fname,
-                  '\0',
-                  NAMEBUFSIZE);
-  ACE_OS::sprintf (fname,
-                   "%s_init",
-                   node->full_name ().data ());
-
-  ACE_OS::memset (lname,
-                  '\0',
-                  NAMEBUFSIZE);
-  ACE_OS::sprintf (lname,
-                   "%s_init",
-                   node->local_name ().data ());
+  std::string fname (node->full_name ());
+  fname += "_init";
+  std::string lname (node->local_name ());
+  lname += "_init";
 
   // Destructor.
   *os << fname << "::~" << lname << " ()" << be_nl

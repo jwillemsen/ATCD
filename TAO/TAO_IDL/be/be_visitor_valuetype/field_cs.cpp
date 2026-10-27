@@ -13,6 +13,7 @@
 
 #include "valuetype.h"
 
+#include <string>
 #include <string_view>
 
 be_visitor_valuetype_field_cs::be_visitor_valuetype_field_cs (
@@ -102,10 +103,7 @@ be_visitor_valuetype_field_cs::visit_array (be_array *node)
 
   // For anonymous arrays, the type name has a _ prepended. We compute the
   // full_name with or without the underscore and use it later on.
-  char fname [NAMEBUFSIZE];
-  ACE_OS::memset (fname,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string fname;
 
   if (bt->node_type () != AST_Decl::NT_typedef
       && bt->is_child (bu))
@@ -117,24 +115,20 @@ be_visitor_valuetype_field_cs::visit_array (be_array *node)
         {
           be_decl *parent =
                  dynamic_cast<be_scope*> (bt->defined_in ())->decl ();
-          ACE_OS::sprintf (fname,
-                           "%s::_%s",
-                           parent->full_name ().data (),
-                           bt->local_name ()->get_string_view_or_empty ().data ());
+          fname = parent->full_name ();
+          fname += "::_";
+          fname += bt->local_name ()->get_string_view_or_empty ();
         }
       else
         {
-          ACE_OS::sprintf (fname,
-                           "_%s",
-                           bt->full_name ().data ());
+          fname = "_";
+          fname += bt->full_name ();
         }
     }
   else
     {
       // Typedefed node.
-      ACE_OS::sprintf (fname,
-                       "%s",
-                       bt->full_name ().data ());
+      fname = bt->full_name ();
     }
 
   TAO_INSERT_COMMENT (os);

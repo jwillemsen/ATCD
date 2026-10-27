@@ -221,7 +221,7 @@ public:
 
   /// Overridden from class be_type.
   void gen_member_ostream_operator (TAO_OutStream *os,
-                                   const char *instance_name,
+                                   std::string_view instance_name,
                                    bool use_underscore,
                                    bool accessor = false) override;
 

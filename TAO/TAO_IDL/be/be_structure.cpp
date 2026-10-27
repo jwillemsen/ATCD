@@ -135,7 +135,7 @@ be_structure::gen_ostream_operator (TAO_OutStream *os,
       bool member_use_underscore =
         nt == AST_Decl::NT_array || nt == AST_Decl::NT_sequence;
       f->gen_member_ostream_operator (os,
-                                      instance_name.c_str (),
+                                      instance_name,
                                       member_use_underscore,
                                       false);
     }

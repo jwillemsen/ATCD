@@ -280,7 +280,7 @@ be_array::gen_ostream_operator (TAO_OutStream *os,
 
   be_type *bt = dynamic_cast<be_type*> (this->base_type ());
   bt->gen_member_ostream_operator (os,
-                                   instance_name.c_str (),
+                                   instance_name,
                                    use_underscore,
                                    false);
 
@@ -300,7 +300,7 @@ be_array::gen_ostream_operator (TAO_OutStream *os,
 
 void
 be_array::gen_member_ostream_operator (TAO_OutStream *os,
-                                       const char *instance_name,
+                                       std::string_view instance_name,
                                        bool use_underscore,
                                        bool accessor)
 {

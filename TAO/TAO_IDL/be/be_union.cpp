@@ -159,7 +159,7 @@ be_union::gen_ostream_operator (TAO_OutStream *os,
       bool ub_use_underscore = ub_nt == AST_Decl::NT_array;
 
       ub->gen_member_ostream_operator (os,
-                                       instance_name.c_str (),
+                                       instance_name,
                                        ub_use_underscore,
                                        true);
 

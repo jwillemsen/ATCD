@@ -30,14 +30,13 @@ be_visitor_servant_svh::visit_component (be_component *node)
   node_ = node;
 
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
-  const char *sname = sname_str.c_str ();
+  std::string_view const sname = scope->full_name ();
 
   // No '_cxx_' prefix.
   std::string_view const lname =
     node_->original_local_name ()->get_string_view_or_empty ();
 
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
 // ::CIAO::Session_Context_Impl<
 //       ::Inherited::CCM_Base_comp_Context,
@@ -292,19 +291,10 @@ be_visitor_servant_svh::visit_consumes (be_consumes *node)
       std::string_view const port_name =
         node->local_name ()->get_string_view_or_empty ();
 
-      ACE_CString holder (obj_name.data ());
-      ACE_CString::size_type pos = holder.rfind (':');
-      const char *ev_lname = nullptr;
-
-      if (pos == ACE_CString::npos)
-        {
-          ev_lname = obj_name.data ();
-        }
-      else
-        {
-          holder = holder.substr (pos + 1);
-          ev_lname = holder.c_str ();
-        }
+      std::string_view::size_type const pos = obj_name.rfind (':');
+      std::string_view const ev_lname = pos == std::string_view::npos
+        ? obj_name
+        : obj_name.substr (pos + 1);
 
       os_ << be_uidt_nl << be_nl
           << "public:" << be_idt_nl;
@@ -318,11 +308,10 @@ be_visitor_servant_svh::visit_consumes (be_consumes *node)
           << "{" << be_nl
           << "public:" << be_idt_nl;
 
-      ACE_CString sname_str (
-        ScopeAsDecl (node_->defined_in ())->full_name ().data ());
-      const char *sname = sname_str.c_str ();
+      std::string_view const sname =
+        ScopeAsDecl (node_->defined_in ())->full_name ();
       std::string_view const lname = node_->local_name ();
-      const char *global = (sname_str == "" ? "" : "::");
+      std::string_view const global = sname.empty () ? "" : "::";
 
       os_ << ev_lname << "Consumer_" << port_name
           << "_Servant (" << be_idt_nl

@@ -32,9 +32,9 @@ be_visitor_context_svts::visit_component (be_component *node)
   node_ = node;
 
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
+  std::string_view const sname = scope->full_name ();
   std::string_view const lname = node_->local_name ();
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl
       << "template <typename CONTAINER_TYPE, typename BASE>" << be_nl
@@ -125,8 +125,6 @@ be_visitor_context_svts::visit_publishes (be_publishes *node)
   std::string_view const fname = obj->full_name ();
   std::string_view const lname =
     obj->local_name ()->get_string_view_or_empty ();
-  ACE_CString sname_str (
-    ScopeAsDecl (obj->defined_in ())->full_name ().data ());
 
   os_ << be_nl_2
       << "template <typename CONTAINER_TYPE, typename BASE>" << be_nl

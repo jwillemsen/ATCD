@@ -43,8 +43,7 @@ be_visitor_facet_exh::visit_provides (be_provides *node)
   AST_Decl *s = ScopeAsDecl (impl->defined_in ());
   std::string sname_str =
     IdentifierHelper::orig_sn (s->name (), false);
-  const char *sname = sname_str.c_str ();
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname_str.empty () ? "" : "::";
 
   AST_Decl *c_scope = ScopeAsDecl (this->node_->defined_in ());
   bool is_global = (c_scope->node_type () == AST_Decl::NT_root);
@@ -57,7 +56,7 @@ be_visitor_facet_exh::visit_provides (be_provides *node)
   os_ << be_nl
       << "class "
       << lname << "_exec_i" << be_idt_nl
-      << ": public virtual " << global << sname << "::CCM_"
+      << ": public virtual " << global << sname_str << "::CCM_"
       << iname << "," << be_idt_nl
       << "public virtual ::CORBA::LocalObject"
       << be_uidt << be_uidt_nl

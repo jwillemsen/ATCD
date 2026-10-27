@@ -337,8 +337,6 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
   this->for_reply_handler_ = false;
 
   std::string_view const suffix = "_exec_i";
-  std::string_view const scope_name =
-    ScopeAsDecl (this->iface_->defined_in ())->full_name ();
   std::string_view const iface_name = this->iface_->local_name ();
 
   os_ << be_nl_2

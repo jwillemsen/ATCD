@@ -48,14 +48,13 @@ be_visitor_context_ex_idl::visit_component (be_component *node)
 
       std::string sname_str =
         IdentifierHelper::orig_sn (scope->name ());
-      const char *sname = sname_str.c_str ();
 
       std::string_view const lname =
         base->original_local_name ()->get_string_view_or_empty ();
 
-      const char *global = (sname_str == "" ? "" : "::");
+      std::string_view const global = sname_str.empty () ? "" : "::";
 
-      os_ << global << sname << "::CCM_"
+      os_ << global << sname_str << "::CCM_"
           << lname << "_Context";
     }
 

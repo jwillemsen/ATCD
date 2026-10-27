@@ -28,10 +28,9 @@ be_visitor_servant_svs::visit_component (be_component *node)
   node_ = node;
 
   AST_Decl *scope = ScopeAsDecl (node_->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
-  const char *sname = sname_str.c_str ();
+  std::string_view const sname = scope->full_name ();
   std::string_view const lname = node->local_name ();
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
   AST_Decl::NodeType nt = this->node_->node_type ();
 
   bool const is_connector = (nt == AST_Decl::NT_connector);
@@ -268,15 +267,14 @@ be_visitor_servant_svs::visit_provides (be_provides *node)
   AST_Type *obj = node->provides_type ();
   std::string_view const obj_name = obj->full_name ();
   AST_Decl *scope = ScopeAsDecl (obj->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
-  const char *sname = sname_str.c_str ();
+  std::string_view const sname = scope->full_name ();
 
   // Avoid '_cxx_' prefix.
   std::string_view const lname =
     obj->original_local_name ()->get_string_view_or_empty ();
 
-  const char *global = (sname_str == "" ? "" : "::");
-  const char *prefix_connector = (sname_str == "" ? "" : "_");
+  std::string_view const global = sname.empty () ? "" : "::";
+  std::string_view const prefix_connector = sname.empty () ? "" : "_";
 
   if (!be_global->gen_lwccm ())
     {
@@ -502,10 +500,9 @@ be_visitor_servant_svs::visit_consumes (be_consumes *node)
     node->local_name ()->get_string_view_or_empty ();
 
   std::string_view const comp_lname = node_->local_name ();
-  ACE_CString comp_sname_str (
-    ScopeAsDecl (node_->defined_in ())->full_name ().data ());
-  const char *comp_sname = comp_sname_str.c_str ();
-  const char *global = (comp_sname_str == "" ? "" : "::");
+  std::string_view const comp_sname =
+    ScopeAsDecl (node_->defined_in ())->full_name ();
+  std::string_view const global = comp_sname.empty () ? "" : "::";
 
   std::string_view const lname =
     obj->local_name ()->get_string_view_or_empty ();
@@ -656,10 +653,9 @@ be_visitor_servant_svs::gen_provides_top ()
       return;
     }
 
-  ACE_CString comp_sname_str (
-    ScopeAsDecl (node_->defined_in ())->full_name ().data ());
-  const char *global = (comp_sname_str == "" ? "" : "::");
-  ACE_CString sname_str (ScopeAsDecl (node_->defined_in ())->full_name ().data ());
+  std::string_view const sname =
+    ScopeAsDecl (node_->defined_in ())->full_name ();
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl_2
       << "/// CIAO-specific." << be_nl
@@ -674,9 +670,9 @@ be_visitor_servant_svs::gen_provides_top ()
       << "throw ::CORBA::BAD_PARAM ();" << be_uidt_nl
       << "}" << be_uidt << be_nl_2;
 
-  os_ << "::" << sname_str << global << "CCM_" << node_->original_local_name ()
+  os_ << "::" << sname << global << "CCM_" << node_->original_local_name ()
       << "_var executor =" << be_idt_nl
-      << "::" << sname_str << global << "CCM_" << node_->original_local_name ()
+      << "::" << sname << global << "CCM_" << node_->original_local_name ()
       << "::_duplicate (this->executor_.in ());" << be_uidt << be_nl_2;
 
   os_ << "if (::CORBA::is_nil (executor.in ()))"
@@ -1296,10 +1292,8 @@ be_visitor_receptacle_desc::visit_uses (be_uses *node)
 
   os_ << be_nl_2;
 
-  ACE_CString sname_str (comp_->full_name ().data ());
-  const char *sname = sname_str.c_str ();
-
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const sname = comp_->full_name ();
+  std::string_view const global = sname.empty () ? "" : "::";
 
   if (!is_multiple)
     {

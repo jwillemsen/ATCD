@@ -55,14 +55,13 @@ be_visitor_executor_exh::visit_component (be_component *node)
     }
   this->node_ = node;
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
-  const char *sname = sname_str.c_str ();
+  std::string_view const sname = scope->full_name ();
 
   // No _cxx_ prefix.
   std::string_view const lname =
     node->original_local_name ()->get_string_view_or_empty ();
 
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl_2
       << "/// Component Executor Implementation Class: "
@@ -287,14 +286,13 @@ be_visitor_executor_exh::visit_provides (be_provides *node)
   be_type *impl = node->provides_type ();
 
   AST_Decl *scope = ScopeAsDecl (impl->defined_in ());
-  ACE_CString sname_str (scope->full_name ().data ());
-  const char *sname = sname_str.c_str ();
+  std::string_view const sname = scope->full_name ();
 
   // No '_cxx_' prefix.
   std::string_view const lname =
     impl->original_local_name ()->get_string_view_or_empty ();
 
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname.empty () ? "" : "::";
 
   os_ << be_nl_2
       << "/// Factory method and getter for " << port_name << " facet" << be_nl

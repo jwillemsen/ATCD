@@ -1007,7 +1007,9 @@ IDL_GlobalData::preserve_cpp_keywords (bool val)
 void
 IDL_GlobalData::add_include_path (char const *s, bool is_system)
 {
-  Include_Path_Info info = { ACE::strnew (s), is_system };
+  Include_Path_Info info = { s != nullptr ? std::optional<std::string> (s)
+                                          : std::nullopt,
+                             is_system };
   this->include_paths_.enqueue_tail (info);
 }
 
@@ -1390,16 +1392,6 @@ IDL_GlobalData::fini ()
   this->ident_string_.clear ();
   delete [] this->pd_include_file_names;
   this->pd_include_file_names = nullptr;
-
-  Include_Path_Info *path_info = nullptr;
-
-  for (Unbounded_Paths_Queue_Iterator qiter (this->include_paths_);
-       !qiter.done ();
-       qiter.advance ())
-    {
-      qiter.next (path_info);
-      ACE::strdelete (path_info->path_);
-    }
 
   ACE_Hash_Map_Entry<char *, char *> *entry = nullptr;
 

@@ -679,7 +679,7 @@ public:
 
   struct Include_Path_Info
   {
-    char *path_;
+    std::optional<std::string> path_;
     bool is_system_;
   };
 

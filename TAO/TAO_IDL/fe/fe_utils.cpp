@@ -527,15 +527,15 @@ FE_Utils::open_included_file (std::string_view filename,
       IDL_GlobalData::Include_Path_Info *path_info = nullptr;
       (void) i.next (path_info);
 
-      if (path_info->path_ != nullptr)
+      if (path_info->path_)
         {
           std::string const complete_filename =
-            std::string (path_info->path_) + the_file;
+            *path_info->path_ + the_file;
 
           f = ACE_OS::fopen (complete_filename.c_str (), "r");
 
           if (f != nullptr)
-            directory = path_info->path_;
+            directory = *path_info->path_;
         }
     }
 
@@ -655,8 +655,7 @@ FE_Utils::validate_included_idl_files ()
                         iter.advance ())
                 {
                   iter.next (path_info);
-                  std::string pre_partial (
-                    path_info->path_ == nullptr ? "" : path_info->path_);
+                  std::string pre_partial = path_info->path_.value_or ("");
 
                   // If the include path has literal "s (because of an include
                   // of a Windows path with spaces), we must remove them here.
@@ -757,8 +756,7 @@ FE_Utils::validate_orb_include (UTL_String * idl_file_name)
       IDL_GlobalData::Include_Path_Info *path_info = nullptr;
       iter.next (path_info);
 
-      std::string partial (
-        path_info->path_ == nullptr ? "" : path_info->path_);
+      std::string partial = path_info->path_.value_or ("");
 
       // We don't need to check anything if the file is already
       // found and the folder where are currently checking is

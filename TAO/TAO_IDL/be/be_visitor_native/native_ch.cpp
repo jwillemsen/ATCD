@@ -12,7 +12,6 @@
 #include "native.h"
 #include "be_visitor_typecode/typecode_decl.h"
 #include "global_extern.h"
-#include <cstring>
 
 // ********************************************************************
 // Visitor implementation for the Native type
@@ -61,17 +60,13 @@ be_visitor_native_ch::visit_native (be_native *node)
       // DDS/DCPS zero-copy read sequence type support.
 
       // strip  the "Seq" ending to get the sample's name
-      constexpr size_t max_name_length = 2000;
       size_t const node_name_length = node_name.size ();
-      if (node_name_length >= max_name_length ||
-          node_name_length <= 3)
+      if (node_name_length <= 3)
         {
           return -1;
         }
-      char sample_name[max_name_length];
-      // Copy node_name into sample_name and shorten to remove Seq suffix
-      std::memcpy (sample_name, node_name.data (), node_name_length);
-      sample_name[node_name_length - 3] = '\0';
+      std::string_view const sample_name =
+        node_name.substr (0, node_name_length - 3);
 
       *os << be_nl_2
           << "using " << node->local_name () << " = ::TAO::DCPS::ZeroCopyDataSeq< "

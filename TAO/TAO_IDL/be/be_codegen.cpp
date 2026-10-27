@@ -2160,8 +2160,8 @@ TAO_CodeGen::gen_standard_include (TAO_OutStream *stream,
   // generated with ""s or <>s respectively, for the standard include
   // files (e.g. tao/corba.h).
 
-  const char *start_delimiter = "\"";
-  const char *end_delimiter = "\"";
+  std::string_view start_delimiter = "\"";
+  std::string_view end_delimiter = "\"";
 
   if (be_global->changing_standard_include_files () == 0)
     {
@@ -2183,7 +2183,7 @@ TAO_CodeGen::gen_standard_include (TAO_OutStream *stream,
 
 void
 TAO_CodeGen::gen_system_include (TAO_OutStream *stream,
-                                 const char *included_file)
+                                 std::string_view included_file)
 {
   *stream << "\n#include <"
           << included_file

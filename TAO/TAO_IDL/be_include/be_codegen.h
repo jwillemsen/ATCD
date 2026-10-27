@@ -402,7 +402,7 @@ public:
 
   /// Generate a system include using angle brackets.
   void gen_system_include (TAO_OutStream *stream,
-                           const char *included_file);
+                           std::string_view included_file);
 
   /// Cleanup.
   void destroy ();

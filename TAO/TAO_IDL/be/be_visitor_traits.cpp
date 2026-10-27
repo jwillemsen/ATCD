@@ -426,8 +426,6 @@ be_visitor_traits::visit_array (be_array *node)
       name_holder = node->full_name ();
     }
 
-  const char *name = name_holder.c_str ();
-
   TAO_OutStream *os = this->ctx_->stream ();
 
   //FUZZ: disable check_for_lack_ACE_OS
@@ -435,27 +433,27 @@ be_visitor_traits::visit_array (be_array *node)
       << "template<>" << be_nl
       << "struct " << be_global->stub_export_macro () << " Array_Traits<"
       << be_idt << be_idt_nl
-      << name << "_forany" << be_uidt_nl
+      << name_holder << "_forany" << be_uidt_nl
       << ">" << be_uidt_nl
       << "{" << be_idt_nl
       << "static void free (" << be_idt << be_idt_nl
-      << name << "_slice * _tao_slice);"
+      << name_holder << "_slice * _tao_slice);"
       << be_uidt
       << be_uidt_nl
-      << "static " << name << "_slice * dup ("
+      << "static " << name_holder << "_slice * dup ("
       << be_idt << be_idt_nl
-      << "const " << name << "_slice * _tao_slice);"
+      << "const " << name_holder << "_slice * _tao_slice);"
       << be_uidt
       << be_uidt_nl
       << "static void copy (" << be_idt << be_idt_nl
-      << name << "_slice * _tao_to," << be_nl
-      << "const " << name << "_slice * _tao_from);"
+      << name_holder << "_slice * _tao_to," << be_nl
+      << "const " << name_holder << "_slice * _tao_from);"
       << be_uidt
       << be_uidt_nl
-      << "static " << name << "_slice * alloc ();"
+      << "static " << name_holder << "_slice * alloc ();"
       << be_nl
       << "static void zero (" << be_idt << be_idt_nl
-      << name << "_slice * _tao_slice);"
+      << name_holder << "_slice * _tao_slice);"
       << be_uidt
       << be_uidt
       << be_uidt_nl

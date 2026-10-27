@@ -103,8 +103,8 @@ be_visitor_args::gen_pd_arg (be_predefined_type *node,
     }
 
   TAO_OutStream *os = this->ctx_->stream ();
-  const char *var_call = "";
-  const char *any_deref = "";
+  std::string_view var_call;
+  std::string_view any_deref;
 
   AST_PredefinedType::PredefinedType pt = node->pt ();
   bool is_any = (pt == AST_PredefinedType::PT_any);

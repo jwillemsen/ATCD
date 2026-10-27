@@ -102,7 +102,7 @@ be_visitor_operation_svs::gen_op_body (be_operation *node)
 
   std::string_view const sname_str =
     ScopeAsDecl (scope_->defined_in ())->full_name ();
-  const char *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname_str.empty () ? std::string_view {} : "::";
 
   if (this->ctx_->state () == TAO_CodeGen::TAO_ROOT_SVTS)
     {

@@ -112,10 +112,10 @@ be_visitor_array_cdr_op_ch::visit_array (be_array *node)
   // Generate the CDR << and >> operator declarations.
   *os << be_global->stub_export_macro () << " CORBA::Boolean"
       << " operator<< (TAO_OutputCDR &strm, const "
-      << arg_name.c_str () << ");" << be_nl;
+      << arg_name << ");" << be_nl;
 
   *os << be_global->stub_export_macro () << " ::CORBA::Boolean"
-      << " operator>> (TAO_InputCDR &, " << arg_name.c_str ()
+      << " operator>> (TAO_InputCDR &, " << arg_name
       << ");" << be_nl;
 
   // Using 'const' with xxx_forany prevents the compiler from
@@ -124,7 +124,7 @@ be_visitor_array_cdr_op_ch::visit_array (be_array *node)
     {
       *os << be_global->stub_export_macro () << " std::ostream&"
           << " operator<< (std::ostream &strm, const "
-          << arg_name.c_str () << ");" << be_nl;
+          << arg_name << ");" << be_nl;
     }
 
   *os << be_global->core_versioning_end ();

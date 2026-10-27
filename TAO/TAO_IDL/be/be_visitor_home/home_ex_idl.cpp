@@ -11,6 +11,8 @@
 
 #include "home.h"
 
+#include <string_view>
+
 be_visitor_home_ex_idl::be_visitor_home_ex_idl (
     be_visitor_context *ctx)
   : be_visitor_scope (ctx),
@@ -243,8 +245,8 @@ be_visitor_home_ex_idl::gen_explicit ()
         IdentifierHelper::orig_sn (
           ScopeAsDecl (base->defined_in ())->name ());
 
-      char const *sname = sname_str.c_str ();
-      char const *global = (sname_str == "" ? "" : "::");
+      std::string_view const sname (sname_str);
+      std::string_view const global = sname_str.empty () ? "" : "::";
 
       os_ << global << sname << "::CCM_"
           << IdentifierHelper::try_escape (base->local_name ())
@@ -271,7 +273,7 @@ be_visitor_home_ex_idl::gen_derived ()
 {
   std::string lname_str =
     IdentifierHelper::try_escape (node_->original_local_name ());
-  char const *lname = lname_str.c_str ();
+  std::string_view const lname (lname_str);
 
   os_ << be_nl_2
       << "local interface CCM_" << lname << be_nl
@@ -301,7 +303,7 @@ be_visitor_home_ex_idl::gen_supported ()
 void
 be_visitor_home_ex_idl::gen_exception_list (
   UTL_ExceptList *exceptions,
-  char const *prefix,
+  std::string_view prefix,
   bool init_op)
 {
   ACE_CDR::Long cutoff = (init_op ? 1 : 0);
@@ -333,7 +335,7 @@ be_visitor_home_ex_idl::gen_exception_list (
                 }
             }
 
-          os_ << "::" << ex_name.c_str ();
+          os_ << "::" << ex_name;
 
           ei.next ();
 
@@ -355,13 +357,13 @@ be_visitor_home_ex_idl::gen_home_executor ()
 
   std::string sname_str =
     IdentifierHelper::orig_sn (scope->name ());
-  char const *sname = sname_str.c_str ();
+  std::string_view const sname (sname_str);
 
   std::string lname_str =
     IdentifierHelper::try_escape (node_->original_local_name ());
-  char const *lname = lname_str.c_str ();
+  std::string_view const lname (lname_str);
 
-  char const *global = (sname_str == "" ? "" : "::");
+  std::string_view const global = sname_str.empty () ? "" : "::";
 
   os_ << be_nl_2
       << "module CIAO_" << comp->flat_name () << "_Impl" << be_nl

@@ -46,7 +46,7 @@ public:
 
   /// Special BE arg call factored out of DRV_args.
   static TAO_IDL_BE_Export void
-  prep_be_arg (char *s);
+  prep_be_arg (std::string_view s);
 
   /// Checks made after parsing args.
   static TAO_IDL_BE_Export void

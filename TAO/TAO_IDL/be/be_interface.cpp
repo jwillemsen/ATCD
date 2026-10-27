@@ -598,18 +598,18 @@ class TAO_IDL_Gen_OpTable_Worker
   : public TAO_IDL_Inheritance_Hierarchy_Worker
 {
 public:
-  TAO_IDL_Gen_OpTable_Worker (const char *skeleton_name);
+  TAO_IDL_Gen_OpTable_Worker (std::string_view skeleton_name);
 
   virtual int emit (be_interface *derived_interface,
                     TAO_OutStream *os,
                     be_interface *base_interface) override;
 
 private:
-  const char *skeleton_name_;
+  std::string_view skeleton_name_;
 };
 
 TAO_IDL_Gen_OpTable_Worker::TAO_IDL_Gen_OpTable_Worker (
-    const char *skeleton_name)
+    std::string_view skeleton_name)
   : skeleton_name_ (skeleton_name)
 {
 }
@@ -702,8 +702,8 @@ Pure_Virtual_Regenerator::emit (be_interface *derived_interface,
 // =================================================================
 
 int
-be_interface::gen_operation_table (const char *flat_name,
-                                   const char *skeleton_class_name)
+be_interface::gen_operation_table (std::string_view flat_name,
+                                   std::string_view skeleton_class_name)
 {
   // TODO:
   // find another way to determine whether this is an AMH class
@@ -1073,7 +1073,8 @@ be_interface::gen_operation_table (const char *flat_name,
         // Input to the gperf is ready. Run gperf and get things
         // done. This method also unlinks the temp file that we used
         // for the gperf.
-        this->gen_gperf_things (flat_name);
+        std::string const flat_name_string (flat_name);
+        this->gen_gperf_things (flat_name_string.c_str ());
       }
       break;
 
@@ -1140,7 +1141,7 @@ be_interface::gen_gperf_input_header (TAO_OutStream *os)
 // table is being built.
 int
 be_interface::gen_optable_entries (be_interface *derived_interface,
-                                   const char *full_skeleton_name,
+                                   std::string_view full_skeleton_name,
                                    TAO_OutStream *os)
 {
   int const lookup_strategy =
@@ -1274,7 +1275,7 @@ be_interface::gen_optable_entries (be_interface *derived_interface,
               // we don't know whether this is an AMH class, we
               // need to check this, using the full_skeleton_name
               // TODO: find a more elegant solution for this
-              if (std::string_view (full_skeleton_name).find ("AMH_")
+              if (full_skeleton_name.find ("AMH_")
                   != std::string_view::npos)
                 {
                   std::string name (d->full_name ());

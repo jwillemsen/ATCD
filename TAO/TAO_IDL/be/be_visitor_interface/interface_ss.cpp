@@ -50,8 +50,8 @@ be_visitor_interface_ss::visit_interface (be_interface *node)
   std::string const full_skel_name = this->generate_full_skel_name (node);
   std::string const flat_name = this->generate_flat_name (node);
 
-  int status = node->gen_operation_table (flat_name.c_str (),
-                                          full_skel_name.c_str ());
+  int status = node->gen_operation_table (flat_name,
+                                          full_skel_name);
 
   if (status == -1)
     {

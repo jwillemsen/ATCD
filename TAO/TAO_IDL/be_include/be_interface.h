@@ -203,12 +203,12 @@ public:
                                   TAO_OutStream *os);
 
   /// Generate the operation table including entries for inherited interfaces.
-  int gen_operation_table (const char *flat_name,
-                           const char *skeleton_class_name);
+  int gen_operation_table (std::string_view flat_name,
+                           std::string_view skeleton_class_name);
 
   /// generate the operation table entries.
   int gen_optable_entries (be_interface *derived_interface,
-                           const char *full_skeleton_name,
+                           std::string_view full_skeleton_name,
                            TAO_OutStream *os);
 
   /// If we are local, regenerate non-local base class operations as

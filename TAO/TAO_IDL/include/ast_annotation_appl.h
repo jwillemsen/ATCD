@@ -49,6 +49,10 @@ public:
   AST_Annotation_Appl (UTL_ScopedName *name, Params *params);
 
   ~AST_Annotation_Appl () override;
+  AST_Annotation_Appl (AST_Annotation_Appl const &) = delete;
+  AST_Annotation_Appl (AST_Annotation_Appl &&) = delete;
+  AST_Annotation_Appl &operator= (AST_Annotation_Appl const &) = delete;
+  AST_Annotation_Appl &operator= (AST_Annotation_Appl &&) = delete;
 
   /// AST Dumping
   void dump (ACE_OSTREAM_TYPE &o) override;

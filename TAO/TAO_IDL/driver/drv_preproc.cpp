@@ -882,9 +882,7 @@ namespace
       start_char = *buf++,
       end_char   = ('<' == start_char) ? '>' : start_char;
 
-    char
-      incl_file[MAXPATHLEN + 1],
-      *fi = incl_file;
+    std::string incl_file;
 
     while (*buf != '\0' && *buf != end_char)
       {
@@ -894,36 +892,26 @@ namespace
             ++buf;
           }
 
-        *fi++ = *buf++;
-
-        if (fi == incl_file + sizeof (incl_file) - 1)
-          {
-            // Safety valve, filename given was too long!
-            break;
-          }
+        incl_file.push_back (*buf++);
       }
 
-    *fi= '\0';
-    size_t const len = static_cast<size_t> (fi - incl_file);
+    if (incl_file.empty ())
+      {
+        return; // Null filename not allowed.
+      }
 
-    if (len == 0)
-    {
-      return; // Null filename not allowed.
-    }
-
-    std::string const name_str (incl_file);
-    std::string const simple ("orb.idl");
-    std::string const nix_path ("tao/orb.idl");
-    std::string const win_path ("tao\\orb.idl");
+    static constexpr std::string_view simple ("orb.idl");
+    static constexpr std::string_view nix_path ("tao/orb.idl");
+    static constexpr std::string_view win_path ("tao\\orb.idl");
 
     // Some backends pass this file through, others don't.
-    if (name_str == simple
-        || name_str == nix_path
-        || name_str == win_path)
+    if (incl_file == simple
+        || incl_file == nix_path
+        || incl_file == win_path)
       {
         if (idl_global->pass_orb_idl ())
           {
-            idl_global->add_to_included_idl_files (incl_file);
+            idl_global->add_to_included_idl_files (incl_file.c_str ());
           }
         else
           {
@@ -934,9 +922,11 @@ namespace
     // also kicks in for .pidl files. If one of the latter is
     // included as a local name only, we add the 'tao/' prefix
     // so the generated C++ include files will be correct.
-    else if ((5 <= len && !ACE_OS::strcmp (incl_file + len - 5, ".pidl"))
-             && !ACE_OS::strchr (incl_file, '/')
-             && !ACE_OS::strchr (incl_file, '\\'))
+    else if (incl_file.size () >= 5
+             && std::string_view (incl_file).substr (incl_file.size () - 5)
+                  == ".pidl"
+             && incl_file.find ('/') == std::string::npos
+             && incl_file.find ('\\') == std::string::npos)
       {
         std::string fixed_name ("tao/");
         fixed_name += incl_file;
@@ -945,7 +935,7 @@ namespace
       }
     else
       {
-        idl_global->add_to_included_idl_files (incl_file);
+        idl_global->add_to_included_idl_files (incl_file.c_str ());
       }
   }
 

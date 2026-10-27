@@ -14,6 +14,8 @@
 #ifndef _BE_COMPONENT_AMI_RH_EXS_H_
 #define _BE_COMPONENT_AMI_RH_EXS_H_
 
+#include <string_view>
+
 class be_visitor_context;
 
 /**
@@ -41,7 +43,7 @@ private:
   void gen_op_body () override;
 
 private:
-  const char *your_code_here_ {"/* Your code here. */"};
+  std::string_view your_code_here_ {"/* Your code here. */"};
 };
 
 #endif /* _BE_COMPONENT_AMI_RH_EXS_H_ */

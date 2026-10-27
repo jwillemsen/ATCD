@@ -131,11 +131,9 @@ be_visitor_args::gen_pd_arg (be_predefined_type *node,
       var_call = ".out ()";
     }
 
-  ACE_CString to_from_str = (in_stream
-                             ? "::ACE_InputCDR::to_"
-                             : "::ACE_OutputCDR::from_");
-
-  const char *to_from = to_from_str.c_str ();
+  std::string_view const to_from = in_stream
+    ? "::ACE_InputCDR::to_"
+    : "::ACE_OutputCDR::from_";
 
   be_argument *arg =
     dynamic_cast<be_argument*> (this->ctx_->node ());

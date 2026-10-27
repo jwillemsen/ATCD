@@ -46,17 +46,14 @@
 #include <string>
 #include <string_view>
 
-be_visitor_arg_traits::be_visitor_arg_traits (const char *S,
+be_visitor_arg_traits::be_visitor_arg_traits (std::string_view S,
                                               be_visitor_context *ctx)
   : be_visitor_scope (ctx),
-    S_ (ACE::strnew (S))
+    S_ (S)
 {
 }
 
-be_visitor_arg_traits::~be_visitor_arg_traits ()
-{
-  delete [] this->S_;
-}
+be_visitor_arg_traits::~be_visitor_arg_traits () = default;
 
 int
 be_visitor_arg_traits::visit_root (be_root *node)
@@ -143,8 +140,7 @@ be_visitor_arg_traits::visit_interface (be_interface *node)
 
   TAO_INSERT_COMMENT (os);
 
-  std::string guard_suffix =
-    std::string (this->S_) + std::string ("arg_traits");
+  std::string guard_suffix = this->S_ + "arg_traits";
 
   // The guard should be generated to prevent multiple declarations,
   // since a forward declaration may appear more than once.
@@ -161,7 +157,7 @@ be_visitor_arg_traits::visit_interface (be_interface *node)
       << "::" << node->name () << "_var," << be_nl
       << "::" << node->name () << "_out";
 
-  if (ACE_OS::strlen (this->S_) == 0)
+  if (this->S_.empty ())
     {
       *os << "," << be_nl
           << "TAO::Objref_Traits<" << node->name () << ">";
@@ -257,7 +253,7 @@ be_visitor_arg_traits::visit_valuebox (be_valuebox *node)
       << "::" << node->name () << "_out";
 
   // The SArgument classes don't need the traits parameter (yet?)
-  if (ACE_OS::strlen (this->S_) == 0)
+  if (this->S_.empty ())
     {
       os << "," << be_nl
           << "TAO::Value_Traits<" << node->name () << ">";
@@ -299,8 +295,7 @@ be_visitor_arg_traits::visit_valuetype (be_valuetype *node)
 
   TAO_INSERT_COMMENT (&os);
 
-  std::string guard_suffix =
-    std::string (this->S_) + std::string ("arg_traits");
+  std::string guard_suffix = this->S_ + "arg_traits";
 
   // The guard should be generated to prevent multiple declarations,
   // since a forward declaration may appear more than once.
@@ -318,7 +313,7 @@ be_visitor_arg_traits::visit_valuetype (be_valuetype *node)
       << "::" << node->name () << "_out";
 
   // The SArgument classes don't need the traits parameter (yet?)
-  if (ACE_OS::strlen (this->S_) == 0)
+  if (this->S_.empty ())
     {
       os << "," << be_nl
           << "TAO::Value_Traits<" << node->name () << ">";
@@ -421,8 +416,7 @@ be_visitor_arg_traits::visit_operation (be_operation *node)
 
           TAO_INSERT_COMMENT (os);
 
-          std::string guard_suffix =
-            std::string (this->S_) + std::string ("arg_traits");
+          std::string guard_suffix = this->S_ + "arg_traits";
 
           // The guard should be generated to prevent multiple declarations,
           // since a bounded (w)string of the same length may be used or typedef'd
@@ -435,7 +429,7 @@ be_visitor_arg_traits::visit_operation (be_operation *node)
           *os << be_nl_2;
 
           // Avoid generating a duplicate structure in the skeleton.
-          if (ACE_OS::strlen (this->S_) == 0)
+          if (this->S_.empty ())
             {
               *os << "struct " << node->flat_name () << " {};"
                   << be_nl_2;
@@ -500,8 +494,7 @@ be_visitor_arg_traits::visit_attribute (be_attribute *node)
 
   TAO_INSERT_COMMENT (os);
 
-  std::string guard_suffix =
-    std::string (this->S_) + std::string ("arg_traits");
+  std::string guard_suffix = this->S_ + "arg_traits";
 
   // The guard should be generated to prevent multiple declarations,
   // since a bounded (w)string of the same length may be used or typedef'd
@@ -521,7 +514,7 @@ be_visitor_arg_traits::visit_attribute (be_attribute *node)
   *os << be_nl;
 
   // Avoid generating a duplicate structure in the skeleton.
-  if (ACE_OS::strlen (this->S_) == 0)
+  if (this->S_.empty ())
     {
       *os << "struct " << node->flat_name () << " {};"
           << be_nl_2;
@@ -579,8 +572,7 @@ be_visitor_arg_traits::visit_argument (be_argument *node)
 
   TAO_INSERT_COMMENT (os);
 
-  std::string guard_suffix =
-    std::string (this->S_) + std::string ("arg_traits");
+  std::string guard_suffix = this->S_ + "arg_traits";
 
   // The guard should be generated to prevent multiple declarations,
   // since a bounded (w)string of the same length may be used or typedef'd
@@ -607,16 +599,16 @@ be_visitor_arg_traits::visit_argument (be_argument *node)
   arg_flat_name += node->local_name ()->get_string_view_or_empty ();
 
   // Avoid generating a duplicate structure in the skeleton.
-  if (ACE_OS::strlen (this->S_) == 0)
+  if (this->S_.empty ())
     {
-      *os << "struct " << arg_flat_name.c_str () << " {};"
+      *os << "struct " << arg_flat_name << " {};"
           << be_nl_2;
     }
 
   *os << "template<>" << be_nl
       << "class "
       << this->S_ << "Arg_Traits<"
-      << arg_flat_name.c_str ()
+      << arg_flat_name
       << ">" << be_idt_nl
       << ": public" << be_idt << be_idt_nl
       << "BD_String_" << this->S_ << "Arg_Traits_T<" << be_nl
@@ -724,8 +716,7 @@ be_visitor_arg_traits::visit_string (be_string *node)
 
   TAO_OutStream *os = this->ctx_->stream ();
 
-  std::string guard_suffix =
-    std::string (this->S_) + std::string ("arg_traits");
+  std::string guard_suffix = this->S_ + "arg_traits";
 
   // The guard should be generated to prevent multiple declarations,
   // since a bounded (w)string of the same length may be used or typedef'd
@@ -747,7 +738,7 @@ be_visitor_arg_traits::visit_string (be_string *node)
 
   // Avoid generating a duplicate structure in the skeleton since
   // it has already been generated in *C.h.
-  if (ACE_OS::strlen (this->S_) == 0)
+  if (this->S_.empty ())
     {
       // A workaround 'dummy' type, since bounded (w)strings are all
       // generated as typedefs of (w)char *.
@@ -1198,7 +1189,7 @@ be_visitor_arg_traits::visit_home (be_home *node)
 bool
 be_visitor_arg_traits::generated (be_decl *node) const
 {
-  if (ACE_OS::strcmp (this->S_, "") == 0)
+  if (this->S_.empty ())
     {
       switch (this->ctx_->state ())
         {
@@ -1218,7 +1209,7 @@ void
 be_visitor_arg_traits::generated (be_decl *node,
                                   bool val)
 {
-  if (ACE_OS::strcmp (this->S_, "") == 0)
+  if (this->S_.empty ())
     {
       switch (this->ctx_->state ())
         {

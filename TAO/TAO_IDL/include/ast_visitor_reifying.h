@@ -41,6 +41,10 @@ class ast_visitor_reifying : public ast_visitor
 {
 public:
   explicit ast_visitor_reifying (ast_visitor_context *ctx);
+  ast_visitor_reifying (ast_visitor_reifying const &) = delete;
+  ast_visitor_reifying (ast_visitor_reifying &&) = delete;
+  ast_visitor_reifying &operator= (ast_visitor_reifying const &) = delete;
+  ast_visitor_reifying &operator= (ast_visitor_reifying &&) = delete;
 
   ~ast_visitor_reifying () override;
 

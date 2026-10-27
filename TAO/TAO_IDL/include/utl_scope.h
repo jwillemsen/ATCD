@@ -191,7 +191,7 @@ public:
   // Look up one of the pseudo-object types.
   AST_Decl *lookup_pseudo (Identifier *);
 
-  AST_Decl *lookup_by_name (char const *name);
+  AST_Decl *lookup_by_name (std::string_view name);
 
   virtual AST_Decl *look_in_prev_mods_local (Identifier *e,
                                              bool ignore_fwd = false);

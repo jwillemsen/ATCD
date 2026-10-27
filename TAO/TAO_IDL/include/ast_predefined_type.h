@@ -104,7 +104,7 @@ public:
   ~AST_PredefinedType () override;
 
   // Data Accessors.
-  PredefinedType pt ();
+  PredefinedType pt () const;
 
   // AST Dumping
   void dump (ACE_OSTREAM_TYPE &o) override;

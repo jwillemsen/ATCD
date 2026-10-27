@@ -89,9 +89,9 @@ public:
 
   // Data Accessors.
 
-  ACE_CDR::ULong n_dims ();
+  ACE_CDR::ULong n_dims () const;
 
-  AST_Expression **dims ();
+  AST_Expression **dims () const;
   void set_dims (AST_Expression **,
                  ACE_CDR::ULong);
 

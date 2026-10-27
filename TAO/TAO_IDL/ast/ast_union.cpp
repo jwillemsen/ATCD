@@ -1038,13 +1038,13 @@ AST_Union::ast_accept (ast_visitor *visitor)
 // Data accessors.
 
 AST_ConcreteType *
-AST_Union::disc_type ()
+AST_Union::disc_type () const
 {
   return this->pd_disc_type;
 }
 
 AST_Expression::ExprType
-AST_Union::udisc_type ()
+AST_Union::udisc_type () const
 {
   return this->pd_udisc_type;
 }

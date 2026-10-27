@@ -270,7 +270,7 @@ AST_PredefinedType::destroy ()
 // Data accessors.
 
 AST_PredefinedType::PredefinedType
-AST_PredefinedType::pt ()
+AST_PredefinedType::pt () const
 {
   return this->pd_pt;
 }

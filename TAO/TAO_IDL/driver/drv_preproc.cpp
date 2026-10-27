@@ -64,6 +64,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 // Pass an IDL file through the C preprocessor
 
+#include <new>
 #include <string>
 #include <string_view>
 
@@ -147,68 +148,50 @@ DRV_cpp_putarg (char const *str)
       throw Bailout ();
     }
 
-  char *replace = nullptr;
-  if (str)
+  if (str != nullptr)
     {
-      bool allocate_error = false;
+      std::string replacement;
 
-#ifdef ACE_WIN32
-      char const * const first_quote = ACE_OS::strchr (str, '"');
-      if (first_quote)
+      try
         {
-          // Escape Doublequotes on Windows
-
-          size_t quote_count = 0;
-          for (char const *quote = first_quote; quote; quote = ACE_OS::strchr (quote, '"'))
+#ifdef ACE_WIN32
+          if (ACE_OS::strchr (str, '"') != nullptr)
             {
-              ++quote_count;
-              ++quote;
-            }
-
-          ACE_NEW_NORETURN (replace, char[ACE_OS::strlen (str) + quote_count + 1]);
-          allocate_error = !replace;
-          if (replace)
-            {
-              char *to = replace;
-              for (char const *from = str; *from; ++from)
+              for (char const *from = str; *from != '\0'; ++from)
                 {
                   if (*from == '"')
                     {
-                      *to = '\\';
-                      ++to;
+                      replacement.push_back ('\\');
                     }
-                  *to = *from;
-                  ++to;
+                  replacement.push_back (*from);
                 }
-              *to = '\0';
             }
-        }
 #endif
-      if (ACE_OS::strchr (str, ' '))
-        {
-          ACE_NEW_NORETURN (replace, char[ACE_OS::strlen (str) + 3]);
-          allocate_error = !replace;
-          if (replace)
+          char const * const value = replacement.empty () ? str : replacement.c_str ();
+          if (ACE_OS::strchr (value, ' ') != nullptr)
             {
-              replace[0] = '"';
-              ACE_OS::strcpy (replace + 1, str);
-              ACE_OS::strcat (replace, "\"");
+              if (replacement.empty ())
+                {
+                  replacement = str;
+                }
+
+              replacement.insert (replacement.begin (), '"');
+              replacement.push_back ('"');
             }
         }
-
-      if (allocate_error)
+      catch (std::bad_alloc const &)
         {
-          idl_global->err()->misc_error ("DRV_cpp_putarg failed to allocate memory for argument!");
+          idl_global->err ()->misc_error (
+            "DRV_cpp_putarg failed to allocate memory for argument!");
           throw Bailout ();
         }
+
+      char const * const argument = replacement.empty () ? str : replacement.c_str ();
+      DRV_arglist[DRV_argcount++] = ACE::strnew (ACE_TEXT_CHAR_TO_TCHAR (argument));
     }
-
-  DRV_arglist[DRV_argcount++] = ACE::strnew (ACE_TEXT_CHAR_TO_TCHAR (replace ? replace : str));
-
-  if (replace)
+  else
     {
-      delete [] replace;
-      replace = nullptr;
+      DRV_arglist[DRV_argcount++] = nullptr;
     }
 }
 

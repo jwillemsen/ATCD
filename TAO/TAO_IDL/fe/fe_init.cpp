@@ -74,6 +74,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ast_generator.h"
 #include "ast_root.h"
 
+#include <string_view>
+
 // Populate the global scope with all predefined entities.
 void
 fe_populate_global_scope ()
@@ -434,29 +436,36 @@ FE_populate ()
 }
 
 void
-FE_extract_env_include_paths (ACE_Unbounded_Queue<ACE_CString> &list)
+FE_extract_env_include_paths (std::vector<std::string> &list)
 {
   ACE_Env_Value<char*> incl_paths (ACE_TEXT ("INCLUDE"),
                                    nullptr);
-  char const *aggr_str = incl_paths;
+  char const * const env_paths = incl_paths;
 
-  if (aggr_str != nullptr)
+  if (env_paths != nullptr)
     {
-      char separator;
 #if defined (ACE_WIN32)
-      separator = ';';
+      constexpr char separator = ';';
 #else
-      separator = ':';
+      constexpr char separator = ':';
 #endif
-      ACE_CString aggr_cstr (aggr_str);
-      ACE_CString::size_type pos;
+      std::string_view const paths (env_paths);
+      std::string_view::size_type start = 0;
 
       do
         {
-          pos = aggr_cstr.find (separator);
-          list.enqueue_tail (aggr_cstr.substr (0, pos));
-          aggr_cstr = aggr_cstr.substr (pos + 1);
-        } while (pos != ACE_CString::npos);
+          std::string_view::size_type const end = paths.find (separator, start);
+          std::string_view::size_type const length =
+            end == std::string_view::npos ? std::string_view::npos : end - start;
+          list.emplace_back (paths.substr (start, length));
+          if (end == std::string_view::npos)
+            {
+              break;
+            }
+
+          start = end + 1;
+        }
+      while (true);
     }
 }
 
@@ -464,56 +473,43 @@ FE_extract_env_include_paths (ACE_Unbounded_Queue<ACE_CString> &list)
 void
 FE_store_env_include_paths ()
 {
-  ACE_Unbounded_Queue<ACE_CString> list;
+  std::vector<std::string> list;
   FE_extract_env_include_paths (list);
 
-  ACE_CString *path_tmp = nullptr;
-  for (ACE_Unbounded_Queue_Iterator<ACE_CString>iter (list);
-       !iter.done (); iter.advance ())
+  for (std::string const &path : list)
     {
-      if (iter.next (path_tmp) != 0)
-        {
-          idl_global->add_include_path (path_tmp->fast_rep (), false);
-        }
+      idl_global->add_include_path (path.c_str (), false);
     }
 }
 
-char const *
+std::string
 FE_get_cpp_loc_from_env ()
 {
-  char const *cpp_loc = nullptr;
-
   // See if TAO_IDL_PREPROCESSOR is defined.
   ACE_Env_Value<char*> preprocessor (ACE_TEXT ("TAO_IDL_PREPROCESSOR"),
                                      nullptr);
 
-  // Set cpp_loc to the built in location, unless it has been overriden by
-  // environment variables.
-  if (preprocessor != nullptr)
+  char const * const env_preprocessor = preprocessor;
+  if (env_preprocessor != nullptr)
     {
-      cpp_loc = preprocessor;
-    }
-  else
-    {
-      cpp_loc = idl_global->cpp_location ().value_or (std::string_view {}).data ();
+      return env_preprocessor;
     }
 
-  return cpp_loc;
+  return std::string (idl_global->cpp_location ().value_or (std::string_view {}));
 }
 
-char const *
+std::optional<std::string>
 FE_get_cpp_args_from_env ()
 {
-  char const *cpp_args = nullptr;
-
   // Added some customizable preprocessor options
   ACE_Env_Value<char*> args1 (ACE_TEXT ("TAO_IDL_PREPROCESSOR_ARGS"),
                               nullptr);
 
-  if (args1 != nullptr)
+  char const * const env_args = args1;
+  if (env_args != nullptr)
     {
-      cpp_args = args1;
+      return std::string (env_args);
     }
 
-  return cpp_args;
+  return std::nullopt;
 }

@@ -91,6 +91,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ace/OS_NS_fcntl.h"
 #include "ace/OS_NS_sys_stat.h"
 
+#include <optional>
+
 // Storage for preprocessor args.
 constexpr unsigned long DRV_MAX_ARGCOUNT = 1024;
 unsigned long DRV_argcount = 0;
@@ -306,8 +308,8 @@ DRV_cpp_init ()
   ACE_NEW (drv_line,
            char [drv_line_size]);
 
-  char const * const cpp_loc = FE_get_cpp_loc_from_env ();
-  DRV_cpp_putarg (cpp_loc);
+  std::string const cpp_loc = FE_get_cpp_loc_from_env ();
+  DRV_cpp_putarg (cpp_loc.c_str ());
 
   // Add an option to the IDL compiler to make the TAO version
   // available to the user. A XX.YY.ZZ release gets
@@ -332,10 +334,11 @@ DRV_cpp_init ()
     }
 #endif
 
-  char const *platform_cpp_args =
+  std::optional<std::string> const env_cpp_args =
     FE_get_cpp_args_from_env ();
+  std::string platform_cpp_args;
 
-  if (platform_cpp_args == nullptr)
+  if (!env_cpp_args.has_value ())
     {
       // If no cpp flag was defined by the user, we define some
       // platform specific flags here.
@@ -406,10 +409,14 @@ DRV_cpp_init ()
 
       idl_global->tao_root (include_path1.c_str ());
     }
+  else
+    {
+      platform_cpp_args = *env_cpp_args;
+    }
 
   // Add any flags in platform_cpp_args to cpp's DRV_arglist.
   ACE_ARGV platform_arglist (
-    ACE_TEXT_CHAR_TO_TCHAR (platform_cpp_args));
+    ACE_TEXT_CHAR_TO_TCHAR (platform_cpp_args.c_str ()));
 
   for (size_t i = 0; i < static_cast<size_t> (platform_arglist.argc ()); ++i)
     {

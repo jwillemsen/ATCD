@@ -57,8 +57,8 @@ be_visitor_component_scope::visit_extended_port (
   /// Depends on nested ports not being allowed.
   if (nt == AST_Decl::NT_component || nt == AST_Decl::NT_connector)
     {
-      this->ctx_->port_prefix () = node->local_name ()->get_string_view_or_empty ();
-      this->ctx_->port_prefix () += '_';
+      this->ctx_->port_prefix (node->local_name ()->get_string_view_or_empty ());
+      this->ctx_->append_port_prefix ("_");
     }
 
   int status =
@@ -74,7 +74,7 @@ be_visitor_component_scope::visit_extended_port (
     }
 
   /// Reset port prefix string.
-  this->ctx_->port_prefix () = "";
+  this->ctx_->port_prefix ({});
   this->in_ext_port_ = false;
   return 0;
 }
@@ -90,8 +90,8 @@ be_visitor_component_scope::visit_mirror_port (
   /// Depends on nested ports not being allowed.
   if (nt == AST_Decl::NT_component || nt == AST_Decl::NT_connector)
     {
-      this->ctx_->port_prefix () = node->local_name ()->get_string_view_or_empty ();
-      this->ctx_->port_prefix () += '_';
+      this->ctx_->port_prefix (node->local_name ()->get_string_view_or_empty ());
+      this->ctx_->append_port_prefix ("_");
     }
 
   int status =
@@ -108,7 +108,7 @@ be_visitor_component_scope::visit_mirror_port (
     }
 
   /// Reset port prefix string.
-  this->ctx_->port_prefix () = "";
+  this->ctx_->port_prefix ({});
   return 0;
 }
 

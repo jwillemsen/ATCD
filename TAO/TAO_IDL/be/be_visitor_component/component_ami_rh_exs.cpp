@@ -45,8 +45,8 @@ be_visitor_component_ami_rh_exs::visit_uses (be_uses *node)
       << "{" << be_nl
       << "}";
 
-  std::string port_pfix = this->ctx_->port_prefix ();
-  this->ctx_->port_prefix () = "";
+  std::string port_pfix (this->ctx_->port_prefix ());
+  this->ctx_->port_prefix ({});
 
   /// This overload of traverse_inheritance_graph() used here
   /// doesn't automatically prime the queues.
@@ -72,7 +72,7 @@ be_visitor_component_ami_rh_exs::visit_uses (be_uses *node)
                         -1);
     }
 
-  this->ctx_->port_prefix () = port_pfix;
+  this->ctx_->port_prefix (port_pfix);
   return 0;
 }
 

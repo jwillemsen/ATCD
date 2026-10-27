@@ -215,16 +215,22 @@ be_visitor_context::interface () const
   return this->interface_;
 }
 
-std::string &
-be_visitor_context::port_prefix ()
+std::string_view
+be_visitor_context::port_prefix () const
 {
   return this->port_prefix_;
 }
 
-std::string const &
-be_visitor_context::port_prefix () const
+void
+be_visitor_context::port_prefix (std::string_view prefix)
 {
-  return this->port_prefix_;
+  this->port_prefix_.assign (prefix.data (), prefix.size ());
+}
+
+void
+be_visitor_context::append_port_prefix (std::string_view suffix)
+{
+  this->port_prefix_.append (suffix.data (), suffix.size ());
 }
 
 std::string_view

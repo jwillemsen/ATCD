@@ -130,8 +130,9 @@ public:
   void interface (be_interface *);
 
   /// Accessor for the member.
-  std::string &port_prefix ();
-  std::string const &port_prefix () const;
+  std::string_view port_prefix () const;
+  void port_prefix (std::string_view prefix);
+  void append_port_prefix (std::string_view suffix);
 
   /// return the export macro currently in force
   std::string_view export_macro () const;

@@ -875,7 +875,7 @@ IDL_GlobalData::idl_flags () const
   return this->idl_flags_;
 }
 
-ACE_Hash_Map_Manager<ACE_CString, int, ACE_Null_Mutex> &
+std::unordered_set<std::string> &
 IDL_GlobalData::idl_keywords ()
 {
   return this->idl_keywords_;

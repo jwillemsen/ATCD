@@ -82,6 +82,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include <optional>
 #include <string>
 #include <string_view>
+#include <unordered_set>
 
 class AST_Root;
 class AST_Module;
@@ -527,7 +528,7 @@ public:
   // Get a string representation of the flags
   // passed to the idl compiler.
 
-  ACE_Hash_Map_Manager<ACE_CString, int, ACE_Null_Mutex> &
+  std::unordered_set<std::string> &
   idl_keywords ();
   // Accessor for the IDL keyword container.
 
@@ -967,7 +968,7 @@ private:
   std::string idl_flags_;
   // Concatenation of all the command line options.
 
-  ACE_Hash_Map_Manager<ACE_CString, int, ACE_Null_Mutex> idl_keywords_;
+  std::unordered_set<std::string> idl_keywords_;
   // Container for all the IDL keywords so local names can be checked.
 
   ACE_Unbounded_Stack<char *> pragma_prefixes_;

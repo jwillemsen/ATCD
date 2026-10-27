@@ -159,12 +159,18 @@ UTL_String::get_canonical_rep (char const* src, char *dest)
     {}
 }
 
-// Get canonical representation. This is (implemented as) the all upper
-// case corresponding string.
-void
-UTL_String::get_canonical_rep (ACE_CString &cstr)
+// Get canonical representation. This is the all upper case corresponding string.
+std::string
+UTL_String::get_canonical_rep (std::string_view str)
 {
-  get_canonical_rep (&cstr [0], &cstr [0]);
+  std::string result (str);
+
+  for (char &c : result)
+    {
+      c = static_cast<char> (ACE_OS::ace_toupper (static_cast<unsigned char> (c)));
+    }
+
+  return result;
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -74,7 +74,9 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ast_generator.h"
 #include "ast_root.h"
 
+#include <string>
 #include <string_view>
+#include <unordered_set>
 
 // Populate the global scope with all predefined entities.
 void
@@ -340,19 +342,13 @@ fe_populate_idl_keywords ()
       "WSTRING"
     };
 
-  ACE_Hash_Map_Manager<ACE_CString, int, ACE_Null_Mutex> &map =
-    idl_global->idl_keywords ();
+  std::unordered_set<std::string> &keywords_set = idl_global->idl_keywords ();
 
   u_long length = sizeof (keywords) / sizeof (char *);
-  ACE_CString ext_id;
-  int int_id = 0;
 
   for (u_long i = 0; i < length; ++i)
     {
-      ext_id.set (keywords[i],
-                  false);
-      (void) map.bind (ext_id,
-                       int_id);
+      keywords_set.insert (keywords[i]);
     }
 }
 

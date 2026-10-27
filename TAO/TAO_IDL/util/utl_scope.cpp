@@ -226,13 +226,11 @@ UTL_Scope::idl_keyword_clash (Identifier *e)
       return 0;
     }
 
-  // Convert the identifier string into a
-  // canonical (uppercase) form as a ACE_CString
   std::string_view const name = e->get_string_view_or_empty ();
-  ACE_CString ext_id (name.empty () ? "" : name.data ());
-  UTL_String::get_canonical_rep (ext_id);
+  std::string const ext_id = UTL_String::get_canonical_rep (name);
 
-  if (!idl_global->idl_keywords ().find (ext_id))
+  if (idl_global->idl_keywords ().find (ext_id)
+      != idl_global->idl_keywords ().end ())
     {
       if (idl_global->case_diff_error ())
         {

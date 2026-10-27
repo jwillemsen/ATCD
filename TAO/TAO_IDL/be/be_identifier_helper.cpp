@@ -169,14 +169,12 @@ IdentifierHelper::orig_sn (UTL_IdList * sn, bool for_idl)
 bool
 IdentifierHelper::is_idl_keyword (Identifier const *local_name)
 {
-  // Convert the identifier string into a
-  // canonical (uppercase) form as a ACE_CString
   std::string_view const name =
     local_name->get_string_view_or_empty ();
-  ACE_CString ext_id (name.data ());
-  UTL_String::get_canonical_rep (ext_id);
+  std::string const ext_id = UTL_String::get_canonical_rep (name);
 
-  return !idl_global->idl_keywords ().find (ext_id);
+  return idl_global->idl_keywords ().find (ext_id)
+    != idl_global->idl_keywords ().end ();
 }
 
 std::string

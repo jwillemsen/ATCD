@@ -70,9 +70,9 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ace/iosfwd.h"
   /* Basic_Types.h are needed in QNX for size_t type. */
 #include "ace/Basic_Types.h"
-#include "ace/SStringfwd.h"
 
 #include <optional>
+#include <string>
 #include <string_view>
 
 class TAO_IDL_FE_Export UTL_String
@@ -147,7 +147,7 @@ public:
   // Get canonical representation. This is (implemented as) the all upper
   // case corresponding string.
 
-  static void get_canonical_rep (ACE_CString &cstr);
+  static std::string get_canonical_rep (std::string_view str);
   // Get canonical representation. This is (implemented as) the all upper
   // case corresponding string.
 

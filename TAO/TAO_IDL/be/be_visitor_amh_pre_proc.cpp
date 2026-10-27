@@ -157,7 +157,7 @@ be_visitor_amh_pre_proc::create_response_handler (
                        " - Scope downcast failed.\n"),
                       0);
   Identifier *local_name = amh_name->last_component ();
-  local_name->replace_string (class_name.c_str ());
+  local_name->replace_string (class_name);
 
   UTL_Scope *s = node->defined_in ();
   idl_global->scopes ().push (s);
@@ -419,7 +419,7 @@ be_visitor_amh_pre_proc::add_normal_reply (be_operation *node,
     static_cast<UTL_ScopedName *> (response_handler->name ()->copy ());
 
   ACE_NEW_RETURN (id,
-                  Identifier (original_op_name.c_str ()),
+                  Identifier (original_op_name),
                   -1);
 
   ACE_NEW_RETURN (sn,
@@ -677,7 +677,7 @@ be_visitor_amh_pre_proc::create_raise_operation (
   new_local_name += node->name ()->last_component ()->get_string_view_or_empty ();
 
   ACE_NEW_RETURN (id,
-                  Identifier (new_local_name.c_str ()),
+                  Identifier (new_local_name),
                   -1);
 
   ACE_NEW_RETURN (sn,
@@ -744,7 +744,7 @@ be_visitor_amh_pre_proc::generate_get_operation (be_attribute *node)
 
   UTL_ScopedName *get_name =
     static_cast<UTL_ScopedName *> (node->name ()-> copy ());
-  get_name->last_component ()->replace_string (new_op_name.c_str ());
+  get_name->last_component ()->replace_string (new_op_name);
 
   be_operation *operation = nullptr;
   ACE_NEW_RETURN (operation,
@@ -769,7 +769,7 @@ be_visitor_amh_pre_proc::generate_set_operation (be_attribute *node)
 
   UTL_ScopedName *set_op_name =
     dynamic_cast<UTL_ScopedName *> (node->name ()-> copy ());
-  set_op_name->last_component ()->replace_string (new_op_name.c_str ());
+  set_op_name->last_component ()->replace_string (new_op_name);
 
   // argument type is the same as the attribute type
   be_argument *arg = nullptr;

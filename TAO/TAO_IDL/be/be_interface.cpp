@@ -1393,7 +1393,7 @@ be_interface::gen_optable_entries (be_interface *derived_interface,
                     {
                       // The set method
                       *os << "_set_" << d->original_local_name () << ",std::addressof(POA_"
-                          << nspace.c_str () << "_set_"
+                          << nspace << "_set_"
                           << d->original_local_name () << "_skel),";
 
                       if (be_global->gen_direct_collocation ())

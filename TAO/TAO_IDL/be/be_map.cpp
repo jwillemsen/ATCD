@@ -186,7 +186,7 @@ be_map::create_name (be_typedef *node)
 
           Identifier *id = nullptr;
           ACE_NEW_RETURN (id,
-                          Identifier (namebuf.c_str ()),
+                          Identifier (namebuf),
                           -1);
 
           UTL_ScopedName *conc_name = nullptr;

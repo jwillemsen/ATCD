@@ -229,7 +229,7 @@ be_predefined_type::compute_tc_name ()
         tcname += this->name ()->last_component ()->get_string_view_or_empty ();
 
         ACE_NEW (id,
-                 Identifier (tcname.c_str ()));
+                 Identifier (tcname));
         break;
       }
     case AST_PredefinedType::PT_uint8:

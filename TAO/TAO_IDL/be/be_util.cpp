@@ -100,7 +100,7 @@ be_util::gen_nesting_open (TAO_OutStream &os, AST_Decl *node)
         IdentifierHelper::try_escape (node->original_local_name ()));
 
       os << be_nl
-         << "module " << module_name.c_str () << be_nl
+         << "module " << module_name << be_nl
          << "{" << be_idt;
    }
 }

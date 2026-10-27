@@ -765,7 +765,7 @@ be_visitor_ccm_pre_proc::gen_get_connection_multiple (be_uses *node)
   std::string connections_string (this->ctx_->port_prefix ());
   connections_string += node->local_name ()->get_string_view_or_empty ();
   connections_string += "Connections";
-  Identifier connections_id (connections_string.c_str ());
+  Identifier connections_id (connections_string);
   UTL_ScopedName connections_name (&connections_id,
                                    nullptr);
   AST_Decl *d = comp_->lookup_by_name (&connections_name,
@@ -817,7 +817,7 @@ be_visitor_ccm_pre_proc::gen_push_op (be_eventtype *node,
       push_op->set_name (op_full_name);
       std::string arg_string ("the_");
       arg_string += node->local_name ();
-      Identifier arg_id (arg_string.c_str ());
+      Identifier arg_id (arg_string);
       UTL_ScopedName arg_name (&arg_id,
                                nullptr);
       be_argument *arg = nullptr;
@@ -1551,7 +1551,7 @@ be_visitor_ccm_pre_proc::lookup_consumer (be_field *node)
   std::string rettype_string (
     impl->local_name ()->get_string_view_or_empty ());
   rettype_string += "Consumer";
-  Identifier rettype_id (rettype_string.c_str ());
+  Identifier rettype_id (rettype_string);
   AST_Decl *d =
     impl->defined_in ()->lookup_by_name_local (&rettype_id, false);
   rettype_id.destroy ();
@@ -1744,7 +1744,7 @@ be_visitor_ccm_pre_proc::create_scoped_name (std::string_view prefix,
   local_string += suffix;
   Identifier *local_id = nullptr;
   ACE_NEW_RETURN (local_id,
-                  Identifier (local_string.c_str ()),
+                  Identifier (local_string),
                   nullptr);
   UTL_ScopedName *last_segment = nullptr;
   ACE_NEW_RETURN (last_segment,
@@ -1790,7 +1790,7 @@ be_visitor_ccm_pre_proc::compute_inheritance (be_home *node)
       new_local += "Explicit";
       UTL_ScopedName *parent_name =
         static_cast<UTL_ScopedName *> (node->base_home ()->name ()->copy ());
-      parent_name->last_component ()->replace_string (new_local.c_str ());
+      parent_name->last_component ()->replace_string (new_local);
       ACE_NEW_RETURN (retval,
                       UTL_NameList (parent_name,
                                     nullptr),
@@ -1836,7 +1836,7 @@ be_visitor_ccm_pre_proc::generate_ami4ccm_uses ()
   for (std::string const &item : ccm_ami_receps)
     {
       UTL_ScopedName *sn =
-        FE_Utils::string_to_scoped_name (item.c_str ());
+        FE_Utils::string_to_scoped_name (item);
 
       UTL_Scope *s =
         idl_global->scopes ().top_non_null ();
@@ -1886,7 +1886,7 @@ be_visitor_ccm_pre_proc::generate_ami4ccm_uses ()
           std::string iname ("AMI4CCM_");
 
           iname += iface->local_name ();
-          Identifier itmp_id (iname.c_str ());
+          Identifier itmp_id (iname);
           UTL_ScopedName itmp_sn (&itmp_id, nullptr);
 
           s = iface->defined_in ();
@@ -1919,7 +1919,7 @@ be_visitor_ccm_pre_proc::generate_ami4ccm_uses ()
 
       std::string uname ("sendc_");
       uname += u->local_name ()->get_string_view_or_empty ();
-      Identifier utmp_id (uname.c_str ());
+      Identifier utmp_id (uname);
       UTL_ScopedName utmp_sn (&utmp_id, nullptr);
 
       s = u->defined_in ();

@@ -29,6 +29,10 @@ public:
   AST_Annotation_Member (
     UTL_ScopedName *name,
     AST_Annotation_Member *other);
+  AST_Annotation_Member (AST_Annotation_Member const &) = delete;
+  AST_Annotation_Member (AST_Annotation_Member &&) = delete;
+  AST_Annotation_Member &operator= (AST_Annotation_Member const &) = delete;
+  AST_Annotation_Member &operator= (AST_Annotation_Member &&) = delete;
 
   ~AST_Annotation_Member () override;
 

@@ -76,6 +76,10 @@ class TAO_IDL_FE_Export AST_EnumVal : public virtual AST_Constant
 public:
   AST_EnumVal (ACE_CDR::ULong v,
                UTL_ScopedName *n);
+  AST_EnumVal (AST_EnumVal const &) = delete;
+  AST_EnumVal (AST_EnumVal &&) = delete;
+  AST_EnumVal &operator= (AST_EnumVal const &) = delete;
+  AST_EnumVal &operator= (AST_EnumVal &&) = delete;
 
   ~AST_EnumVal () override;
 

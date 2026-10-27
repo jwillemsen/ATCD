@@ -13,6 +13,10 @@ public:
   AST_Fixed (UTL_ScopedName *name,
              AST_Expression *digits,
              AST_Expression *scale);
+  AST_Fixed (AST_Fixed const &) = delete;
+  AST_Fixed (AST_Fixed &&) = delete;
+  AST_Fixed &operator= (AST_Fixed const &) = delete;
+  AST_Fixed &operator= (AST_Fixed &&) = delete;
 
   ~AST_Fixed () override;
 

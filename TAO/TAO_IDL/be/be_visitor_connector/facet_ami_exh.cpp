@@ -234,7 +234,7 @@ be_visitor_facet_ami_exh::gen_reply_handler_class ()
   os_ << be_nl
       << "class " << this->export_macro_ << " "
       << this->iface_name_ << suffix << be_idt_nl
-      << ": public ::POA_" << this->handler_str_.c_str ()
+      << ": public ::POA_" << this->handler_str_
       << be_uidt_nl
       << "{" << be_nl
       << "public:" << be_idt_nl

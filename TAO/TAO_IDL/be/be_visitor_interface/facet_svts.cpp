@@ -48,7 +48,7 @@ be_visitor_facet_svts::visit_interface (be_interface *node)
     }
 
   os_ << be_nl_2
-      << "namespace CIAO_FACET" << suffix.c_str () << be_nl
+      << "namespace CIAO_FACET" << suffix << be_nl
       << "{" << be_idt_nl;
 
   os_ << "template <typename BASE, typename EXEC, typename CONTEXT>" << be_nl

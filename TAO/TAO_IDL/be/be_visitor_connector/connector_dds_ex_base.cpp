@@ -195,7 +195,7 @@ be_visitor_connector_dds_ex_base::match_template_args ()
           FE_Utils::T_Param_Info *t_param = nullptr;
           ci.next (t_param);
 
-          if (std::string_view (t_param->name_.c_str (), t_param->name_.length ()) == ref_name)
+          if (std::string_view (t_param->name_) == ref_name)
             {
               AST_Decl **d = nullptr;
               this->t_inst_->template_args ()->get (d, slot);

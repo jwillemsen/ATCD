@@ -43,7 +43,7 @@ be_visitor_facet_svth::visit_interface (be_interface *node)
     }
 
   os_ << be_nl_2
-      << "namespace CIAO_FACET" << suffix.c_str () <<  be_nl
+      << "namespace CIAO_FACET" << suffix << be_nl
       << "{" << be_idt_nl;
 
   bool is_intf = node->node_type () == AST_Decl::NT_interface;

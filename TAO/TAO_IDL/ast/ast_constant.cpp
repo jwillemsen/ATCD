@@ -165,19 +165,19 @@ AST_Constant::destroy ()
 // Data accessors.
 
 AST_Expression *
-AST_Constant::constant_value ()
+AST_Constant::constant_value () const
 {
   return this->pd_constant_value;
 }
 
 AST_Expression::ExprType
-AST_Constant::et ()
+AST_Constant::et () const
 {
   return this->pd_et;
 }
 
 bool
-AST_Constant::ifr_added ()
+AST_Constant::ifr_added () const
 {
   return this->ifr_added_;
 }

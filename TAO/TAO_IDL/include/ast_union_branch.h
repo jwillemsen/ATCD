@@ -91,9 +91,9 @@ public:
 
   UTL_LabelList *labels () const;
 
-  AST_UnionLabel *label (unsigned long index = 0);
+  AST_UnionLabel *label (unsigned long index = 0) const;
 
-  unsigned long label_list_length ();
+  unsigned long label_list_length () const;
 
   // Called if our labels are enum values - adds them to the
   // enclosing scope's name_referenced list.

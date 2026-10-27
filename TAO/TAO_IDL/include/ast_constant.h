@@ -98,11 +98,11 @@ public:
   ~AST_Constant () override;
 
   // Data Accessors.
-  AST_Expression *constant_value ();
-  AST_Expression::ExprType et ();
+  AST_Expression *constant_value () const;
+  AST_Expression::ExprType et () const;
 
   // Accessors for the private member.
-  bool ifr_added ();
+  bool ifr_added () const;
   void ifr_added (bool val);
 
   UTL_ScopedName *enum_full_name ();

@@ -144,7 +144,7 @@ AST_UnionBranch::labels () const
 }
 
 AST_UnionLabel *
-AST_UnionBranch::label (unsigned long index)
+AST_UnionBranch::label (unsigned long index) const
 {
   unsigned long i = 0;
 
@@ -164,7 +164,7 @@ AST_UnionBranch::label (unsigned long index)
 }
 
 unsigned long
-AST_UnionBranch::label_list_length ()
+AST_UnionBranch::label_list_length () const
 {
   if (this->pd_ll)
     {

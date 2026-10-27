@@ -1437,7 +1437,7 @@ IDL_GlobalData::multi_file_input (bool val)
 std::string_view
 IDL_GlobalData::big_file_name () const
 {
-  return this->big_file_name_;
+  return "PICML_IDL_file_bag";
 }
 
 FE_Utils::T_PARAMLIST_INFO const *

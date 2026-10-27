@@ -133,9 +133,6 @@ be_home::destroy ()
   this->server_scope_.clear ();
   this->server_scope_computed_ = false;
 
-  delete [] this->flat_server_scope_;
-  this->flat_server_scope_ = nullptr;
-
   this->be_scope::destroy ();
   this->be_type::destroy ();
 

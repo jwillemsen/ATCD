@@ -50,9 +50,9 @@ private:
   be_home *node_ {};
   AST_Component *comp_ {};
   TAO_OutStream &os_;
-  char const *const comment_start_border_ {"/**"};
-  char const *const comment_end_border_ {" */"};
-  char const *const your_code_here_ {"/* Your code here. */"};
+  std::string_view comment_start_border_ {"/**"};
+  std::string_view comment_end_border_ {" */"};
+  std::string_view your_code_here_ {"/* Your code here. */"};
   std::string_view export_macro_;
 };
 

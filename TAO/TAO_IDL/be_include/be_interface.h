@@ -305,7 +305,6 @@ protected:
 
   mutable std::string server_scope_;
   mutable bool server_scope_computed_ {};
-  char *flat_server_scope_ {};
 
 private:
   /// Output the header (type declaration and %%) to the gperf's input

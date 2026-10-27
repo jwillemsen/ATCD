@@ -1005,7 +1005,6 @@ private:
   bool multi_file_input_ {};
   // Some backends process multiple files to a single output.
 
-  char const *big_file_name_ {"PICML_IDL_file_bag"};
   // Used if the above flag is set.
 
   FE_Utils::T_PARAMLIST_INFO *current_params_ {};

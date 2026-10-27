@@ -23,7 +23,7 @@ namespace {
   void
   serialize_disc (TAO_OutStream *os, AST_Expression::ExprType disc_type, bool out)
   {
-  char const *tmp_suffix = nullptr;
+  std::string_view tmp_suffix;
     switch (disc_type)
       {
         case AST_Expression::EV_bool:
@@ -48,8 +48,8 @@ namespace {
           break;
       }
 
-  char const *val = out ? "_tao_union._d ()" : "_tao_discriminant";
-    if (tmp_suffix)
+  std::string_view val = out ? "_tao_union._d ()" : "_tao_discriminant";
+    if (!tmp_suffix.empty ())
       {
         *os << (out ? "::ACE_OutputCDR::from_" : "::ACE_InputCDR::to_")
           << tmp_suffix << " tmp (" << val << ");" << be_nl;

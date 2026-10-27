@@ -521,8 +521,7 @@ FE_Utils::open_included_file (char const * filename,
                               char const *& directory)
 {
   FILE * f = nullptr;
-  ACE_CString const the_file (ACE_CString ('/')
-                              + ACE_CString (filename));
+  std::string const the_file = std::string ("/") + filename;
 
   for (IDL_GlobalData::Unbounded_Paths_Queue_Iterator i (
          idl_global->include_paths ());
@@ -534,8 +533,8 @@ FE_Utils::open_included_file (char const * filename,
 
       if (path_info->path_ != nullptr)
         {
-          ACE_CString const complete_filename (ACE_CString (path_info->path_)
-                                               + the_file);
+          std::string const complete_filename =
+            std::string (path_info->path_) + the_file;
 
           f = ACE_OS::fopen (complete_filename.c_str (), "r");
 
@@ -548,7 +547,7 @@ FE_Utils::open_included_file (char const * filename,
 }
 
 bool
-FE_Utils::is_include_file_found (ACE_CString & inc_file,
+FE_Utils::is_include_file_found (std::string &inc_file,
                                  UTL_String * idl_file_name)
 {
   char abspath[MAXPATHLEN] = "";
@@ -556,18 +555,16 @@ FE_Utils::is_include_file_found (ACE_CString & inc_file,
 
   // If the include path has literal "s (because of an include
   // of a Windows path with spaces), we must remove them here.
-  char const *tmp_inc_file = inc_file.c_str ();
-
-  if (tmp_inc_file
-      && FE_Utils::hasspace (tmp_inc_file)
-      && tmp_inc_file[0] == '\"')
+  if (FE_Utils::hasspace (inc_file)
+      && inc_file.size () >= 2
+      && inc_file.front () == '\"'
+      && inc_file.back () == '\"')
     {
-      inc_file =
-        inc_file.substr (1, inc_file.length () - 2);
+      inc_file = inc_file.substr (1, inc_file.size () - 2);
     }
 
   inc_file += ACE_DIRECTORY_SEPARATOR_STR_A;
-  inc_file += idl_file_name->get_string_view_or_empty ().data ();
+  inc_file += idl_file_name->get_string_view_or_empty ();
   full_path =
     ACE_OS::realpath (inc_file.c_str (), abspath);
 
@@ -663,17 +660,16 @@ FE_Utils::validate_included_idl_files ()
                         iter.advance ())
                 {
                   iter.next (path_info);
-                  ACE_CString pre_partial (path_info->path_);
+                  std::string pre_partial (
+                    path_info->path_ == nullptr ? "" : path_info->path_);
 
                   // If the include path has literal "s (because of an include
                   // of a Windows path with spaces), we must remove them here.
-                  if (pre_partial.c_str () &&
-                      2u < pre_partial.length () &&
+                  if (pre_partial.size () > 2 &&
                       '"' == pre_partial [0] &&
-                      '"' == pre_partial [pre_partial.length () - 1u])
+                      '"' == pre_partial.back ())
                     {
-                      pre_partial =
-                        pre_partial.substr (1, pre_partial.length () - 2u);
+                      pre_partial = pre_partial.substr (1, pre_partial.size () - 2);
                     }
                   pre_partial += ACE_DIRECTORY_SEPARATOR_STR_A;
                   pre_partial += pre_preproc_includes [j];
@@ -746,16 +742,17 @@ FE_Utils::validate_included_idl_files ()
 bool
 FE_Utils::validate_orb_include (UTL_String * idl_file_name)
 {
-  char foundpath[MAXPATHLEN] = "";
+  std::string foundpath;
 
   {
     // Check in the current folder.
     char abspath[MAXPATHLEN] = "";
-    ACE_CString cwd_path = ACE_OS::getcwd (abspath,
-                                           sizeof (abspath) / sizeof (char));
-    if (FE_Utils::is_include_file_found (cwd_path, idl_file_name))
+    char const * const cwd = ACE_OS::getcwd (abspath, sizeof (abspath));
+    std::string cwd_path (cwd == nullptr ? "" : cwd);
+    if (!cwd_path.empty ()
+        && FE_Utils::is_include_file_found (cwd_path, idl_file_name))
       {
-        ACE_OS::strcpy (foundpath, cwd_path.c_str ());
+        foundpath = cwd_path;
       }
   }
 
@@ -767,12 +764,13 @@ FE_Utils::validate_orb_include (UTL_String * idl_file_name)
       IDL_GlobalData::Include_Path_Info *path_info = nullptr;
       iter.next (path_info);
 
-      ACE_CString partial = path_info->path_;
+      std::string partial (
+        path_info->path_ == nullptr ? "" : path_info->path_);
 
       // We don't need to check anything if the file is already
       // found and the folder where are currently checking is
       // provided by user.
-      if (foundpath[0] != 0 && !path_info->is_system_)
+      if (!foundpath.empty () && !path_info->is_system_)
         {
           continue;
         }
@@ -781,8 +779,7 @@ FE_Utils::validate_orb_include (UTL_String * idl_file_name)
         {
           if (path_info->is_system_)
             {
-              if (foundpath[0] == 0 ||
-                  ACE_OS::strcmp (foundpath, partial.c_str ()) == 0)
+              if (foundpath.empty () || foundpath == partial)
                 {
                   return true;
                 }
@@ -791,7 +788,7 @@ FE_Utils::validate_orb_include (UTL_String * idl_file_name)
             {
               // We can fill in foundpath here since we are sure
               // that it was not set before. Check above ensures that.
-              ACE_OS::strcpy (foundpath, partial.c_str ());
+              foundpath = partial;
               continue;
             }
         }

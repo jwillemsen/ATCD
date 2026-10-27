@@ -86,6 +86,10 @@ public:
              bool abstract);
 
   ~AST_Array () override;
+  AST_Array (AST_Array const &) = delete;
+  AST_Array (AST_Array &&) = delete;
+  AST_Array &operator= (AST_Array const &) = delete;
+  AST_Array &operator= (AST_Array &&) = delete;
 
   // Data Accessors.
 

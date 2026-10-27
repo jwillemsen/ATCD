@@ -81,8 +81,8 @@ be_visitor_operation::is_amh_exception_holder (be_interface *node)
 }
 
 int
-be_visitor_operation::gen_raise_exception (const char *exception_name,
-                                           const char *exception_arguments)
+be_visitor_operation::gen_raise_exception (std::string_view exception_name,
+                                           std::string_view exception_arguments)
 {
   TAO_OutStream *os = this->ctx_->stream ();
 

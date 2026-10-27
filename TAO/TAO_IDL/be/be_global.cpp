@@ -32,11 +32,6 @@
 
 TAO_IDL_BE_Export BE_GlobalData *be_global = nullptr;
 
-const char *const BE_GlobalData::core_versioned_ns_begin =
-  "\nTAO_BEGIN_VERSIONED_NAMESPACE_DECL\n";
-const char *const BE_GlobalData::core_versioned_ns_end =
-  "\nTAO_END_VERSIONED_NAMESPACE_DECL\n";
-
 BE_GlobalData::BE_GlobalData ()
   : core_versioning_begin_ (core_versioned_ns_begin),
     core_versioning_end_ (core_versioned_ns_end),
@@ -960,9 +955,8 @@ BE_GlobalData::versioning_end (std::string_view s)
   this->versioning_end_.append (s);
   this->versioning_end_.append ("\n\n");
 
-  this->core_versioning_begin_ =
-    this->versioning_end_ + // Yes, "end".
-    core_versioned_ns_begin;
+  this->core_versioning_begin_ = this->versioning_end_; // Yes, "end".
+  this->core_versioning_begin_.append (core_versioned_ns_begin);
 
   this->anyops_versioning_begin_ =
     this->core_versioning_begin_ + "namespace CORBA {\n";
@@ -975,9 +969,8 @@ BE_GlobalData::versioning_begin (std::string_view s)
   this->versioning_begin_.append (s);
   this->versioning_begin_.append ("\n\n");
 
-  this->core_versioning_end_ =
-    core_versioned_ns_end
-    + this->versioning_begin_;  // Yes, "begin".
+  this->core_versioning_end_ = core_versioned_ns_end; // Yes, "begin".
+  this->core_versioning_end_.append (this->versioning_begin_);
 
   this->anyops_versioning_end_ =
     "\n}" + this->core_versioning_end_;

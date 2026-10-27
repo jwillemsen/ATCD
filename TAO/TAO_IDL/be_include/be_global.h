@@ -58,8 +58,10 @@ public:
     COREDX
   };
 
-  static const char *const core_versioned_ns_begin;
-  static const char *const core_versioned_ns_end;
+  inline static constexpr std::string_view core_versioned_ns_begin =
+    "\nTAO_BEGIN_VERSIONED_NAMESPACE_DECL\n";
+  inline static constexpr std::string_view core_versioned_ns_end =
+    "\nTAO_END_VERSIONED_NAMESPACE_DECL\n";
 
   BE_GlobalData ();
   ~BE_GlobalData ();

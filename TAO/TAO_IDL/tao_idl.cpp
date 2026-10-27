@@ -196,7 +196,7 @@ DRV_drive (char const *s)
   // the backend when it generates C++ headers and files.
   UTL_String *utl_string = nullptr;
   ACE_NEW (utl_string,
-           UTL_String (s, true));
+           UTL_String (s));
 
   idl_global->idl_src_file (utl_string);
 

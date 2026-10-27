@@ -1204,7 +1204,7 @@ DRV_pre_proc (char const *myfile)
   UTL_String *utl_string = nullptr;
 
   ACE_NEW (utl_string,
-           UTL_String (myfile, true));
+           UTL_String (myfile));
 
   idl_global->set_main_filename (utl_string);
 
@@ -1216,7 +1216,7 @@ DRV_pre_proc (char const *myfile)
 
   UTL_String *real_tmp = nullptr;
   ACE_NEW (real_tmp,
-           UTL_String (input_file, true));
+           UTL_String (input_file));
 
   idl_global->set_real_filename (real_tmp);
 

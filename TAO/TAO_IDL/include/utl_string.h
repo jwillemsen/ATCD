@@ -84,11 +84,13 @@ class TAO_IDL_FE_Export UTL_String
 public:
   UTL_String ();
 
-  explicit UTL_String (char const* str, bool take_copy = false);
+  explicit UTL_String (char const* str);
+  // Compatibility with generated front-end sources; strings are always copied.
+  UTL_String (char const* str, bool take_copy);
 
   explicit UTL_String (std::string_view str);
 
-  explicit UTL_String (UTL_String *s, bool force_copy = false);
+  explicit UTL_String (UTL_String const *s);
 
   UTL_String (UTL_String const&) = delete;
   UTL_String (UTL_String&&) = delete;
@@ -103,20 +105,27 @@ public:
   virtual void dump (ACE_OSTREAM_TYPE &o);
   // Dump to the ostream.
 
-  char *get_string () const {return this->p_str;}
+  char *get_string ()
+  {
+    return this->p_str ? this->p_str->data () : nullptr;
+  }
+  char const *get_string () const
+  {
+    return this->p_str ? this->p_str->c_str () : nullptr;
+  }
   // Get contents of utl_string.
 
   std::optional<std::string_view> get_string_view () const
   {
-    return this->p_str != nullptr
-      ? std::optional<std::string_view> (this->p_str)
+    return this->p_str
+      ? std::optional<std::string_view> (*this->p_str)
       : std::nullopt;
   }
   // Get contents of utl_string as a non-owning view, if present.
 
   std::string_view get_string_view_or_empty () const
   {
-    return this->p_str != nullptr ? std::string_view (this->p_str) : std::string_view {};
+    return this->p_str ? std::string_view (*this->p_str) : std::string_view {};
   }
   // Get contents of utl_string as a non-owning view, or an empty view if absent.
 
@@ -148,11 +157,8 @@ public:
 
 private:
   // Data
-  bool copy_taken;
-  // If delete needs to be called on destroy/delete
-
-  char *p_str;
-  // Storage for characters.
+  std::optional<std::string> p_str {};
+  // Optional owned string storage.
 
   std::optional<std::string> canonical_rep {};
   // Cached canonical representation.

@@ -166,50 +166,36 @@ UTL_String::get_canonical_rep (std::string_view str)
 
 //////////////////////////////////////////////////////////////////////
 
-UTL_String::UTL_String ()
-  : copy_taken (false),
-    p_str      (nullptr)
+UTL_String::UTL_String () = default;
+
+UTL_String::UTL_String (char const* str)
+  : p_str (str != nullptr ? std::optional<std::string> (str) : std::nullopt)
 {
 }
 
 UTL_String::UTL_String (char const* str, bool take_copy)
-  : copy_taken (str != nullptr ? take_copy : false),
-    p_str      (this->copy_taken ? ACE::strnew (str)
-                                 : const_cast<char *>(str))
+  : UTL_String (str)
 {
+  ACE_UNUSED_ARG (take_copy);
 }
 
 UTL_String::UTL_String (std::string_view str)
-  : copy_taken (true),
-    p_str (str.empty () ? ACE::strnew ("") : ACE::strndup (str.data (), str.size ()))
+  : p_str (str)
 {
 }
 
-UTL_String::UTL_String (UTL_String *s, bool force_copy)
-  : copy_taken (force_copy ? true : s->copy_taken),
-    p_str      (this->copy_taken ? ACE::strnew (s->p_str)
-                                 : const_cast<char *> (s->p_str))
+UTL_String::UTL_String (UTL_String const *s)
+  : p_str (s->p_str)
 {
 }
 
-UTL_String::~UTL_String ()
-{
-  if (copy_taken)
-    {
-      ACE::strdelete (this->p_str);
-    }
-}
+UTL_String::~UTL_String () = default;
 
 void
 UTL_String::destroy ()
 {
   this->canonical_rep.reset ();
-  if (this->copy_taken)
-    {
-       ACE::strdelete (this->p_str);
-       this->copy_taken = false;
-    }
-  this->p_str = nullptr;
+  this->p_str.reset ();
 }
 
 // Compare two UTL_String *.
@@ -233,14 +219,14 @@ UTL_String::compare_quiet (UTL_String const *s) const
 std::optional<std::string_view>
 UTL_String::get_canonical_rep ()
 {
-  if (this->p_str == nullptr)
+  if (!this->p_str)
     {
       return std::nullopt;
     }
 
   if (!this->canonical_rep)
     {
-      this->canonical_rep = get_canonical_rep (std::string_view (this->p_str));
+      this->canonical_rep = get_canonical_rep (*this->p_str);
     }
 
   return std::string_view (*this->canonical_rep);
@@ -250,5 +236,5 @@ UTL_String::get_canonical_rep ()
 void
 UTL_String::dump (ACE_OSTREAM_TYPE &o)
 {
-  o << this->p_str;
+  o << this->get_string ();
 }

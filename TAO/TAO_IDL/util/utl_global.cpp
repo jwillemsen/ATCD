@@ -1721,7 +1721,7 @@ namespace
   {
   public:
     explicit OldState (bool disable_output = false)
-        : old_filename_ (idl_global->filename () ? new UTL_String (idl_global->filename (), true) : nullptr),
+        : old_filename_ (idl_global->filename () ? new UTL_String (idl_global->filename ()) : nullptr),
           // need a copy because IDL_GlobalData::set_filename() destroys previous value
           old_lineno_ (idl_global->lineno ()),
           old_idl_src_file_ (idl_global->idl_src_file ()),
@@ -1740,8 +1740,8 @@ namespace
         builtin_name += std::to_string (n++);
         UTL_String pseudo_filename {std::string_view (builtin_name)};
 
-        idl_global->idl_src_file (new UTL_String (&pseudo_filename, true));
-        idl_global->set_filename (new UTL_String (&pseudo_filename, true));
+        idl_global->idl_src_file (new UTL_String (&pseudo_filename));
+        idl_global->set_filename (new UTL_String (&pseudo_filename));
 
         if (disable_output_)
           {

@@ -98,8 +98,8 @@ constexpr unsigned long DRV_MAX_ARGCOUNT = 1024;
 unsigned long DRV_argcount = 0;
 ACE_TCHAR const * DRV_arglist[DRV_MAX_ARGCOUNT] = { nullptr };
 
-static char const * output_arg_format = nullptr;
-static long output_arg_index = 0;
+static std::optional<std::string> output_arg_format;
+static size_t output_arg_index = 0;
 
 constexpr ACE_TCHAR TCHAR_DIR_DOT[] = ACE_TEXT(".");
 
@@ -213,16 +213,16 @@ DRV_cpp_putarg (char const *str)
 void
 DRV_cpp_expand_output_arg (char const *filename)
 {
-  if (output_arg_format != nullptr)
+  if (output_arg_format)
     {
       ACE::strdelete (const_cast<ACE_TCHAR *> (
                         DRV_arglist[output_arg_index]));
       DRV_arglist[output_arg_index] = nullptr;
 
+      size_t const format_length =
+        ACE_OS::strlen (output_arg_format->c_str ());
       ACE_NEW (DRV_arglist[output_arg_index],
-               ACE_TCHAR [ACE_OS::strlen (output_arg_format)
-                     + ACE_OS::strlen (filename)
-                     + 1]);
+               ACE_TCHAR [format_length + ACE_OS::strlen (filename) + 1]);
 
 #ifdef __GNUC__
 #  pragma GCC diagnostic push
@@ -230,7 +230,7 @@ DRV_cpp_expand_output_arg (char const *filename)
 #endif
       ACE_OS::sprintf (const_cast<ACE_TCHAR *> (
                          DRV_arglist[output_arg_index]),
-                       ACE_TEXT_CHAR_TO_TCHAR (output_arg_format),
+                       ACE_TEXT_CHAR_TO_TCHAR (output_arg_format->c_str ()),
                        ACE_TEXT_CHAR_TO_TCHAR (filename));
 #ifdef __GNUC__
 #  pragma GCC diagnostic pop
@@ -433,11 +433,10 @@ DRV_cpp_init ()
       // Check for an argument that specifies
       // the preprocessor's output file.
       if (ACE_OS::strstr (platform_arglist[i], ACE_TEXT ("%s")) != nullptr
-          && output_arg_format == nullptr)
+          && !output_arg_format)
         {
-          output_arg_format =
-            ACE::strnew (ACE_TEXT_ALWAYS_CHAR (platform_arglist[i]));
-          output_arg_index = static_cast<long> (DRV_argcount);
+          output_arg_format = ACE_TEXT_ALWAYS_CHAR (platform_arglist[i]);
+          output_arg_index = static_cast<size_t> (DRV_argcount);
           DRV_cpp_putarg (nullptr);
         }
       else
@@ -1350,7 +1349,7 @@ DRV_pre_proc (char const *myfile)
 
   ACE_HANDLE fd = ACE_INVALID_HANDLE;
 
-  if (output_arg_format == nullptr)
+  if (!output_arg_format)
     {
       // If the following open() fails, then we're either being hit with a
       // symbolic link attack, or another process opened the file before

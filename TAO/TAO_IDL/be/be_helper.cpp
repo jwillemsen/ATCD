@@ -263,7 +263,7 @@ TAO_OutStream::indent ()
     {
       for (int i = 0; i < this->indent_level_; i++)
         {
-          this->pending_whitespace_ += this->tab_unit_str_.c_str ();
+          this->pending_whitespace_ += this->tab_unit_str_;
         }
     }
 
@@ -376,13 +376,6 @@ TAO_OutStream &
 TAO_OutStream::operator<< (char ch)
 {
   this->write_text (std::string_view (&ch, 1));
-  return *this;
-}
-
-TAO_OutStream &
-TAO_OutStream::operator<< (const ACE_CString &str)
-{
-  this->write_text (str.c_str ());
   return *this;
 }
 

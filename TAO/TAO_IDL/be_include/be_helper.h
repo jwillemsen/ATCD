@@ -15,7 +15,6 @@
 #define TAO_BE_OUTSTRM_H
 
 #include "ace/CDR_Base.h"
-#include "ace/SString.h"
 
 #include "ace/OS_NS_stdio.h"
 
@@ -190,7 +189,6 @@ public:
 
   TAO_OutStream &operator<< (const char *str);
   TAO_OutStream &operator<< (char ch);
-  TAO_OutStream &operator<< (const ACE_CString &str);
   TAO_OutStream &operator<< (std::string const &str);
   TAO_OutStream &operator<< (std::string_view str);
   TAO_OutStream &operator<< (const ACE_CDR::UShort num);
@@ -241,7 +239,7 @@ protected:
   int indent_level_ {};
 
   /// Used to set tab spaces.
-  ACE_CString tab_unit_str_;
+  std::string tab_unit_str_;
 
   /// Trailing whitespace is buffered until non-whitespace or newline output.
   std::string pending_whitespace_;

@@ -536,12 +536,6 @@ AST_Expression::~AST_Expression ()
   destroy ();
 }
 
-AST_Expression::AST_ExprValue::AST_ExprValue ()
-{
-  this->u.ulval = 0UL;
-  this->et = AST_Expression::EV_none;
-}
-
 // Static operations.
 
 // Perform the coercion from the given AST_ExprValue to the requested

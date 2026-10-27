@@ -168,14 +168,14 @@ public:
   // Structure to describe value of constant expression and its type.
   struct AST_ExprValue
     {
-      AST_ExprValue ();
+      AST_ExprValue () = default;
 
       union Value
         {
           ACE_CDR::Short      sval;     // Contains short expression value.
           ACE_CDR::UShort     usval;    // Contains unsigned short expr value.
           ACE_CDR::Long       lval;     // Contains long expression value.
-          ACE_CDR::ULong      ulval;    // Contains unsigned long expr value.
+          ACE_CDR::ULong      ulval {}; // Contains unsigned long expr value.
           ACE_CDR::Boolean    bval;     // Contains boolean expression value.
           ACE_CDR::LongLong   llval;   // Contains long long expr value.
           ACE_CDR::ULongLong  ullval;  // Contains unsigned long long expr value.
@@ -192,8 +192,8 @@ public:
           ACE_CDR::UInt8      uint8val; // Unsigned Byte Sized Integer
         };
 
-      ExprType et;
-      Value u;
+      ExprType et {EV_none};
+      Value u {};
     };
 
  // Operations.

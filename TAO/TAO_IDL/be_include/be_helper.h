@@ -180,6 +180,7 @@ public:
                           TAO_OutStream &>::type
   operator << (const size_t num)
   {
+    this->flush_pending_whitespace ();
     ACE_OS::fprintf (this->fp_,
                      ACE_SIZE_T_FORMAT_SPECIFIER_ASCII,
                      num);
@@ -227,6 +228,9 @@ public:
 #define TAO_INSERT_COMMENT(STRM) (STRM)->insert_comment (__FILE__, __LINE__)
 
 protected:
+  void flush_pending_whitespace ();
+  void write_text (std::string_view text);
+
   /// The underlying low-level I/O handle
   FILE *fp_ {};
 
@@ -238,6 +242,9 @@ protected:
 
   /// Used to set tab spaces.
   ACE_CString tab_unit_str_;
+
+  /// Trailing whitespace is buffered until non-whitespace or newline output.
+  std::string pending_whitespace_;
 };
 
 #endif // if !defined

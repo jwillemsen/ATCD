@@ -102,6 +102,7 @@ int
 TAO_OutStream::open (const char *fname,
                      TAO_OutStream::STREAM_TYPE st)
 {
+  this->pending_whitespace_.clear ();
   if (fname != nullptr)
     {
       // File name exists, open an I/O file handle.
@@ -150,6 +151,7 @@ TAO_OutStream::stream_type ()
 FILE *&
 TAO_OutStream::file ()
 {
+  this->flush_pending_whitespace ();
   return this->fp_;
 }
 
@@ -195,20 +197,73 @@ int
 TAO_OutStream::reset ()
 {
   this->indent_level_ = 0;
+  this->pending_whitespace_.clear ();
   return 0;
+}
+
+void
+TAO_OutStream::flush_pending_whitespace ()
+{
+  if (!this->pending_whitespace_.empty ())
+    {
+      ACE_OS::fwrite (this->pending_whitespace_.data (),
+                      1,
+                      this->pending_whitespace_.size (),
+                      this->fp_);
+      this->pending_whitespace_.clear ();
+    }
+}
+
+void
+TAO_OutStream::write_text (std::string_view text)
+{
+  size_t position = 0;
+
+  while (position < text.size ())
+    {
+      size_t const whitespace = text.find_first_of (" \t\r\n", position);
+
+      if (whitespace != position)
+        {
+          this->flush_pending_whitespace ();
+          ACE_OS::fwrite (text.data () + position,
+                          1,
+                          whitespace == std::string_view::npos
+                            ? text.size () - position
+                            : whitespace - position,
+                          this->fp_);
+        }
+
+      if (whitespace == std::string_view::npos)
+        {
+          return;
+        }
+
+      char const ch = text[whitespace];
+      if (ch == '\n')
+        {
+          this->pending_whitespace_.clear ();
+          ACE_OS::fwrite (&ch, 1, 1, this->fp_);
+        }
+      else
+        {
+          this->pending_whitespace_ += ch;
+        }
+
+      position = whitespace + 1;
+    }
 }
 
 // Indented print.
 int
 TAO_OutStream::indent ()
 {
-  // Based on the current indentation level, leave appropriate number of blank
-  // spaces in the output.
+  // Defer indentation so blank lines don't retain trailing spaces.
   if (this->indent_level_ > 0)
     {
       for (int i = 0; i < this->indent_level_; i++)
         {
-          ACE_OS::fprintf (this->fp_, "%s", this->tab_unit_str_.c_str ());
+          this->pending_whitespace_ += this->tab_unit_str_.c_str ();
         }
     }
 
@@ -218,6 +273,7 @@ TAO_OutStream::indent ()
 int
 TAO_OutStream::nl ()
 {
+  this->pending_whitespace_.clear ();
   ACE_OS::fprintf (this->fp_, "\n");
   this->indent ();
   return 0;
@@ -288,6 +344,14 @@ TAO_OutStream::gen_endif ()
 int
 TAO_OutStream::print (const char *format, ...)
 {
+  if (format[0] == '\n')
+    {
+      this->pending_whitespace_.clear ();
+    }
+  else if (format[0] != '\0')
+    {
+      this->flush_pending_whitespace ();
+    }
   int result = 0;
   va_list ap;
   va_start (ap, format);
@@ -304,28 +368,28 @@ TAO_OutStream::print (const char *format, ...)
 TAO_OutStream &
 TAO_OutStream::operator<< (const char *str)
 {
-  ACE_OS::fprintf (this->fp_, "%s", str);
+  this->write_text (str);
   return *this;
 }
 
 TAO_OutStream &
 TAO_OutStream::operator<< (char ch)
 {
-  ACE_OS::fprintf (this->fp_, "%c", ch);
+  this->write_text (std::string_view (&ch, 1));
   return *this;
 }
 
 TAO_OutStream &
 TAO_OutStream::operator<< (const ACE_CString &str)
 {
-  ACE_OS::fprintf (this->fp_, "%s", str.c_str ());
+  this->write_text (str.c_str ());
   return *this;
 }
 
 TAO_OutStream &
 TAO_OutStream::operator<< (std::string const &str)
 {
-  ACE_OS::fprintf (this->fp_, "%s", str.c_str ());
+  this->write_text (str);
   return *this;
 }
 
@@ -334,7 +398,7 @@ TAO_OutStream::operator<< (std::string_view str)
 {
   if (!str.empty ())
     {
-      ACE_OS::fwrite (str.data (), 1, str.size (), this->fp_);
+      this->write_text (str);
     }
 
   return *this;
@@ -343,6 +407,7 @@ TAO_OutStream::operator<< (std::string_view str)
 TAO_OutStream &
 TAO_OutStream::operator<< (const ACE_CDR::UShort num)
 {
+  this->flush_pending_whitespace ();
   ACE_OS::fprintf (this->fp_,
                    "%hu",
                    num);
@@ -353,6 +418,7 @@ TAO_OutStream::operator<< (const ACE_CDR::UShort num)
 TAO_OutStream &
 TAO_OutStream::operator<< (const ACE_CDR::Short num)
 {
+  this->flush_pending_whitespace ();
   ACE_OS::fprintf (this->fp_,
                    "%hd",
                    num);
@@ -363,6 +429,7 @@ TAO_OutStream::operator<< (const ACE_CDR::Short num)
 TAO_OutStream &
 TAO_OutStream::operator<< (const ACE_CDR::ULong num)
 {
+  this->flush_pending_whitespace ();
   ACE_OS::fprintf (this->fp_,
                    "%lu",
                    (unsigned long) num);
@@ -373,6 +440,7 @@ TAO_OutStream::operator<< (const ACE_CDR::ULong num)
 TAO_OutStream &
 TAO_OutStream::operator<< (const ACE_CDR::Long num)
 {
+  this->flush_pending_whitespace ();
   ACE_OS::fprintf (this->fp_,
                    "%ld",
                    (long) num);
@@ -383,6 +451,7 @@ TAO_OutStream::operator<< (const ACE_CDR::Long num)
 TAO_OutStream &
 TAO_OutStream::operator<< (const ACE_CDR::ULongLong num)
 {
+  this->flush_pending_whitespace ();
   ACE_OS::fprintf (this->fp_,
                    ACE_UINT64_FORMAT_SPECIFIER_ASCII,
                    num);
@@ -393,6 +462,7 @@ TAO_OutStream::operator<< (const ACE_CDR::ULongLong num)
 TAO_OutStream &
 TAO_OutStream::operator<< (const ACE_CDR::LongLong num)
 {
+  this->flush_pending_whitespace ();
   ACE_OS::fprintf (this->fp_,
                    ACE_INT64_FORMAT_SPECIFIER_ASCII,
                    num);
@@ -403,6 +473,7 @@ TAO_OutStream::operator<< (const ACE_CDR::LongLong num)
 TAO_OutStream &
 TAO_OutStream::operator<< (const TAO_NL&)
 {
+  this->pending_whitespace_.clear ();
   ACE_OS::fprintf (this->fp_ ,
                    "\n");
   this->indent ();
@@ -413,6 +484,7 @@ TAO_OutStream::operator<< (const TAO_NL&)
 TAO_OutStream &
 TAO_OutStream::operator<< (const TAO_NL_2&)
 {
+  this->pending_whitespace_.clear ();
   ACE_OS::fprintf (this->fp_ ,
                    "\n");
   ACE_OS::fprintf (this->fp_ ,
@@ -469,7 +541,7 @@ TAO_OutStream &
 TAO_OutStream::print (Identifier *id)
 {
   std::string_view const name = id->get_string_view_or_empty ();
-  ACE_OS::fwrite (name.data (), 1, name.size (), this->fp_);
+  this->write_text (name);
 
   return *this;
 }

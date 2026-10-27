@@ -72,6 +72,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 #include "ace/OS_NS_ctype.h"
 
+#include <string>
+
 //////////////////////////////////////////////////////////////////////
 //// Static functions may be used by non-UTL_String i.e. const char *
 //////////////////////////////////////////////////////////////////////
@@ -196,6 +198,11 @@ UTL_String::UTL_String (char const* str, bool take_copy)
     p_str      (this->copy_taken ? ACE::strnew (str)
                                  : const_cast<char *>(str)),
     c_str      (nullptr)
+{
+}
+
+UTL_String::UTL_String (std::string_view str)
+  : UTL_String (std::string (str).c_str (), true)
 {
 }
 

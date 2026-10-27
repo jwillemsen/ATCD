@@ -85,7 +85,7 @@ be_visitor_operation_direct_proxy_impl_ss::visit_operation (
   *os << be_uidt_nl
       << "{" << be_idt_nl;
 
-  *os << intf->full_skel_name () << "_ptr _tao_ptr = " << be_idt_nl
+  *os << intf->full_skel_name () << "_ptr _tao_ptr =" << be_idt_nl
       << "dynamic_cast<" << intf->full_skel_name () << "_ptr> ("
       << "servant);" << be_uidt_nl;
 

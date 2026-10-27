@@ -177,7 +177,7 @@ be_visitor_context_svts::visit_publishes (be_publishes *node)
       << "                  0);";
 
   os_ << be_nl_2
-      << "::" << fname << "Consumer_var ciao_var = " << be_idt_nl
+      << "::" << fname << "Consumer_var ciao_var =" << be_idt_nl
       << "::" << fname << "Consumer::_duplicate (c);" << be_uidt << be_nl_2
       << "std::pair<" << tao_cg->upcase (port_name) <<"_TABLE::iterator, bool> ret =" << be_idt_nl
       << "this->ciao_publishes_" << port_name
@@ -452,7 +452,7 @@ be_visitor_context_svts::gen_uses_multiplex (
       << "                  0);";
 
   os_ << be_nl_2
-      << "::" << fname << "_var ciao_var = " << be_idt_nl
+      << "::" << fname << "_var ciao_var =" << be_idt_nl
       << "::" << fname << "::_duplicate (c);" << be_uidt << be_nl_2
       << "std::pair<" << tao_cg->upcase (port_name) <<"_TABLE::iterator, bool> ret =" << be_idt_nl
       << "this->ciao_uses_" << port_name

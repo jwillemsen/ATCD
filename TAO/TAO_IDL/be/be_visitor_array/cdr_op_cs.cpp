@@ -763,7 +763,7 @@ be_visitor_array_cdr_op_cs::visit_node (be_type *bt)
       else if (nt == AST_Decl::NT_interface
                || nt == AST_Decl::NT_interface_fwd)
         {
-          *os << "_tao_marshal_flag = " << be_idt_nl
+          *os << "_tao_marshal_flag =" << be_idt_nl
               << "TAO::Objref_Traits<" << bt->name () << ">::"
               << "marshal (_tao_array";
 

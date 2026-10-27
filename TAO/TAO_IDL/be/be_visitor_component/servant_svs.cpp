@@ -68,10 +68,10 @@ be_visitor_servant_svs::visit_component (be_component *node)
       << "," << be_nl
       << global << sname << "::CCM_"
       << lname << "," << be_nl
-      << lname << "_Context_T< " << be_idt_nl
+      << lname << "_Context_T<" << be_idt_nl
       << "::CIAO::" << be_global->ciao_container_type ()
-      << "_Container, ::CIAO::" << be_global->ciao_container_type () << "_Context_Impl_T< "
-      << be_idt_nl << global << sname << "::CCM_" << lname << "_Context, " << be_nl
+      << "_Container, ::CIAO::" << be_global->ciao_container_type () << "_Context_Impl_T<"
+      << be_idt_nl << global << sname << "::CCM_" << lname << "_Context," << be_nl
       << global << sname << "::" << lname << "> > > (exe, h, ins_name, hs, c)"
       << be_uidt << be_uidt << be_uidt << be_uidt << be_uidt_nl
       << "{" << be_idt_nl;
@@ -308,7 +308,7 @@ be_visitor_servant_svs::visit_provides (be_provides *node)
         << "PortableServer::POA_var POA = cnt_safe->the_port_POA ();" << be_nl
         << "::CORBA::Object_var tmp =" << be_idt_nl
         << "this->get_facet_executor (\"" << port_name << "\");"<< be_uidt_nl << be_nl
-        << global << sname << "::CCM_" << lname << "_var tmp_var = " << be_idt_nl
+        << global << sname << "::CCM_" << lname << "_var tmp_var =" << be_idt_nl
         << global << sname <<"::CCM_" << lname
         << "::_narrow (tmp.in());" << be_uidt_nl << be_nl
         << "using " << lname << "_type = " << global << "CIAO_FACET" << prefix_connector
@@ -321,7 +321,7 @@ be_visitor_servant_svs::visit_provides (be_provides *node)
         << "ACE_NEW_THROW_EX (" << be_idt_nl
         << port_name << "_servant_impl," << be_nl
         << lname << "_type (" << be_idt_nl
-        << "tmp_var.in(), " << be_nl
+        << "tmp_var.in()," << be_nl
         << "this->context_)," << be_uidt_nl
         << "CORBA::NO_MEMORY ());" << be_uidt_nl << be_nl
         << "PortableServer::ServantBase_var safe_base_servant ("
@@ -330,8 +330,8 @@ be_visitor_servant_svs::visit_provides (be_provides *node)
         << "PortableServer::string_to_ObjectId (obj_id.c_str());" << be_uidt_nl << be_nl
         << "POA->activate_object_with_id(" << port_name << "_servant_oid.in(),"
         <<  port_name << "_servant_impl);" << be_nl
-        << "::CORBA::Object_var " << port_name << "_servant_impl_obj = " << be_idt_nl
-        << "cnt_safe->generate_reference ( " << be_idt_nl
+        << "::CORBA::Object_var " << port_name << "_servant_impl_obj =" << be_idt_nl
+        << "cnt_safe->generate_reference (" << be_idt_nl
         << "obj_id.c_str ()," << be_nl
         << "\"" << obj->repoID () << "\"," << be_nl
         << "::CIAO::Container_Types::FACET_CONSUMER_t);"
@@ -611,7 +611,7 @@ be_visitor_servant_svs::visit_consumes (be_consumes *node)
       << "PortableServer::POA_var POA = cnt_safe->the_port_POA ();" << be_nl
       << node_->local_name () << "_Servant::" << lname
       << "Consumer_" << port_name << "_Servant *"
-      << port_name << "_servant_impl = " << be_idt_nl
+      << port_name << "_servant_impl =" << be_idt_nl
       << "new "   << node_->local_name () << "_Servant::" << lname
       << "Consumer_" << port_name << "_Servant (" << be_idt_nl
       << " this->executor_, this->context_);" << be_uidt_nl << be_uidt_nl << be_nl
@@ -623,8 +623,8 @@ be_visitor_servant_svs::visit_consumes (be_consumes *node)
       << port_name << "_servant_oid.in()," << be_nl
       <<  port_name << "_servant_impl);" << be_uidt_nl << be_nl
 
-      << "::CORBA::Object_var " << port_name << "_servant_impl_obj = " << be_idt_nl
-      << "cnt_safe->generate_reference ( " << be_idt_nl
+      << "::CORBA::Object_var " << port_name << "_servant_impl_obj =" << be_idt_nl
+      << "cnt_safe->generate_reference (" << be_idt_nl
       << "obj_id.c_str ()," << be_nl
       << "\"";
 
@@ -675,7 +675,7 @@ be_visitor_servant_svs::gen_provides_top ()
       << "}" << be_uidt << be_nl_2;
 
   os_ << "::" << sname_str << global << "CCM_" << node_->original_local_name ()
-      << "_var executor = " << be_idt_nl
+      << "_var executor =" << be_idt_nl
       << "::" << sname_str << global << "CCM_" << node_->original_local_name ()
       << "::_duplicate (this->executor_.in ());" << be_uidt << be_nl_2;
 
@@ -1304,14 +1304,14 @@ be_visitor_receptacle_desc::visit_uses (be_uses *node)
   if (!is_multiple)
     {
       os_ << obj->full_name () << "_var ciao_"
-          << port_name << " = " << be_idt_nl
+          << port_name << " =" << be_idt_nl
           << "this->context_->get_connection_"
           << port_name << " ();" << be_uidt_nl;
     }
   else
     {
       os_ << "::" << sname << global << port_name << "Connections_var ciao_"
-          << port_name << " = " << be_idt_nl
+          << port_name << " =" << be_idt_nl
           << "this->context_->get_connections_"
           << port_name << " ();" << be_uidt_nl;
     }

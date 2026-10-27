@@ -206,9 +206,9 @@ be_visitor_executor_exs::visit_component (be_component *node)
           << lname << "_exec_i::reactor ()" << be_nl
           << "{" << be_idt_nl
           << "ACE_Reactor* reactor {};" << be_nl
-          << "::CORBA::Object_var ccm_object = " << be_idt_nl
+          << "::CORBA::Object_var ccm_object =" << be_idt_nl
           << "this->ciao_context_->get_CCM_object();" << be_uidt_nl
-          << "if (! ::CORBA::is_nil (ccm_object.in ())) " << be_idt_nl
+          << "if (! ::CORBA::is_nil (ccm_object.in ()))" << be_idt_nl
           << "{" << be_idt_nl
           << "::CORBA::ORB_var orb = ccm_object->_get_orb ();" << be_nl
           << "if (! ::CORBA::is_nil (orb.in ()))" << be_idt_nl

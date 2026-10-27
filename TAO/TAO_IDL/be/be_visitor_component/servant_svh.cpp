@@ -51,10 +51,10 @@ be_visitor_servant_svh::visit_component (be_component *node)
       << "_Servant_Impl_T<" << be_idt_nl
       << "::" << node_->full_skel_name () << "," << be_nl
       << global << sname << "::CCM_" << lname << "," << be_nl
-      << lname << "_Context_T< " << be_idt_nl
+      << lname << "_Context_T<" << be_idt_nl
       << "::CIAO::" << be_global->ciao_container_type ()
-      << "_Container, ::CIAO::" << be_global->ciao_container_type () << "_Context_Impl_T< "
-      << be_idt_nl << global << sname << "::CCM_" << lname << "_Context, " << be_nl
+      << "_Container, ::CIAO::" << be_global->ciao_container_type () << "_Context_Impl_T<"
+      << be_idt_nl << global << sname << "::CCM_" << lname << "_Context," << be_nl
       << global << sname << "::" << lname << "> > >"
       << be_uidt << be_uidt << be_uidt << be_uidt << be_uidt << be_uidt_nl
       << "{" << be_nl

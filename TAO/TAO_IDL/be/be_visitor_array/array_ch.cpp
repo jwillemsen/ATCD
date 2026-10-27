@@ -193,7 +193,7 @@ int be_visitor_array_ch::visit_array (be_array *node)
       if (node->size_type () == AST_Type::VARIABLE)
         {
           *os << be_nl_2
-              << "using " << node->local_name () << "_var = " << be_idt_nl
+              << "using " << node->local_name () << "_var =" << be_idt_nl
               << "TAO_VarArray_Var_T<" << be_idt << be_idt_nl
               << node->local_name () << "," << be_nl
               << node->local_name () << "_slice," << be_nl
@@ -201,7 +201,7 @@ int be_visitor_array_ch::visit_array (be_array *node)
               << ">;" << be_uidt;
 
           *os << be_nl_2
-              << "using " << node->local_name () << "_out = " << be_idt_nl
+              << "using " << node->local_name () << "_out =" << be_idt_nl
               << "TAO_Array_Out_T<" << be_idt << be_idt_nl
               << node->local_name () << "," << be_nl
               << node->local_name () << "_var," << be_nl
@@ -212,7 +212,7 @@ int be_visitor_array_ch::visit_array (be_array *node)
       else
         {
           *os << be_nl_2
-              << "using " << node->local_name () << "_var = " << be_idt_nl
+              << "using " << node->local_name () << "_var =" << be_idt_nl
               << "TAO_FixedArray_Var_T<" << be_idt << be_idt_nl
               << node->local_name () << "," << be_nl
               << node->local_name () << "_slice," << be_nl

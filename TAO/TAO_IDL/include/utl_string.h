@@ -86,6 +86,8 @@ public:
 
   explicit UTL_String (char const* str, bool take_copy = false);
 
+  explicit UTL_String (std::string_view str);
+
   explicit UTL_String (UTL_String *s, bool force_copy = false);
 
   UTL_String (UTL_String const&) = delete;

@@ -1093,33 +1093,13 @@ DRV_copy_input (FILE *fin,
 
 // Strip down a name to the last component,
 // i.e. everything after the last '/' or '\' character.
-static char *
-DRV_stripped_name (char *fn)
+static std::string_view
+DRV_stripped_name (std::string_view filename)
 {
-    char *n = fn;
-    size_t l;
-
-    if (n == nullptr)
-      {
-        return nullptr;
-      }
-
-    l = ACE_OS::strlen (n);
-    bool slash_found = false;
-
-    for (n += l - 1; n >= fn && !slash_found; n--)
-      {
-        slash_found = (*n == '/' || *n == '\\');
-      }
-
-    n += 1;
-
-    if (slash_found)
-      {
-        n += 1;
-      }
-
-    return n;
+  size_t const separator = filename.find_last_of ("/\\");
+  return separator == std::string_view::npos
+    ? filename
+    : filename.substr (separator + 1);
 }
 
 // Pass input through preprocessor.
@@ -1273,11 +1253,9 @@ DRV_pre_proc (char const *myfile)
 
   idl_global->set_main_filename (utl_string);
 
-  ACE_Auto_String_Free safety (ACE_OS::strdup (myfile));
-
   UTL_String *stripped_tmp = nullptr;
   ACE_NEW (stripped_tmp,
-           UTL_String (DRV_stripped_name (safety.get ()), true));
+           UTL_String (DRV_stripped_name (myfile)));
 
   idl_global->set_stripped_filename (stripped_tmp);
 

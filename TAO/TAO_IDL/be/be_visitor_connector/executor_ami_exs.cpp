@@ -28,7 +28,7 @@ be_visitor_executor_ami_exs::visit_connector (be_connector *node)
 {
   node_ = node;
 
-  const char *suffix = "_exec_i";
+  std::string_view const suffix = "_exec_i";
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
   std::string class_name (
     scope->local_name ()->get_string_view_or_empty ());
@@ -137,7 +137,7 @@ be_visitor_executor_ami_exs::visit_connector (be_connector *node)
   AST_Decl *s = ScopeAsDecl (this->node_->defined_in ());
   bool is_global =
    (s->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (is_global ? "" : "::");
+  std::string_view const smart_scope = is_global ? "" : "::";
 
   os_ << be_nl_2
       << "void" << be_nl
@@ -161,7 +161,7 @@ be_visitor_executor_ami_exs::visit_provides (be_provides *node)
   AST_Type *t = node->provides_type ();
    AST_Decl *scope = ScopeAsDecl (t->defined_in ());
   bool global = (scope->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (global ? "" : "::");
+  std::string_view const smart_scope = global ? "" : "::";
 
   os_ << be_nl_2
       << smart_scope << scope->full_name () << "::CCM_"
@@ -176,8 +176,8 @@ be_visitor_executor_ami_exs::visit_provides (be_provides *node)
 
   std::string_view const loc_name =
     node->local_name ()->get_string_view_or_empty ();
-  const char *exec_ext =
-    (loc_name.find ("sync") != std::string_view::npos ? "1" : "0");
+  std::string_view const exec_ext =
+    loc_name.find ("sync") != std::string_view::npos ? "1" : "0";
 
     os_ << d->local_name () << "_"
       << node->local_name () << " ()" << be_nl

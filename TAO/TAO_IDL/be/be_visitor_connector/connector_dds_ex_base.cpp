@@ -161,7 +161,7 @@ be_visitor_connector_dds_ex_base::process_template_args (
       return;
     }
 
-  this->dds_traits_name_ = (*datatype)->flat_name ().data ();
+  this->dds_traits_name_ = (*datatype)->flat_name ();
   this->dds_traits_name_ += "_DDS_Traits";
 }
 

@@ -32,7 +32,7 @@ be_visitor_executor_ami_exh::visit_connector (be_connector *node)
 {
   node_ = node;
 
-  const char *suffix = "_exec_i";
+  std::string_view const suffix = "_exec_i";
   AST_Decl *scope = ScopeAsDecl (node->defined_in ());
 
   os_ << be_nl_2
@@ -102,7 +102,7 @@ be_visitor_executor_ami_exh::visit_provides (be_provides *node)
   AST_Type *t = node->provides_type ();
   AST_Decl *scope = ScopeAsDecl (t->defined_in ());
   bool global = (scope->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (global ? "" : "::");
+  std::string_view const smart_scope = global ? "" : "::";
 
   os_ << be_nl_2
       << "virtual " << smart_scope << scope->full_name ()

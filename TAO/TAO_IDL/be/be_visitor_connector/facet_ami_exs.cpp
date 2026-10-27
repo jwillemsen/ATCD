@@ -11,9 +11,22 @@
 
 #include "connector.h"
 
+#include <string>
 #include <string_view>
 #include "ast_generator.h"
 #include "be_predefined_type.h"
+
+namespace
+{
+  std::string_view
+  remove_ami4ccm_prefix (std::string_view name)
+  {
+    constexpr std::string_view prefix = "AMI4CCM_";
+    return name.size () >= prefix.size ()
+      ? name.substr (prefix.size ())
+      : std::string_view {};
+  }
+}
 
 be_visitor_facet_ami_exs::be_visitor_facet_ami_exs (
       be_visitor_context *ctx)
@@ -202,15 +215,15 @@ void
 be_visitor_facet_ami_exs::init ()
 {
   UTL_Scope *s = this->iface_->defined_in ();
-  ACE_CString handler_str (
-    ScopeAsDecl (this->iface_->defined_in ())->full_name ().data ());
+  std::string handler_str (
+    ScopeAsDecl (this->iface_->defined_in ())->full_name ());
   handler_str += "::AMI_";
-  ACE_CString tmp (this->iface_->local_name ().data ());
-  handler_str += tmp.substr (ACE_OS::strlen ("AMI4CCM_"));
+  std::string_view const iface_name = this->iface_->local_name ();
+  handler_str += remove_ami4ccm_prefix (iface_name);
   handler_str += "Handler";
 
   UTL_ScopedName *sn =
-    FE_Utils::string_to_scoped_name (handler_str.c_str ());
+    FE_Utils::string_to_scoped_name (handler_str);
   AST_Decl *d = s->lookup_by_name (sn, true);
 
   sn->destroy ();
@@ -237,12 +250,12 @@ be_visitor_facet_ami_exs::gen_reply_handler_class ()
     return 0;
 
 
-  const char *suffix = "_reply_handler";
+  std::string_view const suffix = "_reply_handler";
   UTL_Scope *s = this->iface_->defined_in ();
   AST_Decl *scope = ScopeAsDecl (s);
   std::string_view const scope_name = scope->full_name ();
   bool global = (scope->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (global ? "" : "::");
+  std::string_view const smart_scope = global ? "" : "::";
   std::string_view const iface_name = this->iface_->local_name ();
 
   os_ << be_nl
@@ -273,15 +286,14 @@ be_visitor_facet_ami_exs::gen_reply_handler_class ()
   /// So to get the correct *_excep operation signatures, we
   /// visit the scope of the AMI_xxxHandler interface generated
   /// by -GC, which must be applied to this IDL file.
-  ACE_CString handler_str (
-    ScopeAsDecl (this->iface_->defined_in ())->full_name ().data ());
+  std::string handler_str (
+    ScopeAsDecl (this->iface_->defined_in ())->full_name ());
   handler_str += "::AMI_";
-  ACE_CString tmp (this->iface_->local_name ().data ());
-  handler_str += tmp.substr (ACE_OS::strlen ("AMI4CCM_"));
+  handler_str += remove_ami4ccm_prefix (iface_name);
   handler_str += "Handler";
 
   UTL_ScopedName *sn =
-    FE_Utils::string_to_scoped_name (handler_str.c_str ());
+    FE_Utils::string_to_scoped_name (handler_str);
   AST_Decl *d = s->lookup_by_name (sn, true);
 
   sn->destroy ();
@@ -324,7 +336,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
 {
   this->for_reply_handler_ = false;
 
-  const char *suffix = "_exec_i";
+  std::string_view const suffix = "_exec_i";
   std::string_view const scope_name =
     ScopeAsDecl (this->iface_->defined_in ())->full_name ();
   std::string_view const iface_name = this->iface_->local_name ();
@@ -341,15 +353,14 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
       << "{" << be_nl
       << "}";
 
-    ACE_CString handler_str (
-    ScopeAsDecl (this->iface_->defined_in ())->full_name ().data ());
-    ACE_CString tmp (this->iface_->local_name ().data ());
+    std::string handler_str (
+      ScopeAsDecl (this->iface_->defined_in ())->full_name ());
     handler_str += "::";
-    handler_str += tmp;
+    handler_str += iface_name;
 
     UTL_Scope *ss = this->iface_->defined_in();
     UTL_ScopedName *sn =
-       FE_Utils::string_to_scoped_name (handler_str.c_str ());
+       FE_Utils::string_to_scoped_name (handler_str);
     AST_Decl *d = ss->lookup_by_name (sn, true);
 
     sn->destroy ();
@@ -382,8 +393,6 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
                         ACE_TEXT ("interface failed\n")));
       }
 
-  ACE_CString scope_str (scope_name.data (), nullptr, false);
-
   os_ << be_nl_2
       << "void" << be_nl
       << iface_name << "_exec_i::set_"
@@ -408,7 +417,7 @@ be_visitor_facet_ami_exs::gen_facet_executor_class ()
   AST_Decl *s = ScopeAsDecl (this->node_->defined_in ());
   bool is_global =
    (s->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (is_global ? "" : "::");
+  std::string_view const smart_scope = is_global ? "" : "::";
 
   os_ << be_nl_2
       << "::CORBA::Object_ptr" << be_nl
@@ -469,7 +478,7 @@ be_visitor_facet_ami_exs::gen_reply_hander_op (be_operation *node)
       AST_Argument *arg =
         dynamic_cast<AST_Argument*> (d);
       AST_Type *t = arg->field_type ();
-      ACE_CString type_name (t->full_name ().data ());
+      std::string_view const type_name = t->full_name ();
 
       if (type_name == "Messaging::ExceptionHolder")
         {
@@ -554,13 +563,10 @@ be_visitor_facet_ami_exs::gen_facet_executor_op (be_operation *node)
 
   AST_Decl *scope = ScopeAsDecl (this->iface_->defined_in ());
   bool global = (scope->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (global ? "" : "::");
+  std::string_view const smart_scope = global ? "" : "::";
 
-  const char *prefix = "AMI4CCM_";
-  ACE_CString iface_str (this->iface_->local_name ().data ());
-  ACE_CString orig_iface_str (
-    iface_str.substr (ACE_OS::strlen (prefix)));
-  const char *orig_iface_name = orig_iface_str.c_str ();
+  std::string_view const iface_name = this->iface_->local_name ();
+  std::string_view const orig_iface_name = remove_ami4ccm_prefix (iface_name);
 
   os_ << be_nl
       << "{" << be_idt_nl
@@ -686,10 +692,9 @@ be_visitor_facet_ami_exs::gen_facet_executor_sync_op (be_operation *node)
 
   AST_Decl *scope = ScopeAsDecl (this->iface_->defined_in ());
   bool global = (scope->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (global ? "" : "::");
+  std::string_view const smart_scope = global ? "" : "::";
 
-  ACE_CString iface_str (this->iface_->local_name ().data ());
-  const char *orig_iface_name = iface_str.c_str ();
+  std::string_view const orig_iface_name = this->iface_->local_name ();
   os_ << be_nl
       << "{" << be_idt_nl;
 

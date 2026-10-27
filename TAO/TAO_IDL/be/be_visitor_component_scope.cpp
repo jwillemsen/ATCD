@@ -260,9 +260,9 @@ be_visitor_component_scope::gen_svnt_entrypoint_defn ()
       << "::_narrow (p);" << be_uidt_nl << be_nl
       << "if (::CORBA::is_nil (x.in ()))" << be_idt_nl
       << "{" << be_idt_nl
-      << "return 0;" << be_uidt_nl
+      << "return nullptr;" << be_uidt_nl
       << "}" << be_uidt_nl << be_nl
-      << "::PortableServer::Servant retval = 0;" << be_nl
+      << "::PortableServer::Servant retval = nullptr;" << be_nl
       << "ACE_NEW_RETURN (retval," << be_nl
       << "                " << lname << "_Servant (" << be_idt_nl
       << "                x.in ()," << be_nl
@@ -270,7 +270,7 @@ be_visitor_component_scope::gen_svnt_entrypoint_defn ()
       << "                ins_name," << be_nl
       << "                0," << be_nl
       << "                c)," << be_uidt_nl
-      << "                0);" << be_nl_2
+      << "                nullptr);" << be_nl_2
       << "return retval;" << be_uidt_nl
       << "}";
 }

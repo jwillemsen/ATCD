@@ -84,6 +84,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include <string>
 #include <string_view>
 #include <unordered_set>
+#include <vector>
 
 class AST_Root;
 class AST_Module;
@@ -404,9 +405,6 @@ public:
   void             reset_flag_seen ();
 
   // = Types & methods supporting DDS DCPS sequence definitions (from #pragma)
-  using DCPS_Sequence_Types_List = ACE_Unbounded_Queue<char *>;
-
-
   // = Types & methods supporting DDS DCPS data type/key definition (from #pragma)
   using DCPS_Key_List = ACE_Unbounded_Queue<ACE_TString>;
 
@@ -423,10 +421,10 @@ public:
                                                    ACE_Null_Mutex>;
 
   // FE calls when #pragma DCPS_DATA_TYPE is processed
-  void add_dcps_data_type (char const * id);
+  void add_dcps_data_type (std::string_view id);
 
   // FE calls when #pragma DCPS_DATA_KEY is processed
-  bool add_dcps_data_key (char const * id, char const * key);
+  bool add_dcps_data_key (std::string_view id, std::string_view key);
 
   // returns null if not matching; otherwise pointer to the info
   DCPS_Data_Type_Info* is_dcps_type (UTL_ScopedName* target);
@@ -438,7 +436,7 @@ public:
   bool dcps_support_zero_copy_read () const;
 
   // FE calls when #pragma DCPS_DATA_SEQUENCE_TYPE is processed
-  void set_dcps_sequence_type (char const * seq_type);
+  void set_dcps_sequence_type (std::string_view seq_type);
 
   // BE calls to check whether pragma for this sequence has been set
   bool dcps_sequence_type_defined (std::string_view seq_type) const;
@@ -999,7 +997,7 @@ private:
   DCPS_Type_Info_Map dcps_type_info_map_;
   // Map of #pragma DCPS_DATA_TYPE and DCPS_DATA_KEY infomation.
 
-  DCPS_Sequence_Types_List dcps_sequence_types_list_;
+  std::vector<std::string> dcps_sequence_types_list_ {};
 
   bool dcps_support_zero_copy_read_ {};
   // Are we enabled to support DCPS zero-copy read.

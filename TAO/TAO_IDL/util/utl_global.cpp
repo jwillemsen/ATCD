@@ -1461,16 +1461,6 @@ IDL_GlobalData::fini ()
       ACE::strdelete (*path_tmp);
     }
 
-  for (ACE_Unbounded_Queue_Iterator<char *>iter10 (
-         this->dcps_sequence_types_list_);
-       !iter10.done ();
-       iter10.advance ())
-    {
-      iter10.next (path_tmp);
-      ACE::strdelete (*path_tmp);
-    }
-
-
   ACE_Hash_Map_Entry<char *, char *> *entry = nullptr;
 
   for (ACE_Hash_Map_Iterator<char *, char *, ACE_Null_Mutex> hiter (
@@ -1610,23 +1600,17 @@ IDL_GlobalData::for_new_holder (
 }
 
 void
-IDL_GlobalData::set_dcps_sequence_type (char const * seq_type)
+IDL_GlobalData::set_dcps_sequence_type (std::string_view seq_type)
 {
-  this->dcps_sequence_types_list_.enqueue_tail (ACE::strnew (seq_type));
+  this->dcps_sequence_types_list_.emplace_back (seq_type);
 }
 
 bool
 IDL_GlobalData::dcps_sequence_type_defined (std::string_view seq_type) const
 {
-  char **tmp = nullptr;
-
-  for (ACE_Unbounded_Queue_Const_Iterator<char *> riter (
-         this->dcps_sequence_types_list_);
-       !riter.done ();
-       riter.advance ())
+  for (std::string const &type_name : this->dcps_sequence_types_list_)
     {
-      riter.next (tmp);
-      if (seq_type == *tmp)
+      if (seq_type == type_name)
         {
           return true;
         }
@@ -1635,7 +1619,7 @@ IDL_GlobalData::dcps_sequence_type_defined (std::string_view seq_type) const
 }
 
 void
-IDL_GlobalData::add_dcps_data_type (char const * id)
+IDL_GlobalData::add_dcps_data_type (std::string_view id)
 {
   // Check if the type already exists.
   DCPS_Data_Type_Info *newinfo = nullptr;
@@ -1661,7 +1645,7 @@ IDL_GlobalData::add_dcps_data_type (char const * id)
           ACE_ERROR ((LM_ERROR,
                       ACE_TEXT ("Unable to insert type into ")
                       ACE_TEXT ("DCPS type container: %s.\n"),
-                      id));
+                      type_name.c_str ()));
           return;
         }
     }
@@ -1669,12 +1653,12 @@ IDL_GlobalData::add_dcps_data_type (char const * id)
     {
       ACE_ERROR ((LM_WARNING,
                   ACE_TEXT ("Duplicate DCPS type defined: %s.\n"),
-                  id));
+                  type_name.c_str ()));
     }
 }
 
 bool
-IDL_GlobalData::add_dcps_data_key (char const * id, char const * key)
+IDL_GlobalData::add_dcps_data_key (std::string_view id, std::string_view key)
 {
   // Search the map for the type.
   DCPS_Data_Type_Info *newinfo = nullptr;
@@ -1683,7 +1667,9 @@ IDL_GlobalData::add_dcps_data_key (char const * id, char const * key)
   if (this->dcps_type_info_map_.find (type_name, newinfo) == 0)
     {
        // Add the new key field to the type.
-       newinfo->key_list_.enqueue_tail (ACE_TEXT_CHAR_TO_TCHAR (key));
+       std::string const key_string (key);
+       newinfo->key_list_.enqueue_tail (
+         ACE_TEXT_CHAR_TO_TCHAR (key_string.c_str ()));
        return true;
     }
   else

@@ -2443,10 +2443,10 @@ BE_GlobalData::tab_size (unsigned long val)
   this->tab_size_ = val;
 }
 
-ACE_CString
-BE_GlobalData::spawn_options ()
+std::string
+BE_GlobalData::spawn_options () const
 {
-  return idl_global->idl_flags ().data ();
+  return std::string (idl_global->idl_flags ());
 }
 
 void
@@ -2602,19 +2602,19 @@ BE_GlobalData::parse_args (long &i, char **av)
                         ACE_TEXT ("no selection for -H option\n")));
             idl_global->parse_args_exit (1);
           }
-        else if (ACE_OS::strcmp (av[i+1], "dynamic_hash") == 0)
+        else if (std::string_view (av[i + 1]) == "dynamic_hash")
           {
             be_global->lookup_strategy (BE_GlobalData::TAO_DYNAMIC_HASH);
           }
-        else if (ACE_OS::strcmp (av[i + 1], "perfect_hash") == 0)
+        else if (std::string_view (av[i + 1]) == "perfect_hash")
           {
             be_global->lookup_strategy (BE_GlobalData::TAO_PERFECT_HASH);
           }
-        else if (ACE_OS::strcmp (av[i + 1], "binary_search") == 0)
+        else if (std::string_view (av[i + 1]) == "binary_search")
           {
             be_global->lookup_strategy (BE_GlobalData::TAO_BINARY_SEARCH);
           }
-        else if (ACE_OS::strcmp (av[i + 1], "linear_search") == 0)
+        else if (std::string_view (av[i + 1]) == "linear_search")
           {
             be_global->lookup_strategy (BE_GlobalData::TAO_LINEAR_SEARCH);
           }
@@ -2675,7 +2675,7 @@ BE_GlobalData::parse_args (long &i, char **av)
         if (av[i][2] == '\0')
           {
             idl_global->append_idl_flag (av[i + 1]);
-            ACE_CString tmp (av[i + 1], nullptr, false);
+            std::string tmp (av[i + 1]);
 #if defined (ACE_WIN32)
             // WIN32's CreateProcess needs the full executable name
             // when the gperf path is modified, but not for the default
@@ -2683,7 +2683,7 @@ BE_GlobalData::parse_args (long &i, char **av)
             // executable name at all.
             tmp += "\\ace_gperf.exe";
 #endif
-            idl_global->gperf_path (tmp.fast_rep ());
+            idl_global->gperf_path (tmp);
             ++i;
           }
         else
@@ -3178,7 +3178,7 @@ BE_GlobalData::parse_args (long &i, char **av)
           }
         else if (av[i][2] == 'I')
           {
-            size_t options = ACE_OS::strlen (av[i]) - 3;
+            size_t const options = std::string_view (av[i]).size () - 3;
             size_t j;
             size_t k = i;
             // Generate implementation files.

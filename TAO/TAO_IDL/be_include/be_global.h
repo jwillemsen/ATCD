@@ -16,7 +16,6 @@
 #include "TAO_IDL_BE_Export.h"
 
 #include "ace/Unbounded_Queue.h"
-#include "ace/SString.h"
 
 #include <optional>
 #include <string>
@@ -944,7 +943,7 @@ public:
 
   /// Command line passed to ACE_Process::spawn. Different
   /// implementations in IDL and IFR backends.
-  ACE_CString spawn_options ();
+  std::string spawn_options () const;
 
   /**
    * Parse an argument that the frontend did not recognize.

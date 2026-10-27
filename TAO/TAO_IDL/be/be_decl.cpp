@@ -53,16 +53,10 @@ be_decl::be_decl (AST_Decl::NodeType type,
 
 be_decl::~be_decl () = default;
 
-void
-be_decl::compute_full_name  (const char *prefix,
-                             const char *suffix,
-                             char *&name) const
+std::string
+be_decl::compute_full_name (std::string_view prefix,
+                            std::string_view suffix) const
 {
-  if (prefix == nullptr || suffix == nullptr)
-    {
-      return;
-    }
-
   std::string result_str (prefix);
 
   // Get parent.
@@ -90,7 +84,7 @@ be_decl::compute_full_name  (const char *prefix,
                       "compute_full_name - "
                       "scope name is nil\n"));
 
-          return;
+          return {};
         }
 
       // Parent name.
@@ -112,19 +106,13 @@ be_decl::compute_full_name  (const char *prefix,
       result_str += suffix;
     }
 
-  name = ACE_OS::strdup (result_str.c_str ());
+  return result_str;
 }
 
-void
-be_decl::compute_flat_name  (const char *prefix,
-                             const char *suffix,
-                             char *&name) const
+std::string
+be_decl::compute_flat_name (std::string_view prefix,
+                            std::string_view suffix) const
 {
-  if (prefix == nullptr || suffix == nullptr)
-    {
-      return;
-    }
-
   std::string result_str (prefix);
 
   // Get parent.
@@ -151,7 +139,7 @@ be_decl::compute_flat_name  (const char *prefix,
                       "compute_flat_name - "
                       "scope name is nil\n"));
 
-          return;
+          return {};
         }
 
       // Parent name.
@@ -171,7 +159,7 @@ be_decl::compute_flat_name  (const char *prefix,
       result_str += suffix;
     }
 
-  name = ACE_OS::strdup (result_str.c_str ());
+  return result_str;
 }
 
 void

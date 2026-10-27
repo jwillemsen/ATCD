@@ -153,23 +153,13 @@ emit (be_interface * /* derived */,
       TAO_OutStream *os,
       be_interface *base)
 {
-  // @@ This whole thing would be more efficient if we could pass the
-  // ACE_CString to compute_full_name, after all it uses that
-  // internally.
-  ACE_CString amh_name ("POA_");
-
-  // @@ The following code is *NOT* exception-safe.
-  char *buf = nullptr;
-  base->compute_full_name ("AMH_", "", buf);
-  amh_name += buf;
-  // buf was allocated using ACE_OS::strdup, so we must use free instead
-  // of delete.
-  ACE_OS::free (buf);
+  std::string amh_name ("POA_");
+  amh_name += base->compute_full_name ("AMH_", "");
 
   *os << "if (ACE_OS::strcmp (logical_type_id, \""
       << base->repoID () << "\") == 0)" << be_idt_nl
       << "return static_cast<"
-      << amh_name.c_str () << "*> (this);" << be_uidt_nl;
+      << amh_name << "*> (this);" << be_uidt_nl;
 
   return 0;
 }
@@ -211,20 +201,10 @@ TAO_IDL_Copy_Ctor_Worker::emit (be_interface *derived,
     }
   else
     {
-      // @@ This whole thing would be more efficient if we could pass the
-      // ACE_CString to compute_full_name, after all it uses that
-      // internally.
-      ACE_CString amh_name ("POA_");
+      std::string amh_name ("POA_");
+      amh_name += base->compute_full_name ("AMH_", "");
 
-      // @@ The following code is *NOT* exception-safe.
-      char *buf = nullptr;
-      base->compute_full_name ("AMH_", "", buf);
-      amh_name += buf;
-      // buf was allocated by ACE_OS::strdup, so we need to use free
-      // instead of delete.
-      ACE_OS::free (buf);
-
-      *os << amh_name.c_str () << " (rhs)";
+      *os << amh_name << " (rhs)";
     }
 
   *os << be_uidt;

@@ -41,7 +41,7 @@ be_visitor_amh_interface_sh::visit_interface (be_interface *node)
     }
 
   TAO_OutStream *os = this->ctx_->stream ();
-  ACE_CString class_name;
+  std::string class_name;
 
   TAO_INSERT_COMMENT (os);
 
@@ -50,24 +50,24 @@ be_visitor_amh_interface_sh::visit_interface (be_interface *node)
     {
       // We are outermost.
       class_name += "POA_AMH_";
-      class_name += node->local_name ().data ();
+      class_name += node->local_name ();
     }
   else
     {
       class_name += "AMH_";
-      class_name +=  node->local_name ().data ();
+      class_name += node->local_name ();
     }
 
   // Generate the skeleton class name.
-  *os << "class " << class_name.c_str () << ";" << be_nl;
+  *os << "class " << class_name << ";" << be_nl;
 
   // Generate the _ptr declaration.
-  *os << "using " << class_name.c_str () << "_ptr = "
-      << class_name.c_str () << " *;" << be_nl_2;
+  *os << "using " << class_name << "_ptr = "
+      << class_name << " *;" << be_nl_2;
 
   // Now generate the class definition.
   *os << "class " << be_global->skel_export_macro ()
-      << " " << class_name.c_str () << be_idt_nl << ": " << be_idt;
+      << " " << class_name << be_idt_nl << ": " << be_idt;
 
   long n_parents = node->n_inherits ();
 
@@ -75,17 +75,10 @@ be_visitor_amh_interface_sh::visit_interface (be_interface *node)
     {
       for (int i = 0; i < n_parents; ++i)
         {
-          ACE_CString amh_name ("POA_");
-
-          // @@ The following code is *NOT* exception-safe.
-          char *buf = nullptr;
           be_interface *base =
             dynamic_cast<be_interface*> (node->inherits ()[i]);
-          base->compute_full_name ("AMH_", "", buf);
-          amh_name += buf;
-          // buf was allocated by ACE_OS::strdup, so we need to use free
-          // instead of delete.
-          ACE_OS::free (buf);
+          std::string amh_name ("POA_");
+          amh_name += base->compute_full_name ("AMH_", "");
 
           if (i != 0)
             {
@@ -93,7 +86,7 @@ be_visitor_amh_interface_sh::visit_interface (be_interface *node)
             }
 
           *os << "public virtual "
-              << amh_name.c_str ()
+              << amh_name
               << be_nl;
         }
     }
@@ -107,7 +100,7 @@ be_visitor_amh_interface_sh::visit_interface (be_interface *node)
   *os << be_uidt << be_uidt_nl
       << "{" << be_nl
       << "protected:" << be_idt_nl
-      << class_name.c_str () << " ();" << be_uidt_nl << be_nl
+      << class_name << " ();" << be_uidt_nl << be_nl
       << "public:" << be_idt_nl;
 
   // No copy constructor for locality constraint interface.
@@ -331,11 +324,11 @@ be_visitor_amh_interface_sh::add_amh_operation (be_operation *node,
 
 
 be_interface *
-be_visitor_amh_interface_sh::create_amh_class (ACE_CString name)
+be_visitor_amh_interface_sh::create_amh_class (std::string name)
 {
   Identifier *id = nullptr;
   ACE_NEW_RETURN (id,
-                  Identifier (name.c_str ()),
+                  Identifier (name),
                   nullptr);
 
   UTL_ScopedName *amh_class_name = nullptr;

@@ -316,32 +316,32 @@ private:
    * depending on which strategy we are using. Returns 0 on sucess, -1
    * on error.
    */
-  int gen_gperf_things (const char *flat_name);
+  int gen_gperf_things (std::string const &flat_name);
 
   /// Outputs the class definition for the perfect hashing. This class
   /// will inherit from the TAO_Perfect_Hash_OpTable.
-  void gen_perfect_hash_class_definition (const char *flat_name);
+  void gen_perfect_hash_class_definition (std::string const &flat_name);
 
   /// Outputs the class definition for the binary search . This class
   /// will inherit from the TAO_Binary_Search_OpTable.
-  void gen_binary_search_class_definition (const char *flat_name);
+  void gen_binary_search_class_definition (std::string const &flat_name);
 
   /// Outputs the class definition for the linear search. This class
   /// will inherit from the TAO_Linear_Search.
-  void gen_linear_search_class_definition (const char *flat_name);
+  void gen_linear_search_class_definition (std::string const &flat_name);
 
   /// This calls the GPERF program and gets the correct operation
   /// lookup methods for the current OpLookup strategy.
-  int gen_gperf_lookup_methods (const char *flat_name);
+  int gen_gperf_lookup_methods (std::string const &flat_name);
 
   /// Create an instance of this perfect hash table.
-  void gen_perfect_hash_instance (const char *flat_name);
+  void gen_perfect_hash_instance (std::string const &flat_name);
 
   /// Create an instance of the binary search optable.
-  void gen_binary_search_instance (const char *flat_name);
+  void gen_binary_search_instance (std::string const &flat_name);
 
   /// Create an instance of the linear search optable.
-  void gen_linear_search_instance (const char *flat_name);
+  void gen_linear_search_instance (std::string const &flat_name);
 
   /**
    * Called from traverse_inheritance_graph(), since base

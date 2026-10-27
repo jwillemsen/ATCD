@@ -1074,7 +1074,7 @@ be_interface::gen_operation_table (std::string_view flat_name,
         // done. This method also unlinks the temp file that we used
         // for the gperf.
         std::string const flat_name_string (flat_name);
-        this->gen_gperf_things (flat_name_string.c_str ());
+        this->gen_gperf_things (flat_name_string);
       }
       break;
 
@@ -1625,7 +1625,7 @@ be_interface::traverse_inheritance_graph (
 // depending on which strategy we are using. Returns 0 on sucess, -1
 // on error.
 int
-be_interface::gen_gperf_things (const char *flat_name)
+be_interface::gen_gperf_things (std::string const &flat_name)
 {
   // GPERF can give Binary search, Linear search and Perfect Hash
   // methods. Generate the class definition according to that.
@@ -1704,7 +1704,7 @@ be_interface::gen_gperf_things (const char *flat_name)
 // Outputs the class definition for the perfect hashing. This class
 // will inherit from the TAO_Perfect_Hash_OpTable.
 void
-be_interface::gen_perfect_hash_class_definition (const char *flat_name)
+be_interface::gen_perfect_hash_class_definition (std::string const &flat_name)
 {
   // Outstream.
   TAO_OutStream *os = tao_cg->server_skeletons ();
@@ -1726,7 +1726,7 @@ be_interface::gen_perfect_hash_class_definition (const char *flat_name)
 // Outputs the class definition for the binary searching. This class
 // will inherit from the TAO_Binary_Seach_OpTable.
 void
-be_interface::gen_binary_search_class_definition (const char *flat_name)
+be_interface::gen_binary_search_class_definition (std::string const &flat_name)
 {
   // Outstream.
   TAO_OutStream *os = tao_cg->server_skeletons ();
@@ -1744,7 +1744,7 @@ be_interface::gen_binary_search_class_definition (const char *flat_name)
 // Outputs the class definition for the linear search. This class
 // will inherit from the TAO_Linear_Search_OpTable.
 void
-be_interface::gen_linear_search_class_definition (const char *flat_name)
+be_interface::gen_linear_search_class_definition (std::string const &flat_name)
 {
   // Outstream.
   TAO_OutStream *ss = tao_cg->server_skeletons ();
@@ -1765,7 +1765,7 @@ be_interface::gen_linear_search_class_definition (const char *flat_name)
 // GPERF reads from our temp file and write to the Server Skeleton
 // file.
 int
-be_interface::gen_gperf_lookup_methods (const char *flat_name)
+be_interface::gen_gperf_lookup_methods (std::string const &flat_name)
 {
   // Using ACE_Process.
   ACE_Process process;
@@ -1861,7 +1861,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
                                     ACE_TEXT (" ")
                                     ACE_TEXT ("-N lookup"),
                                     idl_global->gperf_path ().value ().data (),
-                                    flat_name);
+                                    flat_name.c_str ());
       break;
 
       // Binary search methods from GPERF. Everythis and the -B flag.
@@ -1884,7 +1884,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
                                     ACE_TEXT (" ")
                                     ACE_TEXT ("-N lookup"),
                                     idl_global->gperf_path ().value ().data (),
-                                    flat_name);
+                                    flat_name.c_str ());
       break;
 
       // Linear search methods from GPERF. Everything and the -Z flag.
@@ -1907,7 +1907,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
                                     ACE_TEXT (" ")
                                     ACE_TEXT ("-N lookup"),
                                     idl_global->gperf_path ().value ().data (),
-                                    flat_name);
+                                    flat_name.c_str ());
       break;
 
     default:
@@ -1960,7 +1960,7 @@ be_interface::gen_gperf_lookup_methods (const char *flat_name)
 
 // Create an instance of this perfect hash table.
 void
-be_interface::gen_perfect_hash_instance (const char *flat_name)
+be_interface::gen_perfect_hash_instance (std::string const &flat_name)
 {
   // Outstream.
   TAO_OutStream *os = tao_cg->server_skeletons ();
@@ -1973,7 +1973,7 @@ be_interface::gen_perfect_hash_instance (const char *flat_name)
 
 // Create an instance of the binary search optable.
 void
-be_interface::gen_binary_search_instance (const char *flat_name)
+be_interface::gen_binary_search_instance (std::string const &flat_name)
 {
   // Outstream.
   TAO_OutStream *os = tao_cg->server_skeletons ();
@@ -1987,7 +1987,7 @@ be_interface::gen_binary_search_instance (const char *flat_name)
 
 // Create an instance of this perfect hash table.
 void
-be_interface::gen_linear_search_instance (const char *flat_name)
+be_interface::gen_linear_search_instance (std::string const &flat_name)
 {
   // Outstream.
   TAO_OutStream *os = tao_cg->server_skeletons ();

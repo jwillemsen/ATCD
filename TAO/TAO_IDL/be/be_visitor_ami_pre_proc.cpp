@@ -136,7 +136,7 @@ be_visitor_ami_pre_proc::visit_interface (be_interface *node)
           || lname.compare (lname.length () - 8, 8, "Implicit") == 0))
     {
       UTL_Scope *s = node->defined_in ();
-      Identifier local_id (lname.substr (0, lname.length () - 8).c_str ());
+      Identifier local_id (std::string_view (lname).substr (0, lname.length () - 8));
       AST_Decl *d = s->lookup_by_name_local (&local_id, false);
       local_id.destroy ();
 
@@ -272,7 +272,7 @@ be_visitor_ami_pre_proc::create_reply_handler (be_interface *node)
     static_cast<UTL_ScopedName *> (node->name ()->copy ());
 
   reply_handler_name->last_component ()->replace_string (
-    reply_handler_local_name.c_str ());
+    reply_handler_local_name);
 
   long n_parents = 0;
   AST_Type **p_intf =
@@ -418,7 +418,7 @@ be_visitor_ami_pre_proc::create_sendc_operation (be_operation *node)
 
   UTL_ScopedName *op_name =
     static_cast<UTL_ScopedName *> (node->name ()->copy ());
-  op_name->last_component ()->replace_string (new_op_name.c_str ());
+  op_name->last_component ()->replace_string (new_op_name);
 
   idl_global->scopes ().push (node->defined_in ());
 
@@ -575,7 +575,7 @@ be_visitor_ami_pre_proc::create_reply_handler_operation (
     static_cast<UTL_ScopedName *> (reply_handler->name ()-> copy ());
 
   ACE_NEW_RETURN (id,
-                  Identifier (original_op_name.c_str ()),
+                  Identifier (original_op_name),
                   -1);
 
   ACE_NEW_RETURN (sn,
@@ -746,7 +746,7 @@ be_visitor_ami_pre_proc::create_excep_operation (be_operation *node,
     static_cast<UTL_ScopedName *> (reply_handler->name ()->copy ());
 
   ACE_NEW_RETURN (id,
-                  Identifier (new_op_name.c_str ()),
+                  Identifier (new_op_name),
                   -1);
 
   ACE_NEW_RETURN (sn,
@@ -901,7 +901,7 @@ be_visitor_ami_pre_proc::generate_get_operation (be_attribute *node)
 
   UTL_ScopedName *get_name =
     static_cast<UTL_ScopedName *> (node->name ()->copy ());
-  get_name->last_component ()->replace_string (new_op_name.c_str ());
+  get_name->last_component ()->replace_string (new_op_name);
 
   be_operation *operation = nullptr;
   ACE_NEW_RETURN (operation,
@@ -936,7 +936,7 @@ be_visitor_ami_pre_proc::generate_set_operation (be_attribute *node)
 
   UTL_ScopedName *set_name =
     static_cast<UTL_ScopedName *> (node->name ()-> copy ());
-  set_name->last_component ()->replace_string (new_op_name.c_str ());
+  set_name->last_component ()->replace_string (new_op_name);
 
   // Argument type is the same as the attribute type.
   be_argument *arg = nullptr;
@@ -1036,7 +1036,7 @@ be_visitor_ami_pre_proc::create_inheritance_list (be_interface *node,
             static_cast<UTL_ScopedName *> (parent->name ()->copy ());
 
           rh_parent_name->last_component ()->replace_string (
-                                                 rh_local_name.c_str ()
+                                                 rh_local_name
                                                );
 
           AST_Decl *d =
@@ -1103,7 +1103,7 @@ be_visitor_ami_pre_proc::generate_ami4ccm_idl ()
   for (std::string const &item : ccm_ami_ifaces)
     {
       UTL_ScopedName *sn =
-        FE_Utils::string_to_scoped_name (item.c_str ());
+        FE_Utils::string_to_scoped_name (item);
 
       UTL_Scope *s =
         idl_global->scopes ().top_non_null ();

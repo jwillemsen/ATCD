@@ -86,6 +86,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 // FUZZ: disable check_for_streams_include
 #include "ace/streams.h"
 
+#include <string_view>
 #include <utility>
 
 // Define an increment for the size of the array used to store names of
@@ -603,7 +604,7 @@ IDL_GlobalData::add_to_included_idl_files (char const *file_name)
   // Let's avoid duplicates.
   for (size_t index = 0; index < this->n_included_idl_files_; ++index)
     {
-      if (!ACE_OS::strcmp (file_name, this->included_idl_files_[index]))
+      if (std::string_view (file_name) == this->included_idl_files_[index])
         {
           return;
         }
@@ -1236,9 +1237,9 @@ IDL_GlobalData::check_gperf ()
 
   // If ACE_GPERF is defined then use that gperf program instead of "gperf."
 #if defined (ACE_GPERF)
-  if (ACE_OS::strcmp (this->gperf_path_->c_str (), ACE_GPERF) != 0)
+  if (std::string_view (*this->gperf_path_) != ACE_GPERF)
 #else
-  if (ACE_OS::strcmp (this->gperf_path_->c_str (), "ace_gperf") != 0)
+  if (std::string_view (*this->gperf_path_) != "ace_gperf")
 #endif /* ACE_GPERF */
     {
       // It is absolute path. Check the existence, permissions and

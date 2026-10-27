@@ -1692,23 +1692,23 @@ UTL_Error::annotation_param_missing_error (
 
 void
 UTL_Error::direct_error (
-  std::string_view reason, ACE_CString const &filename, long lineno, UTL_Error::ErrorCode error_code)
+  std::string_view reason, std::string_view filename, long lineno,
+  UTL_Error::ErrorCode error_code)
 {
   std::string const reason_string (reason);
-  std::string_view const filename_view (filename.c_str (), filename.length ());
-  idl_error_header (error_code, lineno, filename_view);
+  idl_error_header (error_code, lineno, filename);
   ACE_ERROR ((LM_ERROR, ACE_TEXT ("%C\n"), reason_string.c_str ()));
 }
 
 void
 UTL_Error::direct_warning (
-  std::string_view reason, ACE_CString const &filename, long lineno, UTL_Error::ErrorCode error_code)
+  std::string_view reason, std::string_view filename, long lineno,
+  UTL_Error::ErrorCode error_code)
 {
   if (idl_global->print_warnings ())
     {
       std::string const reason_string (reason);
-      std::string_view const filename_view (filename.c_str (), filename.length ());
-      idl_warning_header (error_code, lineno, filename_view);
+      idl_warning_header (error_code, lineno, filename);
       ACE_ERROR ((LM_WARNING, ACE_TEXT ("%C\n"), reason_string.c_str ()));
     }
 }

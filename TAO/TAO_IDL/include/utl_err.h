@@ -200,14 +200,14 @@ public:
    * Report an error that can be out of context of IDL parsing.
    */
   void direct_error (
-    std::string_view reason, ACE_CString const &filename, long lineno,
+    std::string_view reason, std::string_view filename, long lineno,
     ErrorCode error_code = EIDL_MISC);
 
   /**
    * Report an warning that can be out of context of IDL parsing.
    */
   void direct_warning (
-    std::string_view reason, ACE_CString const &filename, long lineno,
+    std::string_view reason, std::string_view filename, long lineno,
     ErrorCode error_code = EIDL_MISC);
 
   // Report a syntax error in IDL input

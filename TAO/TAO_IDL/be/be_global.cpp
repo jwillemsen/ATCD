@@ -25,6 +25,8 @@
 #include "global_extern.h"
 #include "idl_defines.h"
 
+#include <string_view>
+
 #include "ace/ACE.h"
 #include "ace/OS_NS_stdio.h"
 #include "ace/OS_NS_sys_stat.h"
@@ -78,7 +80,7 @@ be_change_idl_file_extension (UTL_String* idl_file,
   // before giving up.
   std::string::size_type base = std::string::npos;
 
-  static constexpr char const *extensions[] = {
+  static constexpr std::string_view extensions[] = {
     ".idl",
     ".pidl",
     ".IDL",
@@ -103,7 +105,7 @@ be_change_idl_file_extension (UTL_String* idl_file,
     }
 
   // Anyop * skel file output defaults to general output dir if not set.
-  const std::string_view output_path =
+  std::string_view const output_path =
     be_util::get_output_path (for_anyop, for_skel, for_exec);
 
   std::string fname;

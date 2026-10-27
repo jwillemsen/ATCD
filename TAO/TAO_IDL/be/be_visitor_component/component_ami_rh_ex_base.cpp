@@ -49,7 +49,7 @@ be_visitor_component_ami_rh_ex_base::init ()
   UTL_Scope *s = this->iface_->defined_in ();
   AST_Decl *scope = ScopeAsDecl (s);
   bool global = (scope->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (global ? "" : "::");
+  std::string_view const smart_scope = global ? "" : "::";
 
   std::string base ("AMI4CCM_");
   base += this->iface_->original_local_name ()->get_string_view_or_empty ();

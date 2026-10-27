@@ -46,7 +46,7 @@ be_visitor_servant_svs::visit_component (be_component *node)
 
   bool const de_facto = (is_connector || no_events);
 
-  const char *opt_conn =
+  std::string_view const opt_conn =
     (de_facto ? "Connector_" : "");
 
   os_ << be_nl_2

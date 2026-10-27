@@ -210,7 +210,7 @@ be_visitor_attribute_ccm_init::emit_init_block ()
 
 void
 be_visitor_attribute_ccm_init::emit_error (
-  const char *corba_kind)
+  std::string_view corba_kind)
 {
   this->open_if_block ();
 

@@ -13,6 +13,7 @@
 #include "array.h"
 
 #include <string>
+#include <string_view>
 
 be_visitor_array_ch::be_visitor_array_ch (be_visitor_context *ctx)
   : be_visitor_array (ctx)
@@ -144,20 +145,7 @@ int be_visitor_array_ch::visit_array (be_array *node)
   // Now define the slice type and other required operations
   *os << "using ";
 
-  char anon_p [2];
-  ACE_OS::memset (anon_p,
-                  '\0',
-                  2);
-
-  if (this->ctx_->tdef () != nullptr)
-    {
-      anon_p[0] = '\0';
-    }
-  else
-    {
-      ACE_OS::sprintf (anon_p,
-                       "_");
-    }
+  std::string_view const anon_p = this->ctx_->tdef () != nullptr ? "" : "_";
 
   *os << anon_p << node->local_name () << "_slice = ";
 

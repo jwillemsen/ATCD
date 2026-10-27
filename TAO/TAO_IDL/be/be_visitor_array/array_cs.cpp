@@ -11,6 +11,7 @@
 
 #include "array.h"
 
+#include <string>
 #include <string_view>
 
 be_visitor_array_cs::be_visitor_array_cs (be_visitor_context *ctx)
@@ -45,22 +46,14 @@ int be_visitor_array_cs::visit_array (be_array *node)
   // To hold the full and local.
   std::string_view const local_name =
     node->local_name ()->get_string_view_or_empty ();
-  char fname [NAMEBUFSIZE];
-  char lname [NAMEBUFSIZE];
-  ACE_OS::memset (fname,
-                  '\0',
-                  NAMEBUFSIZE);
-  ACE_OS::memset (lname,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string fname;
+  std::string lname;
 
   if (this->ctx_->tdef ())
     {
       // Typedefed node.
-      ACE_OS::sprintf (fname, "%s",
-                       node->full_name ().data ());
-      ACE_OS::sprintf (lname, "%s",
-                       local_name.data ());
+      fname = node->full_name ();
+      lname = local_name;
     }
   else
     {
@@ -71,22 +64,18 @@ int be_visitor_array_cs::visit_array (be_array *node)
         {
           be_decl *parent =
             dynamic_cast<be_scope*> (node->defined_in ())->decl ();
-          ACE_OS::sprintf (fname,
-                           "%s::_%s",
-                           parent->full_name ().data (),
-                           local_name.data ());
-          ACE_OS::sprintf (lname,
-                           "_%s",
-                           local_name.data ());
+          fname = parent->full_name ();
+          fname += "::_";
+          fname += local_name;
+          lname = "_";
+          lname += local_name;
         }
       else
         {
-          ACE_OS::sprintf (fname,
-                           "_%s",
-                           node->full_name ().data ());
-          ACE_OS::sprintf (lname,
-                           "_%s",
-                           local_name.data ());
+          fname = "_";
+          fname += node->full_name ();
+          lname = "_";
+          lname += local_name;
         }
     }
 

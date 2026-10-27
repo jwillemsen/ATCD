@@ -809,9 +809,11 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
         {
           char* idl_name = idl_global->included_idl_files ()[j];
 
-          ACE_CString const pidl_checker_included (idl_name);
-          bool const got_pidl =
-            (pidl_checker_included.substr (pidl_checker_included.length () - 5) == ".pidl");
+          std::string_view const pidl_checker_included (idl_name);
+          constexpr std::string_view pidl_suffix = ".pidl";
+          bool const got_pidl = pidl_checker_included.size () >= pidl_suffix.size ()
+            && pidl_checker_included.substr (
+                 pidl_checker_included.size () - pidl_suffix.size ()) == pidl_suffix;
 
           // If we're here and we have a .pidl file, we need to generate
           // the *A.h include, if it is not a .pidl file we don't generate
@@ -829,13 +831,13 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
 
               // Stripped off any scope in the name and add the
               // AnyTypeCode prefix.
-              ACE_CString work_hdr (anyop_hdr.c_str ());
-              ACE_CString final_hdr = "tao/AnyTypeCode/";
-              ACE_CString::size_type pos = work_hdr.rfind ('/');
+              std::string work_hdr (anyop_hdr);
+              std::string final_hdr = "tao/AnyTypeCode/";
+              std::string::size_type const pos = work_hdr.rfind ('/');
 
-              if (pos != ACE_CString::npos)
+              if (pos != std::string::npos)
                 {
-                  ACE_CString scope (work_hdr.substr (0, pos - 1));
+                  std::string const scope (work_hdr.substr (0, pos - 1));
 
                   // If we find a '/' in the containing scope name, it
                   // means we are including a .pidl file from a
@@ -845,7 +847,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
                   // Only .pidl files in $TAO_ROOT/tao itself have
                   // their generated *A.* files moved to the AnyTypeCode
                   // library.
-                  if (scope.find ('/') == ACE_CString::npos)
+                  if (scope.find ('/') == std::string::npos)
                     {
                       work_hdr = work_hdr.substr (pos + 1);
                       final_hdr += work_hdr;
@@ -1010,12 +1012,16 @@ TAO_CodeGen::start_ciao_svnt_header (const std::string &fname)
     {
       riter.next (path_tmp);
 
-      ACE_CString filename (*path_tmp);
+      std::string_view const filename (*path_tmp);
+      constexpr std::string_view exec_idl_suffix = "E.idl";
       // sanity
-      if (filename.substr (filename.length() - 5) == "E.idl")
+      if (filename.size () >= exec_idl_suffix.size ()
+          && filename.substr (filename.size () - exec_idl_suffix.size ())
+            == exec_idl_suffix)
         {
           os  << "#include \""
-              << filename.substr(0, filename.length() - 5) << "_svnt.h\""
+              << filename.substr (0, filename.size () - exec_idl_suffix.size ())
+              << "_svnt.h\""
               << be_nl;
         }
     }
@@ -2061,7 +2067,6 @@ TAO_CodeGen::gen_export_file (std::string_view filename,
 
   std::string const macro_string (macro);
   std::string const filename_string (filename);
-  ACE_CString macro_str (macro_string.c_str ());
   std::string file_str;
 
   const std::string_view output_path =
@@ -2106,11 +2111,9 @@ TAO_CodeGen::gen_export_file (std::string_view filename,
       return;
     }
 
-  ACE_CString suffix ("_Export");
-  size_t stem_len =
-    macro_str.length () - suffix.length ();
-
-  if (macro_str.substr (stem_len) != suffix)
+  constexpr std::string_view suffix = "_Export";
+  if (macro.size () < suffix.size ()
+      || macro.substr (macro.size () - suffix.size ()) != suffix)
     {
       ACE_ERROR ((LM_ERROR,
                   ACE_TEXT ("TAO_CodeGen::gen_export_file() - ")
@@ -2120,8 +2123,7 @@ TAO_CodeGen::gen_export_file (std::string_view filename,
       return;
     }
 
-  ACE_CString stem_str (macro_str.substr (0, stem_len));
-  const char *stem = stem_str.c_str ();
+  std::string const stem (macro.substr (0, macro.size () - suffix.size ()));
 
   os << "\n#ifndef " << stem << "_EXPORT_H\n"
      << "#define " << stem << "_EXPORT_H\n\n"
@@ -2472,9 +2474,11 @@ TAO_CodeGen::gen_stub_hdr_includes ()
         {
           char * const idl_name = idl_global->included_idl_files ()[j];
 
-          ACE_CString pidl_checker (idl_name);
-          bool const got_pidl =
-            (pidl_checker.substr (pidl_checker.length () - 5) == ".pidl");
+          std::string_view const pidl_checker (idl_name);
+          constexpr std::string_view pidl_suffix = ".pidl";
+          bool const got_pidl = pidl_checker.size () >= pidl_suffix.size ()
+            && pidl_checker.substr (
+                 pidl_checker.size () - pidl_suffix.size ()) == pidl_suffix;
 
           // If we're here and we have a .pidl file, we need to generate
           // the *A.h include from the AnyTypeCode library.
@@ -2490,13 +2494,13 @@ TAO_CodeGen::gen_stub_hdr_includes ()
 
               // Stripped off any scope in the name and add the
               // AnyTypeCode prefix.
-              ACE_CString work_hdr (anyop_hdr.c_str ());
-              ACE_CString final_hdr = "tao/AnyTypeCode/";
-              ACE_CString::size_type const pos = work_hdr.rfind ('/');
+              std::string work_hdr (anyop_hdr);
+              std::string final_hdr = "tao/AnyTypeCode/";
+              std::string::size_type const pos = work_hdr.rfind ('/');
 
-              if (pos != ACE_CString::npos)
+              if (pos != std::string::npos)
                 {
-                  ACE_CString scope (work_hdr.substr (0, pos));
+                  std::string const scope (work_hdr.substr (0, pos));
 
                   // If we find a '/' in the containing scope name, it
                   // means we are including a .pidl file from a
@@ -2506,7 +2510,7 @@ TAO_CodeGen::gen_stub_hdr_includes ()
                   // Only .pidl files in $TAO_ROOT/tao itself have
                   // their generated *A.* files moved to the AnyTypeCode
                   // library.
-                  if (scope.find ('/') == ACE_CString::npos)
+                  if (scope.find ('/') == std::string::npos)
                     {
                       work_hdr = work_hdr.substr (pos + 1);
                       final_hdr += work_hdr;
@@ -3376,7 +3380,7 @@ TAO_CodeGen::gen_exec_idl_includes ()
 
        }
         /// No need to have the exec IDL file include itself.
-       if ((ACE_OS::strcmp (*path_tmp, exec_idl_fname.c_str ()) != 0) &&
+       if ((std::string_view (*path_tmp) != exec_idl_fname) &&
            (!skip_incl))
          {
             this->gen_standard_include (this->ciao_exec_idl_, *path_tmp);
@@ -3385,13 +3389,11 @@ TAO_CodeGen::gen_exec_idl_includes ()
 }
 
 bool
-TAO_CodeGen::is_system_file (const char * idl_name) const
+TAO_CodeGen::is_system_file (std::string_view idl_name) const
 {
   return
-    ACE_OS::strcmp (idl_name, "Components.idl") == 0
-    || ACE_OS::strcmp (
-          idl_name,
-          "connectors/ami4ccm/ami4ccm/ami4ccm.idl") == 0;
+    idl_name == "Components.idl"
+    || idl_name == "connectors/ami4ccm/ami4ccm/ami4ccm.idl";
 }
 
 void

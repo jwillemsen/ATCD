@@ -439,7 +439,7 @@ private:
   void gen_conn_src_includes ();
   void gen_ami_conn_idl_includes ();
 
-  bool is_system_file (const char * idl_name) const;
+  bool is_system_file (std::string_view idl_name) const;
 
   void gen_export_file (std::string_view filename,
                         std::string_view macro,

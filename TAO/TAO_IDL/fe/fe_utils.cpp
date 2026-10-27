@@ -20,6 +20,7 @@
 #include "utl_string.h"
 
 #include <string>
+#include <vector>
 
 #include "ace/OS_NS_strings.h"
 #include "ace/OS_NS_ctype.h"
@@ -629,8 +630,7 @@ FE_Utils::validate_included_idl_files ()
   // the top level file in the order that they are found in the pre-
   // processor output here
   // @see bug TAO#711 / Bugzilla #3513 for more
-  char** ordered_include_files =
-    new char* [n_pre_preproc_includes];
+  std::vector<char *> ordered_include_files (n_pre_preproc_includes, nullptr);
 
   for (size_t i = 0u; i < n_post_preproc_includes; ++i)
     {
@@ -732,8 +732,6 @@ FE_Utils::validate_included_idl_files ()
     {
       pre_preproc_includes [m] = ordered_include_files [m];
     }
-
-  delete [] ordered_include_files;
 
   // Now adjust the count on the included_idl_files.
   idl_global->n_included_idl_files (newj);

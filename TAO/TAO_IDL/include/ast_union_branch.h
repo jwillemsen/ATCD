@@ -82,6 +82,10 @@ public:
   AST_UnionBranch (UTL_LabelList *ll,
                    AST_Type *ft,
                    UTL_ScopedName *n);
+  AST_UnionBranch (AST_UnionBranch const &) = delete;
+  AST_UnionBranch (AST_UnionBranch &&) = delete;
+  AST_UnionBranch &operator= (AST_UnionBranch const &) = delete;
+  AST_UnionBranch &operator= (AST_UnionBranch &&) = delete;
 
   ~AST_UnionBranch () override;
 

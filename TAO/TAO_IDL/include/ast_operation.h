@@ -88,6 +88,10 @@ public:
                  UTL_ScopedName *n,
                  bool local,
                  bool abstract);
+  AST_Operation (AST_Operation const &) = delete;
+  AST_Operation (AST_Operation &&) = delete;
+  AST_Operation &operator= (AST_Operation const &) = delete;
+  AST_Operation &operator= (AST_Operation &&) = delete;
 
   ~AST_Operation () override;
 

@@ -90,6 +90,10 @@ public:
   AST_Constant (AST_Expression::ExprType et,
                 AST_Expression *ev,
                 UTL_ScopedName *n);
+  AST_Constant (AST_Constant const &) = delete;
+  AST_Constant (AST_Constant &&) = delete;
+  AST_Constant &operator= (AST_Constant const &) = delete;
+  AST_Constant &operator= (AST_Constant &&) = delete;
 
   ~AST_Constant () override;
 

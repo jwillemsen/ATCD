@@ -120,8 +120,7 @@ static constexpr bool copy_input_file = true;
 // Lines can be 1024 chars long intially -
 // it will expand as required.
 #define LINEBUF_SIZE 1024
-char* drv_line = nullptr;
-static size_t drv_line_size = LINEBUF_SIZE + 1;
+std::string drv_line;
 
 static void
 DRV_append_version_component (std::string &version,
@@ -256,8 +255,9 @@ DRV_cpp_calc_total_argsize()
 static bool
 DRV_get_line (FILE *file)
 {
-  char *line = ACE_OS::fgets (drv_line,
-                              static_cast<int> (drv_line_size),
+  char buffer[LINEBUF_SIZE + 1];
+  char *line = ACE_OS::fgets (buffer,
+                              static_cast<int> (sizeof (buffer)),
                               file);
   if (!line || (!*line && feof (file)))
     {
@@ -265,43 +265,32 @@ DRV_get_line (FILE *file)
       return false;
     }
 
+  drv_line.clear ();
+
   do
     {
+      drv_line.append (buffer);
+
       // Check for line continuation escape...
-      size_t len = ACE_OS::strlen (drv_line);
+      size_t len = drv_line.size ();
       if (2 <= len &&
-          '\n' == drv_line [len-1] &&
-          '\\' == drv_line [len-2]    )
+          '\n' == drv_line [len - 1] &&
+          '\\' == drv_line [len - 2])
         {
           // This is a "false" end-of-line, remove token
-          len-= 2;
-          drv_line [len]= '\0';
+          drv_line.resize (len - 2);
+          len -= 2;
         }
 
       // Check for end-of-line
-      if (len && '\n' == drv_line [len-1])
+      if (len && '\n' == drv_line [len - 1])
         {
-          // Replace the end-of-line with a null
-          drv_line [len-1] = '\0';
+          drv_line.pop_back ();
           return true;
         }
 
-      // Need to continue to read more of this line in,
-      // is there enough space left in the buffer?
-      if (drv_line_size - len < 10)
-        {
-          // Create a bigger buffer
-          size_t temp_size = drv_line_size * 2;
-          char *temp = nullptr;
-          ACE_NEW_RETURN (temp, char [temp_size], false);
-          ACE_OS::strcpy (temp, drv_line);
-          delete [] drv_line;
-          drv_line = temp;
-          drv_line_size = temp_size;
-        }
-
-      line = ACE_OS::fgets (drv_line + len,
-                            static_cast<int> (drv_line_size - len),
+      line = ACE_OS::fgets (buffer,
+                            static_cast<int> (sizeof (buffer)),
                             file);
     } while (line && *line);
 
@@ -312,13 +301,7 @@ DRV_get_line (FILE *file)
 void
 DRV_cpp_init ()
 {
-  // Create the line buffer.
-  // (JP) Deleting this at the end or DRV_pre_proc() causes
-  // Purify to output a Freeing Mismatched Memory warning.
-  // When it is not deleted (currently the case) there is no
-  // memory leak reported by Purify. I don't know why.
-  ACE_NEW (drv_line,
-           char [drv_line_size]);
+  drv_line.clear ();
 
   std::string const cpp_loc = FE_get_cpp_loc_from_env ();
   DRV_cpp_putarg (cpp_loc.c_str ());
@@ -1005,7 +988,7 @@ DRV_get_orb_idl_includes ()
     {
       // Find the included .pidl files in orb.idl and add them to the
       // included IDL file list.
-      DRV_check_for_include (drv_line);
+      DRV_check_for_include (drv_line.c_str ());
     }
 
   ACE_OS::fclose (fp);
@@ -1066,18 +1049,18 @@ DRV_copy_input (FILE *fin,
 
   while (DRV_get_line (fin))
     {
-      DRV_convert_includes (drv_line);
+      DRV_convert_includes (drv_line.data ());
 
       // Print the line to the temporary file.
       ACE_OS::fprintf (f,
                        "%s\n",
-                       drv_line);
+                       drv_line.c_str ());
 
       // We really need to know whether this line is a "#include
       // ...". If so, we would like to separate the "file name" and
       // keep that in the idl_global. We need them to produce
       // "#include's in the stubs and skeletons.
-      DRV_check_for_include (drv_line);
+      DRV_check_for_include (drv_line.c_str ());
     }
 
   // Close the temporary file.
@@ -1213,7 +1196,7 @@ DRV_pre_proc (char const *myfile)
     {
       while (DRV_get_line (file))
         {
-          DRV_check_for_include (drv_line);
+          DRV_check_for_include (drv_line.c_str ());
         }
     }
   ACE_OS::fclose (file);

@@ -345,7 +345,7 @@ be_visitor_dds_ts_idl::init_file ()
                         -1);
     }
 
-  this->os_ptr_->gen_ifdef_macro (fname_noext.c_str (),
+  this->os_ptr_->gen_ifdef_macro (fname_noext,
                                   "IDL",
                                   false);
 

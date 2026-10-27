@@ -144,7 +144,7 @@ be_visitor_arg_traits::visit_interface (be_interface *node)
 
   // The guard should be generated to prevent multiple declarations,
   // since a forward declaration may appear more than once.
-  os->gen_ifdef_macro (node->flat_name (), guard_suffix.c_str (), false);
+  os->gen_ifdef_macro (node->flat_name (), guard_suffix, false);
 
   *os << be_nl_2
       << "template<>" << be_nl
@@ -299,7 +299,7 @@ be_visitor_arg_traits::visit_valuetype (be_valuetype *node)
 
   // The guard should be generated to prevent multiple declarations,
   // since a forward declaration may appear more than once.
-  os.gen_ifdef_macro (node->flat_name (), guard_suffix.c_str (), false);
+  os.gen_ifdef_macro (node->flat_name (), guard_suffix, false);
 
   os << be_nl_2
       << "template<>" << be_nl
@@ -422,7 +422,7 @@ be_visitor_arg_traits::visit_operation (be_operation *node)
           // since a bounded (w)string of the same length may be used or typedef'd
           // more than once.
 
-          os->gen_ifdef_macro (node->flat_name (), guard_suffix.c_str (), false);
+          os->gen_ifdef_macro (node->flat_name (), guard_suffix, false);
 
           bool wide = (str->width () != 1);
 
@@ -500,7 +500,7 @@ be_visitor_arg_traits::visit_attribute (be_attribute *node)
   // since a bounded (w)string of the same length may be used or typedef'd
   // more than once.
 
-  os->gen_ifdef_macro (node->flat_name (), guard_suffix.c_str (), false);
+  os->gen_ifdef_macro (node->flat_name (), guard_suffix, false);
 
   bool wide = (st->width () != 1);
 
@@ -578,7 +578,7 @@ be_visitor_arg_traits::visit_argument (be_argument *node)
   // since a bounded (w)string of the same length may be used or typedef'd
   // more than once.
 
-  os->gen_ifdef_macro (node->flat_name (), guard_suffix.c_str (), false);
+  os->gen_ifdef_macro (node->flat_name (), guard_suffix, false);
 
   bool wide = (st->width () != 1);
 
@@ -724,7 +724,7 @@ be_visitor_arg_traits::visit_string (be_string *node)
 
   if (alias == nullptr)
     {
-      os->gen_ifdef_macro (node->flat_name (), guard_suffix.c_str (), false);
+      os->gen_ifdef_macro (node->flat_name (), guard_suffix, false);
     }
   else
     {
@@ -733,7 +733,7 @@ be_visitor_arg_traits::visit_string (be_string *node)
         alias->local_name ()->get_string_view_or_empty ());
       macro_name += std::to_string (bound);
 
-      os->gen_ifdef_macro (macro_name.c_str (), guard_suffix.c_str (), false);
+      os->gen_ifdef_macro (macro_name, guard_suffix, false);
     }
 
   // Avoid generating a duplicate structure in the skeleton since

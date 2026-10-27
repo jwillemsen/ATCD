@@ -221,7 +221,7 @@ be_visitor_executor_ex_idl::gen_supported ()
 void
 be_visitor_executor_ex_idl::gen_exception_list (
   UTL_ExceptList *exceptions,
-  const char *prefix,
+  std::string_view prefix,
   bool closed)
 {
   if (exceptions != nullptr && exceptions->length () > 0)

@@ -68,7 +68,7 @@ be_visitor_component_ami_rh_ex_base::init ()
 
 void
 be_visitor_component_ami_rh_ex_base::gen_excep_op (
-  const char *prefix,
+  std::string_view prefix,
   be_decl *node,
   bool for_defn)
 {

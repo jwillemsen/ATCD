@@ -422,7 +422,7 @@ be_visitor_interface_ch::gen_abstract_ops_helper (be_interface *node,
 }
 
 bool
-be_visitor_interface_ch::gen_xxx_narrow (const char *nar,
+be_visitor_interface_ch::gen_xxx_narrow (std::string_view nar,
                                          be_interface *node,
                                          TAO_OutStream *os)
 {

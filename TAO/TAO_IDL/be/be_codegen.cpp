@@ -220,10 +220,10 @@ TAO_CodeGen::start_client_header (const std::string &fname)
       // thru CC preprocessor.
       for (size_t j = 0; j < nfiles; ++j)
         {
-          char* idl_name = idl_global->included_idl_files ()[j];
+          std::string const &idl_name = idl_global->included_idl_files ()[j];
 
           // Make a String out of it.
-          UTL_String idl_name_str (idl_name);
+          UTL_String idl_name_str (idl_name.c_str ());
 
           // Get the clnt header from the IDL file name.
           std::string const client_hdr =
@@ -242,7 +242,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
             {
               ACE_ERROR_RETURN ((LM_ERROR,
                                  ACE_TEXT ("\nERROR, invalid file '%C' included"),
-                                 idl_name),
+                                 idl_name.c_str ()),
                                 -1);
             }
         }
@@ -449,10 +449,10 @@ TAO_CodeGen::start_server_header (const std::string &fname)
        j < idl_global->n_included_idl_files ();
        ++j)
     {
-      char* idl_name = idl_global->included_idl_files ()[j];
+      std::string const &idl_name = idl_global->included_idl_files ()[j];
 
       // String'ifying the name.
-      UTL_String idl_name_str (idl_name);
+      UTL_String idl_name_str (idl_name.c_str ());
 
       std::string const server_hdr =
         BE_GlobalData::be_get_server_hdr (&idl_name_str, true);
@@ -801,7 +801,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
     {
       for (size_t j = 0; j < idl_global->n_included_idl_files (); ++j)
         {
-          char* idl_name = idl_global->included_idl_files ()[j];
+          std::string const &idl_name = idl_global->included_idl_files ()[j];
 
           std::string_view const pidl_checker_included (idl_name);
           constexpr std::string_view pidl_suffix = ".pidl";
@@ -816,7 +816,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
           if (got_pidl)
             {
               // Make a String out of it.
-              UTL_String idl_name_str (idl_name);
+              UTL_String idl_name_str (idl_name.c_str ());
 
               std::string const anyop_hdr =
                 BE_GlobalData::be_get_anyop_header (&idl_name_str, true);
@@ -2433,7 +2433,7 @@ TAO_CodeGen::gen_stub_hdr_includes ()
     {
       for (size_t j = 0; j < idl_global->n_included_idl_files (); ++j)
         {
-          char * const idl_name = idl_global->included_idl_files ()[j];
+          std::string const &idl_name = idl_global->included_idl_files ()[j];
 
           std::string_view const pidl_checker (idl_name);
           constexpr std::string_view pidl_suffix = ".pidl";
@@ -2446,7 +2446,7 @@ TAO_CodeGen::gen_stub_hdr_includes ()
           if (got_pidl)
             {
               // Make a String out of it.
-              UTL_String idl_name_str (idl_name);
+              UTL_String idl_name_str (idl_name.c_str ());
 
               std::string const anyop_hdr =
                 BE_GlobalData::be_get_anyop_header (&idl_name_str, true);
@@ -3404,7 +3404,7 @@ TAO_CodeGen::gen_conn_hdr_includes ()
           *this->ciao_conn_header_ << be_nl;
         }
 
-      char * const idl_name =
+      std::string const &idl_name =
         idl_global->included_idl_files ()[j];
 
 
@@ -3413,7 +3413,7 @@ TAO_CodeGen::gen_conn_hdr_includes ()
           continue;
         }
 
-      UTL_String str (idl_name);
+      UTL_String str (idl_name.c_str ());
 
       this->gen_standard_include (this->ciao_conn_header_, BE_GlobalData::be_get_server_hdr (&str, true));
 

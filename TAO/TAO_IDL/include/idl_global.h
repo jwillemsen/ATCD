@@ -452,19 +452,13 @@ public:
   //   "#include"d in the main IDL file, not the ones after CC
   //   preprocessor parsed the file.
 
-  // Just storing the pointer. No memory will be allocated.
-  void add_to_included_idl_files (char const *file_name);
+  void add_to_included_idl_files (std::string_view file_name);
 
   // Get all the files.
-  char** included_idl_files ();
+  std::vector<std::string> & included_idl_files ();
 
   // The number of currently availabe include files.
   size_t n_included_idl_files ();
-
-  // Set the number of included_idl_files. Use this carefully. This
-  // method is used when we validate all the #included idl files,
-  // against the ones that we get after preprocessing.
-  void n_included_idl_files (size_t n);
 
   ParseState parse_state ();       // What state we're in
   void set_parse_state (ParseState s); // Set it
@@ -929,14 +923,8 @@ private:
   unsigned long              pd_n_include_file_names {}; // How many.
   unsigned long              pd_n_alloced_file_names {}; // How many alloced.
 
-  char **included_idl_files_ {};
+  std::vector<std::string> included_idl_files_;
   // IDL files that are "#include'd.
-
-  size_t n_included_idl_files_ {};
-  // The number of such idl files that are currently stored.
-
-  size_t n_allocated_idl_files_ {};
-  // For char*'s have been allocated for this.
 
   ParseState                pd_parse_state {PS_NoState}; // Parse state we're in.
 

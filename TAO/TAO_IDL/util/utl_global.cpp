@@ -607,55 +607,21 @@ IDL_GlobalData::n_include_file_names () const
 // IDL file.
 
 void
-IDL_GlobalData::add_to_included_idl_files (char const *file_name)
+IDL_GlobalData::add_to_included_idl_files (std::string_view file_name)
 {
   // Let's avoid duplicates.
-  for (size_t index = 0; index < this->n_included_idl_files_; ++index)
+  for (std::string const &included_file : this->included_idl_files_)
     {
-      if (std::string_view (file_name) == this->included_idl_files_[index])
+      if (file_name == included_file)
         {
           return;
         }
     }
 
-  // Is there enough space there to store one more file.
-  if (this->n_included_idl_files_ == this->n_allocated_idl_files_)
-    {
-      // Allocating more space.
-      if (this->n_allocated_idl_files_ == 0)
-        {
-          // First time creation.
-          this->n_allocated_idl_files_ = INCREMENT;
-          ACE_NEW (this->included_idl_files_,
-                   char *[this->n_allocated_idl_files_]);
-        }
-      else
-        {
-          // Adding more storage.
-          char** old_included_idl_files =
-            this->included_idl_files_;
-          size_t n_old_allocated_idl_files =
-            this->n_allocated_idl_files_;
-          this->n_allocated_idl_files_ += INCREMENT;
-          ACE_NEW (this->included_idl_files_,
-                   char *[this->n_allocated_idl_files_]);
-
-          for (size_t i = 0; i < n_old_allocated_idl_files; ++i)
-            {
-              this->included_idl_files_ [i] =
-                old_included_idl_files [i];
-            }
-
-          delete [] old_included_idl_files;
-        }
-    }
-
-  // Store it.
-  this->included_idl_files_ [this->n_included_idl_files_++] =
-    ACE::strnew (file_name);
+  this->included_idl_files_.emplace_back (file_name);
 }
 
-char**
+std::vector<std::string> &
 IDL_GlobalData::included_idl_files ()
 {
   return this->included_idl_files_;
@@ -664,16 +630,7 @@ IDL_GlobalData::included_idl_files ()
 size_t
 IDL_GlobalData::n_included_idl_files ()
 {
-  return this->n_included_idl_files_;
-}
-
-// Set the number of included_idl_files. Use this carefully. This
-// method is used when we validate all the #included idl files,
-// against the ones that we get after preprocessing.
-void
-IDL_GlobalData::n_included_idl_files (size_t n)
-{
-  this->n_included_idl_files_ = n;
+  return this->included_idl_files_.size ();
 }
 
 void
@@ -850,16 +807,7 @@ IDL_GlobalData::destroy ()
 
   this->pd_n_include_file_names = 0;
 
-  for (size_t k = 0; k < n_included_idl_files_; ++k)
-    {
-      ACE::strdelete (this->included_idl_files_[k]);
-      this->included_idl_files_[k] = nullptr;
-    }
-
-  this->n_included_idl_files_ = 0;
-  this->n_allocated_idl_files_ = 0;
-  delete [] this->included_idl_files_;
-  this->included_idl_files_ = nullptr;
+  this->included_idl_files_.clear ();
 
   this->recursion_start_.reset ();
 

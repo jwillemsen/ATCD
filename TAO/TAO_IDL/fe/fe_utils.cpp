@@ -20,6 +20,7 @@
 #include "utl_string.h"
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "ace/OS_NS_strings.h"
@@ -601,12 +602,7 @@ FE_Utils::validate_included_idl_files ()
   already_done = true;
 
   // New number of included_idl_files.
-  size_t newj = 0;
-
-  size_t n_pre_preproc_includes =
-    idl_global->n_included_idl_files ();
-
-  char **pre_preproc_includes =
+  std::vector<std::string> &pre_preproc_includes =
     idl_global->included_idl_files ();
 
   size_t n_post_preproc_includes =
@@ -625,7 +621,8 @@ FE_Utils::validate_included_idl_files ()
   // the top level file in the order that they are found in the pre-
   // processor output here
   // @see bug TAO#711 / Bugzilla #3513 for more
-  std::vector<char *> ordered_include_files (n_pre_preproc_includes, nullptr);
+  std::vector<std::string> ordered_include_files;
+  ordered_include_files.reserve (pre_preproc_includes.size ());
 
   for (size_t i = 0u; i < n_post_preproc_includes; ++i)
     {
@@ -634,13 +631,13 @@ FE_Utils::validate_included_idl_files ()
 
       if (full_path)
         {
-          for (size_t j = 0u; j < n_pre_preproc_includes; ++j)
+          for (size_t j = 0u; j < pre_preproc_includes.size (); ++j)
             {
               // Check this name with the name that we got from the
               // preprocessor.
 
               bool valid_file = false;
-              full_path = ACE_OS::realpath (pre_preproc_includes [j],
+              full_path = ACE_OS::realpath (pre_preproc_includes [j].c_str (),
                                             pre_abspath);
               if (full_path &&
                   FE_Utils::path_cmp (pre_abspath, post_abspath) == 0 &&
@@ -686,20 +683,10 @@ FE_Utils::validate_included_idl_files ()
                   // File is valid.
                   // Move to the new index position.
                   // ... in the ordered list
-                  ordered_include_files [newj] =
-                        pre_preproc_includes [j];
-
-                  // Increment the new index.
-                  ++newj;
-
-                  for (size_t k = j + 1; k < n_pre_preproc_includes; ++k)
-                    {
-                      // Shift remaining entries down
-                      pre_preproc_includes [k-1] = pre_preproc_includes [k];
-                    }
-
-                  // Reduce length and zero the discarded element
-                  pre_preproc_includes [--n_pre_preproc_includes] = nullptr;
+                  ordered_include_files.emplace_back (
+                    std::move (pre_preproc_includes [j]));
+                  pre_preproc_includes.erase (
+                    pre_preproc_includes.begin () + j);
 
                   // Break out to next entry in pre-processor
                   // output
@@ -707,28 +694,14 @@ FE_Utils::validate_included_idl_files ()
                 }
             }
 
-          if (n_pre_preproc_includes == 0)
+          if (pre_preproc_includes.empty ())
             {
               break;
             }
         }
     }
 
-  // Tidy up not required includes
-  for (size_t l = 0u; l < n_pre_preproc_includes; ++l)
-    {
-      delete [] pre_preproc_includes [l];
-      pre_preproc_includes [l] = nullptr;
-    }
-
-  // Copy list back
-  for (size_t m = 0u; m < newj; ++m)
-    {
-      pre_preproc_includes [m] = ordered_include_files [m];
-    }
-
-  // Now adjust the count on the included_idl_files.
-  idl_global->n_included_idl_files (newj);
+  pre_preproc_includes = std::move (ordered_include_files);
 }
 
 bool

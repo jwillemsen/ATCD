@@ -87,7 +87,7 @@ protected:
 
   int lookup_cookie ();
   int lookup_exceptions ();
-  int lookup_one_exception (const char *name,
+  int lookup_one_exception (std::string_view name,
                             be_exception *&result);
 
   int create_event_consumer (be_eventtype *node);

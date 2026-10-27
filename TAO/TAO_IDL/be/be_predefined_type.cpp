@@ -22,9 +22,8 @@
 
 #include "ace/Log_Msg.h"
 #include "ace/ACE.h"
-#include "ace/OS_NS_stdio.h"
 
-#include <string_view>
+#include <string>
 
 be_predefined_type::be_predefined_type (
       AST_PredefinedType::PredefinedType t,
@@ -226,13 +225,11 @@ be_predefined_type::compute_tc_name ()
       break;
     case AST_PredefinedType::PT_pseudo:
       {
-        char tcname [100];
-        ACE_OS::sprintf (tcname,
-                         "_tc_%s",
-                         this->name ()->last_component ()->get_string_view_or_empty ().data ());
+        std::string tcname ("_tc_");
+        tcname += this->name ()->last_component ()->get_string_view_or_empty ();
 
         ACE_NEW (id,
-                 Identifier (tcname));
+                 Identifier (tcname.c_str ()));
         break;
       }
     case AST_PredefinedType::PT_uint8:

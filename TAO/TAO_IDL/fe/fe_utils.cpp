@@ -378,7 +378,7 @@ FE_Utils::create_implied_ami_uses_stuff ()
   for (std::string const &item : idl_global->included_ami_recep_names ())
     {
       UTL_ScopedName *sn =
-        FE_Utils::string_to_scoped_name (item.c_str ());
+        FE_Utils::string_to_scoped_name (item);
 
       AST_Decl *d =
         idl_global->root ()->lookup_by_name (sn, true);

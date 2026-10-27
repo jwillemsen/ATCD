@@ -22,8 +22,8 @@ public:
 
   int ast_accept (ast_visitor *visitor) override;
 
-  AST_Expression *digits ();
-  AST_Expression *scale ();
+  AST_Expression *digits () const;
+  AST_Expression *scale () const;
 
 private:
   AST_Expression *pd_digits;

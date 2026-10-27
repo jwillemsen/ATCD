@@ -91,7 +91,7 @@ public:
 
   /// Parent Enum of this value
   ///{
-  AST_Enum *enum_parent ();
+  AST_Enum *enum_parent () const;
   void enum_parent (AST_Enum* node);
   ///)
 

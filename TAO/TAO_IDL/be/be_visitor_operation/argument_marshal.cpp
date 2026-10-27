@@ -13,7 +13,7 @@
 
 #include "operation.h"
 
-#include <string_view>
+#include <string>
 
 // ************************************************************
 // operation visitor to handle the passing of arguments to the CDR operators
@@ -201,11 +201,7 @@ be_visitor_args_decl::visit_array (be_array *node)
 
   // for anonymous arrays, the type name has a _ prepended. We compute
   // the full_name with or without the underscore and use it later on.
-  char fname [NAMEBUFSIZE];  // to hold the full and
-
-  ACE_OS::memset (fname,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string fname;
 
   if (!this->ctx_->alias () // not a typedef
       && node->is_child (this->ctx_->scope ()->decl ()))
@@ -220,24 +216,20 @@ be_visitor_args_decl::visit_array (be_array *node)
           be_decl *parent =
             dynamic_cast<be_scope*> (node->defined_in ())->decl ();
 
-          ACE_OS::sprintf (fname,
-                           "%s::_%s",
-                           parent->full_name ().data (),
-                           node->local_name ()->get_string_view_or_empty ().data ());
+          fname = parent->full_name ();
+          fname += "::_";
+          fname += node->local_name ()->get_string_view_or_empty ();
         }
       else
         {
-          ACE_OS::sprintf (fname,
-                           "_%s",
-                           node->full_name ().data ());
+          fname = "_";
+          fname += node->full_name ();
         }
     }
   else
     {
       // Typedefed node.
-      ACE_OS::sprintf (fname,
-                       "%s",
-                       node->full_name ().data ());
+      fname = node->full_name ();
     }
 
   if (f->direction () != AST_Argument::dir_IN)

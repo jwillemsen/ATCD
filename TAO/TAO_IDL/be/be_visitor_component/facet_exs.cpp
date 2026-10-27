@@ -76,7 +76,7 @@ be_visitor_facet_exs::visit_provides (be_provides *node)
 
   std::string lname_str (this->ctx_->port_prefix ());
   lname_str += node->original_local_name ()->get_string_view_or_empty ();
-  const char *lname = lname_str.c_str ();
+  std::string_view const lname (lname_str);
 
   os_ << be_nl_2
       << comment_start_border_ << be_nl

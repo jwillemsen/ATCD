@@ -38,7 +38,7 @@ be_visitor_facet_exh::visit_provides (be_provides *node)
 
   std::string lname_str (this->ctx_->port_prefix ());
   lname_str += node->original_local_name ()->get_string_view_or_empty ();
-  const char *lname = lname_str.c_str ();
+  std::string_view const lname (lname_str);
 
   AST_Decl *s = ScopeAsDecl (impl->defined_in ());
   std::string sname_str =
@@ -47,7 +47,7 @@ be_visitor_facet_exh::visit_provides (be_provides *node)
 
   AST_Decl *c_scope = ScopeAsDecl (this->node_->defined_in ());
   bool is_global = (c_scope->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (is_global ? "" : "::");
+  std::string_view const smart_scope = (is_global ? "" : "::");
 
   os_ << be_nl_2
       << "///  Executor implementation class for "

@@ -177,7 +177,7 @@ be_visitor_executor_ex_idl::visit_provides (
 
   std::string prefix (this->ctx_->port_prefix ());
   prefix += node->local_name ()->get_string_view_or_empty ();
-  const char *port_name = prefix.c_str ();
+  std::string_view const port_name (prefix);
 
   os_ << be_nl
       << global << sname_str << "::CCM_" << lname << " get_"

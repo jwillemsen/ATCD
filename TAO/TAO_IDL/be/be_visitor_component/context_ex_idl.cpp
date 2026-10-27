@@ -92,7 +92,7 @@ be_visitor_context_ex_idl::visit_uses (be_uses *node)
 
   std::string port_name (this->ctx_->port_prefix ());
   port_name += node->local_name ()->get_string_view_or_empty ();
-  const char *lname = port_name.c_str ();
+  std::string_view const lname (port_name);
 
   // Note that we don't strip off the possible '_cxx_' when
   // adding the 'Connections' suffix. The front end will

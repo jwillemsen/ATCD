@@ -185,7 +185,9 @@ UTL_String::UTL_String (char const* str, bool take_copy)
 }
 
 UTL_String::UTL_String (std::string_view str)
-  : UTL_String (std::string (str).c_str (), true)
+  : copy_taken (true),
+    p_str (str.empty () ? ACE::strnew ("") : ACE::strndup (str.data (), str.size ())),
+    c_str (nullptr)
 {
 }
 

@@ -79,13 +79,13 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ast_valuetype.h"
 #include "ast_annotation_decl.h"
 
-#include "ace/OS_NS_stdio.h"
 #include "ace/OS_NS_unistd.h"
 #include "ace/Process.h"
 #include "ace/Env_Value_T.h"
 // FUZZ: disable check_for_streams_include
 #include "ace/streams.h"
 
+#include <string>
 #include <string_view>
 #include <utility>
 
@@ -1860,10 +1860,10 @@ namespace
         idl_global->set_filename (nullptr);
 
         // Name this pseudo-file "builtin-N"
-        static char buffer[64];
         static unsigned n = 1;
-        ACE_OS::snprintf (&buffer[0], sizeof buffer, "builtin-%u", n++);
-        UTL_String pseudo_filename (&buffer[0], true);
+        std::string builtin_name ("builtin-");
+        builtin_name += std::to_string (n++);
+        UTL_String pseudo_filename {std::string_view (builtin_name)};
 
         idl_global->idl_src_file (new UTL_String (&pseudo_filename, true));
         idl_global->set_filename (new UTL_String (&pseudo_filename, true));

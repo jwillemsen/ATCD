@@ -127,6 +127,18 @@ static constexpr bool copy_input_file = true;
 char* drv_line = nullptr;
 static size_t drv_line_size = LINEBUF_SIZE + 1;
 
+static void
+DRV_append_version_component (std::string &version,
+                              int const component)
+{
+  std::string const component_string = std::to_string (component);
+  if (component_string.size () < 2)
+    {
+      version.push_back ('0');
+    }
+  version += component_string;
+}
+
 // Push the new CPP location if we got a -Yp argument.
 void
 DRV_cpp_new_location (char const * new_loc)
@@ -314,14 +326,12 @@ DRV_cpp_init ()
   // Add an option to the IDL compiler to make the TAO version
   // available to the user. A XX.YY.ZZ release gets
   // version 0xXXYYZZ, for example, 5.1.14 gets 0x050114.
-  char version_option[128];
-  ACE_OS::sprintf (version_option,
-                   "-D__TAO_IDL=0x%2.2d%2.2d%2.2d",
-                   ACE_MAJOR_VERSION,
-                   ACE_MINOR_VERSION,
-                   ACE_MICRO_VERSION);
+  std::string version_option ("-D__TAO_IDL=0x");
+  DRV_append_version_component (version_option, ACE_MAJOR_VERSION);
+  DRV_append_version_component (version_option, ACE_MINOR_VERSION);
+  DRV_append_version_component (version_option, ACE_MICRO_VERSION);
 
-  DRV_cpp_putarg (version_option);
+  DRV_cpp_putarg (version_option.c_str ());
   DRV_cpp_putarg ("-I.");
 
 #if defined (ACE_CC_PREPROCESSOR_DIRECT_INPUT_ARGS)
@@ -639,10 +649,9 @@ DRV_add_include_path (std::string& include_path,
 void
 DRV_cpp_post_init ()
 {
-  char idl_version_arg[128];
-  ACE_OS::sprintf (idl_version_arg, "-D__TAO_IDL_IDL_VERSION=%s",
-    idl_global->idl_version_.to_macro ().data ());
-  DRV_cpp_putarg (idl_version_arg);
+  std::string idl_version_arg ("-D__TAO_IDL_IDL_VERSION=");
+  idl_version_arg += idl_global->idl_version_.to_macro ();
+  DRV_cpp_putarg (idl_version_arg.c_str ());
 
   DRV_cpp_putarg ("-D__TAO_IDL_FEATURES="
 #ifdef TAO_IDL_FEATURES
@@ -1057,25 +1066,23 @@ DRV_copy_input (FILE *fin,
 #else
   // Convert single \ into double \ otherwise MSVC++ pre-processor
   // gets awfully confused.
-  char buf[2*MAXPATHLEN];
-  char *d = buf;
+  std::string escaped_filename;
+  std::string_view const filename_view (orig_filename);
+  escaped_filename.reserve (filename_view.size ());
 
-  for (char const *s = orig_filename; *s != '\0'; ++s)
+  for (char const path_character : filename_view)
     {
-      if (*s == '\\')
+      if (path_character == '\\')
         {
-          *d = '\\';
-          ++d;
+          escaped_filename.push_back ('\\');
         }
 
-      *d = *s;
-      ++d;
+      escaped_filename.push_back (path_character);
     }
 
-  *d = '\0';
   ACE_OS::fprintf (f,
                    "#line 1 \"%s\"\n",
-                   buf);
+                   escaped_filename.c_str ());
 #endif /* ! ACE_WIN32 */
 
   while (DRV_get_line (fin))

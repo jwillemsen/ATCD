@@ -177,7 +177,9 @@ DRV_cpp_putarg (char const *str)
                 }
             }
 #endif
-          char const * const value = replacement.empty () ? str : replacement.c_str ();
+          char const * const value = replacement.empty ()
+                                       ? str
+                                       : replacement.c_str ();
           if (ACE_OS::strchr (value, ' ') != nullptr)
             {
               if (replacement.empty ())
@@ -196,7 +198,9 @@ DRV_cpp_putarg (char const *str)
           throw Bailout ();
         }
 
-      char const * const argument = replacement.empty () ? str : replacement.c_str ();
+      char const * const argument = replacement.empty ()
+                                      ? str
+                                      : replacement.c_str ();
       DRV_arglist[DRV_argcount++] = ACE::strnew (ACE_TEXT_CHAR_TO_TCHAR (argument));
     }
   else
@@ -366,7 +370,7 @@ DRV_cpp_init ()
         {
             DRV_add_include_path (include_path1,
                                   TAO_ROOT,
-                                  nullptr,
+                                  {},
                                   true);
 
             DRV_add_include_path (include_path2,
@@ -398,7 +402,7 @@ DRV_cpp_init ()
               // We deal with a case like this below ...
               DRV_add_include_path (include_path1,
                                     TAO_IDL_INCLUDE_DIR,
-                                    nullptr,
+                                    {},
                                     true);
               DRV_add_include_path (include_path2,
                                     TAO_IDL_INCLUDE_DIR,
@@ -407,7 +411,7 @@ DRV_cpp_init ()
 #else
               DRV_add_include_path (include_path1,
                                     ".",
-                                    nullptr,
+                                    {},
                                     true);
 #endif  /* TAO_IDL_INCLUDE_DIR */
             }
@@ -467,8 +471,6 @@ DRV_sweep_dirs (char const *rel_path,
   bname += rel_path;
   bool include_added = false;
   char abspath[MAXPATHLEN] = {};
-  char *full_path = nullptr;
-
   for (ACE_DIRENT *dir_entry; (dir_entry = dir.read ()) != nullptr;)
     {
       // Skip the ".." and "." files in each directory.
@@ -498,7 +500,7 @@ DRV_sweep_dirs (char const *rel_path,
       switch (stat_buf.st_mode & S_IFMT)
         {
         case S_IFREG: // Either a regular file or an executable.
-          len = lname.length ();
+          len = lname.size ();
 
           if (len > 4 && lname.substr (len - 4) == ".idl")
             {
@@ -508,7 +510,7 @@ DRV_sweep_dirs (char const *rel_path,
                   incl_arg += bname;
                   DRV_cpp_putarg (incl_arg.c_str ());
                   idl_global->add_rel_include_path (bname.c_str ());
-                  full_path = ACE_OS::realpath ("", abspath);
+                  char const * const full_path = ACE_OS::realpath ("", abspath);
 
                   if (full_path != nullptr)
                     {
@@ -550,18 +552,15 @@ DRV_sweep_dirs (char const *rel_path,
 
 std::string&
 DRV_add_include_path (std::string& include_path,
-                      char const *path,
-                      char const *suffix,
+                      std::string_view path,
+                      std::string_view suffix,
                       bool is_system)
 {
-  if (path == nullptr)
+  if (path.empty ())
     {
       return include_path;
     }
 
-  bool const needToQuote =
-    (('"' == *path) || ACE_OS::strchr (path, ' '));
-  size_t const pathLength = ACE_OS::strlen (path);
   char const
 #if defined (ACE_WIN32)
     nativeDir =  '\\',
@@ -571,41 +570,40 @@ DRV_add_include_path (std::string& include_path,
     foreignDir = '\\';
 #endif
 
-  // Eliminate possible enclosing quotes
-  // from the path, and since some compilers
-  // choke on double directory separators in
-  // paths, ensure that the path does not
-  // end with a directory slash.
-  include_path =
-    std::string (path + ('"' == *path),     // Skip leading Quote
-                 pathLength
-                 - ('"' == *path)           // Don't count leading Quote
-                 - ( (1uL < pathLength) &&  // Don't count trailing Quote XOR directory
-                     ('"'        == path [pathLength - 1uL] ||
-                      nativeDir  == path [pathLength - 1uL] ||
-                      foreignDir == path [pathLength - 1uL]
-                   ) )
-                 - ( (2uL < pathLength) &&  // Don't count trailing Quote AND directory
-                     '"' == path [pathLength - 1uL] &&
-                     (nativeDir  == path [pathLength - 2uL] ||
-                      foreignDir == path [pathLength - 2uL]
-                   ) )
-                );
+  // Eliminate possible enclosing quotes and redundant trailing separators.
+  bool const has_quote = path.front () == '"' || path.back () == '"';
+  std::string_view path_view = path;
+  if (path_view.front () == '"')
+    {
+      path_view.remove_prefix (1);
+    }
+  if (!path_view.empty () && path_view.back () == '"')
+    {
+      path_view.remove_suffix (1);
+    }
+  if (!path_view.empty ()
+      && (path_view.size () > 1 || has_quote)
+      && (path_view.back () == nativeDir || path_view.back () == foreignDir))
+    {
+      path_view.remove_suffix (1);
+    }
 
-  if (suffix != nullptr)
+  include_path.assign (path_view);
+
+  if (!suffix.empty ())
     {
       if (include_path.empty ()
-          && ((nativeDir == *suffix) || (foreignDir == *suffix)))
+          && (nativeDir == suffix.front () || foreignDir == suffix.front ()))
         {
           // Path is empty, don't add the
           // suffix's leading directory separator.
-          ++suffix;
+          suffix.remove_prefix (1);
         }
 
       if (!include_path.empty ()
-          && (*suffix != '\0')
-          && (nativeDir != *suffix)
-          && (foreignDir != *suffix))
+          && !suffix.empty ()
+          && nativeDir != suffix.front ()
+          && foreignDir != suffix.front ())
         {
           // Force a directory separator.
           include_path += nativeDir;
@@ -614,22 +612,18 @@ DRV_add_include_path (std::string& include_path,
       // Add the suffix string to the path,
       // ensuring that foreign directory slashes
       // are added as the native type.
-      for ( ; *suffix != '\0'; ++suffix)
+      for (char const suffix_character : suffix)
         {
-          include_path += (foreignDir == *suffix)
+          include_path += (foreignDir == suffix_character)
                              ? nativeDir
-                             : *suffix;
+                             : suffix_character;
         }
     }
 
-  // Build up the include string from the new path+suffix
-  std::string include_option (needToQuote ? "-I\"" : "-I");
+  // Build up the include string from the new path+suffix. DRV_cpp_putarg()
+  // takes care of quoting the argument when needed.
+  std::string include_option ("-I");
   include_option += include_path;
-
-  if (needToQuote)
-    {
-      include_option += '"';
-    }
 
   DRV_cpp_putarg (include_option.c_str ());
 
@@ -694,7 +688,7 @@ DRV_cpp_post_init ()
           // be a warning from DRV_preproc().
           DRV_add_include_path (include_path3,
                                 ".",
-                                nullptr,
+                                {},
                                 true);
 #endif  /* TAO_IDL_INCLUDE_DIR */
         }
@@ -709,7 +703,7 @@ DRV_cpp_post_init ()
     {
       DRV_add_include_path (include_path4,
                             CIAO_ROOT,
-                            nullptr,
+                            {},
                             true);
 
       DRV_add_include_path (include_path5,
@@ -1004,7 +998,7 @@ DRV_get_orb_idl_includes ()
       // to the preprocessor.
       // This should go after user supplied include paths.
       std::string include_path_arg;
-      DRV_add_include_path (include_path_arg, directory.c_str (), "/tao", true);
+      DRV_add_include_path (include_path_arg, directory, "/tao", true);
     }
 
   while (DRV_get_line (fp))

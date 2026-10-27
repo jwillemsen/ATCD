@@ -497,7 +497,7 @@ AST_Expression::AST_Expression (UTL_String *sv)
 }
 
 // An AST_Expression denoting a wide string.
-AST_Expression::AST_Expression (char *sv)
+AST_Expression::AST_Expression (std::string_view sv)
   : pd_ec (EC_none),
     pd_ev (nullptr),
     pd_v1 (nullptr),
@@ -511,7 +511,7 @@ AST_Expression::AST_Expression (char *sv)
            AST_ExprValue);
 
   this->pd_ev->et = EV_wstring;
-  this->pd_ev->u.wstrval = ACE::strnew (sv);
+  this->pd_ev->u.wstrval = ACE::strndup (sv.data (), sv.size ());
 }
 
 AST_Expression::AST_Expression (const ACE_CDR::Fixed &f)

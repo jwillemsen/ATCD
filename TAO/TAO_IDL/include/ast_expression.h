@@ -239,7 +239,7 @@ public:
 
   explicit AST_Expression (UTL_String *s);
 
-  explicit AST_Expression (char *s);
+  explicit AST_Expression (std::string_view s);
 
   explicit AST_Expression (UTL_ScopedName *n);
 

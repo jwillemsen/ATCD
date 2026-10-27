@@ -899,21 +899,23 @@ UTL_Error::lookup_warning (UTL_ScopedName *n)
 
 // Report an illegal version number assignment.
 void
-UTL_Error::version_number_error (char *n)
+UTL_Error::version_number_error (std::string_view n)
 {
+  std::string const number (n);
   idl_error_header (EIDL_ILLEGAL_VERSION);
   ACE_ERROR ((LM_ERROR,
               "%C\n",
-              n));
+              number.c_str ()));
 }
 
 void
-UTL_Error::version_syntax_error (char const *msg)
+UTL_Error::version_syntax_error (std::string_view msg)
 {
+  std::string const message (msg);
   idl_error_header (EIDL_ILLEGAL_VERSION);
   ACE_ERROR ((LM_ERROR,
               "%C\n",
-              msg));
+              message.c_str ()));
 }
 
 // Report an attempt to set the version a second time.
@@ -1456,17 +1458,19 @@ UTL_Error::duplicate_param_id (UTL_ScopedName *n)
 }
 
 void
-UTL_Error::mismatched_template_param (char const *name)
+UTL_Error::mismatched_template_param (std::string_view name)
 {
+  std::string const name_string (name);
   idl_error_header (EIDL_MISMATCHED_T_PARAM);
-  ACE_ERROR ((LM_ERROR, " - %s\n", name));
+  ACE_ERROR ((LM_ERROR, " - %s\n", name_string.c_str ()));
 }
 
 void
-UTL_Error::mismatch_seq_of_param (char const *param_id)
+UTL_Error::mismatch_seq_of_param (std::string_view param_id)
 {
+  std::string const param_id_string (param_id);
   idl_error_header (EIDL_MISMATCHED_SEQ_PARAM);
-  ACE_ERROR ((LM_ERROR, " - %s\n", param_id));
+  ACE_ERROR ((LM_ERROR, " - %s\n", param_id_string.c_str ()));
 }
 
 void
@@ -1557,47 +1561,53 @@ UTL_Error::template_scope_ref_not_aliased (AST_Decl *d)
 }
 
 void
-UTL_Error::idl_version_error (char const *reason)
+UTL_Error::idl_version_error (std::string_view reason)
 {
+  std::string const reason_string (reason);
+  std::string const version_string (idl_global->idl_version_.to_string ());
   idl_error_header (EIDL_IDL_VERSION_ERROR);
   ACE_ERROR ((LM_ERROR,
     ACE_TEXT ("\n%C\nCurrent IDL version is %C, use --idl-version VERSION to ")
     ACE_TEXT ("set the IDL version to use.\n"),
-    reason, idl_global->idl_version_.to_string ().data ()
+    reason_string.c_str (), version_string.c_str ()
     ));
 }
 
 void
-UTL_Error::unsupported_error (char const *reason)
+UTL_Error::unsupported_error (std::string_view reason)
 {
+  std::string const reason_string (reason);
   idl_error_header (EIDL_UNSUPPORTED);
-  ACE_ERROR ((LM_ERROR, ACE_TEXT ("%C\n"), reason));
+  ACE_ERROR ((LM_ERROR, ACE_TEXT ("%C\n"), reason_string.c_str ()));
 }
 
 void
-UTL_Error::unsupported_warning (char const *reason)
+UTL_Error::unsupported_warning (std::string_view reason)
 {
   if (idl_global->print_warnings ())
     {
+      std::string const reason_string (reason);
       idl_warning_header (EIDL_UNSUPPORTED);
-      ACE_ERROR ((LM_WARNING, ACE_TEXT ("%C\n"), reason));
+      ACE_ERROR ((LM_WARNING, ACE_TEXT ("%C\n"), reason_string.c_str ()));
     }
 }
 
 void
-UTL_Error::misc_error (char const *reason, AST_Decl *node)
+UTL_Error::misc_error (std::string_view reason, AST_Decl *node)
 {
+  std::string const reason_string (reason);
   idl_error_header (EIDL_MISC, node);
-  ACE_ERROR ((LM_ERROR, ACE_TEXT ("%C\n"), reason));
+  ACE_ERROR ((LM_ERROR, ACE_TEXT ("%C\n"), reason_string.c_str ()));
 }
 
 void
-UTL_Error::misc_warning (char const *reason, AST_Decl *node)
+UTL_Error::misc_warning (std::string_view reason, AST_Decl *node)
 {
   if (idl_global->print_warnings ())
     {
+      std::string const reason_string (reason);
       idl_warning_header (EIDL_MISC, node);
-      ACE_ERROR ((LM_WARNING, ACE_TEXT ("%C\n"), reason));
+      ACE_ERROR ((LM_WARNING, ACE_TEXT ("%C\n"), reason_string.c_str ()));
     }
 }
 
@@ -1670,20 +1680,22 @@ UTL_Error::annotation_param_missing_error (
 
 void
 UTL_Error::direct_error (
-  char const *reason, ACE_CString const &filename, long lineno, UTL_Error::ErrorCode error_code)
+  std::string_view reason, ACE_CString const &filename, long lineno, UTL_Error::ErrorCode error_code)
 {
+  std::string const reason_string (reason);
   idl_error_header (error_code, lineno, filename);
-  ACE_ERROR ((LM_ERROR, ACE_TEXT ("%C\n"), reason));
+  ACE_ERROR ((LM_ERROR, ACE_TEXT ("%C\n"), reason_string.c_str ()));
 }
 
 void
 UTL_Error::direct_warning (
-  char const *reason, ACE_CString const &filename, long lineno, UTL_Error::ErrorCode error_code)
+  std::string_view reason, ACE_CString const &filename, long lineno, UTL_Error::ErrorCode error_code)
 {
   if (idl_global->print_warnings ())
     {
+      std::string const reason_string (reason);
       idl_warning_header (error_code, lineno, filename);
-      ACE_ERROR ((LM_WARNING, ACE_TEXT ("%C\n"), reason));
+      ACE_ERROR ((LM_WARNING, ACE_TEXT ("%C\n"), reason_string.c_str ()));
     }
 }
 

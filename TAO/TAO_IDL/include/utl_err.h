@@ -200,14 +200,14 @@ public:
    * Report an error that can be out of context of IDL parsing.
    */
   void direct_error (
-    char const *reason, ACE_CString const &filename, long lineno,
+    std::string_view reason, ACE_CString const &filename, long lineno,
     ErrorCode error_code = EIDL_MISC);
 
   /**
    * Report an warning that can be out of context of IDL parsing.
    */
   void direct_warning (
-    char const *reason, ACE_CString const &filename, long lineno,
+    std::string_view reason, ACE_CString const &filename, long lineno,
     ErrorCode error_code = EIDL_MISC);
 
   // Report a syntax error in IDL input
@@ -241,10 +241,10 @@ public:
   void lookup_warning (UTL_ScopedName *n);
 
   // Report an illegal #pragma version.
-  void version_number_error (char *n);
+  void version_number_error (std::string_view n);
 
   // Report an illegal #pragma version syntax
-  void version_syntax_error (char const *msg);
+  void version_syntax_error (std::string_view msg);
 
   // Repost an attempt to reset the version.
   void version_reset_error ();
@@ -400,11 +400,11 @@ public:
   void duplicate_param_id (UTL_ScopedName *n);
 
   // Referenced template parameter not matched in param list.
-  void mismatched_template_param (char const *name);
+  void mismatched_template_param (std::string_view name);
 
   // Given a template param of the form 'sequence<T>', the
   // 'T' must match a previous param in the list.
-  void mismatch_seq_of_param (char const *param_id);
+  void mismatch_seq_of_param (std::string_view param_id);
 
   // Informative message when a lookup fails because a
   // masking scope has not been correctly differentiated
@@ -422,32 +422,32 @@ public:
   /**
    * Report IDL version error, with a given reason.
    */
-  void idl_version_error (char const *reason);
+  void idl_version_error (std::string_view reason);
 
   /**
    * Warn about an unsupported feature in the input IDL that can be ignored for
    * the most part.
    */
-  void unsupported_warning (char const *reason);
+  void unsupported_warning (std::string_view reason);
 
   /**
    * Report an unsupported feature in the input IDL that can't be ignored.
    */
-  void unsupported_error (char const *reason);
+  void unsupported_error (std::string_view reason);
 
   /**
    * Report a error for a specific situation
    *
    * If node is not defined the current file and line are reported.
    */
-  void misc_error (char const *reason, AST_Decl *node = nullptr);
+  void misc_error (std::string_view reason, AST_Decl *node = nullptr);
 
   /**
    * Report a warning for a specific situation
    *
    * If node is not defined the current file and line are reported.
    */
-  void misc_warning (char const *reason, AST_Decl *node = nullptr);
+  void misc_warning (std::string_view reason, AST_Decl *node = nullptr);
 
   /**
    * Report that an invalid annotation parameter was passed

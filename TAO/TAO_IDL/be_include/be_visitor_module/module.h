@@ -27,7 +27,7 @@ class be_visitor_module : public be_visitor_scope
 public:
   explicit be_visitor_module (be_visitor_context *ctx);
 
-  ~be_visitor_module () override;
+  ~be_visitor_module () override = default;
 
   be_visitor_module (const be_visitor_module &) = delete;
   be_visitor_module (be_visitor_module &&) = delete;

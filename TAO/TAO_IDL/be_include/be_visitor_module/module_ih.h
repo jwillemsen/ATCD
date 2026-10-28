@@ -30,7 +30,7 @@ public:
   explicit be_visitor_module_ih (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_module_ih () override;
+  ~be_visitor_module_ih () override = default;
 
   be_visitor_module_ih (const be_visitor_module_ih &) = delete;
   be_visitor_module_ih (be_visitor_module_ih &&) = delete;

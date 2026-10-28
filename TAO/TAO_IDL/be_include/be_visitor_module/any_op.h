@@ -31,7 +31,7 @@ public:
   explicit be_visitor_module_any_op (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_module_any_op () override;
+  ~be_visitor_module_any_op () override = default;
 
   be_visitor_module_any_op (const be_visitor_module_any_op &) = delete;
   be_visitor_module_any_op (be_visitor_module_any_op &&) = delete;

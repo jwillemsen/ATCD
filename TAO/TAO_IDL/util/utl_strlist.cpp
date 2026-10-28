@@ -77,7 +77,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ace/streams.h"
 
 #include "ace/OS_Memory.h"
-#include "ace/OS_NS_string.h"
+
+#include <string_view>
 
 UTL_StrList::UTL_StrList (UTL_String *s,
                           UTL_StrList *cdr)
@@ -156,7 +157,6 @@ UTL_StrList::destroy ()
 void
 UTL_StrList::dump (ACE_OSTREAM_TYPE &o)
 {
-  char *s = nullptr;
   bool first = true;
   bool second = false;
 
@@ -171,12 +171,12 @@ UTL_StrList::dump (ACE_OSTREAM_TYPE &o)
           first = second = false;
         }
 
-      s = i.item ()->get_string ();
+      std::string_view const s = i.item ()->get_string_view_or_empty ();
       o << s;
 
       if (first)
         {
-          if (ACE_OS::strcmp (s, "::") != 0)
+          if (s != "::")
             {
               first = false;
             }

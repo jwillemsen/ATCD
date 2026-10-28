@@ -15,6 +15,8 @@
 
 #include "be_visitor_decl.h"
 
+#include <string_view>
+
 class TAO_OutStream;
 
 /**
@@ -47,8 +49,8 @@ public:
   int visit_valuetype (be_valuetype *) override;
 
 protected:
-  const char * var_name_ {"_extract_val"};
-  const char * tmp_name_ {"_extract_tmp"};
+  std::string_view var_name_ {"_extract_val"};
+  std::string_view tmp_name_ {"_extract_tmp"};
 };
 
 #endif /* BE_VISITOR_ANY_EXTRACTED_TYPE_DECL_H */

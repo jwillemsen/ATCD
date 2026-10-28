@@ -28,6 +28,11 @@ class be_native : public virtual AST_Native,
                   public virtual be_exception
 {
 public:
+  be_native (be_native const &) = delete;
+  be_native (be_native &&) = delete;
+  be_native &operator= (be_native const &) = delete;
+  be_native &operator= (be_native &&) = delete;
+
   explicit be_native (UTL_ScopedName *n);
 
   ~be_native () override = default;

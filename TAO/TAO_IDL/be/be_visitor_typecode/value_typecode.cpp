@@ -12,6 +12,8 @@
 
 #include "typecode.h"
 
+#include <string_view>
+
 TAO::be_visitor_value_typecode::be_visitor_value_typecode (
   be_visitor_context * ctx)
   : be_visitor_typecode_defn (ctx)
@@ -73,8 +75,8 @@ TAO::be_visitor_value_typecode::visit_valuetype (be_valuetype * node)
     node->data_members_count (AST_Field::vis_PUBLIC)
     + node->data_members_count (AST_Field::vis_PRIVATE);
 
-  ACE_CString const fields_name (ACE_CString ("_tao_fields_")
-                                 + node->flat_name ());
+  std::string fields_name ("_tao_fields_");
+  fields_name += node->flat_name ();
 
   // Generate array containing value field characteristics.
   os << "static TAO::TypeCode::Value_Field<char const *, "
@@ -82,11 +84,11 @@ TAO::be_visitor_value_typecode::visit_valuetype (be_valuetype * node)
 
   if (count == 0)
     {
-      os << "* const " << fields_name.c_str () << " = nullptr;" << be_nl;
+      os << "* const " << fields_name << " = nullptr;" << be_nl;
     }
   else
     {
-      os << fields_name.c_str () << "[] =" << be_idt_nl
+      os << fields_name << "[] =" << be_idt_nl
          << "{" << be_idt_nl;
 
       if (this->visit_members (node) != 0)
@@ -100,9 +102,9 @@ TAO::be_visitor_value_typecode::visit_valuetype (be_valuetype * node)
 
   // Generate the TypeCode instantiation.
 
-  static constexpr char StringType[]      = "char const *";
-  static constexpr char TypeCodeType[]    = "::CORBA::TypeCode_ptr const *";
-  static constexpr char MemberArrayType[] =
+  static constexpr std::string_view StringType = "char const *";
+  static constexpr std::string_view TypeCodeType = "::CORBA::TypeCode_ptr const *";
+  static constexpr std::string_view MemberArrayType =
     "TAO::TypeCode::Value_Field<char const *, "
     "::CORBA::TypeCode_ptr const *> const *";
 

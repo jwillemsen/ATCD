@@ -39,7 +39,7 @@ TAO::be_visitor_alias_typecode::visit_valuebox (be_valuebox * node)
 int
 TAO::be_visitor_alias_typecode::common (be_type * node,
                                         be_type * base,
-                                        char const * tctype)
+                                        std::string_view tctype)
 {
   TAO_OutStream & os = *this->ctx_->stream ();
 

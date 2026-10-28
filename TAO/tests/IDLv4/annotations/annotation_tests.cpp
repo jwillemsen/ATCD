@@ -7,7 +7,9 @@
 #include <ast_union_branch.h>
 #include <ast_union_label.h>
 #include <ast_expression.h>
+#include <optional>
 #include <string>
+#include <string_view>
 
 namespace {
   void assert_node_has_annotation (
@@ -293,6 +295,25 @@ annotation_tests ()
     UTL_String test_string ("This is some text");
     t.assert_annotation_member_value<UTL_String*, UTL_String*>
       (value, &test_string);
+
+    std::optional<std::string_view> canonical = test_string.get_canonical_rep ();
+    if (!canonical || *canonical != "THIS IS SOME TEXT")
+      {
+        t.failed ("UTL_String canonical representation mismatch");
+      }
+
+    UTL_String empty_string (std::string_view {});
+    canonical = empty_string.get_canonical_rep ();
+    if (!canonical || !canonical->empty ())
+      {
+        t.failed ("UTL_String empty canonical representation mismatch");
+      }
+
+    UTL_String default_string;
+    if (default_string.get_canonical_rep ())
+      {
+        t.failed ("UTL_String missing canonical representation should be empty");
+      }
   } catch (Failed const &) {}
 
   AST_Expression *constant_annotation_x = 0;
@@ -443,16 +464,13 @@ annotation_tests ()
     if (annotation->annotation_decl () != test_annotation_1)
       {
         UTL_ScopedName *scopedname = annotation->name ();
-        const char *name = scopedname ?
-          scopedname-> get_string_copy () : "UNKNOWN";
+        std::string const name = scopedname
+          ? scopedname->get_string_copy ()
+          : "UNKNOWN";
         ACE_ERROR ((LM_ERROR, ACE_TEXT ("Annotation Test Error: %C:\n")
           ACE_TEXT ("expected annotation for test_seq_t base type to be ")
           ACE_TEXT ("test_annotation_1, but it was %C\n"),
-          t.name_.c_str (), name));
-        if (scopedname)
-          {
-            delete [] name;
-          }
+          t.name_.c_str (), name.c_str ()));
         t.failed ();
       }
   } catch (Failed const &) {}
@@ -573,16 +591,13 @@ annotation_tests ()
     if (annotation->annotation_decl () != test_annotation_1)
       {
         UTL_ScopedName *scopedname = annotation->name ();
-        const char *name = scopedname ?
-          scopedname-> get_string_copy () : "UNKNOWN";
+        std::string const name = scopedname
+          ? scopedname->get_string_copy ()
+          : "UNKNOWN";
         ACE_ERROR ((LM_ERROR, ACE_TEXT ("Annotation Test Error: %C:\n")
           ACE_TEXT ("expected annotation for test_union discriminator to be ")
           ACE_TEXT ("test_annotation_1, but it was %C\n"),
-          t.name_.c_str (), name));
-        if (scopedname)
-          {
-            delete [] name;
-          }
+          t.name_.c_str (), name.c_str ()));
         t.failed ();
       }
 
@@ -765,16 +780,13 @@ annotation_tests ()
     if (annotation->annotation_decl () != test_annotation_1)
       {
         UTL_ScopedName *scopedname = annotation->name ();
-        const char *name = scopedname ?
-          scopedname-> get_string_copy () : "UNKNOWN";
+        std::string const name = scopedname
+          ? scopedname->get_string_copy ()
+          : "UNKNOWN";
         ACE_ERROR ((LM_ERROR, ACE_TEXT ("Annotation Test Error: %C:\n")
           ACE_TEXT ("expected annotation for struct12Array base type to be ")
           ACE_TEXT ("test_annotation_1, but it was %C\n"),
-          t.name_.c_str (), name));
-        if (scopedname)
-          {
-            delete [] name;
-          }
+          t.name_.c_str (), name.c_str ()));
         t.failed ();
       }
   } catch (Failed const &) {}

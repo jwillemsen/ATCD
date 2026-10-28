@@ -124,13 +124,13 @@ AST_UnionLabel::destroy ()
 // Data accessors.
 
 AST_UnionLabel::UnionLabel
-AST_UnionLabel::label_kind ()
+AST_UnionLabel::label_kind () const
 {
   return this->pd_label_kind;
 }
 
 AST_Expression *
-AST_UnionLabel::label_val ()
+AST_UnionLabel::label_val () const
 {
   return this->pd_label_val;
 }

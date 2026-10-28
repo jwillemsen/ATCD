@@ -2,6 +2,7 @@
 #define ANNOTEST_IDL_BE_EXTERN_HEADER
 
 #include "be_global.h"
+#include "ace/ace_wchar.h"
 
 extern BE_GlobalData *be_global;
 

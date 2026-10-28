@@ -14,6 +14,8 @@
 #ifndef _BE_HOME_HOME_EXS_H_
 #define _BE_HOME_HOME_EXS_H_
 
+#include <string_view>
+
 /**
  * @class be_visitor_home_exs
  *
@@ -48,10 +50,10 @@ private:
   be_home *node_ {};
   AST_Component *comp_ {};
   TAO_OutStream &os_;
-  char const *const comment_start_border_ {"/**"};
-  char const *const comment_end_border_ {" */"};
-  char const *const your_code_here_ {"/* Your code here. */"};
-  ACE_CString export_macro_;
+  std::string_view comment_start_border_ {"/**"};
+  std::string_view comment_end_border_ {" */"};
+  std::string_view your_code_here_ {"/* Your code here. */"};
+  std::string_view export_macro_;
 };
 
 /// Worker class passed to traverse_inheritance_graph(),

@@ -13,6 +13,8 @@
 #ifndef TAO_BE_VISITOR_ALIAS_TYPECODE_H
 #define TAO_BE_VISITOR_ALIAS_TYPECODE_H
 
+#include <string_view>
+
 namespace TAO
 {
   /**
@@ -50,7 +52,7 @@ namespace TAO
   private:
     int common (be_type * node,
                 be_type * base,
-                char const * tctype);
+                std::string_view tctype);
   };
 }
 

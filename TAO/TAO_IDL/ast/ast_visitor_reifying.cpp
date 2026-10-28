@@ -35,6 +35,8 @@
 #include "utl_string.h"
 #include "nr_extern.h"
 
+#include <string_view>
+
 ast_visitor_reifying::ast_visitor_reifying (
       ast_visitor_context *ctx)
   : ast_visitor (),
@@ -632,15 +634,14 @@ ast_visitor_reifying::visit_param_holder (AST_Param_Holder *node)
       FE_Utils::T_Param_Info *item = nullptr;
       iter.next (item);
 
-      ACE_CString name (item->name_);
-
       /// The param holder's info->name_ may be the same as the
       /// node's local name, but if the node comes from an
       /// alias, info->name_ will be the name of the alias's
       /// referenced template module parameter, while the local
       /// name will be that of the corresponding alias param
       /// name, which is what we want.
-      if (name == node->local_name ()->get_string ())
+      if (std::string_view (item->name_)
+          == node->local_name ()->get_string_view_or_empty ())
         {
           AST_Decl **ret_ptr = nullptr;
 
@@ -669,7 +670,7 @@ ast_visitor_reifying::visit_param_holder (AST_Param_Holder *node)
                      ACE_TEXT ("ast_visitor_reifying::")
                      ACE_TEXT ("visit_param_holder() - no match for ")
                      ACE_TEXT ("template param %C in %C\n"),
-                     node->local_name ()->get_string (),
+                     node->local_name ()->get_string_view_or_empty ().data (),
                      ScopeAsDecl (idl_global->scopes ().top ())->full_name ()),
                     -1);
 }
@@ -704,19 +705,21 @@ UTL_ScopedName *
 ast_visitor_reifying::template_module_rel_name (AST_Decl *d)
 {
   AST_Decl *tmp = d;
-  ACE_CString name (d->full_name ());
+  std::string name (d->full_name ());
 
   while (tmp != nullptr)
     {
       if (dynamic_cast<AST_Template_Module*> (tmp) != nullptr)
         {
-          ACE_CString head (tmp->local_name ()->get_string ());
+          std::string_view const head =
+            tmp->local_name ()->get_string_view_or_empty ();
 
-          ACE_CString::size_type start = name.find (head) + 2;
+          std::string::size_type start = name.find (head.data ()) + 2;
 
-          ACE_CString tail (name.substr (start + head.length ()));
+          std::string_view const tail (name.data () + start + head.length (),
+                                       name.length () - start - head.length ());
 
-          return FE_Utils::string_to_scoped_name (tail.c_str ());
+          return FE_Utils::string_to_scoped_name (tail);
         }
 
       tmp = ScopeAsDecl (tmp->defined_in ());

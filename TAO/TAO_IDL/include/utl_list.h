@@ -100,6 +100,7 @@ public:
 
   // Get next list.
   UTL_List *tail ();
+  UTL_List const *tail () const;
 
   // Set next list
   void set_tail (UTL_List *l);

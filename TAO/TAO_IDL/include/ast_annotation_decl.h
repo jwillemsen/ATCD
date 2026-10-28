@@ -13,6 +13,10 @@
 class TAO_IDL_FE_Export AST_Annotation_Decl : public virtual AST_Structure
 {
 public:
+  AST_Annotation_Decl (AST_Annotation_Decl const &) = delete;
+  AST_Annotation_Decl (AST_Annotation_Decl &&) = delete;
+  AST_Annotation_Decl &operator= (AST_Annotation_Decl const &) = delete;
+  AST_Annotation_Decl &operator= (AST_Annotation_Decl &&) = delete;
   explicit AST_Annotation_Decl (UTL_ScopedName *name);
 
   ~AST_Annotation_Decl () override;

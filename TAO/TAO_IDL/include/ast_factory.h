@@ -79,13 +79,17 @@ class TAO_IDL_FE_Export AST_Factory : public virtual AST_Decl,
 {
 public:
   explicit AST_Factory (UTL_ScopedName *n);
+  AST_Factory (AST_Factory const &) = delete;
+  AST_Factory (AST_Factory &&) = delete;
+  AST_Factory &operator= (AST_Factory const &) = delete;
+  AST_Factory &operator= (AST_Factory &&) = delete;
 
   ~AST_Factory () override;
 
-  UTL_ExceptList *exceptions ();
+  UTL_ExceptList *exceptions () const;
   // Return exception list.
 
-  int n_exceptions ();
+  int n_exceptions () const;
   // Return exception count.
 
   virtual int argument_count ();
@@ -113,10 +117,10 @@ public:
 protected:
   // Data.
 
-  UTL_ExceptList *pd_exceptions;
+  UTL_ExceptList *pd_exceptions {};
   // Exceptions raised
 
-  int pd_n_exceptions;
+  int pd_n_exceptions {};
   // Exception count.
 
   int argument_count_ {-1};

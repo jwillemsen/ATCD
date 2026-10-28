@@ -13,6 +13,9 @@
 #ifndef _BE_CONNECTOR_CONNECTOR_DDS_EX_BASE_H_
 #define _BE_CONNECTOR_CONNECTOR_DDS_EX_BASE_H_
 
+#include <string>
+#include <string_view>
+
 class be_visitor_context;
 class AST_Template_Module;
 
@@ -52,8 +55,8 @@ protected:
 
   // Derives from the DDS datatype, so we want to calculate it
   // once and store it.
-  ACE_CString dds_traits_name_;
-  const char *base_tname_ {};
+  std::string dds_traits_name_;
+  std::string_view base_tname_ {};
 
 private:
   void process_template_args (AST_Connector *node);

@@ -12,6 +12,8 @@
 
 #include "typecode.h"
 
+#include <string_view>
+
 TAO::be_visitor_union_typecode::be_visitor_union_typecode (
   be_visitor_context * ctx)
   : be_visitor_typecode_defn (ctx)
@@ -79,9 +81,9 @@ TAO::be_visitor_union_typecode::visit_union (be_union * node)
       return -1;
     }
 
-  static constexpr char StringType[]      = "char const *";
-  static constexpr char TypeCodeType[]    = "::CORBA::TypeCode_ptr const *";
-  static constexpr char MemberArrayType[] =
+  static constexpr std::string_view StringType = "char const *";
+  static constexpr std::string_view TypeCodeType = "::CORBA::TypeCode_ptr const *";
+  static constexpr std::string_view MemberArrayType =
     "TAO::TypeCode::Case<char const *, "
     "::CORBA::TypeCode_ptr const *> const * const *";
 
@@ -173,10 +175,8 @@ TAO::be_visitor_union_typecode::visit_cases (be_union * node)
   be_type * const discriminant_type =
     dynamic_cast<be_type*> (node->disc_type ());
 
-  ACE_CString tao_cases ("_tao_cases_");
-  ACE_CString const fields_name (tao_cases
-                                 + node->flat_name ());
-  char const *fields_name_str = fields_name.c_str ();
+  std::string fields_name ("_tao_cases_");
+  fields_name += node->flat_name ();
 
   TAO_OutStream & os = *this->ctx_->stream ();
   ACE_CDR::ULong countLabels = 0u;
@@ -207,7 +207,7 @@ TAO::be_visitor_union_typecode::visit_cases (be_union * node)
             os << "static TAO::TypeCode::Case_T<"
                << discriminant_type->full_name () << ", "
                << "char const *, ::CORBA::TypeCode_ptr const *> const "
-               << fields_name_str << "__" << countLabels++ << " (";
+               << fields_name << "__" << countLabels++ << " (";
 
             branch->gen_default_label_value (&os, node);
 
@@ -234,7 +234,7 @@ TAO::be_visitor_union_typecode::visit_cases (be_union * node)
           os << "static TAO::TypeCode::Case_T<"
              << discriminant_type->full_name () << ", "
              << "char const *, ::CORBA::TypeCode_ptr const *> const "
-             << fields_name_str << "__" << countLabels++ << " (";
+             << fields_name << "__" << countLabels++ << " (";
 
           branch->gen_label_value (&os, labelNumber);
 
@@ -248,13 +248,13 @@ TAO::be_visitor_union_typecode::visit_cases (be_union * node)
   os << be_nl
      << "static TAO::TypeCode::Case<char const *, "
      << "::CORBA::TypeCode_ptr const *> const * const "
-     << fields_name_str
+     << fields_name
      << "[] =" << be_idt_nl
      << "{" << be_idt_nl;
 
   for (ACE_CDR::ULong n = 0u; n < countLabels; ++n)
     {
-      os << "&" << fields_name_str << "__" << n;
+      os << "&" << fields_name << "__" << n;
 
       if (n < countLabels - 1u)
         {

@@ -4,6 +4,9 @@
 #include "utl_identifier.h"
 #include "ast_constant.h"
 
+#include <string>
+#include <string_view>
+
 AST_Decl::NodeType const AST_Annotation_Decl::NT =
   AST_Decl::NT_annotation_decl;
 
@@ -14,7 +17,8 @@ AST_Annotation_Decl::AST_Annotation_Decl (UTL_ScopedName *name)
     UTL_Scope (NT),
     AST_Structure (name, false, false)
 {
-  if (!ACE_OS::strcmp(name->last_component ()->get_string (), "@annotation"))
+  if (name->last_component ()->get_string_view_or_empty ()
+      == "@annotation")
     {
       idl_global->err ()-> misc_error(
         "An Annotation can not be named \"annotation\"");
@@ -42,16 +46,9 @@ void
 AST_Annotation_Decl::escape_name (Identifier *name)
 {
   FE_Utils::original_local_name (name); // Annotations can't clash with C++ keywords
-  char *old_name = name->get_string ();
-  char *new_name = new char [ACE_OS::strlen (old_name) + 2]; // '@' and '\0'
-  if (new_name)
-    {
-      new_name[0] = '@';
-      new_name[1] = '\0';
-      ACE_OS::strcat (new_name, old_name);
-      name->replace_string (new_name);
-      delete [] new_name;
-    }
+  std::string new_name ("@");
+  new_name.append (name->get_string_view_or_empty ());
+  name->replace_string (new_name);
 }
 
 void

@@ -167,7 +167,7 @@ be_visitor_valuebox_cs::visit_valuebox (be_valuebox *node)
     }
 
   bool is_array {};
-  char const *unmarshal_arg {};
+  std::string_view unmarshal_arg {};
   be_predefined_type *bpt = dynamic_cast<be_predefined_type*> (bt);
 
   if (bpt != nullptr)
@@ -381,7 +381,7 @@ be_visitor_valuebox_cs::visit_interface (be_interface *)
 int
 be_visitor_valuebox_cs::visit_predefined_type (be_predefined_type * node)
 {
-  char const * marshal_arg;
+  std::string_view marshal_arg;
 
   switch (node->pt ())
     {
@@ -723,7 +723,7 @@ be_visitor_valuebox_cs::visit_union (be_union *)
 }
 
 void
-be_visitor_valuebox_cs::emit_destructor ()
+be_visitor_valuebox_cs::emit_destructor () const
 {
   TAO_OutStream & os = *this->ctx_->stream ();
 
@@ -736,7 +736,7 @@ be_visitor_valuebox_cs::emit_destructor ()
 }
 
 int
-be_visitor_valuebox_cs::emit_for_predef_enum (char const * marshal_arg)
+be_visitor_valuebox_cs::emit_for_predef_enum (std::string_view marshal_arg) const
 {
   TAO_OutStream & os = *this->ctx_->stream ();
 

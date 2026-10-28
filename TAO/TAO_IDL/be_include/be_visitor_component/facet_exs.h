@@ -13,6 +13,8 @@
 #ifndef _BE_COMPONENT_FACET_EXS_H_
 #define _BE_COMPONENT_FACET_EXS_H_
 
+#include <string_view>
+
 /**
  * This is a concrete visitor to generate
  * the executor implementation source for facets.
@@ -35,8 +37,8 @@ public:
 
 private:
   be_decl *op_scope_ {};
-  const char *comment_start_border_ {"/**"};
-  const char *comment_end_border_ {" */"};
+  std::string_view comment_start_border_ {"/**"};
+  std::string_view comment_end_border_ {" */"};
 };
 
 #endif /* _BE_COMPONENT_FACET_EXS_H_ */

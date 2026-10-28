@@ -85,9 +85,7 @@ AST_Factory::AST_Factory (UTL_ScopedName *n)
                  false), //@@ Always local, never abstract
     AST_Decl (AST_Decl::NT_factory,
               n),
-    UTL_Scope (AST_Decl::NT_factory),
-    pd_exceptions (nullptr),
-    pd_n_exceptions (0)
+    UTL_Scope (AST_Decl::NT_factory)
 {
 }
 
@@ -96,13 +94,13 @@ AST_Factory::~AST_Factory () = default;
 // Public operations.
 
 UTL_ExceptList *
-AST_Factory::exceptions ()
+AST_Factory::exceptions () const
 {
   return this->pd_exceptions;
 }
 
 int
-AST_Factory::n_exceptions ()
+AST_Factory::n_exceptions () const
 {
   return this->pd_n_exceptions;
 }

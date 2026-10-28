@@ -17,6 +17,9 @@
 //=============================================================================
 
 #include "valuebox.h"
+
+#include <string>
+#include <string_view>
 #include "valuebox_type_name.h"
 
 be_visitor_valuebox_field_ch::be_visitor_valuebox_field_ch (
@@ -87,10 +90,7 @@ be_visitor_valuebox_field_ch::visit_array (be_array *node)
   TAO_OutStream *os = this->ctx_->stream ();
 
 
-  char fname [NAMEBUFSIZE];
-  ACE_OS::memset (fname,
-                  '\0',
-                  NAMEBUFSIZE);
+  std::string fname;
 
   if (bt->node_type () != AST_Decl::NT_typedef)
     {
@@ -101,23 +101,19 @@ be_visitor_valuebox_field_ch::visit_array (be_array *node)
         {
           be_decl *parent =
                  dynamic_cast<be_scope*> (bt->defined_in ())->decl ();
-          ACE_OS::sprintf (fname,
-                           "%s::_%s",
-                           parent->full_name (),
-                           bt->local_name ()->get_string ());
+          fname = parent->full_name ();
+          fname += "::_";
+          fname += bt->local_name ()->get_string_view_or_empty ();
         }
       else
         {
-          ACE_OS::sprintf (fname,
-                           "_%s",
-                           bt->full_name ());
+          fname = "_";
+          fname += bt->full_name ();
         }
     }
   else
     { // Typedefed node.
-      ACE_OS::sprintf (fname,
-                       "%s",
-                       bt->full_name ());
+      fname = bt->full_name ();
     }
 
 
@@ -371,7 +367,7 @@ be_visitor_valuebox_field_ch::visit_string (be_string *node)
   this->emit_member_set (field, bt, "", "");
   this->emit_member_set (field, bt, "const ", "");
 
-  char const *string_type {""};
+  std::string_view string_type {};
   if (node->node_type () == AST_Decl::NT_string)
     {
       string_type = "String";
@@ -488,8 +484,8 @@ be_visitor_valuebox_field_ch::visit_union (be_union *node)
 void
 be_visitor_valuebox_field_ch::emit_member_set (be_decl *field,
                                                be_type *field_type,
-                                               std::string const &const_arg,
-                                               std::string const &arg_modifier)
+                                               std::string_view const_arg,
+                                               std::string_view arg_modifier) const
 {
   TAO_OutStream *os = this->ctx_->stream ();
 
@@ -502,9 +498,9 @@ be_visitor_valuebox_field_ch::emit_member_set (be_decl *field,
 void
 be_visitor_valuebox_field_ch::emit_member_get (be_decl *field,
                                                be_type *field_type,
-                                               std::string const &const_prefix,
-                                               std::string const &type_suffix,
-                                               char const *const_method)
+                                               std::string_view const_prefix,
+                                               std::string_view type_suffix,
+                                               std::string_view const_method) const
 {
   TAO_OutStream *os = this->ctx_->stream ();
 

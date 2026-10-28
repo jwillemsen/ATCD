@@ -11,6 +11,8 @@
 
 #include "typedef.h"
 
+#include <string_view>
+
 // ******************************************************
 // Typedef visitor for client header
 // ******************************************************
@@ -195,17 +197,13 @@ be_visitor_typedef_ch::visit_array (be_array *node)
 
       // The _alloc, _dup, copy, and free methods
 
-      // Since the function nested_type_name() contains a static buffer,
-      // we can have only one call to it from any instantiation per stream
-      // output statement.
-
       AST_Module *tdef_scope = dynamic_cast<AST_Module *> (tdef->defined_in ());
 
       // If the typedef is not declared globally or in a module, the
       // associated array memory management function must be static.
-      char const *const static_decl = tdef_scope ? "" : "static ";
+      std::string_view const static_decl = tdef_scope ? "" : "static ";
 
-      char const *td_name = tdef->nested_type_name (tdef_scope);
+      std::string td_name = tdef->nested_type_name (tdef_scope);
 
       // If the array and the typedef are both declared inside
       // an interface or valuetype, for example, nested_type_name()
@@ -216,7 +214,7 @@ be_visitor_typedef_ch::visit_array (be_array *node)
       // name for each, which is ok.
       if (tdef->defined_in () == node->defined_in ())
         {
-          td_name = tdef->local_name ()->get_string ();
+          td_name = tdef->local_name ()->get_string_view_or_empty ();
         }
 
       // _alloc

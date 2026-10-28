@@ -11,6 +11,11 @@
 
 #include "component.h"
 
+#include <string_view>
+
+#include <string>
+#include <string_view>
+
 be_visitor_facet_exs::be_visitor_facet_exs (
       be_visitor_context *ctx)
   : be_visitor_component_scope (ctx)
@@ -71,9 +76,9 @@ be_visitor_facet_exs::visit_provides (be_provides *node)
 {
   be_type *impl = node->provides_type ();
 
-  ACE_CString lname_str (this->ctx_->port_prefix ());
-  lname_str += node->original_local_name ()->get_string ();
-  const char *lname = lname_str.c_str ();
+  std::string lname_str (this->ctx_->port_prefix ());
+  lname_str += node->original_local_name ()->get_string_view_or_empty ();
+  std::string_view const lname (lname_str);
 
   os_ << be_nl_2
       << comment_start_border_ << be_nl
@@ -83,7 +88,7 @@ be_visitor_facet_exs::visit_provides (be_provides *node)
 
   AST_Decl *c_scope = ScopeAsDecl (this->node_->defined_in ());
   bool is_global = (c_scope->node_type () == AST_Decl::NT_root);
-  const char *smart_scope = (is_global ? "" : "::");
+  std::string_view const smart_scope = is_global ? "" : "::";
 
   os_ << be_nl_2
       << lname << "_exec_i::" << lname

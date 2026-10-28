@@ -73,6 +73,10 @@ class AST_Interface;
 class TAO_IDL_FE_Export AST_InterfaceFwd : public virtual AST_Type
 {
 public:
+  AST_InterfaceFwd (AST_InterfaceFwd const &) = delete;
+  AST_InterfaceFwd (AST_InterfaceFwd &&) = delete;
+  AST_InterfaceFwd &operator= (AST_InterfaceFwd const &) = delete;
+  AST_InterfaceFwd &operator= (AST_InterfaceFwd &&) = delete;
   AST_InterfaceFwd (AST_Interface *dummy,
                     UTL_ScopedName *n);
 

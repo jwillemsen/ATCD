@@ -8,6 +8,10 @@
 class TAO_IDL_FE_Export AST_Finder : public virtual AST_Factory
 {
 public:
+  AST_Finder (AST_Finder const &) = delete;
+  AST_Finder (AST_Finder &&) = delete;
+  AST_Finder &operator= (AST_Finder const &) = delete;
+  AST_Finder &operator= (AST_Finder &&) = delete;
   explicit AST_Finder (UTL_ScopedName *n);
 
   ~AST_Finder () override;

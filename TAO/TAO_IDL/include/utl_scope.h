@@ -191,7 +191,7 @@ public:
   // Look up one of the pseudo-object types.
   AST_Decl *lookup_pseudo (Identifier *);
 
-  AST_Decl *lookup_by_name (char const *name);
+  AST_Decl *lookup_by_name (std::string_view name);
 
   virtual AST_Decl *look_in_prev_mods_local (Identifier *e,
                                              bool ignore_fwd = false);
@@ -499,7 +499,7 @@ public:
 
 protected:
   /// Quick check on the head of a name to see if it's global.
-  bool is_global_name (Identifier *i);
+  bool is_global_name (Identifier const *i) const;
 
 private:
   /// Checks called from fe_add_decl() specific to interfaces

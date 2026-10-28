@@ -78,6 +78,10 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 class TAO_IDL_FE_Export AST_Union : public virtual AST_Structure
 {
 public:
+  AST_Union (AST_Union const &) = delete;
+  AST_Union (AST_Union &&) = delete;
+  AST_Union &operator= (AST_Union const &) = delete;
+  AST_Union &operator= (AST_Union &&) = delete;
   AST_Union (AST_ConcreteType *disc_type,
              UTL_ScopedName *n,
              bool local,
@@ -93,9 +97,9 @@ public:
 
   // Data Accessors.
 
-  AST_ConcreteType *disc_type ();
+  AST_ConcreteType *disc_type () const;
 
-  AST_Expression::ExprType udisc_type ();
+  AST_Expression::ExprType udisc_type () const;
 
   struct DefaultValue
   {

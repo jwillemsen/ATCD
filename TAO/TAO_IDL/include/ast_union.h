@@ -97,7 +97,8 @@ public:
 
   // Data Accessors.
 
-  AST_ConcreteType *disc_type () const;
+  AST_ConcreteType *disc_type ();
+  AST_ConcreteType const *disc_type () const;
 
   AST_Expression::ExprType udisc_type () const;
 
@@ -142,6 +143,7 @@ public:
    */
   ///{
   AST_Annotation_Appls &disc_annotations ();
+  AST_Annotation_Appls const &disc_annotations () const;
   void disc_annotations (AST_Annotation_Appls const &annotations);
   ///}
 

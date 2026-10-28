@@ -1036,6 +1036,12 @@ AST_Union::ast_accept (ast_visitor *visitor)
 // Data accessors.
 
 AST_ConcreteType *
+AST_Union::disc_type ()
+{
+  return this->pd_disc_type;
+}
+
+AST_ConcreteType const *
 AST_Union::disc_type () const
 {
   return this->pd_disc_type;
@@ -1049,6 +1055,12 @@ AST_Union::udisc_type () const
 
 AST_Annotation_Appls &
 AST_Union::disc_annotations ()
+{
+  return disc_annotations_;
+}
+
+AST_Annotation_Appls const &
+AST_Union::disc_annotations () const
 {
   return disc_annotations_;
 }

@@ -207,7 +207,7 @@ public:
                                     AST_Decl *&final_parent_decl);
 
   // How many entries are used?
-  virtual unsigned long nmembers ();
+  virtual unsigned long nmembers () const;
 
   // If the Identifier string (from the scoped name which has been
   // already determined to be of length 1) matches a param,
@@ -228,7 +228,7 @@ public:
   void add_to_name_referenced (Identifier *id);
 
   // Accessors for the has_prefix_ member.
-  bool has_prefix ();
+  bool has_prefix () const;
   void has_prefix (bool val);
 
   // Cleanup function.

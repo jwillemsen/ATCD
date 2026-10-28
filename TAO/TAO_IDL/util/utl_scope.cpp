@@ -1762,7 +1762,7 @@ UTL_Scope::referenced (AST_Decl *const e,
 }
 
 bool
-UTL_Scope::has_prefix ()
+UTL_Scope::has_prefix () const
 {
   return this->has_prefix_;
 }
@@ -1838,7 +1838,7 @@ UTL_Scope::ast_accept (ast_visitor *visitor)
 
 // How many entries are defined?
 unsigned long
-UTL_Scope::nmembers ()
+UTL_Scope::nmembers () const
 {
   return this->pd_decls_used;
 }

@@ -708,7 +708,7 @@ TAO_Object_Adapter::dispatch (TAO::ObjectKey &key,
 
           /// If we have a cached result, just go ahead and send the reply
           /// and let us  return
-          if (ocs.ptr () != 0)
+          if (ocs.ptr () != nullptr)
             {
               // request.result_seq (
               request.send_cached_reply (ocs.inout ());

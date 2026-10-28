@@ -131,7 +131,7 @@ CORBA::Boolean
 TAO::Ret_BD_String_SArgument_T<S_var,BOUND,Insert_Policy>::marshal (
     TAO_OutputCDR & cdr)
 {
-  if (this->x_.in () != 0 && ACE_OS::strlen (this->x_.in ()) > BOUND)
+  if (this->x_.in () != nullptr && ACE_OS::strlen (this->x_.in ()) > BOUND)
     {
       throw ::CORBA::BAD_PARAM ();
     }

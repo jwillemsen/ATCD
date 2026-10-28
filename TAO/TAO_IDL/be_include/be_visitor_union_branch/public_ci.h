@@ -27,7 +27,7 @@ class be_visitor_union_branch_public_ci : public be_visitor_decl
 {
 public:
   explicit be_visitor_union_branch_public_ci (be_visitor_context *ctx);
-  ~be_visitor_union_branch_public_ci () override;
+  ~be_visitor_union_branch_public_ci () override = default;
 
   be_visitor_union_branch_public_ci (be_visitor_union_branch_public_ci const &) = delete;
   be_visitor_union_branch_public_ci (be_visitor_union_branch_public_ci &&) = delete;

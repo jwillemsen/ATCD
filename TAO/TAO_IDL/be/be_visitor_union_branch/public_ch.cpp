@@ -24,8 +24,6 @@ be_visitor_union_branch_public_ch::be_visitor_union_branch_public_ch (
 {
 }
 
-be_visitor_union_branch_public_ch::~be_visitor_union_branch_public_ch () = default;
-
 int
 be_visitor_union_branch_public_ch::visit_union_branch (be_union_branch *node)
 {

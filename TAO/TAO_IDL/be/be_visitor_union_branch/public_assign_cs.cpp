@@ -26,10 +26,6 @@ be_visitor_union_branch_public_assign_cs (be_visitor_context *ctx)
 {
 }
 
-// destructor
-be_visitor_union_branch_public_assign_cs::
-~be_visitor_union_branch_public_assign_cs () = default;
-
 // visit the union_branch node
 int
 be_visitor_union_branch_public_assign_cs::visit_union_branch (

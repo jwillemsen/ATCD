@@ -25,7 +25,7 @@ class be_visitor_union_branch_public_constructor_cs : public be_visitor_decl
 {
 public:
   explicit be_visitor_union_branch_public_constructor_cs (be_visitor_context *ctx);
-  ~be_visitor_union_branch_public_constructor_cs () override;
+  ~be_visitor_union_branch_public_constructor_cs () override = default;
 
   be_visitor_union_branch_public_constructor_cs (
     be_visitor_union_branch_public_constructor_cs const &) = delete;

@@ -71,9 +71,6 @@ be_visitor_union_branch_public_reset_cs (be_visitor_context *ctx)
 {
 }
 
-be_visitor_union_branch_public_reset_cs::
-~be_visitor_union_branch_public_reset_cs () = default;
-
 // visit the union_branch node
 int
 be_visitor_union_branch_public_reset_cs::visit_union_branch (

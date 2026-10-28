@@ -26,10 +26,6 @@ be_visitor_union_branch_public_constructor_cs (be_visitor_context *ctx)
 {
 }
 
-// destructor
-be_visitor_union_branch_public_constructor_cs::
-~be_visitor_union_branch_public_constructor_cs () = default;
-
 // visit the union_branch node
 int
 be_visitor_union_branch_public_constructor_cs::visit_union_branch (

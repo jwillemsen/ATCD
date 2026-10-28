@@ -27,8 +27,6 @@ be_visitor_union_branch_public_ci::be_visitor_union_branch_public_ci (
 }
 
 // destructor
-be_visitor_union_branch_public_ci::~be_visitor_union_branch_public_ci () = default;
-
 int
 be_visitor_union_branch_public_ci::emit_getter_validation (
     be_union_branch *node)

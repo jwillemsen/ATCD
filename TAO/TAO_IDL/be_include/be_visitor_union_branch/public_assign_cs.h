@@ -28,7 +28,7 @@ class be_visitor_union_branch_public_assign_cs
 {
 public:
   explicit be_visitor_union_branch_public_assign_cs (be_visitor_context *ctx);
-  ~be_visitor_union_branch_public_assign_cs () override;
+  ~be_visitor_union_branch_public_assign_cs () override = default;
 
   be_visitor_union_branch_public_assign_cs (be_visitor_union_branch_public_assign_cs const &) = delete;
   be_visitor_union_branch_public_assign_cs (be_visitor_union_branch_public_assign_cs &&) = delete;

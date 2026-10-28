@@ -28,7 +28,7 @@ public:
 
   AST_Annotation_Appls ();
   AST_Annotation_Appls (AST_Annotation_Appls const &other);
-  ~AST_Annotation_Appls ();
+  ~AST_Annotation_Appls () = default;
 
   AST_Annotation_Appls &operator= (AST_Annotation_Appls const &other);
 

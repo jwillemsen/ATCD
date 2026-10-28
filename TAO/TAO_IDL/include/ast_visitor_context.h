@@ -27,7 +27,7 @@ public:
 
   ast_visitor_context (ast_visitor_context const &ctx);
 
-  ~ast_visitor_context ();
+  ~ast_visitor_context () = default;
 
   // Accessors/mutators for template-related storage.
 

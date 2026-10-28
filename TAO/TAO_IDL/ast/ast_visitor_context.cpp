@@ -20,8 +20,6 @@ ast_visitor_context::ast_visitor_context (const ast_visitor_context &ctx)
 {
 }
 
-ast_visitor_context::~ast_visitor_context () = default;
-
 FE_Utils::T_PARAMLIST_INFO *
 ast_visitor_context::template_params () const
 {

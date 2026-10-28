@@ -518,7 +518,8 @@ FE_Utils::open_included_file (std::string_view filename,
                               std::string &directory)
 {
   FILE * f = nullptr;
-  std::string const the_file = std::string ("/") + std::string (filename);
+  std::string the_file ("/");
+  the_file += filename;
 
   for (IDL_GlobalData::Unbounded_Paths_Queue_Iterator i (
          idl_global->include_paths ());

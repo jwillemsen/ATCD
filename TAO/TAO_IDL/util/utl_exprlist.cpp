@@ -120,6 +120,6 @@ UTL_ExprlistActiveIterator::item () const
       return nullptr;
     }
 
-  return ((UTL_ExprList *) source)->head ();
+  return static_cast<UTL_ExprList *> (source)->head ();
 }
 

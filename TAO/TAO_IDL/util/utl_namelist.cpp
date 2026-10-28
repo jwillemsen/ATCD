@@ -129,6 +129,6 @@ UTL_NamelistActiveIterator::item () const
       return nullptr;
     }
 
-  return ((UTL_NameList *) source)->head ();
+  return static_cast<UTL_NameList *> (source)->head ();
 }
 

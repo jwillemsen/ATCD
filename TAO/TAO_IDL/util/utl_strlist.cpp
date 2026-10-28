@@ -118,7 +118,7 @@ UTL_StrList::last_component ()
       return pd_car_data;
     }
 
-  return ((UTL_StrList *) this->tail ())->last_component();
+  return static_cast<UTL_StrList *> (this->tail ())->last_component();
 }
 
 UTL_String const *
@@ -149,7 +149,7 @@ UTL_StrList::copy ()
     {
       ACE_NEW_RETURN (retval,
                       UTL_StrList (head (),
-                                   (UTL_StrList *) this->tail ()->copy ()),
+                                   static_cast<UTL_StrList *> (this->tail ()->copy ())),
                       nullptr);
     }
 
@@ -237,7 +237,7 @@ UTL_StrlistActiveIterator::item () const
       return nullptr;
     }
 
-  return ((UTL_StrList *) source)->head ();
+  return static_cast<UTL_StrList *> (source)->head ();
 }
 
 /*

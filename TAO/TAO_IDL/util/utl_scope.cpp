@@ -2080,7 +2080,7 @@ UTL_Scope::iter_lookup_by_name_local (AST_Decl *d,
                             : sc->look_in_prev_mods_local (e->head (), true);
     }
 
-  UTL_ScopedName *sn = (UTL_ScopedName *) e->tail ();
+  UTL_ScopedName *sn = static_cast<UTL_ScopedName *> (e->tail ());
   if (result == nullptr)
     {
       if (sn == nullptr)

@@ -122,7 +122,7 @@ UTL_LabelList::copy ()
 
   if (this->tail () != nullptr)
     {
-      retval->nconc ((UTL_LabelList *) this->tail ()->copy ());
+      retval->nconc (static_cast<UTL_LabelList *> (this->tail ()->copy ()));
     }
 
   return retval;

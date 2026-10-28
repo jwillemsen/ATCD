@@ -123,7 +123,7 @@ UTL_ExceptList::copy ()
 
   if (this->tail () != nullptr)
     {
-      retval->nconc ((UTL_ExceptList *) this->tail ()->copy ());
+      retval->nconc (static_cast<UTL_ExceptList *> (this->tail ()->copy ()));
     }
 
   return retval;
@@ -143,6 +143,6 @@ UTL_ExceptlistActiveIterator::item () const
       return nullptr;
     }
 
-  return ((UTL_ExceptList *) source)->head ();
+  return static_cast<UTL_ExceptList *> (source)->head ();
 }
 

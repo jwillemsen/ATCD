@@ -83,7 +83,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 // Constructor
 UTL_IdList::UTL_IdList (Identifier *s,
                         UTL_IdList *cdr)
-  : UTL_List ((UTL_List *) cdr),
+  : UTL_List (static_cast<UTL_List *> (cdr)),
     pd_car_data (s)
 {
 }
@@ -102,7 +102,7 @@ UTL_IdList::copy ()
 
   if (this->tail () != nullptr)
     {
-      retval->nconc ((UTL_IdList *) this->tail ()->copy ());
+      retval->nconc (static_cast<UTL_IdList *> (this->tail ()->copy ()));
     }
 
   return retval;
@@ -130,7 +130,7 @@ UTL_IdList::last_component ()
       return this->head ();
     }
 
-  return ((UTL_IdList *) this->tail ())->last_component ();
+  return static_cast<UTL_IdList *> (this->tail ())->last_component ();
 }
 
 Identifier const *
@@ -153,7 +153,7 @@ UTL_IdList::first_component ()
       return this->pd_car_data;
     }
 
-  return ((UTL_IdList *) this->tail ())->first_component ();
+  return static_cast<UTL_IdList *> (this->tail ())->first_component ();
 }
 
 Identifier const *
@@ -312,7 +312,7 @@ UTL_IdListActiveIterator::item () const
         return nullptr;
       }
 
-    return ((UTL_IdList *) source)->head ();
+    return static_cast<UTL_IdList *> (source)->head ();
 }
 
 std::string

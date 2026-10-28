@@ -144,7 +144,7 @@ UTL_DecllistActiveIterator::item () const
       return nullptr;
     }
 
-  return ((UTL_DeclList *) source)->head ();
+  return static_cast<UTL_DeclList *> (source)->head ();
 }
 
 /*

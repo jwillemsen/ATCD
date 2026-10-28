@@ -239,7 +239,7 @@ UTL_ScopeStackActiveIterator::next ()
 
 // Get current item.
 UTL_Scope *
-UTL_ScopeStackActiveIterator::item ()
+UTL_ScopeStackActiveIterator::item () const
 {
   if (this->il >= 0)
     {

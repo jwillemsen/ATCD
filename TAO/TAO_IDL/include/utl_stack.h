@@ -143,7 +143,7 @@ public:
   void next ();
 
   // Get current item.
-  UTL_Scope* item ();
+  UTL_Scope* item () const;
 
   // Is the iteration finished?
   bool is_done () const;

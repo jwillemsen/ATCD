@@ -543,10 +543,10 @@ public:
   bool is_done ();
 
   // What kind of iterator is this?
-  UTL_Scope::ScopeIterationKind iteration_kind ();
+  UTL_Scope::ScopeIterationKind iteration_kind () const;
 
   // What stage are we in with this iterator?
-  UTL_Scope::ScopeIterationKind iteration_stage ();
+  UTL_Scope::ScopeIterationKind iteration_stage () const;
 
 private:
   // Scope to iterate over.

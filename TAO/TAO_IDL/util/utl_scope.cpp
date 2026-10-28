@@ -2182,14 +2182,14 @@ UTL_ScopeActiveIterator::is_done ()
 
 // What kind of iterator is this?
 UTL_Scope::ScopeIterationKind
-UTL_ScopeActiveIterator::iteration_kind ()
+UTL_ScopeActiveIterator::iteration_kind () const
 {
   return this->ik;
 }
 
 // And where are we in the iteration?
 UTL_Scope::ScopeIterationKind
-UTL_ScopeActiveIterator::iteration_stage ()
+UTL_ScopeActiveIterator::iteration_stage () const
 {
   return this->stage;
 }

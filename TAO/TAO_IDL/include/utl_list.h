@@ -106,7 +106,7 @@ public:
   void set_tail (UTL_List *l);
 
   // How long is this list?
-  ACE_CDR::Long length ();
+  ACE_CDR::Long length () const;
 
   // Cleanup.
   virtual void destroy ();
@@ -116,7 +116,7 @@ private:
   UTL_List *pd_cdr_data;
 
   // Operations
-  ACE_CDR::Long list_length (ACE_CDR::Long n);
+  ACE_CDR::Long list_length (ACE_CDR::Long n) const;
 
   // Friend class.
   friend class UTL_ListActiveIterator;

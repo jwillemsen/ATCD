@@ -31,10 +31,15 @@ namespace TAO
   class TAO_Export Storable_File_Guard
   {
   public:
-    Storable_File_Guard (bool redundant,
+    explicit Storable_File_Guard (bool redundant,
                          bool use_backup = Storable_Base::use_backup_default);
 
     virtual ~Storable_File_Guard () noexcept(false);
+
+    Storable_File_Guard (Storable_File_Guard const &) = delete;
+    Storable_File_Guard &operator= (Storable_File_Guard const &) = delete;
+    Storable_File_Guard (Storable_File_Guard &&) = delete;
+    Storable_File_Guard &operator= (Storable_File_Guard &&) = delete;
 
     /// Releases the lock, closes the file, and deletes the I/O stream.
     /// Destructors of derived classes should call this this will
@@ -88,7 +93,7 @@ namespace TAO
     virtual void mark_object_current ();
 
     /// Indicate when the object in memory has last changed
-    virtual void set_object_last_changed (const time_t & time) = 0;
+    virtual void set_object_last_changed (time_t const &time) = 0;
 
     /// Load object from file to memory. Return 0 on success.
     virtual int load_from_stream () = 0;
@@ -96,10 +101,10 @@ namespace TAO
     /// Answer if object has been loaded from file
     virtual bool is_loaded_from_stream () = 0;
 
-    virtual Storable_Base * create_stream (const char * mode) = 0;
+    virtual Storable_Base *create_stream (char const *mode) = 0;
 
     /// The pointer to the actual file I/O (bridge pattern)
-    Storable_Base *fl_;
+    Storable_Base *fl_ {};
 
   private:
     // Return 0 if successful.
@@ -108,10 +113,10 @@ namespace TAO
     bool redundant_;
 
     /// A flag to keep us from trying to close things more than once.
-    int closed_;
+    bool closed_ {true};
 
     /// The flags that we were opened with
-    int rwflags_;
+    int rwflags_ {};
 
     /// A flag indicating if backup/restore should be performed
     bool use_backup_;

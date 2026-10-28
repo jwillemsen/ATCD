@@ -35,7 +35,7 @@ namespace
   /// consumed. This could create problems if
   /// the data that follows the newline is binary.
   template<typename T>
-  void read_integer(const char * format, T & i,
+  void read_integer (char const *format, T &i,
                     TAO::Storable_Base::Storable_State & state,
                     FILE * fl)
   {
@@ -124,13 +124,12 @@ namespace
 
 }
 
-TAO::Storable_FlatFileStream::Storable_FlatFileStream (const ACE_CString & file,
-                                                       const char * mode,
+TAO::Storable_FlatFileStream::Storable_FlatFileStream (ACE_CString const &file,
+                                                       char const *mode,
                                                        bool use_backup,
                                                        bool retry_on_ebadf)
   : Storable_Base(use_backup, retry_on_ebadf)
   , filelock_ ()
-  , fl_ (nullptr)
   , file_(file)
   , mode_(mode)
 {
@@ -177,7 +176,7 @@ TAO::Storable_FlatFileStream::open()
 {
   // For now, three flags exist "r", "w",  and "c"
   int flags = 0;
-  const char *fdmode = nullptr;
+  char const *fdmode = nullptr;
   if( ACE_OS::strchr(mode_.c_str(), 'r') )
     if( ACE_OS::strchr(mode_.c_str(), 'w') )
       flags = O_RDWR, fdmode = "w+";
@@ -404,7 +403,7 @@ TAO::Storable_FlatFileStream::sync ()
 }
 
 TAO::Storable_Base &
-TAO::Storable_FlatFileStream::operator << (const ACE_CString& str)
+TAO::Storable_FlatFileStream::operator << (ACE_CString const &str)
 {
   int n =
     ACE_OS::fprintf(this->fl_, ACE_SSIZE_T_FORMAT_SPECIFIER_ASCII "\n%s\n",
@@ -536,14 +535,14 @@ TAO::Storable_FlatFileStream::operator >> (ACE_INT64 &i)
 
 
 TAO::Storable_Base &
-TAO::Storable_FlatFileStream::operator << (const TAO_OutputCDR & cdr)
+TAO::Storable_FlatFileStream::operator << (TAO_OutputCDR const &cdr)
 {
   unsigned int const length =
     ACE_Utils::truncate_cast<unsigned int> (cdr.total_length ());
   *this << length;
-  for (const ACE_Message_Block *i = cdr.begin (); i != nullptr; i = i->cont ())
+  for (ACE_Message_Block const *i = cdr.begin (); i != nullptr; i = i->cont ())
     {
-      const char *bytes = i->rd_ptr ();
+      char const *bytes = i->rd_ptr ();
       size_t const len = i->length ();
       this->write (len, bytes);
     }
@@ -551,7 +550,7 @@ TAO::Storable_FlatFileStream::operator << (const TAO_OutputCDR & cdr)
 }
 
 size_t
-TAO::Storable_FlatFileStream::write (size_t size, const char * bytes)
+TAO::Storable_FlatFileStream::write (size_t size, char const *bytes)
 {
   return ACE_OS::fwrite (bytes, size, 1, fl_);
 }
@@ -676,7 +675,7 @@ TAO::Storable_FlatFileStream::throw_on_write_error (Storable_State state)
 
 //------------------------------------------------
 
-TAO::Storable_FlatFileFactory::Storable_FlatFileFactory(const ACE_CString & directory,
+TAO::Storable_FlatFileFactory::Storable_FlatFileFactory (ACE_CString const &directory,
                                                         bool use_backup,
                                                         bool retry_on_ebadf)
   : Storable_Factory ()
@@ -686,7 +685,7 @@ TAO::Storable_FlatFileFactory::Storable_FlatFileFactory(const ACE_CString & dire
 {
 }
 
-TAO::Storable_FlatFileFactory::Storable_FlatFileFactory(const ACE_CString & directory,
+TAO::Storable_FlatFileFactory::Storable_FlatFileFactory (ACE_CString const &directory,
                                                         bool use_backup)
   : Storable_Factory ()
   , directory_(directory)
@@ -697,11 +696,11 @@ TAO::Storable_FlatFileFactory::Storable_FlatFileFactory(const ACE_CString & dire
 }
 
 bool
-TAO::Storable_FlatFileFactory::is_nfs (const ACE_CString& directory)
+TAO::Storable_FlatFileFactory::is_nfs (ACE_CString const &directory)
 {
   bool ret = false;
 #if defined (ACE_HAS_MNTENT)
-  const char *dir = directory.c_str();
+  char const *dir = directory.c_str();
   char rpath [PATH_MAX];
   if (*dir != '/')
     {
@@ -737,7 +736,7 @@ TAO::Storable_FlatFileFactory::is_nfs (const ACE_CString& directory)
   size_t match = 0;
   size_t dirlen = ACE_OS::strlen(dir);
   struct mntent *ent = nullptr;
-  const char *fname = "/etc/mtab";
+  char const *fname = "/etc/mtab";
   FILE *mt = ::setmntent(fname,"r");
   if (mt == nullptr)
     {
@@ -775,19 +774,17 @@ TAO::Storable_FlatFileFactory::is_nfs (const ACE_CString& directory)
   return ret;
 }
 
-TAO::Storable_FlatFileFactory::~Storable_FlatFileFactory()
-{
-}
+TAO::Storable_FlatFileFactory::~Storable_FlatFileFactory () = default;
 
-const ACE_CString &
+ACE_CString const &
 TAO::Storable_FlatFileFactory::get_directory () const
 {
   return directory_;
 }
 
 TAO::Storable_Base *
-TAO::Storable_FlatFileFactory::create_stream (const ACE_CString & file,
-                                              const char * mode,
+TAO::Storable_FlatFileFactory::create_stream (ACE_CString const &file,
+                                              char const *mode,
                                               bool )
 {
   TAO::Storable_Base *stream = nullptr;

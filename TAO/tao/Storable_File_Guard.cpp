@@ -15,10 +15,7 @@
 
 TAO::Storable_File_Guard::
 Storable_File_Guard (bool redundant, bool use_backup)
-  : fl_(nullptr)
-  , redundant_(redundant)
-  , closed_(1)
-  , rwflags_(0)
+  : redundant_ (redundant)
   , use_backup_(use_backup)
 {
 }
@@ -98,7 +95,7 @@ TAO::Storable_File_Guard::reload ()
 
       // now that the file is successfully opened and locked it must be
       // unlocked/closed before we leave this class
-      closed_ = 0;
+      closed_ = false;
 
       if ( ! (rwflags_ & mode_create) )
         {
@@ -127,7 +124,7 @@ TAO::Storable_File_Guard::reload ()
 
       // now that the file is successfully opened
       // unlocked/closed before we leave this class
-      closed_ = 0;
+      closed_ = false;
 
       if (file_has_data && ! this->is_loaded_from_stream ())
         {
@@ -185,7 +182,7 @@ TAO::Storable_File_Guard::release ()
           fl_->funlock (0, 0, 0);
         }
       fl_->close ();
-      closed_ = 1;
+      closed_ = true;
     }
 
 }
@@ -212,7 +209,7 @@ TAO::Storable_File_Guard::load ()
       // Attempt to load from the stream from the primary.
       result = this->load_from_stream ();
     }
-  catch (const Storable_Read_Exception &ex)
+  catch (Storable_Read_Exception const &ex)
     { // Failed to load from primary.
       ACE_CString state_str = Storable_Base::state_as_string (ex.get_state());
 
@@ -237,7 +234,7 @@ TAO::Storable_File_Guard::load ()
             { // Load the data from the newly restored primary.
               result = this->load_from_stream ();
             }
-          catch (const Storable_Read_Exception&)
+          catch (Storable_Read_Exception const &)
             { // Still having trouble reading from the file. Time to bail.
               TAOLIB_ERROR ((LM_ERROR,
                              ACE_TEXT ("TAO: (%P|%t) ERROR: Unable to restore ")

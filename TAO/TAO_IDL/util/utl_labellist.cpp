@@ -93,6 +93,12 @@ UTL_LabelList::head ()
   return this->pd_car_data;
 }
 
+AST_UnionLabel const *
+UTL_LabelList::head () const
+{
+  return this->pd_car_data;
+}
+
 // Copy a label list.
 UTL_LabelList *
 UTL_LabelList::copy ()

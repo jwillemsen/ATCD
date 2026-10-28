@@ -96,6 +96,12 @@ UTL_StrList::head ()
   return this->pd_car_data;
 }
 
+UTL_String const *
+UTL_StrList::head () const
+{
+  return this->pd_car_data;
+}
+
 // Set list item.
 void
 UTL_StrList::set_head (UTL_String *s)
@@ -113,6 +119,17 @@ UTL_StrList::last_component ()
     }
 
   return ((UTL_StrList *) this->tail ())->last_component();
+}
+
+UTL_String const *
+UTL_StrList::last_component () const
+{
+  if (this->tail () == nullptr)
+    {
+      return this->pd_car_data;
+    }
+
+  return static_cast<UTL_StrList const *> (this->tail ())->last_component ();
 }
 
 // Copy a list.

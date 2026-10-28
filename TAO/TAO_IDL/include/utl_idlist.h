@@ -108,6 +108,7 @@ public:
   // Get element.
 
   Identifier *last_component ();
+  Identifier const *last_component () const;
   // Get last element in this list.
 
   Identifier *first_component ();

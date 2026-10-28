@@ -83,6 +83,7 @@ public:
 
   // Get list item.
   UTL_ScopedName *head ();
+  UTL_ScopedName const *head () const;
 
   // Accessors.
   bool truncatable () const;

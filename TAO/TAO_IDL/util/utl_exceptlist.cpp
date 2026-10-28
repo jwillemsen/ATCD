@@ -90,6 +90,12 @@ UTL_ExceptList::head ()
   return this->pd_car_data;
 }
 
+AST_Type const *
+UTL_ExceptList::head () const
+{
+  return this->pd_car_data;
+}
+
 // The two methods below make direct calls on the
 // cdr list (we have been made a friend of the base
 // class UTL_List's private member). This is so we

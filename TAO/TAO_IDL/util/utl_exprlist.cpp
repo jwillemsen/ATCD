@@ -87,6 +87,12 @@ UTL_ExprList::head ()
   return this->pd_car_data;
 }
 
+AST_Expression const *
+UTL_ExprList::head () const
+{
+  return this->pd_car_data;
+}
+
 void
 UTL_ExprList::destroy ()
 {

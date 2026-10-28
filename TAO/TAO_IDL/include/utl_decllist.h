@@ -89,6 +89,7 @@ public:
 
   // Get element
   FE_Declarator *head ();
+  FE_Declarator const *head () const;
 
   // Cleanup.
   void destroy () override;

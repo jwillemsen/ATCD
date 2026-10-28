@@ -85,6 +85,7 @@ public:
 
   // Get list item.
   AST_Type *head ();
+  AST_Type const *head () const;
 
   // Cleanup.
   void destroy () override;

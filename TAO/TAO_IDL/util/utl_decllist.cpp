@@ -93,6 +93,12 @@ UTL_DeclList::head ()
   return pd_car_data;
 }
 
+FE_Declarator const *
+UTL_DeclList::head () const
+{
+  return pd_car_data;
+}
+
 void
 UTL_DeclList::destroy ()
 {

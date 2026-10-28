@@ -85,6 +85,7 @@ public:
 
   // Get list item.
   AST_UnionLabel *head ();
+  AST_UnionLabel const *head () const;
 
   // Override of base class method.
   UTL_LabelList *copy () override;

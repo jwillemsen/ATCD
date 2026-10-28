@@ -87,6 +87,12 @@ UTL_NameList::head ()
   return this->pd_car_data;
 }
 
+UTL_ScopedName const *
+UTL_NameList::head () const
+{
+  return this->pd_car_data;
+}
+
 bool
 UTL_NameList::truncatable () const
 {

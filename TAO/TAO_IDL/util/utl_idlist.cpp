@@ -133,6 +133,17 @@ UTL_IdList::last_component ()
   return ((UTL_IdList *) this->tail ())->last_component ();
 }
 
+Identifier const *
+UTL_IdList::last_component () const
+{
+  if (this->tail () == nullptr)
+    {
+      return this->head ();
+    }
+
+  return static_cast<UTL_IdList const *> (this->tail ())->last_component ();
+}
+
 // Get first item of this list holding a non-empty string.
 Identifier *
 UTL_IdList::first_component ()

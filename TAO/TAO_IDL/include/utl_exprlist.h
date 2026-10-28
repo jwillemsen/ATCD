@@ -85,6 +85,7 @@ public:
 
   // Get list item.
   AST_Expression *head ();
+  AST_Expression const *head () const;
 
   // Cleanup.
   void destroy () override;

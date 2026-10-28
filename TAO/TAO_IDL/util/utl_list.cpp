@@ -179,7 +179,7 @@ UTL_ListActiveIterator::UTL_ListActiveIterator (UTL_List *s)
 
 // Is iterator done?
 bool
-UTL_ListActiveIterator::is_done ()
+UTL_ListActiveIterator::is_done () const
 {
   return (this->source == nullptr) ? true : false;
 }

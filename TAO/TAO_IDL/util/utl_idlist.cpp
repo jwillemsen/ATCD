@@ -294,7 +294,7 @@ UTL_IdListActiveIterator::UTL_IdListActiveIterator (UTL_IdList *s)
 
 // Get current item.
 Identifier *
-UTL_IdListActiveIterator::item ()
+UTL_IdListActiveIterator::item () const
 {
     if (this->source == nullptr)
       {

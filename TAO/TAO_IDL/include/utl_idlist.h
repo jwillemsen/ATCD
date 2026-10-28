@@ -144,7 +144,7 @@ public:
   explicit UTL_IdListActiveIterator (UTL_IdList *s);
 
   /// Retrieves the next item.
-  Identifier *item ();
+  Identifier *item () const;
 };
 
 #endif          // _UTL_IDLIST_UTL_IDLIST_HH

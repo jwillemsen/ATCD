@@ -101,7 +101,7 @@ public:
   explicit UTL_ExprlistActiveIterator (UTL_ExprList *s);
 
   // Get current item.
-  AST_Expression *item ();
+  AST_Expression *item () const;
 };
 
 #endif           // _UTL_EXPRLIST_UTL_EXPRLIST_HH

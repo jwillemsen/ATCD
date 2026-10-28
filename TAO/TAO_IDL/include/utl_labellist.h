@@ -103,7 +103,7 @@ public:
   explicit UTL_LabellistActiveIterator (UTL_LabelList *source);
 
   // Get current item.
-  AST_UnionLabel *item ();
+  AST_UnionLabel *item () const;
 };
 
 #endif           // _UTL_LABELLIST_UTL_LABELLIST_HH

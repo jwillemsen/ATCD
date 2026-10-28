@@ -139,7 +139,7 @@ UTL_LabellistActiveIterator::UTL_LabellistActiveIterator (UTL_LabelList *s)
 
 // Get current item.
 AST_UnionLabel *
-UTL_LabellistActiveIterator::item ()
+UTL_LabellistActiveIterator::item () const
 {
   if (this->source == nullptr)
     {

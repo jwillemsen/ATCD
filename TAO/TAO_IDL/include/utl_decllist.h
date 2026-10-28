@@ -109,7 +109,7 @@ public:
   explicit UTL_DecllistActiveIterator (UTL_DeclList *s);
 
   // Get current item
-  FE_Declarator *item ();
+  FE_Declarator *item () const;
 };
 
 #endif           // _UTL_DECLLIST_UTL_DECLLIST_HH

@@ -117,7 +117,7 @@ public:
   explicit UTL_StrlistActiveIterator (UTL_StrList *s);
 
   // Get current item.
-  UTL_String *item ();
+  UTL_String *item () const;
 };
 
 #endif           // _UTL_STRLIST_UTL_STRLIST_HH

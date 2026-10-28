@@ -213,7 +213,7 @@ UTL_StrlistActiveIterator::UTL_StrlistActiveIterator (UTL_StrList *s)
 
 // Get current item
 UTL_String *
-UTL_StrlistActiveIterator::item ()
+UTL_StrlistActiveIterator::item () const
 {
   if (source == nullptr)
     {

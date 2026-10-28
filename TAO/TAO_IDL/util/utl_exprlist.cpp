@@ -107,7 +107,7 @@ UTL_ExprlistActiveIterator::UTL_ExprlistActiveIterator (UTL_ExprList *s)
 
 // Get current item.
 AST_Expression *
-UTL_ExprlistActiveIterator::item ()
+UTL_ExprlistActiveIterator::item () const
 {
   if (source == nullptr)
     {

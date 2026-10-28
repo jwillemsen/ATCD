@@ -116,7 +116,7 @@ UTL_NamelistActiveIterator::UTL_NamelistActiveIterator (UTL_NameList *s)
 
 // Get current item.
 UTL_ScopedName *
-UTL_NamelistActiveIterator::item ()
+UTL_NamelistActiveIterator::item () const
 {
   if (source == nullptr)
     {

@@ -106,7 +106,7 @@ public:
   explicit UTL_NamelistActiveIterator (UTL_NameList *source);
 
   // Get current item.
-  UTL_ScopedName *item ();
+  UTL_ScopedName *item () const;
 };
 
 #endif           // _UTL_NAMELIST_UTL_NAMELIST_HH

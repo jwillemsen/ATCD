@@ -130,7 +130,7 @@ UTL_ExceptlistActiveIterator::UTL_ExceptlistActiveIterator (UTL_ExceptList *s)
 
 // Get current item.
 AST_Type *
-UTL_ExceptlistActiveIterator::item ()
+UTL_ExceptlistActiveIterator::item () const
 {
   if (source == nullptr)
     {

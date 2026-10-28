@@ -134,7 +134,7 @@ public:
   virtual void next ();
 
   // Are we at the end of this list?
-  virtual bool is_done ();
+  virtual bool is_done () const;
 
 protected:
   // On what to iterate?

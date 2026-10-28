@@ -131,7 +131,7 @@ UTL_DecllistActiveIterator::UTL_DecllistActiveIterator (UTL_DeclList *s)
 
 // Get current item
 FE_Declarator *
-UTL_DecllistActiveIterator::item ()
+UTL_DecllistActiveIterator::item () const
 {
   if (source == nullptr)
     {

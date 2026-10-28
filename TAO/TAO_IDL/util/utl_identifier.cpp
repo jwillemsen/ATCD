@@ -82,8 +82,6 @@ Identifier::Identifier (Identifier const &other)
   this->string_ = other.string_;
 }
 
-Identifier::~Identifier () = default;
-
 // Operations.
 
 char *

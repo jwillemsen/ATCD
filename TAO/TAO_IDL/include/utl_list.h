@@ -90,7 +90,7 @@ public:
   UTL_List &operator= (UTL_List const &) = delete;
   UTL_List &operator= (UTL_List &&) = delete;
 
-  virtual ~UTL_List ();
+  virtual ~UTL_List () = default;
 
   // Smash last cdr pointer in "this" with l.
   void nconc (UTL_List *l);

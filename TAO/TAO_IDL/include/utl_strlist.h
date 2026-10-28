@@ -84,7 +84,7 @@ public:
   UTL_StrList (UTL_String *s,
                UTL_StrList *cdr);
 
-  ~UTL_StrList () override;
+  ~UTL_StrList () override = default;
 
   // AST Dumping
   virtual void dump (ACE_OSTREAM_TYPE &o);

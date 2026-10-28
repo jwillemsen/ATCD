@@ -84,7 +84,7 @@ public:
 
   Identifier (Identifier const &other);
 
-  virtual ~Identifier ();
+  virtual ~Identifier () = default;
   // Destructor.
 
   // Operations

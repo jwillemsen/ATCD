@@ -166,8 +166,6 @@ UTL_String::get_canonical_rep (std::string_view str)
 
 //////////////////////////////////////////////////////////////////////
 
-UTL_String::UTL_String () = default;
-
 UTL_String::UTL_String (char const* str)
   : p_str (str != nullptr ? std::optional<std::string> (str) : std::nullopt)
 {
@@ -188,8 +186,6 @@ UTL_String::UTL_String (UTL_String const *s)
   : p_str (s->p_str)
 {
 }
-
-UTL_String::~UTL_String () = default;
 
 void
 UTL_String::destroy ()

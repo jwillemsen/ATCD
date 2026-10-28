@@ -82,7 +82,7 @@ class TAO_IDL_FE_Export UTL_String
   // =DESCRIPTION
   //  string class to store identifiers
 public:
-  UTL_String ();
+  UTL_String () = default;
 
   explicit UTL_String (char const* str);
   // Compatibility with generated front-end sources; strings are always copied.
@@ -97,7 +97,7 @@ public:
   UTL_String& operator= (UTL_String const&) = delete;
   UTL_String& operator= (UTL_String&&) = delete;
 
-  virtual ~UTL_String ();
+  virtual ~UTL_String () = default;
 
   virtual void destroy ();
   // Cleanup function.

@@ -36,7 +36,7 @@ public:
   explicit be_visitor_sequence_base (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_sequence_base () override;
+  ~be_visitor_sequence_base () override = default;
 
   be_visitor_sequence_base (const be_visitor_sequence_base &) = delete;
   be_visitor_sequence_base (be_visitor_sequence_base &&) = delete;
@@ -84,7 +84,7 @@ public:
                                           be_sequence *node);
 
   ///Dtor
-  ~be_visitor_sequence_base_template_args () override;
+  ~be_visitor_sequence_base_template_args () override = default;
 
   be_visitor_sequence_base_template_args (const be_visitor_sequence_base_template_args &) = delete;
   be_visitor_sequence_base_template_args (be_visitor_sequence_base_template_args &&) = delete;

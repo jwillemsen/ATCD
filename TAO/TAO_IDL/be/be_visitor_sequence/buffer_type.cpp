@@ -22,8 +22,6 @@ be_visitor_sequence_buffer_type::be_visitor_sequence_buffer_type (
 {
 }
 
-be_visitor_sequence_buffer_type::~be_visitor_sequence_buffer_type () = default;
-
 // helper
 int
 be_visitor_sequence_buffer_type::visit_node (be_type *node)

@@ -18,8 +18,6 @@ be_visitor_sequence_any_op_cs::be_visitor_sequence_any_op_cs (
 {
 }
 
-be_visitor_sequence_any_op_cs::~be_visitor_sequence_any_op_cs () = default;
-
 int
 be_visitor_sequence_any_op_cs::visit_sequence (be_sequence *node)
 {

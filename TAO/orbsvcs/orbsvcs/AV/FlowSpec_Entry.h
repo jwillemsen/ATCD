@@ -28,7 +28,7 @@ class TAO_AV_Export TAO_Tokenizer
 {
 public:
   /// constructor.
-  TAO_Tokenizer (const char *string,char delimiter);
+  TAO_Tokenizer (char const *string, char delimiter);
 
   /// destructor.
   ~TAO_Tokenizer ();
@@ -44,7 +44,7 @@ public:
   char *token ();
 
   /// Number of tokens.
-  int num_tokens ();
+  int num_tokens () const;
 
   const char *operator [] (size_t index) const;
 

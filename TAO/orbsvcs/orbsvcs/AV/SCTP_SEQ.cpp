@@ -15,12 +15,14 @@ TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 //------------------------------------------------------------
 
 TAO_AV_SCTP_SEQ_Transport::TAO_AV_SCTP_SEQ_Transport ()
-  :handler_ (0)
+  :handler_ (nullptr),
+   addr_ (nullptr)
 {
 }
 
 TAO_AV_SCTP_SEQ_Transport::TAO_AV_SCTP_SEQ_Transport (TAO_AV_SCTP_SEQ_Flow_Handler *handler)
-  :handler_ (handler)
+  :handler_ (handler),
+   addr_ (nullptr)
 {
 }
 
@@ -49,7 +51,7 @@ TAO_AV_SCTP_SEQ_Transport::mtu ()
 ACE_Addr*
 TAO_AV_SCTP_SEQ_Transport::get_peer_addr ()
 {
-  return 0;
+  return nullptr;
 }
 
 ssize_t
@@ -480,7 +482,7 @@ TAO_AV_SCTP_SEQ_Connector::connect (TAO_FlowSpec_Entry *entry,
 
   ACE_Multihomed_INET_Addr local_addr; //This can be a multihomed address
   ACE_INET_Addr *addr;
-  if (entry->get_peer_addr () != 0)
+  if (entry->get_peer_addr () != nullptr)
     {
       addr = dynamic_cast<ACE_INET_Addr *> (entry->get_peer_addr ());
     }

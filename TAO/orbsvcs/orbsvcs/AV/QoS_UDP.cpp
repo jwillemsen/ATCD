@@ -552,13 +552,14 @@ TAO_AV_UDP_QoS_Flow_Handler::get_handle () const
 //------------------------------------------------------------
 
 TAO_AV_UDP_QoS_Transport::TAO_AV_UDP_QoS_Transport ()
-  :handler_ (0)
+  :handler_ (nullptr),
+   addr_ (nullptr)
 {
 }
 
 TAO_AV_UDP_QoS_Transport::TAO_AV_UDP_QoS_Transport (TAO_AV_UDP_QoS_Flow_Handler *handler)
   :handler_ (handler),
-   addr_ (0)
+   addr_ (nullptr)
 {
 }
 
@@ -1156,7 +1157,7 @@ TAO_AV_UDP_QoS_Connector::connect (TAO_FlowSpec_Entry *entry,
 
   ACE_INET_Addr *local_addr;
 
-  if (entry->get_peer_addr () != 0)
+  if (entry->get_peer_addr () != nullptr)
     {
       local_addr = dynamic_cast<ACE_INET_Addr*> (entry->get_peer_addr ());
     }

@@ -549,7 +549,7 @@ TAO_AV_Core::init_reverse_flows (TAO_Base_StreamEndPoint *endpoint,
 
 TAO_FlowSpec_Entry *
 TAO_AV_Core::get_flow_spec_entry (TAO_AV_FlowSpecSet &flow_spec_set,
-                                  const char *flowname)
+                                  char const *flowname)
 {
   TAO_AV_FlowSpecSetItor end = flow_spec_set.end ();
   TAO_AV_FlowSpecSetItor begin = flow_spec_set.begin ();
@@ -560,11 +560,11 @@ TAO_AV_Core::get_flow_spec_entry (TAO_AV_FlowSpecSet &flow_spec_set,
       if (ACE_OS::strcmp ((*begin)->flowname (),flowname) == 0)
         return (*begin);
     }
-  return 0;
+  return nullptr;
 }
 
 TAO_AV_Acceptor*
-TAO_AV_Core::get_acceptor (const char *flowname)
+TAO_AV_Core::get_acceptor (char const *flowname)
 {
   try
     {
@@ -583,7 +583,7 @@ TAO_AV_Core::get_acceptor (const char *flowname)
     {
       ex._tao_print_exception ("TAO_AV_Core::get_acceptor");
     }
-  return 0;
+  return nullptr;
 }
 
 int
@@ -613,7 +613,7 @@ TAO_AV_Core::remove_acceptor (const char *flowname)
 }
 
 TAO_AV_Connector*
-TAO_AV_Core::get_connector (const char *flowname)
+TAO_AV_Core::get_connector (char const *flowname)
 {
   TAO_AV_ConnectorSetItor connector =
     this->connector_registry_->begin ();
@@ -625,7 +625,7 @@ TAO_AV_Core::get_connector (const char *flowname)
       if (ACE_OS::strcmp ((*connector)->flowname (),flowname) == 0)
         return *connector;
     }
-  return 0;
+  return nullptr;
 }
 
 int
@@ -1072,7 +1072,7 @@ TAO_AV_Core::init_flow_protocol_factories ()
 
           (*factory)->factory (
                                ACE_Dynamic_Service<TAO_AV_Flow_Protocol_Factory>::instance (name.c_str ()));
-          if ((*factory)->factory () == 0)
+          if ((*factory)->factory () == nullptr)
             {
               ORBSVCS_ERROR_RETURN ((LM_ERROR,
                                  ACE_TEXT ("TAO (%P|%t) Unable to load ")

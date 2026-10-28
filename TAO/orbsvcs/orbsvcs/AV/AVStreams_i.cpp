@@ -4479,8 +4479,8 @@ TAO_FlowConsumer::connect_to_peer (AVStreams::QoS & the_qos,
 //------------------------------------------------------------
 // TAO_Tokenizer
 //------------------------------------------------------------
-TAO_Tokenizer::TAO_Tokenizer (const char *string, char delimiter)
-  :token_array_ (10, (char*)0, 0),
+TAO_Tokenizer::TAO_Tokenizer (char const *string, char delimiter)
+  :token_array_ (10, nullptr, 0),
    count_ (0)
 {
   this->parse (string, delimiter);
@@ -4558,11 +4558,11 @@ TAO_Tokenizer::token ()
   if (count_ < num_tokens_)
     return CORBA::string_dup (this->token_array_[this->count_++]);
   else
-    return 0;
+    return nullptr;
 }
 
 int
-TAO_Tokenizer::num_tokens ()
+TAO_Tokenizer::num_tokens () const
 {
   return static_cast<int> (this->num_tokens_);
 }
@@ -4571,7 +4571,7 @@ const char *
 TAO_Tokenizer::operator [] (size_t index) const
 {
   if (index >= this->num_tokens_)
-    return 0;
+    return nullptr;
 
   return this->token_array_[index];
 }

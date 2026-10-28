@@ -116,13 +116,13 @@ public:
   int load_default_flow_protocol_factories ();
 
   /// = Get the acceptor registry
-  TAO_AV_Acceptor *get_acceptor (const char *flowname);
-  TAO_AV_Connector *get_connector (const char *flowname);
+  TAO_AV_Acceptor *get_acceptor (char const *flowname);
+  TAO_AV_Connector *get_connector (char const *flowname);
   int remove_acceptor (const char *flowname);
   int remove_connector (const char *flowname);
   TAO_AV_Connector_Registry *connector_registry ();
   TAO_FlowSpec_Entry *get_flow_spec_entry (TAO_AV_FlowSpecSet &flow_spec_set,
-                                           const char *flowname);
+                                           char const *flowname);
   TAO_AV_Acceptor_Registry  *acceptor_registry  ();
 
   // = Get the protocol factories

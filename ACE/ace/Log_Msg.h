@@ -25,6 +25,8 @@
 #include "ace/Synch_Traits.h"
 #include "ace/Basic_Types.h"
 
+#include <cstddef>
+
 // The ACE_ASSERT macro used to be defined here, include ace/Assert.h
 // for backwards compatibility.
 #include "ace/Assert.h"
@@ -66,7 +68,7 @@
   do { \
     int const __ace_error = ACE_Log_Msg::last_error_adapter (); \
     ACE_Log_Msg *ace___ = ACE_Log_Msg::instance (); \
-    ace___->set (__FILE__, __LINE__, Y, __ace_error, ace___->restart (), \
+    ace___->set (__FILE__, __LINE__, ACE_Log_Msg::error_return_op_status (Y), __ace_error, ace___->restart (), \
                  ace___->msg_ostream (), ace___->msg_callback ()); \
     return Y; \
   } while (0)
@@ -77,7 +79,7 @@
   do { \
     int const __ace_error = ACE_Log_Msg::last_error_adapter (); \
     ACE_Log_Msg *ace___ = ACE_Log_Msg::instance (); \
-    ace___->conditional_set (__FILE__, __LINE__, Y, __ace_error); \
+    ace___->conditional_set (__FILE__, __LINE__, ACE_Log_Msg::error_return_op_status (Y), __ace_error); \
     ace___->log (X);                                              \
     return Y; \
   } while (0)
@@ -86,7 +88,7 @@
   do { \
     int const __ace_error = ACE_Log_Msg::last_error_adapter (); \
     ACE_Log_Msg *ace___ = ACE_Log_Msg::instance (); \
-    ace___->conditional_set (__FILE__, __LINE__, Y, __ace_error); \
+    ace___->conditional_set (__FILE__, __LINE__, ACE_Log_Msg::error_return_op_status (Y), __ace_error); \
     ace___->log X;                                              \
     return Y; \
   } while (0)
@@ -249,6 +251,17 @@ public:
 
   /// Returns last error.
   static int last_error_adapter ();
+
+  /// Convert an error return value to the integer status used by the logger.
+  static int error_return_op_status (std::nullptr_t)
+  {
+    return 0;
+  }
+
+  static int error_return_op_status (int const status)
+  {
+    return status;
+  }
 
   /// Returns non-null if an ACE_Log_Msg exists for the calling thread.
   static int exists ();

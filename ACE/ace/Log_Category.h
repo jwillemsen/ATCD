@@ -57,7 +57,7 @@ ACE_BEGIN_VERSIONED_NAMESPACE_DECL
   do { \
     int const __ace_error = ACE_Log_Msg::last_error_adapter (); \
     ACE_Log_Msg *ace___ = ACE_Log_Msg::instance(); \
-    ace___->set (__FILE__, __LINE__, Y, __ace_error, ace___->restart (), \
+    ace___->set (__FILE__, __LINE__, ACE_Log_Msg::error_return_op_status (Y), __ace_error, ace___->restart (), \
                  ace___->msg_ostream (), ace___->msg_callback ()); \
     return Y; \
   } while (0)
@@ -69,7 +69,7 @@ ACE_BEGIN_VERSIONED_NAMESPACE_DECL
     int const __ace_error = ACE_Log_Msg::last_error_adapter (); \
     ACE_Log_Category_TSS *ace___ = ACE_Log_Category::ace_lib().per_thr_obj(); \
     if (ace___ == 0) return Y;\
-    ace___->conditional_set (__FILE__, __LINE__, Y, __ace_error); \
+    ace___->conditional_set (__FILE__, __LINE__, ACE_Log_Msg::error_return_op_status (Y), __ace_error); \
     ace___->log (X);                                              \
     return Y; \
   } while (0)
@@ -79,7 +79,7 @@ ACE_BEGIN_VERSIONED_NAMESPACE_DECL
     int const __ace_error = ACE_Log_Msg::last_error_adapter (); \
     ACE_Log_Category_TSS *ace___ = ACE_Log_Category::ace_lib().per_thr_obj(); \
     if (ace___ == 0) return Y;\
-    ace___->conditional_set (__FILE__, __LINE__, Y, __ace_error); \
+    ace___->conditional_set (__FILE__, __LINE__, ACE_Log_Msg::error_return_op_status (Y), __ace_error); \
     ace___->log X; \
     return Y; \
   } while (0)

@@ -89,9 +89,11 @@ public:
 
   ~AST_UnionBranch () override;
 
-  UTL_LabelList *labels () const;
+  UTL_LabelList *labels ();
+  UTL_LabelList const *labels () const;
 
-  AST_UnionLabel *label (unsigned long index = 0) const;
+  AST_UnionLabel *label (unsigned long index = 0);
+  AST_UnionLabel const *label (unsigned long index = 0) const;
 
   unsigned long label_list_length () const;
 

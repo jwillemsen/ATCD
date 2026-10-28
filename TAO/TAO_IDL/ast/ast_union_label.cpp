@@ -130,6 +130,12 @@ AST_UnionLabel::label_kind () const
 }
 
 AST_Expression *
+AST_UnionLabel::label_val ()
+{
+  return this->pd_label_val;
+}
+
+AST_Expression const *
 AST_UnionLabel::label_val () const
 {
   return this->pd_label_val;

@@ -138,13 +138,19 @@ AST_UnionBranch::destroy ()
 }
 
 UTL_LabelList *
+AST_UnionBranch::labels ()
+{
+  return this->pd_ll;
+}
+
+UTL_LabelList const *
 AST_UnionBranch::labels () const
 {
   return this->pd_ll;
 }
 
 AST_UnionLabel *
-AST_UnionBranch::label (unsigned long index) const
+AST_UnionBranch::label (unsigned long index)
 {
   unsigned long i = 0;
 
@@ -158,6 +164,24 @@ AST_UnionBranch::label (unsigned long index) const
         }
 
       ++i;
+    }
+
+  return nullptr;
+}
+
+AST_UnionLabel const *
+AST_UnionBranch::label (unsigned long index) const
+{
+  UTL_LabelList const *labels = this->pd_ll;
+
+  for (unsigned long i = 0; labels != nullptr; ++i)
+    {
+      if (i == index)
+        {
+          return labels->head ();
+        }
+
+      labels = static_cast<UTL_LabelList const *> (labels->tail ());
     }
 
   return nullptr;

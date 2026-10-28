@@ -94,7 +94,8 @@ public:
 
   UnionLabel label_kind () const;
 
-  AST_Expression *label_val () const;
+  AST_Expression *label_val ();
+  AST_Expression const *label_val () const;
 
   // AST Dumping.
   virtual void dump (ACE_OSTREAM_TYPE &o);

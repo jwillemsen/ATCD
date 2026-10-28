@@ -37,7 +37,7 @@ class TAO_Intrusive_Ref_Count_Object : public TAO_Intrusive_Ref_Count_Base <ACE_
 {
 public:
   /// take ownership of obj.
-  TAO_Intrusive_Ref_Count_Object (OBJ *obj);
+  explicit TAO_Intrusive_Ref_Count_Object (OBJ *obj);
   ~TAO_Intrusive_Ref_Count_Object () override;
 
   OBJ *get () const;

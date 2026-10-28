@@ -321,7 +321,7 @@ int TAO_Acceptor_Registry::open_default (TAO_ORB_Core *orb_core,
   vinfo.dwOSVersionInfoSize = sizeof (vinfo);
   int vres = GetVersionEx (&vinfo);
   if ((vres == 0 || vinfo.dwMajorVersion < 6) &&
-      !orb_core->orb_params ()->connect_ipv6_only () && this->acceptors_ == 0)
+      !orb_core->orb_params ()->connect_ipv6_only () && this->acceptors_ == nullptr)
     {
       // Since Win32 has single-stack IPv4/IPv6 we need an additional
       // acceptor to open explicitly on IPv6 ANY *and* IPv4 ANY.
@@ -365,7 +365,7 @@ int TAO_Acceptor_Registry::open_default (TAO_ORB_Core *orb_core,
               TAO_Acceptor *acceptor =
                 (*i)->factory ()->make_acceptor ();
 
-              if (acceptor == 0)
+              if (acceptor == nullptr)
                 {
                   if (TAO_debug_level > 0)
                     {
@@ -412,7 +412,7 @@ int TAO_Acceptor_Registry::open_default (TAO_ORB_Core *orb_core,
                   acceptor =
                     (*i)->factory ()->make_acceptor ();
 
-                  if (acceptor == 0)
+                  if (acceptor == nullptr)
                     {
                       if (TAO_debug_level > 0)
                         {
@@ -740,7 +740,7 @@ TAO_Acceptor_Registry::open_i (TAO_ORB_Core *orb_core,
                       acceptor =
                         (*factory)->factory ()->make_acceptor ();
 
-                      if (acceptor == 0)
+                      if (acceptor == nullptr)
                         {
                           if (TAO_debug_level > 0)
                             {

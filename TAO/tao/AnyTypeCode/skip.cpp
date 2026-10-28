@@ -259,7 +259,7 @@ TAO_Marshal_ObjRef::skip (CORBA::TypeCode_ptr, TAO_InputCDR *stream)
         CORBA::ULong tag;
 
         // get the profile ID tag
-        if ( (continue_skipping = stream->read_ulong (tag)) == 0)
+        if (!(continue_skipping = stream->read_ulong (tag)))
           continue;
 
         CORBA::ULong encap_len;
@@ -267,7 +267,7 @@ TAO_Marshal_ObjRef::skip (CORBA::TypeCode_ptr, TAO_InputCDR *stream)
         // the length of the sequence.
         // Create the decoding stream from the encapsulation in the
         // buffer, and skip the encapsulation.
-        if ( (continue_skipping = stream->read_ulong (encap_len)) == 0)
+        if (!(continue_skipping = stream->read_ulong (encap_len)))
           continue;
 
         continue_skipping = stream->skip_bytes (encap_len);

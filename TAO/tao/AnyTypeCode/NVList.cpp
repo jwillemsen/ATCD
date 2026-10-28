@@ -256,7 +256,7 @@ CORBA::NVList::_tao_incoming_cdr (TAO_InputCDR &cdr,
   // @@ There are other cases where we can use lazy evaluation, for
   //    example if the list is not empty but the anys own all their
   //    objects.
-  if (lazy_evaluation == false && this->max_ == 0)
+  if (!lazy_evaluation && this->max_ == 0)
     {
       lazy_evaluation = true;
     }

@@ -20,8 +20,6 @@ be_visitor_attribute_ccm_init::be_visitor_attribute_ccm_init (
 {
 }
 
-be_visitor_attribute_ccm_init::~be_visitor_attribute_ccm_init () = default;
-
 int
 be_visitor_attribute_ccm_init::visit_attribute (
   be_attribute *node)

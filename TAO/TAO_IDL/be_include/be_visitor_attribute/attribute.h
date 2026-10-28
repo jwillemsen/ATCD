@@ -36,7 +36,7 @@ public:
   explicit be_visitor_attribute (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_attribute () override;
+  ~be_visitor_attribute () override = default;
   be_visitor_attribute (be_visitor_attribute const &) = delete;
   be_visitor_attribute (be_visitor_attribute &&) = delete;
   be_visitor_attribute &operator= (be_visitor_attribute const &) = delete;

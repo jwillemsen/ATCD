@@ -23,7 +23,7 @@ class be_visitor_attribute_ccm_init
 {
 public:
   explicit be_visitor_attribute_ccm_init (be_visitor_context *ctx);
-  ~be_visitor_attribute_ccm_init () override;
+  ~be_visitor_attribute_ccm_init () override = default;
   be_visitor_attribute_ccm_init (be_visitor_attribute_ccm_init const &) = delete;
   be_visitor_attribute_ccm_init (be_visitor_attribute_ccm_init &&) = delete;
   be_visitor_attribute_ccm_init &operator= (be_visitor_attribute_ccm_init const &) = delete;

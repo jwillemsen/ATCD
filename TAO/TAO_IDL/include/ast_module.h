@@ -117,7 +117,7 @@ public:
                    Identifier *id = nullptr) override;
 
   // Accessor to this module's previous opening.
-  AST_Module *previous_opening ();
+  AST_Module *previous_opening () const;
 
   // Called to look up some declaration
   // in a previous opening of this module.

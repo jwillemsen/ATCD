@@ -223,7 +223,7 @@ AST_Module::referenced (AST_Decl *e,
 }
 
 AST_Module *
-AST_Module::previous_opening ()
+AST_Module::previous_opening () const
 {
   return this->previous_opening_;
 }

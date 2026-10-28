@@ -117,7 +117,7 @@ public:
   int ast_accept (ast_visitor *visitor) override;
 
   // Is this decl a forward declared type (Yes)
-  bool is_fwd () override;
+  bool is_fwd () const override;
 
   // We don't actually want the forward declaration,
   // but want to return the full definition member,

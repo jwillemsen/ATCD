@@ -253,7 +253,7 @@ AST_Decl::adjust_found (
 }
 
 bool
-AST_Decl::is_fwd ()
+AST_Decl::is_fwd () const
 {
   return false; // Not a fwd declared type (by default)
 }
@@ -708,9 +708,9 @@ std::string_view AST_Decl::node_type_name () const
 // Return TRUE if one of my ancestor scopes is "s"
 // and FALSE otherwise.
 bool
-AST_Decl::has_ancestor (AST_Decl *s)
+AST_Decl::has_ancestor (AST_Decl const *s) const
 {
-  AST_Decl *work = this;
+  AST_Decl const *work = this;
   do
     {
       if (work == s)
@@ -718,12 +718,12 @@ AST_Decl::has_ancestor (AST_Decl *s)
           return true;
         }
 
-      AST_Module *m = dynamic_cast<AST_Module*> (s);
+      AST_Module const *m = dynamic_cast<AST_Module const*> (s);
       if (m)
         {
           while ((m = m->previous_opening ()) != nullptr)
             {
-              if (static_cast<AST_Decl *> (m) == s)
+              if (static_cast<AST_Decl const *> (m) == s)
                 {
                   return true;
                 }
@@ -1282,7 +1282,7 @@ AST_Decl::last_referenced_as (UTL_ScopedName *n)
 }
 
 UTL_Scope *
-AST_Decl::prefix_scope ()
+AST_Decl::prefix_scope () const
 {
   return this->prefix_scope_;
 }

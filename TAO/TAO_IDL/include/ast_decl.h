@@ -213,7 +213,7 @@ public:
   virtual AST_Decl *adjust_found (bool ignore_fwd, bool full_def_only);
 
   // Is this decl a forward declared type (default false)
-  virtual bool is_fwd ();
+  virtual bool is_fwd () const;
 
   // Data Accessors.
 
@@ -305,7 +305,7 @@ public:
   // Other operations
 
   // Return TRUE if "this" has "s" as an ancestor.
-  bool has_ancestor (AST_Decl *s);
+  bool has_ancestor (AST_Decl const *s) const;
 
   // Return TRUE if "this" is a child of "s".
   bool is_child (AST_Decl *s) const;
@@ -317,7 +317,7 @@ public:
   void last_referenced_as (UTL_ScopedName *n);
 
   // Accessors for the prefix_scope_ member.
-  UTL_Scope *prefix_scope ();
+  UTL_Scope *prefix_scope () const;
   void prefix_scope (UTL_Scope *s);
 
   // Useful for GIOP to know if a wstring is being marshaled.

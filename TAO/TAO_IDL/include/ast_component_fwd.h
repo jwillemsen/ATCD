@@ -27,7 +27,7 @@ public:
   int ast_accept (ast_visitor *visitor) override;
 
   // Is this decl a forward declared type (Yes)
-  bool is_fwd () override;
+  bool is_fwd () const override;
 
   static AST_Decl::NodeType const NT;
 };

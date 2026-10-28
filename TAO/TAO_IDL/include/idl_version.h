@@ -63,7 +63,7 @@ public:
   /**
    * New IdlVersion set to DEFAULT_DEFAULT_IDL_VERSION.
    */
-  IdlVersion ();
+  IdlVersion () = default;
 
   /**
    * New IdlVersion set from a SpecificIdlVersion if version is valid,
@@ -115,7 +115,7 @@ public:
   ///}
 
 private:
-  SpecificIdlVersion version_;
+  SpecificIdlVersion version_ {DEFAULT_DEFAULT_IDL_VERSION};
 };
 
 #endif

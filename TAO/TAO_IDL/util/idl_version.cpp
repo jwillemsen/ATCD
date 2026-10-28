@@ -23,10 +23,6 @@ namespace {
   };
 }
 
-IdlVersion::IdlVersion () : version_(DEFAULT_DEFAULT_IDL_VERSION)
-{
-}
-
 IdlVersion::IdlVersion (SpecificIdlVersion version)
 {
   this->version (version);

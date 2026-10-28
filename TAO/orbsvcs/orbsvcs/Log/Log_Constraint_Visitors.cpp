@@ -45,11 +45,11 @@ TAO_Log_Constraint_Visitor::TAO_Log_Constraint_Visitor (DsLogAdmin::LogRecord co
 CORBA::Boolean
 TAO_Log_Constraint_Visitor::evaluate_constraint (ETCL_Constraint* root)
 {
-  CORBA::Boolean result = 0;
+  CORBA::Boolean result = false;
   this->queue_.reset ();
 
   // Evaluate the constraint in root_;
-  if (root != 0)
+  if (root != nullptr)
     {
       if ((root->accept (this) == 0) &&
           (! this->queue_.is_empty ()))
@@ -84,7 +84,7 @@ TAO_Log_Constraint_Visitor::visit_identifier (ETCL_Identifier *ident)
 
   if (this->property_lookup_.find (key, any) == 0)
     {
-      if (any.impl() != 0)
+      if (any.impl () != nullptr)
         {
           this->queue_.enqueue_head (TAO_ETCL_Literal_Constraint (&any));
           return_value = 0;
@@ -249,7 +249,7 @@ TAO_Log_Constraint_Visitor::visit_union_pos (
           // union member value on the queue. Otherwise, we want
           // the member value in current_member_ while we visit
           // the nested component.
-          if (nested == 0)
+          if (nested == nullptr)
             {
               TAO_ETCL_Literal_Constraint lit (this->current_member_.ptr ());
               this->queue_.enqueue_head (lit);
@@ -331,7 +331,7 @@ TAO_Log_Constraint_Visitor::visit_component_pos (ETCL_Component_Pos *pos)
 
       ETCL_Constraint *comp = pos->component ();
 
-      if (comp == 0)
+      if (comp == nullptr)
         {
           TAO_ETCL_Literal_Constraint result (value.ptr ());
           this->queue_.enqueue_head (result);
@@ -451,7 +451,7 @@ TAO_Log_Constraint_Visitor::visit_component_array (
 
       ETCL_Constraint *comp = array->component ();
 
-      if (comp == 0)
+      if (comp == nullptr)
         {
           TAO_ETCL_Literal_Constraint result (value.ptr ());
           this->queue_.enqueue_head (result);
@@ -588,7 +588,7 @@ TAO_Log_Constraint_Visitor::visit_default (ETCL_Default *def)
 {
   ETCL_Constraint *comp = def->component ();
 
-  if (comp == 0)
+  if (comp == nullptr)
     {
       return -1;
     }

@@ -63,18 +63,8 @@ namespace TAO
 #define _TAO_OBJECTKEY_CH_
 
   class ObjectKey;
-
-  typedef
-    TAO_FixedSeq_Var_T<
-        ObjectKey
-      >
-    ObjectKey_var;
-
-  typedef
-    TAO_Seq_Out_T<
-        ObjectKey
-      >
-    ObjectKey_out;
+  using ObjectKey_var = ::TAO_FixedSeq_Var_T<ObjectKey>;
+  using ObjectKey_out = ::TAO_Seq_Out_T<ObjectKey>;
 
   class TAO_Export ObjectKey
     : public

@@ -125,36 +125,36 @@ be_util::gen_nesting_close (TAO_OutStream &os, AST_Decl *node)
 void
 be_util::prep_be_arg (std::string_view s)
 {
-  static constexpr char arg_macro[]            = "export_macro=";
-  static constexpr char arg_include[]          = "export_include=";
-  static constexpr char skel_arg_macro[]       = "skel_export_macro=";
-  static constexpr char skel_arg_include[]     = "skel_export_include=";
-  static constexpr char skel_arg_file[]        = "skel_export_file=";
-  static constexpr char stub_arg_macro[]       = "stub_export_macro=";
-  static constexpr char stub_arg_include[]     = "stub_export_include=";
-  static constexpr char stub_arg_file[]        = "stub_export_file=";
-  static constexpr char anyop_arg_macro[]      = "anyop_export_macro=";
-  static constexpr char anyop_arg_include[]    = "anyop_export_include=";
-  static constexpr char exec_arg_macro[]       = "exec_export_macro=";
-  static constexpr char exec_arg_include[]     = "exec_export_include=";
-  static constexpr char svnt_arg_macro[]       = "svnt_export_macro=";
-  static constexpr char svnt_arg_include[]     = "svnt_export_include=";
-  static constexpr char conn_arg_macro[]       = "conn_export_macro=";
-  static constexpr char conn_arg_include[]     = "conn_export_include=";
-  static constexpr char arg_pch_include[]      = "pch_include=";
-  static constexpr char arg_pre_include[]      = "pre_include=";
-  static constexpr char arg_post_include[]     = "post_include=";
-  static constexpr char arg_versioning_begin[] = "versioning_begin=";
-  static constexpr char arg_versioning_end[]   = "versioning_end=";
-  static constexpr char arg_versioning_include[]  = "versioning_include=";
-  static constexpr char obv_opt_accessor[]     = "obv_opt_accessor";
-  static constexpr char ciao_container_type[]  = "ciao_container_type=";
-  static constexpr char include_guard[]        = "include_guard=";
-  static constexpr char safe_include[]         = "safe_include=";
-  static constexpr char unique_include[]       = "unique_include=";
-  static constexpr char dds_impl[]             = "dds_impl=";
-  static constexpr char stripped_filename[]    = "stripped_filename=";
-  static constexpr char no_fixed_err[]         = "no_fixed_err";
+  static constexpr std::string_view arg_macro = "export_macro=";
+  static constexpr std::string_view arg_include = "export_include=";
+  static constexpr std::string_view skel_arg_macro = "skel_export_macro=";
+  static constexpr std::string_view skel_arg_include = "skel_export_include=";
+  static constexpr std::string_view skel_arg_file = "skel_export_file=";
+  static constexpr std::string_view stub_arg_macro = "stub_export_macro=";
+  static constexpr std::string_view stub_arg_include = "stub_export_include=";
+  static constexpr std::string_view stub_arg_file = "stub_export_file=";
+  static constexpr std::string_view anyop_arg_macro = "anyop_export_macro=";
+  static constexpr std::string_view anyop_arg_include = "anyop_export_include=";
+  static constexpr std::string_view exec_arg_macro = "exec_export_macro=";
+  static constexpr std::string_view exec_arg_include = "exec_export_include=";
+  static constexpr std::string_view svnt_arg_macro = "svnt_export_macro=";
+  static constexpr std::string_view svnt_arg_include = "svnt_export_include=";
+  static constexpr std::string_view conn_arg_macro = "conn_export_macro=";
+  static constexpr std::string_view conn_arg_include = "conn_export_include=";
+  static constexpr std::string_view arg_pch_include = "pch_include=";
+  static constexpr std::string_view arg_pre_include = "pre_include=";
+  static constexpr std::string_view arg_post_include = "post_include=";
+  static constexpr std::string_view arg_versioning_begin = "versioning_begin=";
+  static constexpr std::string_view arg_versioning_end = "versioning_end=";
+  static constexpr std::string_view arg_versioning_include = "versioning_include=";
+  static constexpr std::string_view obv_opt_accessor = "obv_opt_accessor";
+  static constexpr std::string_view ciao_container_type = "ciao_container_type=";
+  static constexpr std::string_view include_guard = "include_guard=";
+  static constexpr std::string_view safe_include = "safe_include=";
+  static constexpr std::string_view unique_include = "unique_include=";
+  static constexpr std::string_view dds_impl = "dds_impl=";
+  static constexpr std::string_view stripped_filename = "stripped_filename=";
+  static constexpr std::string_view no_fixed_err = "no_fixed_err";
 
   while (!s.empty ())
     {
@@ -167,153 +167,153 @@ be_util::prep_be_arg (std::string_view s)
           continue;
         }
 
-      if (argument.substr (0, sizeof (arg_macro) - 1) == arg_macro)
+      if (argument.substr (0, arg_macro.size ()) == arg_macro)
         {
-          std::string_view const val = argument.substr (sizeof (arg_macro) - 1);
+          std::string_view const val = argument.substr (arg_macro.size ());
           be_global->skel_export_macro (val);
           be_global->stub_export_macro (val);
           be_global->anyop_export_macro (val);
         }
-      else if (argument.substr (0, sizeof (arg_include) - 1) == arg_include)
+      else if (argument.substr (0, arg_include.size ()) == arg_include)
         {
-          std::string_view const val = argument.substr (sizeof (arg_include) - 1);
+          std::string_view const val = argument.substr (arg_include.size ());
           be_global->stub_export_include (val);
         }
-      else if (argument.substr (0, sizeof (skel_arg_macro) - 1) == skel_arg_macro)
+      else if (argument.substr (0, skel_arg_macro.size ()) == skel_arg_macro)
         {
-          std::string_view const val = argument.substr (sizeof (skel_arg_macro) - 1);
+          std::string_view const val = argument.substr (skel_arg_macro.size ());
           be_global->skel_export_macro (val);
         }
-      else if (argument.substr (0, sizeof (skel_arg_include) - 1) == skel_arg_include)
+      else if (argument.substr (0, skel_arg_include.size ()) == skel_arg_include)
         {
-          std::string_view const val = argument.substr (sizeof (skel_arg_include) - 1);
+          std::string_view const val = argument.substr (skel_arg_include.size ());
           be_global->skel_export_include (val);
         }
-      else if (argument.substr (0, sizeof (skel_arg_file) - 1) == skel_arg_file)
+      else if (argument.substr (0, skel_arg_file.size ()) == skel_arg_file)
         {
-          std::string_view const val = argument.substr (sizeof (skel_arg_file) - 1);
+          std::string_view const val = argument.substr (skel_arg_file.size ());
           be_global->skel_export_file (val);
         }
-      else if (argument.substr (0, sizeof (stub_arg_macro) - 1) == stub_arg_macro)
+      else if (argument.substr (0, stub_arg_macro.size ()) == stub_arg_macro)
         {
-          std::string_view const val = argument.substr (sizeof (stub_arg_macro) - 1);
+          std::string_view const val = argument.substr (stub_arg_macro.size ());
           be_global->stub_export_macro (val);
         }
-      else if (argument.substr (0, sizeof (stub_arg_include) - 1) == stub_arg_include)
+      else if (argument.substr (0, stub_arg_include.size ()) == stub_arg_include)
         {
-          std::string_view const val = argument.substr (sizeof (stub_arg_include) - 1);
+          std::string_view const val = argument.substr (stub_arg_include.size ());
           be_global->stub_export_include (val);
         }
-      else if (argument.substr (0, sizeof (stub_arg_file) - 1) == stub_arg_file)
+      else if (argument.substr (0, stub_arg_file.size ()) == stub_arg_file)
         {
-          std::string_view const val = argument.substr (sizeof (stub_arg_file) - 1);
+          std::string_view const val = argument.substr (stub_arg_file.size ());
           be_global->stub_export_file (val);
         }
-      else if (argument.substr (0, sizeof (anyop_arg_macro) - 1) == anyop_arg_macro)
+      else if (argument.substr (0, anyop_arg_macro.size ()) == anyop_arg_macro)
         {
-          std::string_view const val = argument.substr (sizeof (anyop_arg_macro) - 1);
+          std::string_view const val = argument.substr (anyop_arg_macro.size ());
           be_global->anyop_export_macro (val);
         }
-      else if (argument.substr (0, sizeof (anyop_arg_include) - 1) == anyop_arg_include)
+      else if (argument.substr (0, anyop_arg_include.size ()) == anyop_arg_include)
         {
-          std::string_view const val = argument.substr (sizeof (anyop_arg_include) - 1);
+          std::string_view const val = argument.substr (anyop_arg_include.size ());
           be_global->anyop_export_include (val);
         }
-      else if (argument.substr (0, sizeof (exec_arg_macro) - 1) == exec_arg_macro)
+      else if (argument.substr (0, exec_arg_macro.size ()) == exec_arg_macro)
         {
-          std::string_view const val = argument.substr (sizeof (exec_arg_macro) - 1);
+          std::string_view const val = argument.substr (exec_arg_macro.size ());
           be_global->exec_export_macro (val);
         }
-      else if (argument.substr (0, sizeof (exec_arg_include) - 1) == exec_arg_include)
+      else if (argument.substr (0, exec_arg_include.size ()) == exec_arg_include)
         {
-          std::string_view const val = argument.substr (sizeof (exec_arg_include) - 1);
+          std::string_view const val = argument.substr (exec_arg_include.size ());
           be_global->exec_export_include (val);
         }
-      else if (argument.substr (0, sizeof (svnt_arg_macro) - 1) == svnt_arg_macro)
+      else if (argument.substr (0, svnt_arg_macro.size ()) == svnt_arg_macro)
         {
-          std::string_view const val = argument.substr (sizeof (svnt_arg_macro) - 1);
+          std::string_view const val = argument.substr (svnt_arg_macro.size ());
           be_global->svnt_export_macro (val);
         }
-      else if (argument.substr (0, sizeof (svnt_arg_include) - 1) == svnt_arg_include)
+      else if (argument.substr (0, svnt_arg_include.size ()) == svnt_arg_include)
         {
-          std::string_view const val = argument.substr (sizeof (svnt_arg_include) - 1);
+          std::string_view const val = argument.substr (svnt_arg_include.size ());
           be_global->svnt_export_include (val);
         }
-      else if (argument.substr (0, sizeof (conn_arg_macro) - 1) == conn_arg_macro)
+      else if (argument.substr (0, conn_arg_macro.size ()) == conn_arg_macro)
         {
-          std::string_view const val = argument.substr (sizeof (conn_arg_macro) - 1);
+          std::string_view const val = argument.substr (conn_arg_macro.size ());
           be_global->conn_export_macro (val);
         }
-      else if (argument.substr (0, sizeof (conn_arg_include) - 1) == conn_arg_include)
+      else if (argument.substr (0, conn_arg_include.size ()) == conn_arg_include)
         {
-          std::string_view const val = argument.substr (sizeof (conn_arg_include) - 1);
+          std::string_view const val = argument.substr (conn_arg_include.size ());
           be_global->conn_export_include (val);
         }
-      else if (argument.substr (0, sizeof (arg_pch_include) - 1) == arg_pch_include)
+      else if (argument.substr (0, arg_pch_include.size ()) == arg_pch_include)
         {
-          std::string_view const val = argument.substr (sizeof (arg_pch_include) - 1);
+          std::string_view const val = argument.substr (arg_pch_include.size ());
           be_global->pch_include (val);
         }
-      else if (argument.substr (0, sizeof (arg_pre_include) - 1) == arg_pre_include)
+      else if (argument.substr (0, arg_pre_include.size ()) == arg_pre_include)
         {
-          std::string_view const val = argument.substr (sizeof (arg_pre_include) - 1);
+          std::string_view const val = argument.substr (arg_pre_include.size ());
           be_global->pre_include (val);
         }
-      else if (argument.substr (0, sizeof (arg_post_include) - 1) == arg_post_include)
+      else if (argument.substr (0, arg_post_include.size ()) == arg_post_include)
         {
-          std::string_view const val = argument.substr (sizeof (arg_post_include) - 1);
+          std::string_view const val = argument.substr (arg_post_include.size ());
           be_global->post_include (val);
         }
-      else if (argument.substr (0, sizeof (include_guard) - 1) == include_guard)
+      else if (argument.substr (0, include_guard.size ()) == include_guard)
         {
-          std::string_view const val = argument.substr (sizeof (include_guard) - 1);
+          std::string_view const val = argument.substr (include_guard.size ());
           be_global->include_guard (val);
         }
-      else if (argument.substr (0, sizeof (safe_include) - 1) == safe_include)
+      else if (argument.substr (0, safe_include.size ()) == safe_include)
         {
-          std::string_view const val = argument.substr (sizeof (safe_include) - 1);
+          std::string_view const val = argument.substr (safe_include.size ());
           be_global->safe_include (val);
         }
-      else if (argument.substr (0, sizeof (unique_include) - 1) == unique_include)
+      else if (argument.substr (0, unique_include.size ()) == unique_include)
         {
-          std::string_view const val = argument.substr (sizeof (unique_include) - 1);
+          std::string_view const val = argument.substr (unique_include.size ());
           be_global->unique_include (val);
         }
-      else if (argument.substr (0, sizeof (stripped_filename) - 1) == stripped_filename)
+      else if (argument.substr (0, stripped_filename.size ()) == stripped_filename)
         {
-          std::string_view const val = argument.substr (sizeof (stripped_filename) - 1);
+          std::string_view const val = argument.substr (stripped_filename.size ());
           be_global->stripped_filename (val);
         }
-      else if (argument.substr (0, sizeof (obv_opt_accessor) - 1) == obv_opt_accessor)
+      else if (argument.substr (0, obv_opt_accessor.size ()) == obv_opt_accessor)
         {
           be_global->obv_opt_accessor (true);
         }
-      else if (argument.substr (0, sizeof (ciao_container_type) - 1) == ciao_container_type)
+      else if (argument.substr (0, ciao_container_type.size ()) == ciao_container_type)
         {
-          std::string_view const val = argument.substr (sizeof (ciao_container_type) - 1);
+          std::string_view const val = argument.substr (ciao_container_type.size ());
           be_global->ciao_container_type (val);
         }
-      else if (argument.substr (0, sizeof (arg_versioning_begin) - 1) == arg_versioning_begin)
+      else if (argument.substr (0, arg_versioning_begin.size ()) == arg_versioning_begin)
         {
-          std::string_view const val = argument.substr (sizeof (arg_versioning_begin) - 1);
+          std::string_view const val = argument.substr (arg_versioning_begin.size ());
           be_global->versioning_begin (val);
         }
-      else if (argument.substr (0, sizeof (arg_versioning_end) - 1) == arg_versioning_end)
+      else if (argument.substr (0, arg_versioning_end.size ()) == arg_versioning_end)
         {
-          std::string_view const val = argument.substr (sizeof (arg_versioning_end) - 1);
+          std::string_view const val = argument.substr (arg_versioning_end.size ());
           be_global->versioning_end (val);
         }
-      else if (argument.substr (0, sizeof (arg_versioning_include) - 1) == arg_versioning_include)
+      else if (argument.substr (0, arg_versioning_include.size ()) == arg_versioning_include)
         {
-          std::string_view const val = argument.substr (sizeof (arg_versioning_include) - 1);
+          std::string_view const val = argument.substr (arg_versioning_include.size ());
           be_global->versioning_include (val);
         }
-      else if (argument.substr (0, sizeof (dds_impl) - 1) == dds_impl)
+      else if (argument.substr (0, dds_impl.size ()) == dds_impl)
         {
-          std::string_view const val = argument.substr (sizeof (dds_impl) - 1);
+          std::string_view const val = argument.substr (dds_impl.size ());
           be_global->dds_impl (val);
         }
-      else if (argument.substr (0, sizeof (no_fixed_err) - 1) == no_fixed_err)
+      else if (argument.substr (0, no_fixed_err.size ()) == no_fixed_err)
         {
           be_global->no_fixed_err (true);
         }

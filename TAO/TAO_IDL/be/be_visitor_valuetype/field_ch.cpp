@@ -22,8 +22,6 @@ be_visitor_valuetype_field_ch::be_visitor_valuetype_field_ch (
   setenclosings ("", ";");
 }
 
-be_visitor_valuetype_field_ch::~be_visitor_valuetype_field_ch () = default;
-
 int
 be_visitor_valuetype_field_ch::visit_field (be_field *node)
 {

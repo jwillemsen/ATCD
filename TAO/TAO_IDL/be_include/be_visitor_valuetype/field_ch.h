@@ -32,7 +32,7 @@ public:
   explicit be_visitor_valuetype_field_ch (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_valuetype_field_ch () override;
+  ~be_visitor_valuetype_field_ch () override = default;
   be_visitor_valuetype_field_ch (be_visitor_valuetype_field_ch const &) = delete;
   be_visitor_valuetype_field_ch (be_visitor_valuetype_field_ch &&) = delete;
   be_visitor_valuetype_field_ch &operator= (be_visitor_valuetype_field_ch const &) = delete;

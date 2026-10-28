@@ -20,8 +20,6 @@ be_visitor_valuetype_ci::be_visitor_valuetype_ci (be_visitor_context *ctx)
 {
 }
 
-be_visitor_valuetype_ci::~be_visitor_valuetype_ci () = default;
-
 int
 be_visitor_valuetype_ci::visit_valuetype (be_valuetype *node)
 {

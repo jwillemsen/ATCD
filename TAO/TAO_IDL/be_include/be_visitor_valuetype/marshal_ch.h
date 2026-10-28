@@ -30,7 +30,7 @@ public:
   explicit be_visitor_valuetype_marshal_ch (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_valuetype_marshal_ch () override;
+  ~be_visitor_valuetype_marshal_ch () override = default;
   be_visitor_valuetype_marshal_ch (be_visitor_valuetype_marshal_ch const &) = delete;
   be_visitor_valuetype_marshal_ch (be_visitor_valuetype_marshal_ch &&) = delete;
   be_visitor_valuetype_marshal_ch &operator= (be_visitor_valuetype_marshal_ch const &) = delete;

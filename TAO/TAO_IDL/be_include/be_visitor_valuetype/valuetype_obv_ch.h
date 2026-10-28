@@ -34,7 +34,7 @@ public:
   explicit be_visitor_valuetype_obv_ch (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_valuetype_obv_ch () override;
+  ~be_visitor_valuetype_obv_ch () override = default;
   be_visitor_valuetype_obv_ch (be_visitor_valuetype_obv_ch const &) = delete;
   be_visitor_valuetype_obv_ch (be_visitor_valuetype_obv_ch &&) = delete;
   be_visitor_valuetype_obv_ch &operator= (be_visitor_valuetype_obv_ch const &) = delete;

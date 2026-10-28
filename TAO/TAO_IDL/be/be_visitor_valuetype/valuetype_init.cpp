@@ -19,8 +19,6 @@ be_visitor_valuetype_init::be_visitor_valuetype_init (
 {
 }
 
-be_visitor_valuetype_init::~be_visitor_valuetype_init () = default;
-
 void
 be_visitor_valuetype_init::begin_public ()
 {

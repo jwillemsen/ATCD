@@ -30,7 +30,7 @@ public:
   explicit be_visitor_valuetype (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_valuetype () override;
+  ~be_visitor_valuetype () override = default;
   be_visitor_valuetype (be_visitor_valuetype const &) = delete;
   be_visitor_valuetype (be_visitor_valuetype &&) = delete;
   be_visitor_valuetype &operator= (be_visitor_valuetype const &) = delete;

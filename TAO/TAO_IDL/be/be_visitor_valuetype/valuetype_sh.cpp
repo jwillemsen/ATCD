@@ -22,8 +22,6 @@ be_visitor_valuetype_sh::be_visitor_valuetype_sh (be_visitor_context *ctx)
 {
 }
 
-be_visitor_valuetype_sh::~be_visitor_valuetype_sh () = default;
-
 int
 be_visitor_valuetype_sh::visit_valuetype (be_valuetype *node)
 {

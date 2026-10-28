@@ -30,7 +30,7 @@ public:
   explicit be_visitor_obv_operation_arglist (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_obv_operation_arglist () override;
+  ~be_visitor_obv_operation_arglist () override = default;
   be_visitor_obv_operation_arglist (be_visitor_obv_operation_arglist const &) = delete;
   be_visitor_obv_operation_arglist (be_visitor_obv_operation_arglist &&) = delete;
   be_visitor_obv_operation_arglist &operator= (be_visitor_obv_operation_arglist const &) = delete;

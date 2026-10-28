@@ -23,8 +23,6 @@ be_visitor_valuetype_ss::be_visitor_valuetype_ss (be_visitor_context *ctx)
 {
 }
 
-be_visitor_valuetype_ss::~be_visitor_valuetype_ss () = default;
-
 int
 be_visitor_valuetype_ss::visit_valuetype (be_valuetype *node)
 {

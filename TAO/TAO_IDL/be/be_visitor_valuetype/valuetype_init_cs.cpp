@@ -21,8 +21,6 @@ be_visitor_valuetype_init_cs::be_visitor_valuetype_init_cs (
 {
 }
 
-be_visitor_valuetype_init_cs::~be_visitor_valuetype_init_cs () = default;
-
 int
 be_visitor_valuetype_init_cs::visit_valuetype (be_valuetype *node)
 {

@@ -28,7 +28,7 @@ public:
   explicit be_visitor_valuetype_ci (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_valuetype_ci () override;
+  ~be_visitor_valuetype_ci () override = default;
   be_visitor_valuetype_ci (be_visitor_valuetype_ci const &) = delete;
   be_visitor_valuetype_ci (be_visitor_valuetype_ci &&) = delete;
   be_visitor_valuetype_ci &operator= (be_visitor_valuetype_ci const &) = delete;

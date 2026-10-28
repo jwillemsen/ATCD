@@ -30,7 +30,7 @@ public:
   explicit be_visitor_valuetype_cdr_op_ch (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_valuetype_cdr_op_ch () override;
+  ~be_visitor_valuetype_cdr_op_ch () override = default;
   be_visitor_valuetype_cdr_op_ch (be_visitor_valuetype_cdr_op_ch const &) = delete;
   be_visitor_valuetype_cdr_op_ch (be_visitor_valuetype_cdr_op_ch &&) = delete;
   be_visitor_valuetype_cdr_op_ch &operator= (be_visitor_valuetype_cdr_op_ch const &) = delete;

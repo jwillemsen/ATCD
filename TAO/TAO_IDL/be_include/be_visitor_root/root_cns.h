@@ -28,7 +28,7 @@ class be_visitor_root_cns : public be_visitor_root
 public:
   explicit be_visitor_root_cns (be_visitor_context *ctx);
 
-  ~be_visitor_root_cns () override;
+  ~be_visitor_root_cns () override = default;
 
   be_visitor_root_cns (const be_visitor_root_cns &) = delete;
   be_visitor_root_cns (be_visitor_root_cns &&) = delete;

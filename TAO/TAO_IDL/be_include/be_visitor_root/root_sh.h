@@ -27,7 +27,7 @@ class be_visitor_root_sh : public be_visitor_root
 public:
   explicit be_visitor_root_sh (be_visitor_context *ctx);
 
-  ~be_visitor_root_sh () override;
+  ~be_visitor_root_sh () override = default;
 
   be_visitor_root_sh (const be_visitor_root_sh &) = delete;
   be_visitor_root_sh (be_visitor_root_sh &&) = delete;

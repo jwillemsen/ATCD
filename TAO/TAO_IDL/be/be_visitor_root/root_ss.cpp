@@ -16,8 +16,6 @@ be_visitor_root_ss::be_visitor_root_ss (be_visitor_context *ctx)
 {
 }
 
-be_visitor_root_ss::~be_visitor_root_ss () = default;
-
 int
 be_visitor_root_ss::visit_root (be_root *node)
 {

@@ -28,7 +28,7 @@ class be_visitor_root_cdr_op : public be_visitor_root
 public:
   explicit be_visitor_root_cdr_op (be_visitor_context *ctx);
 
-  ~be_visitor_root_cdr_op () override;
+  ~be_visitor_root_cdr_op () override = default;
 
   be_visitor_root_cdr_op (const be_visitor_root_cdr_op &) = delete;
   be_visitor_root_cdr_op (be_visitor_root_cdr_op &&) = delete;

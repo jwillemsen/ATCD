@@ -28,7 +28,7 @@ class be_visitor_root_cnh : public be_visitor_root
 public:
   explicit be_visitor_root_cnh (be_visitor_context *ctx);
 
-  ~be_visitor_root_cnh () override;
+  ~be_visitor_root_cnh () override = default;
 
   be_visitor_root_cnh (const be_visitor_root_cnh &) = delete;
   be_visitor_root_cnh (be_visitor_root_cnh &&) = delete;

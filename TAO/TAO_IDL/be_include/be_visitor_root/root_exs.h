@@ -28,7 +28,7 @@ class be_visitor_root_exs : public be_visitor_root
 public:
   explicit be_visitor_root_exs (be_visitor_context *ctx);
 
-  ~be_visitor_root_exs () override;
+  ~be_visitor_root_exs () override = default;
 
   be_visitor_root_exs (const be_visitor_root_exs &) = delete;
   be_visitor_root_exs (be_visitor_root_exs &&) = delete;

@@ -28,7 +28,7 @@ class be_visitor_root_svth : public be_visitor_root
 public:
   explicit be_visitor_root_svth (be_visitor_context *ctx);
 
-  ~be_visitor_root_svth () override;
+  ~be_visitor_root_svth () override = default;
 
   be_visitor_root_svth (const be_visitor_root_svth &) = delete;
   be_visitor_root_svth (be_visitor_root_svth &&) = delete;

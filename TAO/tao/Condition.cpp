@@ -11,9 +11,7 @@ TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 
 template <class MUTEX>
 TAO_Condition<MUTEX>::TAO_Condition (MUTEX &m)
-  : mutex_ (&m),
-    delete_lock_ (false),
-    cond_ (nullptr)
+  : mutex_ (&m)
 {
   // @todo: Need to add the allocatore here..
   ACE_NEW (this->cond_,
@@ -22,10 +20,6 @@ TAO_Condition<MUTEX>::TAO_Condition (MUTEX &m)
 
 template <class MUTEX>
 TAO_Condition<MUTEX>::TAO_Condition ()
-    : mutex_ (nullptr),
-      delete_lock_ (false),
-      cond_ (nullptr)
-
 {
   // @todo: Need to add the allocatore here..
   ACE_NEW (this->mutex_,

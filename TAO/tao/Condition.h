@@ -46,7 +46,7 @@ public:
 
   // = Initialiation and termination methods.
   /// Initialize the condition variable.
-  TAO_Condition (MUTEX &m);
+  explicit TAO_Condition (MUTEX &m);
 
   /// A default constructor. Since no lock is provided by the user,
   /// one will be created internally.
@@ -62,7 +62,7 @@ public:
    * != 0 and the call times out before the condition is signaled
    * <wait> returns -1 and sets errno to ETIME.
    */
-  int wait (const ACE_Time_Value *abstime);
+  int wait (ACE_Time_Value const *abstime);
 
   /// Block on condition.
   int wait ();
@@ -75,7 +75,7 @@ public:
    * call times out before the condition is signaled <wait> returns -1
    * and sets errno to ETIME.
    */
-  int wait (MUTEX &mutex, const ACE_Time_Value *abstime = nullptr);
+  int wait (MUTEX &mutex, ACE_Time_Value const *abstime = nullptr);
 
   /// Signal one waiting thread.
   int signal ();
@@ -91,17 +91,19 @@ public:
   MUTEX *mutex ();
 
 private:
-  TAO_Condition (const TAO_Condition<MUTEX> &) = delete;
-  TAO_Condition &operator= (const TAO_Condition<MUTEX> &) = delete;
+  TAO_Condition (TAO_Condition<MUTEX> const &) = delete;
+  TAO_Condition &operator= (TAO_Condition<MUTEX> const &) = delete;
+  TAO_Condition (TAO_Condition<MUTEX> &&) = delete;
+  TAO_Condition &operator= (TAO_Condition<MUTEX> &&) = delete;
 
   /// Reference to mutex lock.
-  MUTEX *mutex_;
+  MUTEX *mutex_ {};
 
   /// A flag to indicate whether the lock needs to be deleted.
-  bool delete_lock_;
+  bool delete_lock_ {};
 
   /// Condition variable.
-  TAO_SYNCH_CONDITION *cond_;
+  TAO_SYNCH_CONDITION *cond_ {};
 };
 
 TAO_END_VERSIONED_NAMESPACE_DECL

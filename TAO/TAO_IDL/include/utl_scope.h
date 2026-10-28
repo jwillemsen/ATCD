@@ -153,13 +153,17 @@ public:
 
   // Constructor(s).
   UTL_Scope ();
+  UTL_Scope (UTL_Scope const &) = delete;
+  UTL_Scope (UTL_Scope &&) = delete;
+  UTL_Scope &operator= (UTL_Scope const &) = delete;
+  UTL_Scope &operator= (UTL_Scope &&) = delete;
   explicit UTL_Scope (AST_Decl::NodeType nt);
 
   // Destructor.
   ~UTL_Scope () override;
 
   // Data Accessors.
-  AST_Decl::NodeType scope_node_type ()
+  AST_Decl::NodeType scope_node_type () const
   {
     return pd_scope_node_type;
   }
@@ -291,7 +295,7 @@ protected:
 
   // What type is this node? This is a cache of the information
   // in AST_Decl
-  AST_Decl::NodeType const pd_scope_node_type;
+  AST_Decl::NodeType const pd_scope_node_type {AST_Decl::NT_module};
 
   // Storage for declarations in this scope.
   AST_Decl **pd_decls {};             // Store declarations

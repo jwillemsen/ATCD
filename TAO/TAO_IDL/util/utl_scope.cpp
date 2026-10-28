@@ -120,10 +120,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 //  Constructors.
 
-UTL_Scope::UTL_Scope ()
-  : pd_scope_node_type (AST_Decl::NT_module)
-{
-}
+UTL_Scope::UTL_Scope () = default;
 
 UTL_Scope::UTL_Scope (AST_Decl::NodeType nt)
   : pd_scope_node_type (nt)

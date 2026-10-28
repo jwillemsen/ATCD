@@ -33,7 +33,7 @@ public:
   explicit be_visitor_operation_argument (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_operation_argument () override;
+  ~be_visitor_operation_argument () override = default;
   be_visitor_operation_argument (be_visitor_operation_argument const &) = delete;
   be_visitor_operation_argument (be_visitor_operation_argument &&) = delete;
   be_visitor_operation_argument &operator= (be_visitor_operation_argument const &) = delete;

@@ -21,8 +21,6 @@ be_visitor_operation_ami_cs::be_visitor_operation_ami_cs (
 {
 }
 
-be_visitor_operation_ami_cs::~be_visitor_operation_ami_cs () = default;
-
 // Processing to be done after every element in the scope is
 // processed.
 int

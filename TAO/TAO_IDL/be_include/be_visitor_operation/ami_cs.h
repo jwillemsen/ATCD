@@ -31,7 +31,7 @@ public:
   explicit be_visitor_operation_ami_cs (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_operation_ami_cs () override;
+  ~be_visitor_operation_ami_cs () override = default;
   be_visitor_operation_ami_cs (be_visitor_operation_ami_cs const &) = delete;
   be_visitor_operation_ami_cs (be_visitor_operation_ami_cs &&) = delete;
   be_visitor_operation_ami_cs &operator= (be_visitor_operation_ami_cs const &) = delete;

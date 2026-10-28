@@ -20,8 +20,6 @@ be_visitor_operation_tie_ss::be_visitor_operation_tie_ss (
 {
 }
 
-be_visitor_operation_tie_ss::~be_visitor_operation_tie_ss () = default;
-
 int be_visitor_operation_tie_ss::visit_operation (be_operation *node)
 {
   /// These implied IDL operations are not to be processed on

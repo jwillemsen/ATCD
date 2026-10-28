@@ -34,7 +34,7 @@ public:
   explicit be_visitor_operation_rettype (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_operation_rettype () override;
+  ~be_visitor_operation_rettype () override = default;
   be_visitor_operation_rettype (be_visitor_operation_rettype const &) = delete;
   be_visitor_operation_rettype (be_visitor_operation_rettype &&) = delete;
   be_visitor_operation_rettype &operator= (be_visitor_operation_rettype const &) = delete;

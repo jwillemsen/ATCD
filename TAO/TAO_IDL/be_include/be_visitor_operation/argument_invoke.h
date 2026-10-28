@@ -35,7 +35,7 @@ public:
   explicit be_visitor_operation_argument_invoke (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_operation_argument_invoke () override;
+  ~be_visitor_operation_argument_invoke () override = default;
   be_visitor_operation_argument_invoke (be_visitor_operation_argument_invoke const &) = delete;
   be_visitor_operation_argument_invoke (be_visitor_operation_argument_invoke &&) = delete;
   be_visitor_operation_argument_invoke &operator= (be_visitor_operation_argument_invoke const &) = delete;

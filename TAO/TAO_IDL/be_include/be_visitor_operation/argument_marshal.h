@@ -31,7 +31,7 @@ public:
   explicit be_visitor_operation_argument_marshal (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_operation_argument_marshal () override;
+  ~be_visitor_operation_argument_marshal () override = default;
   be_visitor_operation_argument_marshal (be_visitor_operation_argument_marshal const &) = delete;
   be_visitor_operation_argument_marshal (be_visitor_operation_argument_marshal &&) = delete;
   be_visitor_operation_argument_marshal &operator= (be_visitor_operation_argument_marshal const &) = delete;

@@ -31,7 +31,7 @@ class be_visitor_operation_svs : public be_visitor_scope
 public:
   explicit be_visitor_operation_svs (be_visitor_context *ctx);
 
-  ~be_visitor_operation_svs () override;
+  ~be_visitor_operation_svs () override = default;
   be_visitor_operation_svs (be_visitor_operation_svs const &) = delete;
   be_visitor_operation_svs (be_visitor_operation_svs &&) = delete;
   be_visitor_operation_svs &operator= (be_visitor_operation_svs const &) = delete;

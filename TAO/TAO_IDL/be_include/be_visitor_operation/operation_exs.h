@@ -33,7 +33,7 @@ class be_visitor_operation_exs : public be_visitor_scope
 public:
   explicit be_visitor_operation_exs (be_visitor_context *ctx);
 
-  ~be_visitor_operation_exs () override;
+  ~be_visitor_operation_exs () override = default;
   be_visitor_operation_exs (be_visitor_operation_exs const &) = delete;
   be_visitor_operation_exs (be_visitor_operation_exs &&) = delete;
   be_visitor_operation_exs &operator= (be_visitor_operation_exs const &) = delete;

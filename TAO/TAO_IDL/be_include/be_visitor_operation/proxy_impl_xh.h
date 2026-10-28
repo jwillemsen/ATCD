@@ -28,7 +28,7 @@ public:
   explicit be_visitor_operation_proxy_impl_xh (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_operation_proxy_impl_xh () override;
+  ~be_visitor_operation_proxy_impl_xh () override = default;
   be_visitor_operation_proxy_impl_xh (be_visitor_operation_proxy_impl_xh const &) = delete;
   be_visitor_operation_proxy_impl_xh (be_visitor_operation_proxy_impl_xh &&) = delete;
   be_visitor_operation_proxy_impl_xh &operator= (be_visitor_operation_proxy_impl_xh const &) = delete;

@@ -23,8 +23,6 @@ be_visitor_operation_arglist::be_visitor_operation_arglist (
 {
 }
 
-be_visitor_operation_arglist::~be_visitor_operation_arglist () = default;
-
 int
 be_visitor_operation_arglist::visit_operation (be_operation *node)
 {

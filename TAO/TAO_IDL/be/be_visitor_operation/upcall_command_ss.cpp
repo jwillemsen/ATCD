@@ -18,8 +18,6 @@ be_visitor_operation_upcall_command_ss::be_visitor_operation_upcall_command_ss (
 {
 }
 
-be_visitor_operation_upcall_command_ss::~be_visitor_operation_upcall_command_ss () = default;
-
 int
 be_visitor_operation_upcall_command_ss::visit (
   be_operation * node,

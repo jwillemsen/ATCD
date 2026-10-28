@@ -21,8 +21,6 @@ be_visitor_operation_smart_proxy_ch::be_visitor_operation_smart_proxy_ch (
 {
 }
 
-be_visitor_operation_smart_proxy_ch::~be_visitor_operation_smart_proxy_ch () = default;
-
 int
 be_visitor_operation_smart_proxy_ch::visit_operation (be_operation *node)
 {

@@ -18,8 +18,6 @@ be_visitor_operation_tie_sh::be_visitor_operation_tie_sh (
 {
 }
 
-be_visitor_operation_tie_sh::~be_visitor_operation_tie_sh () = default;
-
 int
 be_visitor_operation_tie_sh::visit_operation (be_operation *node)
 {

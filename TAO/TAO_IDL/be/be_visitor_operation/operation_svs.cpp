@@ -20,8 +20,6 @@ be_visitor_operation_svs::be_visitor_operation_svs (
 {
 }
 
-be_visitor_operation_svs::~be_visitor_operation_svs () = default;
-
 int
 be_visitor_operation_svs::visit_operation (be_operation *node)
 {

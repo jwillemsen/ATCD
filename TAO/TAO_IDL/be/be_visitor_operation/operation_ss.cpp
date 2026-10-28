@@ -18,8 +18,6 @@ be_visitor_operation_ss::be_visitor_operation_ss (be_visitor_context *ctx)
 {
 }
 
-be_visitor_operation_ss::~be_visitor_operation_ss () = default;
-
 int
 be_visitor_operation_ss::visit_operation (be_operation * node)
 {

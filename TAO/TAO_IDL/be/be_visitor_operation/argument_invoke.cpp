@@ -24,8 +24,6 @@ be_visitor_operation_argument_invoke::be_visitor_operation_argument_invoke (
 {
 }
 
-be_visitor_operation_argument_invoke::~be_visitor_operation_argument_invoke () = default;
-
 int
 be_visitor_operation_argument_invoke::pre_process (be_decl *bd)
 {

@@ -20,8 +20,6 @@ be_visitor_operation_cs::be_visitor_operation_cs (be_visitor_context *ctx)
 {
 }
 
-be_visitor_operation_cs::~be_visitor_operation_cs () = default;
-
 // Processing to be done after every element in the scope is processed.
 int
 be_visitor_operation_cs::post_process (be_decl *bd)

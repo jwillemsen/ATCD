@@ -17,8 +17,6 @@ be_visitor_valuebox_ci::be_visitor_valuebox_ci (be_visitor_context *ctx)
 {
 }
 
-be_visitor_valuebox_ci::~be_visitor_valuebox_ci () = default;
-
 int
 be_visitor_valuebox_ci::visit_valuebox (be_valuebox *node)
 {

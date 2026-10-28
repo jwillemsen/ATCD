@@ -29,8 +29,6 @@ be_visitor_valuebox_field_ch::be_visitor_valuebox_field_ch (
 {
 }
 
-be_visitor_valuebox_field_ch::~be_visitor_valuebox_field_ch () = default;
-
 int
 be_visitor_valuebox_field_ch::visit_field (be_field *node)
 {

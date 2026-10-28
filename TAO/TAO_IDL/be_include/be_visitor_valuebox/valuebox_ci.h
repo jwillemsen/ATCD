@@ -31,7 +31,7 @@ public:
   explicit be_visitor_valuebox_ci (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_valuebox_ci () override;
+  ~be_visitor_valuebox_ci () override = default;
 
   be_visitor_valuebox_ci (be_visitor_valuebox_ci const &) = delete;
   be_visitor_valuebox_ci (be_visitor_valuebox_ci &&) = delete;

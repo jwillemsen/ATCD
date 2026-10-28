@@ -24,8 +24,6 @@ be_visitor_valuebox_union_member_ci::be_visitor_valuebox_union_member_ci (
 {
 }
 
-be_visitor_valuebox_union_member_ci::~be_visitor_valuebox_union_member_ci () = default;
-
 int
 be_visitor_valuebox_union_member_ci::visit_union_member (be_union_branch *node)
 {

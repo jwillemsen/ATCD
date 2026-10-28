@@ -82,6 +82,11 @@ public:
 
   ~UTL_Indenter () = default;
 
+  UTL_Indenter (UTL_Indenter const &) = delete;
+  UTL_Indenter (UTL_Indenter &&) = delete;
+  UTL_Indenter &operator= (UTL_Indenter const &) = delete;
+  UTL_Indenter &operator= (UTL_Indenter &&) = delete;
+
   void reset ();
   // Reset indentation level to 0.
 

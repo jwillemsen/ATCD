@@ -16,7 +16,7 @@ public:
   AST_UnionFwd (AST_Union *dummy,
                 UTL_ScopedName *n);
 
-  ~AST_UnionFwd () override;
+  ~AST_UnionFwd () override = default;
 
   // Cleanup function.
   void destroy () override;

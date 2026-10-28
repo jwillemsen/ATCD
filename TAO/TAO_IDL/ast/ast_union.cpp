@@ -194,8 +194,6 @@ AST_Union::AST_Union (AST_ConcreteType *dt,
     }
 }
 
-AST_Union::~AST_Union () = default;
-
 // Public operations.
 
 void

@@ -90,7 +90,7 @@ public:
   AST_UnionLabel &operator= (AST_UnionLabel const &) = delete;
   AST_UnionLabel &operator= (AST_UnionLabel &&) = delete;
 
-  virtual ~AST_UnionLabel ();
+  virtual ~AST_UnionLabel () = default;
 
   UnionLabel label_kind () const;
 

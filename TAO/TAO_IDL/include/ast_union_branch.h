@@ -87,7 +87,7 @@ public:
   AST_UnionBranch &operator= (AST_UnionBranch const &) = delete;
   AST_UnionBranch &operator= (AST_UnionBranch &&) = delete;
 
-  ~AST_UnionBranch () override;
+  ~AST_UnionBranch () override = default;
 
   UTL_LabelList *labels ();
   UTL_LabelList const *labels () const;

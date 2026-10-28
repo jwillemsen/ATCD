@@ -87,7 +87,7 @@ public:
              bool local,
              bool abstract);
 
-  ~AST_Union () override;
+  ~AST_Union () override = default;
 
   // This also calls the base class version.
   void redefine (AST_Structure *from) override;

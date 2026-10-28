@@ -19,8 +19,6 @@ be_visitor_args::be_visitor_args (be_visitor_context *ctx)
 {
 }
 
-be_visitor_args::~be_visitor_args () = default;
-
 int be_visitor_args::visit_argument (be_argument *)
 {
   return -1;

@@ -28,7 +28,7 @@ public:
   explicit be_visitor_args_vardecl_ss (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_args_vardecl_ss () override;
+  ~be_visitor_args_vardecl_ss () override = default;
   be_visitor_args_vardecl_ss (be_visitor_args_vardecl_ss const &) = delete;
   be_visitor_args_vardecl_ss (be_visitor_args_vardecl_ss &&) = delete;
   be_visitor_args_vardecl_ss &operator= (be_visitor_args_vardecl_ss const &) = delete;

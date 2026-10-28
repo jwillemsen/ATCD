@@ -25,7 +25,7 @@ class be_visitor_typecode_decl : public be_visitor_decl
 {
 public:
   explicit be_visitor_typecode_decl (be_visitor_context *ctx);
-  ~be_visitor_typecode_decl () override;
+  ~be_visitor_typecode_decl () override = default;
 
   be_visitor_typecode_decl (be_visitor_typecode_decl const &) = delete;
   be_visitor_typecode_decl (be_visitor_typecode_decl &&) = delete;

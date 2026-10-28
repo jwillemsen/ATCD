@@ -21,8 +21,6 @@ be_visitor_typecode_decl::be_visitor_typecode_decl (be_visitor_context *ctx)
     }
 }
 
-be_visitor_typecode_decl::~be_visitor_typecode_decl () = default;
-
 int
 be_visitor_typecode_decl::visit_type (be_type *node)
 {

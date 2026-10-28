@@ -31,7 +31,7 @@ public:
   explicit be_visitor_map_buffer_type (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_map_buffer_type () override;
+  ~be_visitor_map_buffer_type () override = default;
 
   be_visitor_map_buffer_type (const be_visitor_map_buffer_type &) = delete;
   be_visitor_map_buffer_type (be_visitor_map_buffer_type &&) = delete;

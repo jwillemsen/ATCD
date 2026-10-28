@@ -288,7 +288,7 @@ AST_ValueType::look_in_supported (UTL_ScopedName *e,
                 {
                   ACE_ERROR ((LM_ERROR,
                               "warning in %C line %d: ",
-                              idl_global->filename ()->get_string (),
+                              idl_global->filename ()->get_string_view_or_empty ().data (),
                               idl_global->lineno ()));
 
                   e->dump (*ACE_DEFAULT_LOG_STREAM);

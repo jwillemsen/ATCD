@@ -239,7 +239,7 @@ DRV_drive (char const *s)
       // Filename set by FE_yyparse(), so we output it immediately after.
       ACE_DEBUG ((LM_DEBUG,
                   ACE_TEXT("processing %C\n"),
-                  idl_global->filename ()->get_string ()));
+                  idl_global->filename ()->get_string_view_or_empty ().data ()));
     }
 
   // We must do this as late as possible to make sure any

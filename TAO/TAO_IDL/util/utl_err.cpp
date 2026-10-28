@@ -722,13 +722,7 @@ parse_state_to_error_message (IDL_GlobalData::ParseState ps)
   }
 }
 
-UTL_Error::UTL_Error ()
-  : last_error (EIDL_OK),
-    last_error_lineno (-1),
-    last_warning (EIDL_OK),
-    last_warning_lineno (-1)
-{
-}
+UTL_Error::UTL_Error () = default;
 
 // Public methods.
 

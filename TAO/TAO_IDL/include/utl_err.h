@@ -165,10 +165,10 @@ public:
     EIDL_OK                     // No error
   };
 
-  ErrorCode last_error;
-  long last_error_lineno;
-  ErrorCode last_warning;
-  long last_warning_lineno;
+  ErrorCode last_error {EIDL_OK};
+  long last_error_lineno {-1};
+  ErrorCode last_warning {EIDL_OK};
+  long last_warning_lineno {-1};
 
   // Operations
 

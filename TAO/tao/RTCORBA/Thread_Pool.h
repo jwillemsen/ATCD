@@ -55,6 +55,11 @@ public:
 private:
   /// Lane associated with this leader generator.
   TAO_Thread_Lane &lane_;
+
+  TAO_RT_New_Leader_Generator (TAO_RT_New_Leader_Generator const &) = delete;
+  TAO_RT_New_Leader_Generator &operator= (TAO_RT_New_Leader_Generator const &) = delete;
+  TAO_RT_New_Leader_Generator (TAO_RT_New_Leader_Generator &&) = delete;
+  TAO_RT_New_Leader_Generator &operator= (TAO_RT_New_Leader_Generator &&) = delete;
 };
 
 /**
@@ -250,6 +255,11 @@ private:
 
   /// Lock to guard all members of the lane
   mutable TAO_SYNCH_MUTEX lock_;
+
+  TAO_Thread_Lane (TAO_Thread_Lane const &) = delete;
+  TAO_Thread_Lane &operator= (TAO_Thread_Lane const &) = delete;
+  TAO_Thread_Lane (TAO_Thread_Lane &&) = delete;
+  TAO_Thread_Lane &operator= (TAO_Thread_Lane &&) = delete;
 };
 
 class TAO_Thread_Pool_Manager;
@@ -347,6 +357,11 @@ private:
   TAO_Thread_Lane **lanes_;
   CORBA::ULong number_of_lanes_;
   bool with_lanes_;
+
+  TAO_Thread_Pool (TAO_Thread_Pool const &) = delete;
+  TAO_Thread_Pool &operator= (TAO_Thread_Pool const &) = delete;
+  TAO_Thread_Pool (TAO_Thread_Pool &&) = delete;
+  TAO_Thread_Pool &operator= (TAO_Thread_Pool &&) = delete;
 };
 
 class TAO_ORB_Core;
@@ -450,6 +465,11 @@ private:
   THREAD_POOLS thread_pools_;
   RTCORBA::ThreadpoolId thread_pool_id_counter_;
   TAO_SYNCH_MUTEX lock_;
+
+  TAO_Thread_Pool_Manager (TAO_Thread_Pool_Manager const &) = delete;
+  TAO_Thread_Pool_Manager &operator= (TAO_Thread_Pool_Manager const &) = delete;
+  TAO_Thread_Pool_Manager (TAO_Thread_Pool_Manager &&) = delete;
+  TAO_Thread_Pool_Manager &operator= (TAO_Thread_Pool_Manager &&) = delete;
 };
 
 TAO_END_VERSIONED_NAMESPACE_DECL

@@ -5,7 +5,7 @@
 
 AST_Annotation_Appls::AST_Annotation_Appls () = default;
 
-AST_Annotation_Appls::AST_Annotation_Appls (const AST_Annotation_Appls& other)
+AST_Annotation_Appls::AST_Annotation_Appls (AST_Annotation_Appls const &other)
 {
   *this = other;
 }
@@ -13,7 +13,7 @@ AST_Annotation_Appls::AST_Annotation_Appls (const AST_Annotation_Appls& other)
 AST_Annotation_Appls::~AST_Annotation_Appls () = default;
 
 AST_Annotation_Appls &
-AST_Annotation_Appls::operator= (const AST_Annotation_Appls& other)
+AST_Annotation_Appls::operator= (AST_Annotation_Appls const &other)
 {
   vector_.clear ();
   add (other);
@@ -27,7 +27,7 @@ AST_Annotation_Appls::add (AST_Annotation_Appl *appl)
 }
 
 void
-AST_Annotation_Appls::add (const AST_Annotation_Appls &other)
+AST_Annotation_Appls::add (AST_Annotation_Appls const &other)
 {
   for (const_iterator i = other.begin (); i != other.end (); ++i)
     {

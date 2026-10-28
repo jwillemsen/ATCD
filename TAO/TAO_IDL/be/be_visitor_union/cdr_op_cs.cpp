@@ -17,8 +17,6 @@ be_visitor_union_cdr_op_cs::be_visitor_union_cdr_op_cs (
 {
 }
 
-be_visitor_union_cdr_op_cs::~be_visitor_union_cdr_op_cs () = default;
-
 namespace {
   void
   serialize_disc (TAO_OutStream *os, AST_Expression::ExprType disc_type, bool out)

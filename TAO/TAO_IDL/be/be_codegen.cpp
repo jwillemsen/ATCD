@@ -223,14 +223,12 @@ TAO_CodeGen::start_client_header (const std::string &fname)
           std::string const &idl_name = idl_global->included_idl_files ()[j];
 
           // Make a String out of it.
-          UTL_String idl_name_str (idl_name.c_str ());
+          UTL_String idl_name_str (idl_name);
 
           // Get the clnt header from the IDL file name.
           std::string const client_hdr =
             BE_GlobalData::be_get_client_hdr (&idl_name_str,
                                               true);
-
-          idl_name_str.destroy ();
 
           // Sanity check and then print.
           if (!client_hdr.empty ())
@@ -251,14 +249,12 @@ TAO_CodeGen::start_client_header (const std::string &fname)
   for (std::string const &idl_name : idl_global->ciao_ami_idl_fnames ())
     {
       // Make a String out of it.
-      UTL_String idl_name_str (idl_name.c_str ());
+      UTL_String idl_name_str (idl_name);
 
       // Get the clnt header from the IDL file name.
       std::string const client_hdr =
         BE_GlobalData::be_get_client_hdr (&idl_name_str,
                                           true);
-
-      idl_name_str.destroy ();
 
       // Sanity check and then print.
       if (!client_hdr.empty ())
@@ -452,12 +448,10 @@ TAO_CodeGen::start_server_header (const std::string &fname)
       std::string const &idl_name = idl_global->included_idl_files ()[j];
 
       // String'ifying the name.
-      UTL_String idl_name_str (idl_name.c_str ());
+      UTL_String idl_name_str (idl_name);
 
       std::string const server_hdr =
         BE_GlobalData::be_get_server_hdr (&idl_name_str, true);
-
-      idl_name_str.destroy ();
 
       this->server_header_->print ("\n#include \"%s\"",
                                    server_hdr.c_str ());
@@ -816,12 +810,10 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
           if (got_pidl)
             {
               // Make a String out of it.
-              UTL_String idl_name_str (idl_name.c_str ());
+              UTL_String idl_name_str (idl_name);
 
               std::string const anyop_hdr =
                 BE_GlobalData::be_get_anyop_header (&idl_name_str, true);
-
-              idl_name_str.destroy ();
 
               // Stripped off any scope in the name and add the
               // AnyTypeCode prefix.
@@ -2446,12 +2438,10 @@ TAO_CodeGen::gen_stub_hdr_includes ()
           if (got_pidl)
             {
               // Make a String out of it.
-              UTL_String idl_name_str (idl_name.c_str ());
+              UTL_String idl_name_str (idl_name);
 
               std::string const anyop_hdr =
                 BE_GlobalData::be_get_anyop_header (&idl_name_str, true);
-
-              idl_name_str.destroy ();
 
               // Stripped off any scope in the name and add the
               // AnyTypeCode prefix.
@@ -3413,11 +3403,10 @@ TAO_CodeGen::gen_conn_hdr_includes ()
           continue;
         }
 
-      UTL_String str (idl_name.c_str ());
+      UTL_String str (idl_name);
 
       this->gen_standard_include (this->ciao_conn_header_, BE_GlobalData::be_get_server_hdr (&str, true));
 
-      str.destroy ();
     }
 
   this->gen_standard_include (

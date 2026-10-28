@@ -39,6 +39,12 @@ class TAO_FT_ClientPolicyFactory
   , public ::CORBA::LocalObject
 {
 public:
+  TAO_FT_ClientPolicyFactory () = default;
+  TAO_FT_ClientPolicyFactory (TAO_FT_ClientPolicyFactory const &) = delete;
+  TAO_FT_ClientPolicyFactory &operator= (TAO_FT_ClientPolicyFactory const &) = delete;
+  TAO_FT_ClientPolicyFactory (TAO_FT_ClientPolicyFactory &&) = delete;
+  TAO_FT_ClientPolicyFactory &operator= (TAO_FT_ClientPolicyFactory &&) = delete;
+
   CORBA::Policy_ptr create_policy (CORBA::PolicyType type,
                                    CORBA::Any const& value) override;
 };

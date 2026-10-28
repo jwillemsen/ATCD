@@ -29,6 +29,12 @@ class TAO_FT_ServerORBInitializer
   , public virtual ::CORBA::LocalObject
 {
 public:
+  TAO_FT_ServerORBInitializer () = default;
+  TAO_FT_ServerORBInitializer (TAO_FT_ServerORBInitializer const &) = delete;
+  TAO_FT_ServerORBInitializer &operator= (TAO_FT_ServerORBInitializer const &) = delete;
+  TAO_FT_ServerORBInitializer (TAO_FT_ServerORBInitializer &&) = delete;
+  TAO_FT_ServerORBInitializer &operator= (TAO_FT_ServerORBInitializer &&) = delete;
+
   void pre_init (PortableInterceptor::ORBInitInfo_ptr info) override;
 
   void post_init (PortableInterceptor::ORBInitInfo_ptr info) override;

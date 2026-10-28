@@ -38,6 +38,11 @@ class TAO_FT_ServerORB_Export TAO_FT_ServerService_Activate
 : public ACE_Service_Object
 {
 public:
+  TAO_FT_ServerService_Activate (TAO_FT_ServerService_Activate const &) = delete;
+  TAO_FT_ServerService_Activate &operator= (TAO_FT_ServerService_Activate const &) = delete;
+  TAO_FT_ServerService_Activate (TAO_FT_ServerService_Activate &&) = delete;
+  TAO_FT_ServerService_Activate &operator= (TAO_FT_ServerService_Activate &&) = delete;
+
   /// Constructor
   TAO_FT_ServerService_Activate ();
 

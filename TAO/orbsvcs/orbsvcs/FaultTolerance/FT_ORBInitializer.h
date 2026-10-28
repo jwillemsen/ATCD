@@ -37,6 +37,12 @@ class TAO_FT_ORBInitializer
   , public virtual ::CORBA::LocalObject
 {
 public:
+  TAO_FT_ORBInitializer () = default;
+  TAO_FT_ORBInitializer (TAO_FT_ORBInitializer const &) = delete;
+  TAO_FT_ORBInitializer &operator= (TAO_FT_ORBInitializer const &) = delete;
+  TAO_FT_ORBInitializer (TAO_FT_ORBInitializer &&) = delete;
+  TAO_FT_ORBInitializer &operator= (TAO_FT_ORBInitializer &&) = delete;
+
   void pre_init (PortableInterceptor::ORBInitInfo_ptr info) override;
 
   void post_init (PortableInterceptor::ORBInitInfo_ptr info) override;

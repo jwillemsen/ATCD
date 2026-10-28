@@ -40,6 +40,11 @@ class TAO_Service_Callbacks;
 class TAO_FT_ClientORB_Export TAO_FT_ClientService_Activate : public TAO_Services_Activate
 {
 public:
+  TAO_FT_ClientService_Activate (TAO_FT_ClientService_Activate const &) = delete;
+  TAO_FT_ClientService_Activate &operator= (TAO_FT_ClientService_Activate const &) = delete;
+  TAO_FT_ClientService_Activate (TAO_FT_ClientService_Activate &&) = delete;
+  TAO_FT_ClientService_Activate &operator= (TAO_FT_ClientService_Activate &&) = delete;
+
   /// Constructor
   TAO_FT_ClientService_Activate ();
 

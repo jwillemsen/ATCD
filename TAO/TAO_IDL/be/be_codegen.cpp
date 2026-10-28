@@ -100,7 +100,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->client_header_->open (fname.c_str (), TAO_OutStream::TAO_CLI_HDR) == -1)
+  if (this->client_header_->open (fname, TAO_OutStream::TAO_CLI_HDR) == -1)
     {
       return -1;
     }
@@ -317,7 +317,7 @@ TAO_CodeGen::start_client_stubs (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->client_stubs_->open (fname.c_str (), TAO_OutStream::TAO_CLI_IMPL) == -1)
+  if (this->client_stubs_->open (fname, TAO_OutStream::TAO_CLI_IMPL) == -1)
     {
       return -1;
     }
@@ -366,7 +366,7 @@ TAO_CodeGen::start_client_inline (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->client_inline_->open (fname.c_str (), TAO_OutStream::TAO_CLI_INL) == -1)
+  if (this->client_inline_->open (fname, TAO_OutStream::TAO_CLI_INL) == -1)
     {
       return -1;
     }
@@ -401,7 +401,7 @@ TAO_CodeGen::start_server_header (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->server_header_->open (fname.c_str (), TAO_OutStream::TAO_SVR_HDR) == -1)
+  if (this->server_header_->open (fname, TAO_OutStream::TAO_SVR_HDR) == -1)
     {
       return -1;
     }
@@ -524,7 +524,7 @@ TAO_CodeGen::start_server_template_header (const std::string &fname)
 
   int status =
     this->server_template_header_->open (
-      fname.c_str (),
+      fname,
       TAO_OutStream::TAO_SVR_TMPL_HDR);
 
   if (status == -1)
@@ -576,7 +576,7 @@ TAO_CodeGen::start_server_skeletons (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->server_skeletons_->open (fname.c_str (),
+  if (this->server_skeletons_->open (fname,
                                      TAO_OutStream::TAO_SVR_IMPL)
         == -1)
     {
@@ -636,7 +636,7 @@ TAO_CodeGen::start_server_template_skeletons (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->server_template_skeletons_->open (fname.c_str (),
+  if (this->server_template_skeletons_->open (fname,
                                               TAO_OutStream::TAO_SVR_TMPL_IMPL)
         == -1)
     {
@@ -693,7 +693,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->anyop_header_->open (fname.c_str (),
+  if (this->anyop_header_->open (fname,
                                  TAO_OutStream::TAO_CLI_HDR)
        == -1)
     {
@@ -883,7 +883,7 @@ TAO_CodeGen::start_anyop_source (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->anyop_source_->open (fname.c_str (), TAO_OutStream::TAO_CLI_IMPL) == -1)
+  if (this->anyop_source_->open (fname, TAO_OutStream::TAO_CLI_IMPL) == -1)
     {
       ACE_ERROR_RETURN ((LM_ERROR,
                          "TAO_CodeGen::start_anyop_source - "
@@ -941,7 +941,7 @@ TAO_CodeGen::start_ciao_svnt_header (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_svnt_header_->open (fname.c_str (),
+    this->ciao_svnt_header_->open (fname,
                                    TAO_OutStream::CIAO_SVNT_HDR);
 
   if (status == -1)
@@ -1037,7 +1037,7 @@ TAO_CodeGen::start_ciao_svnt_source (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_svnt_source_->open (fname.c_str (),
+    this->ciao_svnt_source_->open (fname,
                                    TAO_OutStream::CIAO_SVNT_IMPL);
 
   if (status == -1)
@@ -1078,7 +1078,7 @@ TAO_CodeGen::start_ciao_svnt_template_header (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_svnt_template_header_->open (fname.c_str (),
+    this->ciao_svnt_template_header_->open (fname,
                                             TAO_OutStream::CIAO_SVNT_T_HDR);
 
   if (status == -1)
@@ -1156,7 +1156,7 @@ TAO_CodeGen::start_ciao_svnt_template_source (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_svnt_template_source_->open (fname.c_str (),
+    this->ciao_svnt_template_source_->open (fname,
                                             TAO_OutStream::CIAO_SVNT_T_IMPL);
 
   if (status == -1)
@@ -1221,7 +1221,7 @@ TAO_CodeGen::start_ciao_exec_header (const std::string &fname)
                   -1);
 
   int status =
-   this->ciao_exec_header_->open (fname.c_str (),
+   this->ciao_exec_header_->open (fname,
                                   TAO_OutStream::CIAO_EXEC_HDR);
 
   if (status == -1)
@@ -1274,7 +1274,7 @@ TAO_CodeGen::start_ciao_exec_source (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_exec_source_->open (fname.c_str (),
+    this->ciao_exec_source_->open (fname,
                                    TAO_OutStream::CIAO_EXEC_IMPL);
   if (status == -1)
     {
@@ -1316,7 +1316,7 @@ TAO_CodeGen::start_ciao_exec_idl (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_exec_idl_->open (fname.c_str (),
+    this->ciao_exec_idl_->open (fname,
                                 TAO_OutStream::CIAO_EXEC_IDL);
 
   if (status == -1)
@@ -1359,7 +1359,7 @@ TAO_CodeGen::start_ciao_conn_header (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_conn_header_->open (fname.c_str (),
+    this->ciao_conn_header_->open (fname,
                                    TAO_OutStream::CIAO_CONN_HDR);
 
   if (status == -1)
@@ -1424,7 +1424,7 @@ TAO_CodeGen::start_ciao_conn_source (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_conn_source_->open (fname.c_str (),
+    this->ciao_conn_source_->open (fname,
                                    TAO_OutStream::CIAO_CONN_IMPL);
 
   if (status == -1)
@@ -1465,7 +1465,7 @@ TAO_CodeGen::start_ciao_ami_conn_idl (const std::string &fname)
                   -1);
 
   int status =
-    this->ciao_ami_conn_idl_->open (fname.c_str (),
+    this->ciao_ami_conn_idl_->open (fname,
                                     TAO_OutStream::CIAO_AMI4CCM_CONN_IDL);
 
   if (status == -1)
@@ -1508,7 +1508,7 @@ TAO_CodeGen::start_implementation_header (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->implementation_header_->open (fname.c_str (),
+  if (this->implementation_header_->open (fname,
                                           TAO_OutStream::TAO_IMPL_HDR) == -1)
     {
       return -1;
@@ -1561,7 +1561,7 @@ TAO_CodeGen::start_implementation_skeleton (const std::string &fname)
                   TAO_OutStream,
                   -1);
 
-  if (this->implementation_skeleton_->open (fname.c_str (),
+  if (this->implementation_skeleton_->open (fname,
                                             TAO_OutStream::TAO_IMPL_SKEL)
         == -1)
     {
@@ -2082,7 +2082,7 @@ TAO_CodeGen::gen_export_file (std::string_view filename,
 
   TAO_OutStream os;
 
-  if (os.open (file_str.c_str ()) == -1)
+  if (os.open (file_str) == -1)
     {
       ACE_ERROR ((LM_ERROR,
                   ACE_TEXT ("TAO_CodeGen::gen_export_file() - ")

@@ -925,7 +925,7 @@ be_interface::gen_operation_table (std::string_view flat_name,
         tao_cg->gperf_input_stream (os);
 
         // Open the temp file.
-        if (os->open (temp_file.c_str (),
+        if (os->open (temp_file,
                       TAO_OutStream::TAO_GPERF_INPUT) == -1)
           {
             ACE_ERROR_RETURN ((LM_ERROR,

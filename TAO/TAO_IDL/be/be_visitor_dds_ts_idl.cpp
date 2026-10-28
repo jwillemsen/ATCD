@@ -334,7 +334,7 @@ be_visitor_dds_ts_idl::init_file ()
                   TAO_OutStream,
                   -1);
 
-  int status = this->os_ptr_->open (fname.c_str ());
+  int status = this->os_ptr_->open (fname);
 
   if (status == -1)
     {

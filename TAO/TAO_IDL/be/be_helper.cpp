@@ -99,33 +99,27 @@ TAO_OutStream::~TAO_OutStream ()
 }
 
 int
-TAO_OutStream::open (const char *fname,
+TAO_OutStream::open (std::string_view fname,
                      TAO_OutStream::STREAM_TYPE st)
 {
   this->pending_whitespace_.clear ();
-  if (fname != nullptr)
+  // File name exists, open an I/O file handle.
+  std::string const filename (fname);
+  this->fp_ = ACE_OS::fopen (filename.c_str (), "w");
+
+  if (this->fp_ != nullptr)
     {
-      // File name exists, open an I/O file handle.
-      this->fp_ = ACE_OS::fopen (fname, "w");
-
-      if (this->fp_ != nullptr)
+      this->st_ = st;
+      // Put the copyright notice.  Not for the gperf's temp input
+      // file.
+      if (st != TAO_OutStream::TAO_GPERF_INPUT)
         {
-          this->st_ = st;
-          // Put the copyright notice.  Not for the gperf's temp input
-          // file.
-          if (st != TAO_OutStream::TAO_GPERF_INPUT)
-            {
-              ACE_OS::fprintf (this->fp_,
-                               "%s\n",
-                               copyright);
-            }
+          ACE_OS::fprintf (this->fp_,
+                           "%s\n",
+                           copyright);
+        }
 
-          return 0;
-        }
-      else
-        {
-          return -1;
-        }
+      return 0;
     }
   else
     {

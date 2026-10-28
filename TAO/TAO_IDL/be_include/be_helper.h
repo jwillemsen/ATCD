@@ -129,7 +129,7 @@ public:
   virtual ~TAO_OutStream ();
 
   /// Open the underlying low-level handle for output.
-  int open (const char *fname,
+  int open (std::string_view fname,
             TAO_OutStream::STREAM_TYPE st = TAO_OutStream::TAO_CLI_HDR);
 
   /// Set the stream type

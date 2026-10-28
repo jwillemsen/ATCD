@@ -194,13 +194,19 @@ AST_Type::nested_type_name (AST_Decl *use_scope,
 AST_Type *
 AST_Type::unaliased_type ()
 {
-  AST_Type *t = this;
-  AST_Typedef *td = nullptr;
+  return const_cast<AST_Type *> (static_cast<AST_Type const *> (this)->unaliased_type ());
+}
+
+AST_Type const *
+AST_Type::unaliased_type () const
+{
+  AST_Type const *t = this;
+  AST_Typedef const *td = nullptr;
   AST_Decl::NodeType nt = this->node_type ();
 
   while (nt == AST_Decl::NT_typedef)
     {
-      td = dynamic_cast<AST_Typedef*> (t);
+      td = dynamic_cast<AST_Typedef const*> (t);
       t = td->base_type ();
       nt = t->node_type ();
     }

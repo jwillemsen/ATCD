@@ -394,8 +394,8 @@ be_visitor_operation::gen_arg_template_param_name (AST_Decl *scope,
 
   if (nt == AST_Decl::NT_string || nt == AST_Decl::NT_wstring)
     {
-      AST_String *s =
-        dynamic_cast<AST_String*> (bt->unaliased_type  ());
+      AST_String const *s =
+        dynamic_cast<AST_String const*> (bt->unaliased_type  ());
       bound = s->max_size ()->ev ()->u.ulval;
 
       // If the (w)string is unbounded, code is generated below by the
@@ -428,7 +428,7 @@ be_visitor_operation::gen_arg_template_param_name (AST_Decl *scope,
 
   // We need the unaliased type name to make the code block below
   // work correctly.
-  AST_Type *ut = bt->unaliased_type ();
+  AST_Type const *ut = bt->unaliased_type ();
   nt = ut->node_type ();
 
   if (nt == AST_Decl::NT_fixed)
@@ -441,8 +441,8 @@ be_visitor_operation::gen_arg_template_param_name (AST_Decl *scope,
   // type, in order to disambiguate the template parameter.
   if (nt == AST_Decl::NT_pre_defined)
     {
-      AST_PredefinedType *pdt =
-        dynamic_cast<AST_PredefinedType*> (ut);
+      AST_PredefinedType const *pdt =
+        dynamic_cast<AST_PredefinedType const*> (ut);
 
       switch (pdt->pt ())
         {

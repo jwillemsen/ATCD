@@ -129,6 +129,7 @@ public:
 
   // Utility function to make sure we are using the unaliased type.
   AST_Type *unaliased_type ();
+  AST_Type const *unaliased_type () const;
 
   // Recursively called on valuetype to check for legal use as
   // a primary key. Overridden for valuetype, struct, sequence,

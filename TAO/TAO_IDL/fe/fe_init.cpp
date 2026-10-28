@@ -269,7 +269,7 @@ fe_populate_global_scope ()
 void
 fe_populate_idl_keywords ()
 {
-  static constexpr char const *keywords[] =
+  static constexpr std::string_view keywords[] =
     {
       "ABSTRACT",
       "ALIAS",
@@ -344,11 +344,9 @@ fe_populate_idl_keywords ()
 
   std::unordered_set<std::string> &keywords_set = idl_global->idl_keywords ();
 
-  u_long length = sizeof (keywords) / sizeof (char *);
-
-  for (u_long i = 0; i < length; ++i)
+  for (std::string_view const keyword : keywords)
     {
-      keywords_set.insert (keywords[i]);
+      keywords_set.emplace (keyword);
     }
 }
 

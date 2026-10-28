@@ -25,7 +25,7 @@ class be_visitor_exception_ch : public be_visitor_exception
 {
 public:
   explicit be_visitor_exception_ch (be_visitor_context *ctx);
-  ~be_visitor_exception_ch () override;
+  ~be_visitor_exception_ch () override = default;
   be_visitor_exception_ch (be_visitor_exception_ch const &) = delete;
   be_visitor_exception_ch (be_visitor_exception_ch &&) = delete;
   be_visitor_exception_ch &operator= (be_visitor_exception_ch const &) = delete;

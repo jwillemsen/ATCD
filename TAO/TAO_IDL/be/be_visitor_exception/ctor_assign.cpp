@@ -19,8 +19,6 @@ be_visitor_exception_ctor_assign::be_visitor_exception_ctor_assign (
 {
 }
 
-be_visitor_exception_ctor_assign::~be_visitor_exception_ctor_assign () = default;
-
 int
 be_visitor_exception_ctor_assign::visit_exception (be_exception *node)
 {

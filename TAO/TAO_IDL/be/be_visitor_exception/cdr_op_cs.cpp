@@ -17,8 +17,6 @@ be_visitor_exception_cdr_op_cs::be_visitor_exception_cdr_op_cs (
 {
 }
 
-be_visitor_exception_cdr_op_cs::~be_visitor_exception_cdr_op_cs () = default;
-
 int
 be_visitor_exception_cdr_op_cs::visit_exception (be_exception *node)
 {

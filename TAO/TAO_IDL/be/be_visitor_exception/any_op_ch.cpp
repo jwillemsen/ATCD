@@ -17,8 +17,6 @@ be_visitor_exception_any_op_ch::be_visitor_exception_any_op_ch (
 {
 }
 
-be_visitor_exception_any_op_ch::~be_visitor_exception_any_op_ch () = default;
-
 int
 be_visitor_exception_any_op_ch::visit_exception (be_exception *node)
 {

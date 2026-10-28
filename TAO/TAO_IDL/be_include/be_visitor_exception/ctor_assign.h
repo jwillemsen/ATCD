@@ -24,7 +24,7 @@ class be_visitor_exception_ctor_assign : public be_visitor_scope
 {
 public:
   explicit be_visitor_exception_ctor_assign (be_visitor_context *ctx);
-  ~be_visitor_exception_ctor_assign () override;
+  ~be_visitor_exception_ctor_assign () override = default;
   be_visitor_exception_ctor_assign (be_visitor_exception_ctor_assign const &) = delete;
   be_visitor_exception_ctor_assign (be_visitor_exception_ctor_assign &&) = delete;
   be_visitor_exception_ctor_assign &operator= (be_visitor_exception_ctor_assign const &) = delete;

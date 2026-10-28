@@ -28,7 +28,7 @@ class be_visitor_home_svs : public be_visitor_scope
 public:
   explicit be_visitor_home_svs (be_visitor_context *ctx);
 
-  ~be_visitor_home_svs () override;
+  ~be_visitor_home_svs () override = default;
 
   be_visitor_home_svs (const be_visitor_home_svs &) = delete;
   be_visitor_home_svs (be_visitor_home_svs &&) = delete;
@@ -81,7 +81,7 @@ class be_visitor_home_attr_set : public be_visitor_decl
 public:
   explicit be_visitor_home_attr_set (be_visitor_context *ctx);
 
-  ~be_visitor_home_attr_set () override;
+  ~be_visitor_home_attr_set () override = default;
 
   be_visitor_home_attr_set (const be_visitor_home_attr_set &) = delete;
   be_visitor_home_attr_set (be_visitor_home_attr_set &&) = delete;

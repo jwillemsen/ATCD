@@ -20,8 +20,6 @@ be_visitor_home_exh::be_visitor_home_exh (be_visitor_context *ctx)
 {
 }
 
-be_visitor_home_exh::~be_visitor_home_exh () = default;
-
 int
 be_visitor_home_exh::visit_home (be_home *node)
 {

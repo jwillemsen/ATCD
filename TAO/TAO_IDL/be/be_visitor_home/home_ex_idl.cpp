@@ -20,8 +20,6 @@ be_visitor_home_ex_idl::be_visitor_home_ex_idl (
 {
 }
 
-be_visitor_home_ex_idl::~be_visitor_home_ex_idl () = default;
-
 int
 be_visitor_home_ex_idl::visit_home (be_home *node)
 {

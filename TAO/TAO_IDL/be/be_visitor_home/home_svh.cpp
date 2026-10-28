@@ -28,8 +28,6 @@ be_visitor_home_svh::be_visitor_home_svh (be_visitor_context *ctx)
     }
 }
 
-be_visitor_home_svh::~be_visitor_home_svh () = default;
-
 int
 be_visitor_home_svh::visit_home (be_home *node)
 {

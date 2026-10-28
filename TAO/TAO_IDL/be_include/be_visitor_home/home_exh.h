@@ -29,7 +29,7 @@ class be_visitor_home_exh : public be_visitor_scope
 public:
   explicit be_visitor_home_exh (be_visitor_context *ctx);
 
-  ~be_visitor_home_exh () override;
+  ~be_visitor_home_exh () override = default;
 
   be_visitor_home_exh (const be_visitor_home_exh &) = delete;
   be_visitor_home_exh (be_visitor_home_exh &&) = delete;

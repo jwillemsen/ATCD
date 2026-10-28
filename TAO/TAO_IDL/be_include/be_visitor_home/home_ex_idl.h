@@ -29,7 +29,7 @@ class be_visitor_home_ex_idl : public be_visitor_scope
 public:
   explicit be_visitor_home_ex_idl (be_visitor_context *ctx);
 
-  ~be_visitor_home_ex_idl () override;
+  ~be_visitor_home_ex_idl () override = default;
 
   be_visitor_home_ex_idl (const be_visitor_home_ex_idl &) = delete;
   be_visitor_home_ex_idl (be_visitor_home_ex_idl &&) = delete;

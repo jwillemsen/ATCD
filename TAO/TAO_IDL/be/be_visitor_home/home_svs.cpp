@@ -28,8 +28,6 @@ be_visitor_home_svs::be_visitor_home_svs (be_visitor_context *ctx)
     }
 }
 
-be_visitor_home_svs::~be_visitor_home_svs () = default;
-
 int
 be_visitor_home_svs::visit_home (be_home *node)
 {
@@ -439,7 +437,6 @@ be_visitor_home_attr_set::be_visitor_home_attr_set (
 {
 }
 
-be_visitor_home_attr_set::~be_visitor_home_attr_set () = default;
 
 int
 be_visitor_home_attr_set::visit_home (be_home *node)

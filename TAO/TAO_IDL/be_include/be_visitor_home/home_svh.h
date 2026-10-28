@@ -28,7 +28,7 @@ class be_visitor_home_svh : public be_visitor_scope
 public:
   explicit be_visitor_home_svh (be_visitor_context *ctx);
 
-  ~be_visitor_home_svh () override;
+  ~be_visitor_home_svh () override = default;
 
   be_visitor_home_svh (const be_visitor_home_svh &) = delete;
   be_visitor_home_svh (be_visitor_home_svh &&) = delete;

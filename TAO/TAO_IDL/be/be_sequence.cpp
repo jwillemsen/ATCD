@@ -144,11 +144,11 @@ be_sequence::gen_name ()
 
   if (bt == nullptr)
     {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "(%N:%l) be_sequence::"
-                         "gen_name - "
-                         "bad base type\n"),
-                        {});
+      ACE_ERROR ((LM_ERROR,
+                  "(%N:%l) be_sequence::"
+                  "gen_name - "
+                  "bad base type\n"));
+      return {};
     }
 
   // If this is non-zero, add its local name to the generated name,
@@ -162,11 +162,11 @@ be_sequence::gen_name ()
 
       if (seq == nullptr)
         {
-          ACE_ERROR_RETURN ((LM_ERROR,
-                             "(%N:%l) be_sequence::"
-                             "gen_name - "
-                             "error converting base type to sequence\n"),
-                            {});
+          ACE_ERROR ((LM_ERROR,
+                      "(%N:%l) be_sequence::"
+                      "gen_name - "
+                      "error converting base type to sequence\n"));
+          return {};
         }
 
       // If the nested sequence were defined in

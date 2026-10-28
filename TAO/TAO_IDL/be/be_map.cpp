@@ -125,20 +125,20 @@ be_map::gen_name ()
 
   if (kt == nullptr)
     {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "(%N:%l) be_map::"
-                         "gen_name - "
-                         "bad key type\n"),
-                        {});
+      ACE_ERROR ((LM_ERROR,
+                  "(%N:%l) be_map::"
+                  "gen_name - "
+                  "bad key type\n"));
+      return {};
     }
 
   if (vt == nullptr)
     {
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         "(%N:%l) be_map::"
-                         "gen_name - "
-                         "bad value type\n"),
-                        {});
+      ACE_ERROR ((LM_ERROR,
+                  "(%N:%l) be_map::"
+                  "gen_name - "
+                  "bad value type\n"));
+      return {};
     }
 
   std::string namebuf = "_tao_map_";

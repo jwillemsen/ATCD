@@ -16,8 +16,6 @@ be_visitor_array::be_visitor_array (be_visitor_context *ctx)
 {
 }
 
-be_visitor_array::~be_visitor_array () = default;
-
 int be_visitor_array::visit_array (be_array *)
 {
   // Must be overloaded by derived visitors.

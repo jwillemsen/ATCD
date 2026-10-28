@@ -24,7 +24,7 @@ class be_visitor_component_exh
 public:
   explicit be_visitor_component_exh (be_visitor_context *ctx);
 
-  ~be_visitor_component_exh () override;
+  ~be_visitor_component_exh () override = default;
   be_visitor_component_exh (be_visitor_component_exh const &) = delete;
   be_visitor_component_exh (be_visitor_component_exh &&) = delete;
   be_visitor_component_exh &operator= (be_visitor_component_exh const &) = delete;

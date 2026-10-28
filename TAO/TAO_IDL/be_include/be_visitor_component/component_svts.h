@@ -28,7 +28,7 @@ class be_visitor_component_svts : public be_visitor_component
 public:
   explicit be_visitor_component_svts (be_visitor_context *ctx);
 
-  ~be_visitor_component_svts () override;
+  ~be_visitor_component_svts () override = default;
   be_visitor_component_svts (be_visitor_component_svts const &) = delete;
   be_visitor_component_svts (be_visitor_component_svts &&) = delete;
   be_visitor_component_svts &operator= (be_visitor_component_svts const &) = delete;

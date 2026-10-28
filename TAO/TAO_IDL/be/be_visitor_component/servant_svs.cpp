@@ -1036,8 +1036,6 @@ be_visitor_obv_factory_reg::be_visitor_obv_factory_reg (
 {
 }
 
-be_visitor_obv_factory_reg::~be_visitor_obv_factory_reg () = default;
-
 int
 be_visitor_obv_factory_reg::visit_publishes (be_publishes *node)
 {
@@ -1082,7 +1080,6 @@ be_visitor_attr_set::be_visitor_attr_set (be_visitor_context *ctx)
 {
 }
 
-be_visitor_attr_set::~be_visitor_attr_set () = default;
 
 int
 be_visitor_attr_set::visit_attribute (be_attribute *node)
@@ -1160,7 +1157,6 @@ be_visitor_facet_executor_block::be_visitor_facet_executor_block (
 {
 }
 
-be_visitor_facet_executor_block::~be_visitor_facet_executor_block () = default;
 
 int
 be_visitor_facet_executor_block::visit_provides (
@@ -1189,7 +1185,6 @@ be_visitor_connect_block::be_visitor_connect_block (
 {
 }
 
-be_visitor_connect_block::~be_visitor_connect_block () = default;
 
 int
 be_visitor_connect_block::visit_uses (be_uses *node)
@@ -1234,7 +1229,6 @@ be_visitor_disconnect_block::be_visitor_disconnect_block (
 {
 }
 
-be_visitor_disconnect_block::~be_visitor_disconnect_block () = default;
 
 int
 be_visitor_disconnect_block::visit_uses (be_uses *node)
@@ -1278,7 +1272,6 @@ be_visitor_receptacle_desc::be_visitor_receptacle_desc (
   node_ = node;
 }
 
-be_visitor_receptacle_desc::~be_visitor_receptacle_desc () = default;
 
 int
 be_visitor_receptacle_desc::visit_uses (be_uses *node)
@@ -1342,7 +1335,6 @@ be_visitor_subscribe_block::be_visitor_subscribe_block (
 {
 }
 
-be_visitor_subscribe_block::~be_visitor_subscribe_block () = default;
 
 int
 be_visitor_subscribe_block::visit_publishes (
@@ -1375,7 +1367,6 @@ be_visitor_unsubscribe_block::be_visitor_unsubscribe_block (
 {
 }
 
-be_visitor_unsubscribe_block::~be_visitor_unsubscribe_block () = default;
 
 int
 be_visitor_unsubscribe_block::visit_publishes (
@@ -1403,7 +1394,6 @@ be_visitor_event_source_desc::be_visitor_event_source_desc (
 {
 }
 
-be_visitor_event_source_desc::~be_visitor_event_source_desc () = default;
 
 int
 be_visitor_event_source_desc::visit_publishes (
@@ -1447,7 +1437,6 @@ be_visitor_connect_consumer_block::be_visitor_connect_consumer_block (
 {
 }
 
-be_visitor_connect_consumer_block::~be_visitor_connect_consumer_block () = default;
 
 int
 be_visitor_connect_consumer_block::visit_emits (
@@ -1482,7 +1471,6 @@ be_visitor_disconnect_consumer_block::be_visitor_disconnect_consumer_block (
 {
 }
 
-be_visitor_disconnect_consumer_block::~be_visitor_disconnect_consumer_block () = default;
 
 int
 be_visitor_disconnect_consumer_block::visit_emits (
@@ -1510,7 +1498,6 @@ be_visitor_emitter_desc::be_visitor_emitter_desc (
 {
 }
 
-be_visitor_emitter_desc::~be_visitor_emitter_desc () = default;
 
 int
 be_visitor_emitter_desc::visit_emits (be_emits *node)
@@ -1542,7 +1529,6 @@ be_visitor_populate_port_tables::be_visitor_populate_port_tables (
 {
 }
 
-be_visitor_populate_port_tables::~be_visitor_populate_port_tables () = default;
 
 int
 be_visitor_populate_port_tables::visit_provides (

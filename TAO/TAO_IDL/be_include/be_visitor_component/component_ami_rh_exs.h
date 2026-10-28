@@ -28,7 +28,7 @@ class be_visitor_component_ami_rh_exs
 {
 public:
   explicit be_visitor_component_ami_rh_exs (be_visitor_context *ctx);
-  ~be_visitor_component_ami_rh_exs () override;
+  ~be_visitor_component_ami_rh_exs () override = default;
   be_visitor_component_ami_rh_exs (be_visitor_component_ami_rh_exs const &) = delete;
   be_visitor_component_ami_rh_exs (be_visitor_component_ami_rh_exs &&) = delete;
   be_visitor_component_ami_rh_exs &operator= (be_visitor_component_ami_rh_exs const &) = delete;

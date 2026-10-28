@@ -27,7 +27,7 @@ class be_visitor_context_svth : public be_visitor_component_scope
 public:
   explicit be_visitor_context_svth (be_visitor_context *ctx);
 
-  ~be_visitor_context_svth () override;
+  ~be_visitor_context_svth () override = default;
   be_visitor_context_svth (be_visitor_context_svth const &) = delete;
   be_visitor_context_svth (be_visitor_context_svth &&) = delete;
   be_visitor_context_svth &operator= (be_visitor_context_svth const &) = delete;

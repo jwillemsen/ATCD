@@ -28,8 +28,6 @@ be_visitor_component_svs::be_visitor_component_svs (be_visitor_context *ctx)
     }
 }
 
-be_visitor_component_svs::~be_visitor_component_svs () = default;
-
 int
 be_visitor_component_svs::visit_component (be_component *node)
 {

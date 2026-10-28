@@ -20,8 +20,6 @@ be_visitor_component_ex_idl::be_visitor_component_ex_idl (
 {
 }
 
-be_visitor_component_ex_idl::~be_visitor_component_ex_idl () = default;
-
 int
 be_visitor_component_ex_idl::visit_component (
   be_component *node)

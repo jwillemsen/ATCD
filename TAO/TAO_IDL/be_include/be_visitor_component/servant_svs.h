@@ -63,7 +63,7 @@ class be_visitor_obv_factory_reg
 public:
   explicit be_visitor_obv_factory_reg (be_visitor_context *ctx);
 
-  ~be_visitor_obv_factory_reg () override;
+  ~be_visitor_obv_factory_reg () override = default;
   be_visitor_obv_factory_reg (be_visitor_obv_factory_reg const &) = delete;
   be_visitor_obv_factory_reg (be_visitor_obv_factory_reg &&) = delete;
   be_visitor_obv_factory_reg &operator= (be_visitor_obv_factory_reg const &) = delete;
@@ -84,7 +84,7 @@ class be_visitor_attr_set : public be_visitor_component_scope
 public:
   explicit be_visitor_attr_set (be_visitor_context *ctx);
 
-  ~be_visitor_attr_set () override;
+  ~be_visitor_attr_set () override = default;
   be_visitor_attr_set (be_visitor_attr_set const &) = delete;
   be_visitor_attr_set (be_visitor_attr_set &&) = delete;
   be_visitor_attr_set &operator= (be_visitor_attr_set const &) = delete;
@@ -106,7 +106,7 @@ class be_visitor_facet_executor_block
 public:
   explicit be_visitor_facet_executor_block (be_visitor_context *ctx);
 
-  ~be_visitor_facet_executor_block () override;
+  ~be_visitor_facet_executor_block () override = default;
   be_visitor_facet_executor_block (be_visitor_facet_executor_block const &) = delete;
   be_visitor_facet_executor_block (be_visitor_facet_executor_block &&) = delete;
   be_visitor_facet_executor_block &operator= (be_visitor_facet_executor_block const &) = delete;
@@ -123,7 +123,7 @@ class be_visitor_connect_block
 public:
   explicit be_visitor_connect_block (be_visitor_context *ctx);
 
-  ~be_visitor_connect_block () override;
+  ~be_visitor_connect_block () override = default;
   be_visitor_connect_block (be_visitor_connect_block const &) = delete;
   be_visitor_connect_block (be_visitor_connect_block &&) = delete;
   be_visitor_connect_block &operator= (be_visitor_connect_block const &) = delete;
@@ -140,7 +140,7 @@ class be_visitor_disconnect_block
 public:
   explicit be_visitor_disconnect_block (be_visitor_context *ctx);
 
-  ~be_visitor_disconnect_block () override;
+  ~be_visitor_disconnect_block () override = default;
   be_visitor_disconnect_block (be_visitor_disconnect_block const &) = delete;
   be_visitor_disconnect_block (be_visitor_disconnect_block &&) = delete;
   be_visitor_disconnect_block &operator= (be_visitor_disconnect_block const &) = delete;
@@ -158,7 +158,7 @@ public:
   be_visitor_receptacle_desc (be_visitor_context *ctx,
                               be_component *node);
 
-  ~be_visitor_receptacle_desc () override;
+  ~be_visitor_receptacle_desc () override = default;
   be_visitor_receptacle_desc (be_visitor_receptacle_desc const &) = delete;
   be_visitor_receptacle_desc (be_visitor_receptacle_desc &&) = delete;
   be_visitor_receptacle_desc &operator= (be_visitor_receptacle_desc const &) = delete;
@@ -179,7 +179,7 @@ class be_visitor_subscribe_block
 public:
   explicit be_visitor_subscribe_block (be_visitor_context *ctx);
 
-  ~be_visitor_subscribe_block () override;
+  ~be_visitor_subscribe_block () override = default;
   be_visitor_subscribe_block (be_visitor_subscribe_block const &) = delete;
   be_visitor_subscribe_block (be_visitor_subscribe_block &&) = delete;
   be_visitor_subscribe_block &operator= (be_visitor_subscribe_block const &) = delete;
@@ -196,7 +196,7 @@ class be_visitor_unsubscribe_block
 public:
   explicit be_visitor_unsubscribe_block (be_visitor_context *ctx);
 
-  ~be_visitor_unsubscribe_block () override;
+  ~be_visitor_unsubscribe_block () override = default;
   be_visitor_unsubscribe_block (be_visitor_unsubscribe_block const &) = delete;
   be_visitor_unsubscribe_block (be_visitor_unsubscribe_block &&) = delete;
   be_visitor_unsubscribe_block &operator= (be_visitor_unsubscribe_block const &) = delete;
@@ -213,7 +213,7 @@ class be_visitor_event_source_desc
 public:
   explicit be_visitor_event_source_desc (be_visitor_context *ctx);
 
-  ~be_visitor_event_source_desc () override;
+  ~be_visitor_event_source_desc () override = default;
   be_visitor_event_source_desc (be_visitor_event_source_desc const &) = delete;
   be_visitor_event_source_desc (be_visitor_event_source_desc &&) = delete;
   be_visitor_event_source_desc &operator= (be_visitor_event_source_desc const &) = delete;
@@ -233,7 +233,7 @@ class be_visitor_connect_consumer_block
 public:
   explicit be_visitor_connect_consumer_block (be_visitor_context *ctx);
 
-  ~be_visitor_connect_consumer_block () override;
+  ~be_visitor_connect_consumer_block () override = default;
   be_visitor_connect_consumer_block (be_visitor_connect_consumer_block const &) = delete;
   be_visitor_connect_consumer_block (be_visitor_connect_consumer_block &&) = delete;
   be_visitor_connect_consumer_block &operator= (be_visitor_connect_consumer_block const &) = delete;
@@ -250,7 +250,7 @@ class be_visitor_disconnect_consumer_block
 public:
   explicit be_visitor_disconnect_consumer_block (be_visitor_context *ctx);
 
-  ~be_visitor_disconnect_consumer_block () override;
+  ~be_visitor_disconnect_consumer_block () override = default;
   be_visitor_disconnect_consumer_block (be_visitor_disconnect_consumer_block const &) = delete;
   be_visitor_disconnect_consumer_block (be_visitor_disconnect_consumer_block &&) = delete;
   be_visitor_disconnect_consumer_block &operator= (be_visitor_disconnect_consumer_block const &) = delete;
@@ -267,7 +267,7 @@ class be_visitor_emitter_desc
 public:
   explicit be_visitor_emitter_desc (be_visitor_context *ctx);
 
-  ~be_visitor_emitter_desc () override;
+  ~be_visitor_emitter_desc () override = default;
   be_visitor_emitter_desc (be_visitor_emitter_desc const &) = delete;
   be_visitor_emitter_desc (be_visitor_emitter_desc &&) = delete;
   be_visitor_emitter_desc &operator= (be_visitor_emitter_desc const &) = delete;
@@ -287,7 +287,7 @@ class be_visitor_populate_port_tables
 public:
   explicit be_visitor_populate_port_tables (be_visitor_context *ctx);
 
-  ~be_visitor_populate_port_tables () override;
+  ~be_visitor_populate_port_tables () override = default;
   be_visitor_populate_port_tables (be_visitor_populate_port_tables const &) = delete;
   be_visitor_populate_port_tables (be_visitor_populate_port_tables &&) = delete;
   be_visitor_populate_port_tables &operator= (be_visitor_populate_port_tables const &) = delete;

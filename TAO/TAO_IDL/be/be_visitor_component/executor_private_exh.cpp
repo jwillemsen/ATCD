@@ -20,8 +20,6 @@ be_visitor_executor_private_exh::be_visitor_executor_private_exh (
 {
 }
 
-be_visitor_executor_private_exh::~be_visitor_executor_private_exh () = default;
-
 int
 be_visitor_executor_private_exh::visit_provides (be_provides *node)
 {

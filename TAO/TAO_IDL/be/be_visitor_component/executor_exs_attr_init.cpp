@@ -18,8 +18,6 @@ be_visitor_executor_exs_attr_init::be_visitor_executor_exs_attr_init (
 {
 }
 
-be_visitor_executor_exs_attr_init::~be_visitor_executor_exs_attr_init () = default;
-
 int
 be_visitor_executor_exs_attr_init::visit_attribute (
   be_attribute *node)

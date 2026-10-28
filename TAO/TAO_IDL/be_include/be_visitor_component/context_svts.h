@@ -29,7 +29,7 @@ class be_visitor_context_svts : public be_visitor_component_scope
 public:
   explicit be_visitor_context_svts (be_visitor_context *ctx);
 
-  ~be_visitor_context_svts () override;
+  ~be_visitor_context_svts () override = default;
   be_visitor_context_svts (be_visitor_context_svts const &) = delete;
   be_visitor_context_svts (be_visitor_context_svts &&) = delete;
   be_visitor_context_svts &operator= (be_visitor_context_svts const &) = delete;

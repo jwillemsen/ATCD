@@ -27,8 +27,6 @@ be_visitor_facet_exh::be_visitor_facet_exh (
   export_macro_ = be_global->exec_export_macro ();
 }
 
-be_visitor_facet_exh::~be_visitor_facet_exh () = default;
-
 int
 be_visitor_facet_exh::visit_provides (be_provides *node)
 {

@@ -21,8 +21,6 @@ be_visitor_component_ami_rh_exs::be_visitor_component_ami_rh_exs (
 {
 }
 
-be_visitor_component_ami_rh_exs::~be_visitor_component_ami_rh_exs () = default;
-
 int
 be_visitor_component_ami_rh_exs::visit_uses (be_uses *node)
 {

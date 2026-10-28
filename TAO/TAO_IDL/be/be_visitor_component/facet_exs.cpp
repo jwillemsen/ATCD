@@ -22,8 +22,6 @@ be_visitor_facet_exs::be_visitor_facet_exs (
 {
 }
 
-be_visitor_facet_exs::~be_visitor_facet_exs () = default;
-
 int
 be_visitor_facet_exs::visit_operation (be_operation *node)
 {

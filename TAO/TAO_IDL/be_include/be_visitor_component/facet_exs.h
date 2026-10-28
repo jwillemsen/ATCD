@@ -25,7 +25,7 @@ class be_visitor_facet_exs
 public:
   explicit be_visitor_facet_exs (be_visitor_context *ctx);
 
-  ~be_visitor_facet_exs () override;
+  ~be_visitor_facet_exs () override = default;
   be_visitor_facet_exs (be_visitor_facet_exs const &) = delete;
   be_visitor_facet_exs (be_visitor_facet_exs &&) = delete;
   be_visitor_facet_exs &operator= (be_visitor_facet_exs const &) = delete;

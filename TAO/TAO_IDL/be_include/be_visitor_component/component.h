@@ -27,7 +27,7 @@ class be_visitor_component : public be_visitor_interface
 public:
   explicit be_visitor_component (be_visitor_context *ctx);
 
-  ~be_visitor_component () override;
+  ~be_visitor_component () override = default;
   be_visitor_component (be_visitor_component const &) = delete;
   be_visitor_component (be_visitor_component &&) = delete;
   be_visitor_component &operator= (be_visitor_component const &) = delete;

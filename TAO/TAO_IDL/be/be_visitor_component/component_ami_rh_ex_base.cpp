@@ -21,8 +21,6 @@ be_visitor_component_ami_rh_ex_base::be_visitor_component_ami_rh_ex_base (
 {
 }
 
-be_visitor_component_ami_rh_ex_base::~be_visitor_component_ami_rh_ex_base () = default;
-
 int
 be_visitor_component_ami_rh_ex_base::post_process (be_decl *bd)
 {

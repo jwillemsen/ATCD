@@ -1936,13 +1936,6 @@ be_visitor_ccm_pre_proc::generate_ami4ccm_uses ()
 
       if (u->is_multiple ())
         {
-        /*
-      AST_Type *t = u->uses_type ();
-      ACE_CString fname (t->file_name ());
-      char *dummy = 0;
-      char *path = ACE_OS::realpath (fname.c_str (), dummy);
-      ACE_DEBUG ((LM_DEBUG, "utype file: %s\n", path));
-        */
           // Grammar ensures this narrowing will never be 0.
           AST_Component *c =
             dynamic_cast<AST_Component*> (s);

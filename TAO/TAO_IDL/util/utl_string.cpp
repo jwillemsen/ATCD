@@ -232,5 +232,5 @@ UTL_String::get_canonical_rep ()
 void
 UTL_String::dump (ACE_OSTREAM_TYPE &o)
 {
-  o << this->get_string ();
+  o << this->get_string_view_or_empty ();
 }

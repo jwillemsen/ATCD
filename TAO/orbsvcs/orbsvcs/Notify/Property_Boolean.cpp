@@ -14,7 +14,7 @@ TAO_Notify_Property_Boolean::TAO_Notify_Property_Boolean (const char* name)
 }
 
 TAO_Notify_Property_Boolean::TAO_Notify_Property_Boolean (const char* name, CORBA::Boolean initial)
-  :name_ (name), value_ (initial), valid_ (1)
+  :name_ (name), value_ (initial), valid_ (true)
 {
 }
 

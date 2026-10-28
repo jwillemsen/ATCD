@@ -89,7 +89,7 @@ namespace TAO_Notify
   CORBA::Boolean
   Reconnection_Registry::is_alive ()
   {
-    return CORBA::Boolean(1);
+    return true;
   }
 
   //////////////////////

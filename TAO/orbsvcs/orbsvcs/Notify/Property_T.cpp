@@ -23,7 +23,7 @@ TAO_Notify_PropertyBase_T<TYPE>::TAO_Notify_PropertyBase_T (const char* name)
 
 template <class TYPE>
 TAO_Notify_PropertyBase_T<TYPE>::TAO_Notify_PropertyBase_T (const char* name, const TYPE& initial)
-  : name_ (name), value_ (initial), valid_ (1)
+  : name_ (name), value_ (initial), valid_ (true)
 {
 }
 
@@ -101,7 +101,7 @@ TAO_Notify_StructProperty_T<TYPE>::TAO_Notify_StructProperty_T (const char* name
 
 template <class TYPE>
 TAO_Notify_StructProperty_T<TYPE>::TAO_Notify_StructProperty_T (const char* name, const TYPE& initial)
-  :name_ (name), value_ (initial), valid_ (1)
+  :name_ (name), value_ (initial), valid_ (true)
 {
 }
 

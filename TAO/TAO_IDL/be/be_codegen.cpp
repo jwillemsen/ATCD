@@ -233,8 +233,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
           // Sanity check and then print.
           if (!client_hdr.empty ())
             {
-              this->client_header_->print ("\n#include \"%s\"",
-                                           client_hdr.c_str ());
+              *this->client_header_ << "\n#include \"" << client_hdr << "\"";
             }
           else
             {
@@ -259,8 +258,7 @@ TAO_CodeGen::start_client_header (const std::string &fname)
       // Sanity check and then print.
       if (!client_hdr.empty ())
         {
-          this->client_header_->print ("\n#include \"%s\"",
-                                       client_hdr.c_str ());
+          *this->client_header_ << "\n#include \"" << client_hdr << "\"";
         }
       else
         {
@@ -453,8 +451,7 @@ TAO_CodeGen::start_server_header (const std::string &fname)
       std::string const server_hdr =
         BE_GlobalData::be_get_server_hdr (&idl_name_str, true);
 
-      this->server_header_->print ("\n#include \"%s\"",
-                                   server_hdr.c_str ());
+      *this->server_header_ << "\n#include \"" << server_hdr << "\"";
     }
 
   /// These are generated regardless, so we put it before the
@@ -844,8 +841,7 @@ TAO_CodeGen::start_anyop_header (const std::string &fname)
                     }
                 }
 
-              this->anyop_header_->print ("\n#include \"%s\"",
-                                          final_hdr.c_str ());
+              *this->anyop_header_ << "\n#include \"" << final_hdr << "\"";
             }
         }
     }
@@ -1568,8 +1564,7 @@ TAO_CodeGen::start_implementation_skeleton (const std::string &fname)
   std::string const impl_hdr =
     BE_GlobalData::be_get_implementation_hdr_fname ();
 
-  this->implementation_skeleton_->print ("#include \"%s\"\n\n",
-                                         impl_hdr.c_str ());
+  *this->implementation_skeleton_ << "#include \"" << impl_hdr << "\"\n\n";
 
   return 0;
 }
@@ -1714,8 +1709,7 @@ TAO_CodeGen::end_implementation_header (const std::string &fname)
   macro_name += "_H_";
 
   // Code to put the last #endif.
-  this->implementation_header_->print ("\n#endif /* %s  */\n",
-                                       macro_name.c_str ());
+  *this->implementation_header_ << "\n#endif /* " << macro_name << "  */\n";
   return 0;
 }
 
@@ -2219,10 +2213,8 @@ TAO_CodeGen::gen_ifndef_string (std::string_view fname,
   macro_name += suffix;
 
   // Generate the #ifndef ... #define statements.
-  stream->print ("#ifndef %s\n",
-                 macro_name.c_str ());
-  stream->print ("#define %s\n\n",
-                 macro_name.c_str ());
+  *stream << "#ifndef " << macro_name << "\n";
+  *stream << "#define " << macro_name << "\n\n";
 }
 
 void
@@ -2472,8 +2464,7 @@ TAO_CodeGen::gen_stub_hdr_includes ()
                     }
                 }
 
-              this->client_header_->print ("\n#include \"%s\"",
-                                           final_hdr.c_str ());
+              *this->client_header_ << "\n#include \"" << final_hdr << "\"";
             }
         }
     }

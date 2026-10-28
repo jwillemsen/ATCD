@@ -22,8 +22,6 @@ be_visitor_typedef_ch::be_visitor_typedef_ch (be_visitor_context *ctx)
 {
 }
 
-be_visitor_typedef_ch::~be_visitor_typedef_ch () = default;
-
 int
 be_visitor_typedef_ch::visit_typedef (be_typedef *node)
 {

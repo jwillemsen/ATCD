@@ -950,7 +950,7 @@ namespace
 void
 DRV_get_orb_idl_includes ()
 {
-  static constexpr char orb_idl[] = "tao/orb.idl";
+  static constexpr std::string_view orb_idl = "tao/orb.idl";
 
  // Search for orb.idl in supplied include file search paths.
   std::string directory;
@@ -1104,10 +1104,10 @@ DRV_pre_proc (char const *myfile)
     }
 
   std::string_view const tmpdir = idl_global->temp_dir ().value ();
-  static constexpr char temp_file_extension[] = ".cpp";
+  static constexpr std::string_view temp_file_extension = ".cpp";
 
-  static constexpr char tao_idlf_template[] = "tao-idlf_XXXXXX";
-  static constexpr char tao_idli_template[] = "tao-idli_XXXXXX";
+  static constexpr std::string_view tao_idlf_template = "tao-idlf_XXXXXX";
+  static constexpr std::string_view tao_idli_template = "tao-idli_XXXXXX";
 
   std::string tmp_file (tmpdir);
   tmp_file += tao_idlf_template;

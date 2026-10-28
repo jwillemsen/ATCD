@@ -263,6 +263,12 @@ public:
     return status;
   }
 
+  template <typename T>
+  static int error_return_op_status (T const&)
+  {
+    return 0;
+  }
+
   /// Returns non-null if an ACE_Log_Msg exists for the calling thread.
   static int exists ();
 

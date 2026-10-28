@@ -117,8 +117,6 @@ AST_Module::AST_Module (UTL_ScopedName *n, AST_Module *previous)
   // below.
 }
 
-AST_Module::~AST_Module () = default;
-
 void
 AST_Module::destroy ()
 {

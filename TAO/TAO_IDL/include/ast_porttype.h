@@ -21,7 +21,7 @@ public:
   AST_PortType &operator= (AST_PortType &&) = delete;
   explicit AST_PortType (UTL_ScopedName *n);
 
-  ~AST_PortType () override;
+  ~AST_PortType () override = default;
 
   // Cleanup function.
   void destroy () override;

@@ -84,7 +84,7 @@ public:
                bool local,
                bool abstract);
 
-  ~AST_Typedef () override;
+  ~AST_Typedef () override = default;
 
   AST_Type *primitive_base_type () const;
   // Return the most primitive base type by traversing the chain of typedefed

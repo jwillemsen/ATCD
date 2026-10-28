@@ -16,7 +16,7 @@ public:
   AST_Emits (UTL_ScopedName *n,
              AST_Type *emits_type);
 
-  ~AST_Emits () override;
+  ~AST_Emits () override = default;
 
   // Data Accessor.
   AST_Type *emits_type () const;

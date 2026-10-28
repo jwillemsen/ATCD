@@ -95,7 +95,7 @@ protected:
   COMMON_Base (bool local = false,
                bool abstract = false);
 
-  virtual ~COMMON_Base ();
+  virtual ~COMMON_Base () = default;
 
 public:
   // A no-op, overridden in the child classes.
@@ -202,7 +202,7 @@ public:
     UTL_ScopedName *name,
     AST_Decl *other);
 
-  ~AST_Decl () override;
+  ~AST_Decl () override = default;
 
   // Cleanup method.
   void destroy () override;

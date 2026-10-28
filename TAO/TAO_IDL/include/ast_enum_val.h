@@ -81,7 +81,7 @@ public:
   AST_EnumVal &operator= (AST_EnumVal const &) = delete;
   AST_EnumVal &operator= (AST_EnumVal &&) = delete;
 
-  ~AST_EnumVal () override;
+  ~AST_EnumVal () override = default;
 
   // AST Dumping.
   void dump (ACE_OSTREAM_TYPE &) override;

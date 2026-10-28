@@ -19,7 +19,7 @@ public:
   AST_Annotation_Decl &operator= (AST_Annotation_Decl &&) = delete;
   explicit AST_Annotation_Decl (UTL_ScopedName *name);
 
-  ~AST_Annotation_Decl () override;
+  ~AST_Annotation_Decl () override = default;
 
   /// AST Dumping
   void dump (ACE_OSTREAM_TYPE &o) override;

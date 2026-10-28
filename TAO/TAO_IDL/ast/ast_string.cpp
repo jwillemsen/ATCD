@@ -134,8 +134,6 @@ AST_String::AST_String (AST_Decl::NodeType nt,
   this->flat_name_ = flat_name;
 }
 
-AST_String::~AST_String () = default;
-
 // Redefinition of inherited virtual operations.
 
 // Dump this AST_String node to the ostream o.

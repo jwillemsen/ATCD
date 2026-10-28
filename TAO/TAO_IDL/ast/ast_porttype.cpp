@@ -22,8 +22,6 @@ AST_PortType::AST_PortType (UTL_ScopedName *n)
 {
 }
 
-AST_PortType::~AST_PortType () = default;
-
 void
 AST_PortType::destroy ()
 {

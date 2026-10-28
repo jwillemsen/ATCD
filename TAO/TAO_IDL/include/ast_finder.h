@@ -14,7 +14,7 @@ public:
   AST_Finder &operator= (AST_Finder &&) = delete;
   explicit AST_Finder (UTL_ScopedName *n);
 
-  ~AST_Finder () override;
+  ~AST_Finder () override = default;
 
   // AST Dumping.
   void dump (ACE_OSTREAM_TYPE &o) override;

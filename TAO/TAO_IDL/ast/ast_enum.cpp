@@ -89,8 +89,6 @@ AST_Enum::AST_Enum (UTL_ScopedName *n,
   this->size_type (AST_Type::FIXED);
 }
 
-AST_Enum::~AST_Enum () = default;
-
 // Return the member count.
 int
 AST_Enum::member_count ()

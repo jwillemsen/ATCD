@@ -17,8 +17,6 @@ AST_ValueBox::AST_ValueBox (UTL_ScopedName *n,
 {
 }
 
-AST_ValueBox::~AST_ValueBox () = default;
-
 AST_Type *
 AST_ValueBox::boxed_type () const
 {

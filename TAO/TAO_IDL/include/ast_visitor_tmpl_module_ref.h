@@ -29,7 +29,7 @@ class ast_visitor_tmpl_module_ref
 public:
   explicit ast_visitor_tmpl_module_ref (ast_visitor_context *ctx);
 
-  ~ast_visitor_tmpl_module_ref () override;
+  ~ast_visitor_tmpl_module_ref () override = default;
 
   int visit_template_module_ref (AST_Template_Module_Ref *node) override;
 };

@@ -16,7 +16,7 @@ public:
   AST_Param_Holder (UTL_ScopedName *parameter_name,
                     FE_Utils::T_Param_Info *info);
 
-  ~AST_Param_Holder () override;
+  ~AST_Param_Holder () override = default;
 
   FE_Utils::T_Param_Info const *info () const;
 

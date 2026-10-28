@@ -21,8 +21,6 @@ AST_Extended_Port::AST_Extended_Port (
 {
 }
 
-AST_Extended_Port::~AST_Extended_Port () = default;
-
 AST_PortType *
 AST_Extended_Port::port_type () const
 {

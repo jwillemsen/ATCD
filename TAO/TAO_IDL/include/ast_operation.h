@@ -93,7 +93,7 @@ public:
   AST_Operation &operator= (AST_Operation const &) = delete;
   AST_Operation &operator= (AST_Operation &&) = delete;
 
-  ~AST_Operation () override;
+  ~AST_Operation () override = default;
 
   // Data Accessors.
 

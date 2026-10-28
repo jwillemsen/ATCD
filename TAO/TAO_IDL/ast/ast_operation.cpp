@@ -130,8 +130,6 @@ AST_Operation::AST_Operation (AST_Type *rt,
     }
 }
 
-AST_Operation::~AST_Operation () = default;
-
 // Public operations.
 
 bool

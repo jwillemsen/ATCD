@@ -124,8 +124,6 @@ AST_Constant::AST_Constant (AST_Expression::ExprType t,
     }
 }
 
-AST_Constant::~AST_Constant () = default;
-
 // Redefinition of inherited virtual operations.
 
 // Dump this AST_Constant node to the ostream o.

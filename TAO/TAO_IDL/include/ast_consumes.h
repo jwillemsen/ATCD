@@ -16,7 +16,7 @@ public:
   AST_Consumes (UTL_ScopedName *n,
                 AST_Type *consumes_type);
 
-  ~AST_Consumes () override;
+  ~AST_Consumes () override = default;
 
   // Data Accessor.
   AST_Type *consumes_type () const;

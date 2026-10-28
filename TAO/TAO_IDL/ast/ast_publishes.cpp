@@ -15,8 +15,6 @@ AST_Publishes::AST_Publishes (UTL_ScopedName *n,
 {
 }
 
-AST_Publishes::~AST_Publishes () = default;
-
 AST_Type *
 AST_Publishes::publishes_type () const
 {

@@ -95,8 +95,6 @@ COMMON_Base::COMMON_Base (bool local,
 {
 }
 
-COMMON_Base::~COMMON_Base () = default;
-
 void
 COMMON_Base::destroy ()
 {
@@ -195,8 +193,6 @@ AST_Decl::AST_Decl (
 
   this->compute_repoID ();
 }
-
-AST_Decl::~AST_Decl () = default;
 
 void
 AST_Decl::destroy ()

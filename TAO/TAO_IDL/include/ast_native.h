@@ -18,7 +18,7 @@ public:
   AST_Native &operator= (AST_Native &&) = delete;
   explicit AST_Native (UTL_ScopedName *n);
 
-  ~AST_Native () override;
+  ~AST_Native () override = default;
 
   // Cleanup.
   void destroy () override;

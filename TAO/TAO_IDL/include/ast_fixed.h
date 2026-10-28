@@ -18,7 +18,7 @@ public:
   AST_Fixed &operator= (AST_Fixed const &) = delete;
   AST_Fixed &operator= (AST_Fixed &&) = delete;
 
-  ~AST_Fixed () override;
+  ~AST_Fixed () override = default;
 
   void dump (ACE_OSTREAM_TYPE &o) override;
 

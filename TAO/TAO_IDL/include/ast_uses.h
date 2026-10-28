@@ -15,7 +15,7 @@ public:
             AST_Type *uses_type,
             bool is_multiple);
 
-  ~AST_Uses () override;
+  ~AST_Uses () override = default;
 
   // Data Accessors.
   AST_Type *uses_type () const;

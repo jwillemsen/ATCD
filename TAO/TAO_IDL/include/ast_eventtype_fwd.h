@@ -15,7 +15,7 @@ public:
   AST_EventTypeFwd (AST_Interface *dummy,
                     UTL_ScopedName *n);
 
-  ~AST_EventTypeFwd () override;
+  ~AST_EventTypeFwd () override = default;
 
   // Cleanup function.
   void destroy () override;

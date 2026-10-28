@@ -19,8 +19,6 @@ AST_ValueTypeFwd::AST_ValueTypeFwd (AST_Interface *dummy,
 {
 }
 
-AST_ValueTypeFwd::~AST_ValueTypeFwd () = default;
-
 // Redefinition of inherited virtual operations.
 
 // Dump this AST_InterfaceFwd node to the ostream o.

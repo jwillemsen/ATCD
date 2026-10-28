@@ -24,7 +24,7 @@ public:
                  bool truncatable,
                  bool custom);
 
-  ~AST_ValueType () override;
+  ~AST_ValueType () override = default;
 
   bool in_recursion (ACE_Unbounded_Queue<AST_Type *> &list) override;
   // Are we or the node represented by node involved in recursion.

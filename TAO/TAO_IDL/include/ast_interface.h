@@ -88,7 +88,7 @@ public:
                  bool local,
                  bool abstract);
 
-  ~AST_Interface () override;
+  ~AST_Interface () override = default;
 
   // This serves for interfaces, value types, components, and eventtypes.
   static void fwd_redefinition_helper (AST_Interface *&i,

@@ -20,8 +20,6 @@ AST_Template_Module_Inst::AST_Template_Module_Inst (
 {
 }
 
-AST_Template_Module_Inst::~AST_Template_Module_Inst () = default;
-
 AST_Template_Module *
 AST_Template_Module_Inst::ref () const
 {

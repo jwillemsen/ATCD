@@ -27,7 +27,7 @@ public:
                  AST_Interface **supports_flat,
                  long n_supports_flat);
 
-  ~AST_Component () override;
+  ~AST_Component () override = default;
 
   // This also calls the base class version.
   void redefine (AST_Interface *from) override;

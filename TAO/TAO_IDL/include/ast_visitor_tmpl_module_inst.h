@@ -42,7 +42,7 @@ public:
   ast_visitor_tmpl_module_inst &operator= (ast_visitor_tmpl_module_inst const &) = delete;
   ast_visitor_tmpl_module_inst &operator= (ast_visitor_tmpl_module_inst &&) = delete;
 
-  ~ast_visitor_tmpl_module_inst () override;
+  ~ast_visitor_tmpl_module_inst () override = default;
 
   int visit_decl (AST_Decl *d) override;
   int visit_scope (UTL_Scope *node) override;

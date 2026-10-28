@@ -18,8 +18,6 @@ AST_ComponentFwd::AST_ComponentFwd (AST_Interface *dummy,
 {
 }
 
-AST_ComponentFwd::~AST_ComponentFwd () = default;
-
 // Redefinition of inherited virtual operations.
 
 // Dump this AST_InterfaceFwd node to the ostream o.

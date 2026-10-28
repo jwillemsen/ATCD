@@ -99,8 +99,6 @@ AST_Attribute::AST_Attribute (bool ro,
 {
 }
 
-AST_Attribute::~AST_Attribute () = default;
-
 // Redefinition of inherited virtual operations.
 
 // Dump this AST_Attribute to the ostream o.

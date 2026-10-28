@@ -46,7 +46,7 @@ public:
   ast_visitor_reifying &operator= (ast_visitor_reifying const &) = delete;
   ast_visitor_reifying &operator= (ast_visitor_reifying &&) = delete;
 
-  ~ast_visitor_reifying () override;
+  ~ast_visitor_reifying () override = default;
 
   AST_Decl *reified_node () const;
 

@@ -16,7 +16,7 @@ public:
   AST_Publishes (UTL_ScopedName *n,
                  AST_Type *publishes_type);
 
-  ~AST_Publishes () override;
+  ~AST_Publishes () override = default;
 
   // Data Accessor.
   AST_Type *publishes_type () const;

@@ -38,8 +38,6 @@ AST_Connector::AST_Connector (
     }
 }
 
-AST_Connector::~AST_Connector () = default;
-
 AST_Connector *
 AST_Connector::base_connector () const
 {

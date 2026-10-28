@@ -102,8 +102,6 @@ AST_Array::AST_Array (UTL_ScopedName *n,
                                       nd);
 }
 
-AST_Array::~AST_Array () = default;
-
 // Private operations.
 
 // Compute how many dimensions there are and collect their expressions

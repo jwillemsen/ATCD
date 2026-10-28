@@ -23,7 +23,7 @@ public:
                  bool truncatable,
                  bool custom);
 
-  ~AST_EventType () override;
+  ~AST_EventType () override = default;
 
   // Cleanup function.
   void destroy () override;

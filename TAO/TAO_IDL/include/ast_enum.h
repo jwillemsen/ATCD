@@ -83,7 +83,7 @@ public:
             bool local,
             bool abstract);
 
-  ~AST_Enum () override;
+  ~AST_Enum () override = default;
 
   // AST Dumping.
   void dump (ACE_OSTREAM_TYPE &) override;

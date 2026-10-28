@@ -22,8 +22,6 @@ AST_StructureFwd::AST_StructureFwd (AST_Structure *full_defn,
 {
 }
 
-AST_StructureFwd::~AST_StructureFwd () = default;
-
 // Redefinition of inherited virtual operations.
 
 // Dump this AST_StructureFwd node to the ostream o.

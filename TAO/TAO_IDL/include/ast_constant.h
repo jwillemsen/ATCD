@@ -95,7 +95,7 @@ public:
   AST_Constant &operator= (AST_Constant const &) = delete;
   AST_Constant &operator= (AST_Constant &&) = delete;
 
-  ~AST_Constant () override;
+  ~AST_Constant () override = default;
 
   // Data Accessors.
   AST_Expression *constant_value () const;

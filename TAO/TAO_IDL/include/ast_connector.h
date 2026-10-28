@@ -18,7 +18,7 @@ public:
   AST_Connector (UTL_ScopedName *n,
                  AST_Connector *base_connector);
 
-  ~AST_Connector () override;
+  ~AST_Connector () override = default;
 
   AST_Connector *base_connector () const;
 

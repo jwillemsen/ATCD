@@ -23,7 +23,7 @@ public:
             AST_Interface **supports_flat,
             long n_supports_flat);
 
-  ~AST_Home () override;
+  ~AST_Home () override = default;
 
   // Extend lookup to the base home.
   AST_Decl *look_in_inherited (UTL_ScopedName *e,

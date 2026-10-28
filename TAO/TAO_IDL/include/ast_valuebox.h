@@ -13,7 +13,7 @@ public:
   AST_ValueBox (UTL_ScopedName *n,
                 AST_Type       *boxed_type);
 
-  ~AST_ValueBox () override;
+  ~AST_ValueBox () override = default;
 
   // Data Accessors.
   AST_Type            *boxed_type () const;

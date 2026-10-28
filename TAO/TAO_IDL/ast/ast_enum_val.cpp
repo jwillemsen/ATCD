@@ -83,8 +83,6 @@ AST_EnumVal::AST_EnumVal (ACE_CDR::ULong v,
 {
 }
 
-AST_EnumVal::~AST_EnumVal () = default;
-
 // Redefinition of inherited virtual operations.
 
 // Dump this AST_EnumVal to the ostream o.

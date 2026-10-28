@@ -15,7 +15,7 @@ public:
   AST_ComponentFwd (AST_Interface *dummy,
                     UTL_ScopedName *n);
 
-  ~AST_ComponentFwd () override;
+  ~AST_ComponentFwd () override = default;
 
   // Cleanup function.
   void destroy () override;

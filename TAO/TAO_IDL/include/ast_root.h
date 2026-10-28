@@ -78,7 +78,7 @@ public:
   AST_Root &operator= (AST_Root &&) = delete;
   explicit AST_Root (UTL_ScopedName *n);
 
-  ~AST_Root () override;
+  ~AST_Root () override = default;
 
   unsigned long nmembers () const override;
 

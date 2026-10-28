@@ -79,7 +79,7 @@ public:
   AST_ConcreteType (AST_Decl::NodeType nt,
                     UTL_ScopedName *n);
 
-  ~AST_ConcreteType () override;
+  ~AST_ConcreteType () override = default;
 
   // Cleanup.
   void destroy () override;

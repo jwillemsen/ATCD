@@ -90,7 +90,7 @@ public:
   explicit AST_Module (UTL_ScopedName *n, AST_Module *prev = nullptr);
 
   // Destructor.
-  ~AST_Module () override;
+  ~AST_Module () override = default;
 
   // Cleanup function.
   void destroy () override;

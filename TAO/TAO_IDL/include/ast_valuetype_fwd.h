@@ -15,7 +15,7 @@ public:
   AST_ValueTypeFwd (AST_Interface *dummy,
                     UTL_ScopedName *n);
 
-  ~AST_ValueTypeFwd () override;
+  ~AST_ValueTypeFwd () override = default;
 
   // Cleanup function.
   void destroy () override;

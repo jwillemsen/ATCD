@@ -105,7 +105,7 @@ public:
   AST_PredefinedType (PredefinedType t,
                       UTL_ScopedName *n);
 
-  ~AST_PredefinedType () override;
+  ~AST_PredefinedType () override = default;
 
   // Data Accessors.
   PredefinedType pt () const;

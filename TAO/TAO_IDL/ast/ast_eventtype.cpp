@@ -48,8 +48,6 @@ AST_EventType::AST_EventType (UTL_ScopedName *n,
 {
 }
 
-AST_EventType::~AST_EventType () = default;
-
 void
 AST_EventType::destroy ()
 {

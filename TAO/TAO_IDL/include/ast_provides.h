@@ -14,7 +14,7 @@ public:
   AST_Provides (UTL_ScopedName *n,
                 AST_Type *provides_type);
 
-  ~AST_Provides () override;
+  ~AST_Provides () override = default;
 
   // Data Accessor.
   AST_Type *provides_type () const;

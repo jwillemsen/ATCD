@@ -90,7 +90,7 @@ public:
                 AST_Type *ft,
                 UTL_ScopedName *n);
 
-  ~AST_Argument () override;
+  ~AST_Argument () override = default;
 
   // Data Accessors.
   Direction direction () const;

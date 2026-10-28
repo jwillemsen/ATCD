@@ -16,8 +16,6 @@ AST_Finder::AST_Finder (UTL_ScopedName *n)
 {
 }
 
-AST_Finder::~AST_Finder () = default;
-
 void
 AST_Finder::destroy ()
 {

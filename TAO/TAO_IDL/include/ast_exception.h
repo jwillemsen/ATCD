@@ -86,7 +86,7 @@ public:
                  bool local,
                  bool abstract);
 
-  ~AST_Exception () override;
+  ~AST_Exception () override = default;
 
   bool in_recursion (ACE_Unbounded_Queue<AST_Type *> &list) override;
   // Check if we or the parameter node is in recursion.

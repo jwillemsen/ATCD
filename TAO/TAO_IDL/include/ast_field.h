@@ -113,7 +113,7 @@ public:
     UTL_ScopedName *name,
     AST_Field *other);
 
-  ~AST_Field () override;
+  ~AST_Field () override = default;
 
   // Data Accessors.
   AST_Type *field_type () const;

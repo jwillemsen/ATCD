@@ -89,8 +89,6 @@ AST_Factory::AST_Factory (UTL_ScopedName *n)
 {
 }
 
-AST_Factory::~AST_Factory () = default;
-
 // Public operations.
 
 UTL_ExceptList *

@@ -80,7 +80,7 @@ public:
   AST_InterfaceFwd (AST_Interface *dummy,
                     UTL_ScopedName *n);
 
-  ~AST_InterfaceFwd () override;
+  ~AST_InterfaceFwd () override = default;
 
   AST_Interface *full_definition ();
 

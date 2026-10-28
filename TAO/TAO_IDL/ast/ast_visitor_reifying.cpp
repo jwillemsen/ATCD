@@ -44,8 +44,6 @@ ast_visitor_reifying::ast_visitor_reifying (
 {
 }
 
-ast_visitor_reifying::~ast_visitor_reifying () = default;
-
 AST_Decl *
 ast_visitor_reifying::reified_node () const
 {

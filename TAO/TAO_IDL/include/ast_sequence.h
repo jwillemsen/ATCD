@@ -80,7 +80,7 @@ public:
                 bool local,
                 bool abstract);
 
-  ~AST_Sequence () override;
+  ~AST_Sequence () override = default;
   AST_Sequence (AST_Sequence const &) = delete;
   AST_Sequence (AST_Sequence &&) = delete;
   AST_Sequence &operator= (AST_Sequence const &) = delete;

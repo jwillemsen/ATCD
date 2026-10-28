@@ -225,8 +225,6 @@ AST_PredefinedType::AST_PredefinedType (PredefinedType t,
   this->set_name (new_name);
 }
 
-AST_PredefinedType::~AST_PredefinedType () = default;
-
 // Redefinition of inherited virtual operations.
 
 // Dump this AST_PredefinedType node to the ostream o.

@@ -84,7 +84,7 @@ public:
   AST_Factory &operator= (AST_Factory const &) = delete;
   AST_Factory &operator= (AST_Factory &&) = delete;
 
-  ~AST_Factory () override;
+  ~AST_Factory () override = default;
 
   UTL_ExceptList *exceptions () const;
   // Return exception list.

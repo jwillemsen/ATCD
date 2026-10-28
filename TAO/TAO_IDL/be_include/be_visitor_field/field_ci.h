@@ -25,7 +25,7 @@ class be_visitor_field_ci : public be_visitor_decl
 {
 public:
   explicit be_visitor_field_ci (be_visitor_context *ctx);
-  ~be_visitor_field_ci () override;
+  ~be_visitor_field_ci () override = default;
 
   be_visitor_field_ci (const be_visitor_field_ci &) = delete;
   be_visitor_field_ci (be_visitor_field_ci &&) = delete;

@@ -19,7 +19,7 @@ public:
 
   explicit be_visitor_amh_rh_interface_sh (be_visitor_context *ctx);
 
-  ~be_visitor_amh_rh_interface_sh () override;
+  ~be_visitor_amh_rh_interface_sh () override = default;
   be_visitor_amh_rh_interface_sh (be_visitor_amh_rh_interface_sh const &) = delete;
   be_visitor_amh_rh_interface_sh (be_visitor_amh_rh_interface_sh &&) = delete;
   be_visitor_amh_rh_interface_sh &operator= (be_visitor_amh_rh_interface_sh const &) = delete;

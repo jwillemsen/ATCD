@@ -30,7 +30,7 @@ public:
   explicit be_visitor_amh_interface_ch (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_amh_interface_ch () override;
+  ~be_visitor_amh_interface_ch () override = default;
   be_visitor_amh_interface_ch (be_visitor_amh_interface_ch const &) = delete;
   be_visitor_amh_interface_ch (be_visitor_amh_interface_ch &&) = delete;
   be_visitor_amh_interface_ch &operator= (be_visitor_amh_interface_ch const &) = delete;

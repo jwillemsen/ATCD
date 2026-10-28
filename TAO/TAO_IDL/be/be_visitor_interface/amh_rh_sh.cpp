@@ -20,8 +20,6 @@ be_visitor_amh_rh_interface_sh::be_visitor_amh_rh_interface_sh (
 {
 }
 
-be_visitor_amh_rh_interface_sh::~be_visitor_amh_rh_interface_sh () = default;
-
 int
 be_visitor_amh_rh_interface_sh::visit_operation (be_operation *node)
 {

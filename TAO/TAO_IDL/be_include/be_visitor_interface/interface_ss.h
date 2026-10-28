@@ -29,7 +29,7 @@ class be_visitor_interface_ss : public be_visitor_interface
 {
 public:
   explicit be_visitor_interface_ss (be_visitor_context *ctx);
-  ~be_visitor_interface_ss () override;
+  ~be_visitor_interface_ss () override = default;
   be_visitor_interface_ss (be_visitor_interface_ss const &) = delete;
   be_visitor_interface_ss (be_visitor_interface_ss &&) = delete;
   be_visitor_interface_ss &operator= (be_visitor_interface_ss const &) = delete;

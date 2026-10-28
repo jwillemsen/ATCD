@@ -20,8 +20,6 @@ be_visitor_interface_tie_ss::be_visitor_interface_tie_ss (
 {
 }
 
-be_visitor_interface_tie_ss::~be_visitor_interface_tie_ss () = default;
-
 int
 be_visitor_interface_tie_ss::visit_interface (be_interface *node)
 {

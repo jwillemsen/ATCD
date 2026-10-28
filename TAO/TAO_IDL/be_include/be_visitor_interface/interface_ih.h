@@ -29,7 +29,7 @@ public:
   explicit be_visitor_interface_ih (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_interface_ih () override;
+  ~be_visitor_interface_ih () override = default;
   be_visitor_interface_ih (be_visitor_interface_ih const &) = delete;
   be_visitor_interface_ih (be_visitor_interface_ih &&) = delete;
   be_visitor_interface_ih &operator= (be_visitor_interface_ih const &) = delete;

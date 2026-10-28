@@ -17,8 +17,6 @@ be_visitor_amh_rh_interface_ss::be_visitor_amh_rh_interface_ss (
 {
 }
 
-be_visitor_amh_rh_interface_ss::~be_visitor_amh_rh_interface_ss () = default;
-
 int
 be_visitor_amh_rh_interface_ss::visit_operation (be_operation *node)
 {

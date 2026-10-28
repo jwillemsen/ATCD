@@ -45,7 +45,7 @@ class be_visitor_interface : public be_visitor_scope
 {
 public:
   explicit be_visitor_interface (be_visitor_context *ctx);
-  ~be_visitor_interface () override;
+  ~be_visitor_interface () override = default;
   be_visitor_interface (be_visitor_interface const &) = delete;
   be_visitor_interface (be_visitor_interface &&) = delete;
   be_visitor_interface &operator= (be_visitor_interface const &) = delete;

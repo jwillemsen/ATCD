@@ -17,8 +17,6 @@ be_visitor_facet_svth::be_visitor_facet_svth (be_visitor_context *ctx)
 {
 }
 
-be_visitor_facet_svth::~be_visitor_facet_svth () = default;
-
 int
 be_visitor_facet_svth::visit_interface (be_interface *node)
 {

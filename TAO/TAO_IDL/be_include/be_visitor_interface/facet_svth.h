@@ -27,7 +27,7 @@ class be_visitor_facet_svth : public be_visitor_interface
 public:
   explicit be_visitor_facet_svth (be_visitor_context *ctx);
 
-  ~be_visitor_facet_svth () override;
+  ~be_visitor_facet_svth () override = default;
   be_visitor_facet_svth (be_visitor_facet_svth const &) = delete;
   be_visitor_facet_svth (be_visitor_facet_svth &&) = delete;
   be_visitor_facet_svth &operator= (be_visitor_facet_svth const &) = delete;

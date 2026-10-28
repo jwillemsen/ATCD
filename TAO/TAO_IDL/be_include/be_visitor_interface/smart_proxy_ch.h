@@ -27,7 +27,7 @@ public:
   explicit be_visitor_interface_smart_proxy_ch (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_interface_smart_proxy_ch () override;
+  ~be_visitor_interface_smart_proxy_ch () override = default;
   be_visitor_interface_smart_proxy_ch (be_visitor_interface_smart_proxy_ch const &) = delete;
   be_visitor_interface_smart_proxy_ch (be_visitor_interface_smart_proxy_ch &&) = delete;
   be_visitor_interface_smart_proxy_ch &operator= (be_visitor_interface_smart_proxy_ch const &) = delete;

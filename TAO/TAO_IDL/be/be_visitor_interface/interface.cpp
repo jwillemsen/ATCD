@@ -16,8 +16,6 @@ be_visitor_interface::be_visitor_interface (be_visitor_context *ctx)
 {
 }
 
-be_visitor_interface::~be_visitor_interface () = default;
-
 // This method must be overridden by the derived interface visitors.
 int
 be_visitor_interface::visit_interface (be_interface *)

@@ -29,7 +29,7 @@ public:
   explicit be_visitor_interface_tie_ss (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_interface_tie_ss () override;
+  ~be_visitor_interface_tie_ss () override = default;
   be_visitor_interface_tie_ss (be_visitor_interface_tie_ss const &) = delete;
   be_visitor_interface_tie_ss (be_visitor_interface_tie_ss &&) = delete;
   be_visitor_interface_tie_ss &operator= (be_visitor_interface_tie_ss const &) = delete;

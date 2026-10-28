@@ -18,8 +18,6 @@ be_visitor_interface_ih::be_visitor_interface_ih (be_visitor_context *ctx)
 {
 }
 
-be_visitor_interface_ih::~be_visitor_interface_ih () = default;
-
 int
 be_visitor_interface_ih::visit_interface (be_interface *node)
 {

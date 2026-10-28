@@ -28,7 +28,7 @@ public:
   explicit be_visitor_interface_tie_sh (be_visitor_context *ctx);
 
   /// destructor
-  ~be_visitor_interface_tie_sh () override;
+  ~be_visitor_interface_tie_sh () override = default;
   be_visitor_interface_tie_sh (be_visitor_interface_tie_sh const &) = delete;
   be_visitor_interface_tie_sh (be_visitor_interface_tie_sh &&) = delete;
   be_visitor_interface_tie_sh &operator= (be_visitor_interface_tie_sh const &) = delete;

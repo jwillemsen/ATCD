@@ -18,8 +18,6 @@ be_visitor_interface_svth::be_visitor_interface_svth (
 {
 }
 
-be_visitor_interface_svth::~be_visitor_interface_svth () = default;
-
 int
 be_visitor_interface_svth::visit_interface (be_interface *node)
 {

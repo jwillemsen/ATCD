@@ -31,8 +31,6 @@ be_visitor_connector_dds_ex_base::be_visitor_connector_dds_ex_base (
 {
 }
 
-be_visitor_connector_dds_ex_base::~be_visitor_connector_dds_ex_base () = default;
-
 bool
 be_visitor_connector_dds_ex_base::begin (be_connector *node)
 {

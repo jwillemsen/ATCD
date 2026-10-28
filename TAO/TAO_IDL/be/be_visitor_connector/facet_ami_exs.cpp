@@ -34,8 +34,6 @@ be_visitor_facet_ami_exs::be_visitor_facet_ami_exs (
 {
 }
 
-be_visitor_facet_ami_exs::~be_visitor_facet_ami_exs () = default;
-
 int
 be_visitor_facet_ami_exs::visit_component (be_component *node)
 {

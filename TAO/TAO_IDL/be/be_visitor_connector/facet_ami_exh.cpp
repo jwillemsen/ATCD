@@ -40,8 +40,6 @@ be_visitor_facet_ami_exh::be_visitor_facet_ami_exh (
   export_macro_ = be_global->conn_export_macro ();
 }
 
-be_visitor_facet_ami_exh::~be_visitor_facet_ami_exh () = default;
-
 int
 be_visitor_facet_ami_exh::visit_component (be_component *node)
 {

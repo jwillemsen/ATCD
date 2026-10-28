@@ -31,7 +31,7 @@ class be_visitor_connector_ami_exh
 public:
   explicit be_visitor_connector_ami_exh (be_visitor_context *ctx);
 
-  ~be_visitor_connector_ami_exh () override;
+  ~be_visitor_connector_ami_exh () override = default;
   be_visitor_connector_ami_exh (be_visitor_connector_ami_exh const &) = delete;
   be_visitor_connector_ami_exh (be_visitor_connector_ami_exh &&) = delete;
   be_visitor_connector_ami_exh &operator= (be_visitor_connector_ami_exh const &) = delete;

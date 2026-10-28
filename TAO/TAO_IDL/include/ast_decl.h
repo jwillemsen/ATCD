@@ -396,7 +396,7 @@ public:
   /**
    * Should AMI visit this node?
    */
-  virtual bool ami_visit ();
+  virtual bool ami_visit () const;
 
   virtual std::string_view node_type_name () const;
 

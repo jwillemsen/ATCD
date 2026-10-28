@@ -1513,7 +1513,7 @@ AST_Decl::annotations ()
 }
 
 bool
-AST_Decl::ami_visit ()
+AST_Decl::ami_visit () const
 {
   return true;
 }

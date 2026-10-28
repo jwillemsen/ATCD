@@ -101,7 +101,7 @@ AST_Annotation_Decl::ast_accept (ast_visitor *visitor)
 }
 
 bool
-AST_Annotation_Decl::ami_visit ()
+AST_Annotation_Decl::ami_visit () const
 {
   return false;
 }

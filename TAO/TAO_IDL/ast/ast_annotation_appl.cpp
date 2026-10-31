@@ -1,6 +1,8 @@
 #include "ast_annotation_appl.h"
 #include "ast_annotation_member.h"
 
+#include <memory>
+
 AST_Annotation_Appl::Param::Param ()
   : id (nullptr),
     expr (nullptr),
@@ -121,7 +123,8 @@ AST_Annotation_Appl::apply_from (AST_Annotation_Decl *decl)
             member->local_name ()->get_string ());
           if (param)
             {
-              new_member->value (new AST_Expression (param->expr, member->expr_type()));
+              new_member->value (
+                std::make_unique<AST_Expression> (param->expr, member->expr_type ()));
               if (new_member->invalid_value ())
               {
                 idl_global->err ()->invalid_annotation_param_type (

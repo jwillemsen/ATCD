@@ -8,6 +8,8 @@
 #include "ast_field.h"
 #include "ast_expression.h"
 
+#include <memory>
+
 class AST_Expression;
 
 /**
@@ -48,6 +50,7 @@ public:
   ///{
   AST_Expression *value () const;
   void value (AST_Expression *value);
+  void value (std::unique_ptr<AST_Expression> value);
   ///}
 
   /// Get the ExprType
@@ -61,7 +64,7 @@ private:
   AST_Expression::ExprType expr_type_;
 
   /// Value of the Member, can be null
-  AST_Expression *value_ {};
+  std::unique_ptr<AST_Expression> value_;
 };
 
 #endif

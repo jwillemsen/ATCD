@@ -8,7 +8,7 @@ int
 parse_args (int argc, ACE_TCHAR *argv[])
 {
   ACE_Get_Opt get_opts (argc, argv, ACE_TEXT("o:"));
-  int c;
+  int c {};
 
   while ((c = get_opts ()) != -1)
     switch (c)
@@ -38,7 +38,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[])
         CORBA::ORB_init (argc, argv);
 
       CORBA::Object_var poa_object =
-        orb->resolve_initial_references("RootPOA");
+        orb->resolve_initial_references ("RootPOA");
 
       PortableServer::POA_var root_poa =
         PortableServer::POA::_narrow (poa_object.in ());
@@ -54,11 +54,11 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[])
       if (parse_args (argc, argv) != 0)
         return 1;
 
-      BlobServerImpl *blob_impl;
+      BlobServerImpl *blob_impl = nullptr;
       ACE_NEW_RETURN (blob_impl,
                       BlobServerImpl (orb.in ()),
                       1);
-      PortableServer::ServantBase_var owner_transfer(blob_impl);
+      PortableServer::ServantBase_var owner_transfer (blob_impl);
 
       PortableServer::ObjectId_var id =
         root_poa->activate_object (blob_impl);
@@ -91,7 +91,7 @@ int ACE_TMAIN (int argc, ACE_TCHAR *argv[])
 
       orb->destroy ();
     }
-  catch (const CORBA::Exception& ex)
+  catch (CORBA::Exception const &ex)
     {
       ex._tao_print_exception ("Exception caught:");
       return 1;

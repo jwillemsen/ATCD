@@ -10,7 +10,7 @@ class BlobServerImpl
 {
 public:
   /// Constructor
-  BlobServerImpl (CORBA::ORB_ptr orb);
+  explicit BlobServerImpl (CORBA::ORB_ptr orb);
   BlobServerImpl (BlobServerImpl const &) = delete;
   BlobServerImpl &operator= (BlobServerImpl const &) = delete;
   BlobServerImpl (BlobServerImpl &&) = delete;

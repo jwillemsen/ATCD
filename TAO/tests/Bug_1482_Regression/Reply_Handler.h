@@ -10,12 +10,11 @@
 class Reply_Handler : public POA_Test::AMI_HelloHandler
 {
 public:
-  Reply_Handler (CORBA::ORB_ptr o);
+  explicit Reply_Handler (CORBA::ORB_ptr o);
   Reply_Handler (Reply_Handler const &) = delete;
   Reply_Handler &operator= (Reply_Handler const &) = delete;
   Reply_Handler (Reply_Handler &&) = delete;
   Reply_Handler &operator= (Reply_Handler &&) = delete;
-
 
   void next_prime (CORBA::ULong ami_return_val) override;
 

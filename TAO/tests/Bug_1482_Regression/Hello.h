@@ -11,7 +11,7 @@ class Hello
 {
 public:
   /// Constructor
-  Hello (CORBA::ORB_ptr orb);
+  explicit Hello (CORBA::ORB_ptr orb);
   Hello (Hello const &) = delete;
   Hello &operator= (Hello const &) = delete;
   Hello (Hello &&) = delete;
@@ -29,7 +29,7 @@ private:
   TAO_SYNCH_MUTEX mutex_;
 
   /// Latest prime
-  CORBA::ULong latest_prime_;
+  CORBA::ULong latest_prime_ {};
 };
 
 #include /**/ "ace/post.h"

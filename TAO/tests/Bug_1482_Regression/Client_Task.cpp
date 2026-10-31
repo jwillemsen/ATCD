@@ -6,10 +6,10 @@ Client_Task::Client_Task (Test::Hello_ptr receiver,
                           CORBA::ORB_ptr o,
                           ACE_Thread_Manager *thr_mgr)
   : ACE_Task_Base (thr_mgr)
-    , receiver_ (Test::Hello::_duplicate (receiver))
-    , handler_ (o)
-    , handler_var_ ()
-    , orb_ (CORBA::ORB::_duplicate (o))
+  , receiver_ (Test::Hello::_duplicate (receiver))
+  , handler_ (o)
+  , handler_var_ ()
+  , orb_ (CORBA::ORB::_duplicate (o))
 {
   this->handler_var_ = this->handler_._this ();
 }
@@ -34,7 +34,7 @@ Client_Task::svc ()
           CORBA::Short repl = 0;
           while (repl != 25)
             {
-              CORBA::Boolean pending =
+              bool pending =
                 this->orb_->work_pending ();
 
               if (pending)
@@ -46,7 +46,7 @@ Client_Task::svc ()
             }
         }
     }
-  catch (const CORBA::Exception&)
+  catch (CORBA::Exception const &)
     {
       return -1;
     }

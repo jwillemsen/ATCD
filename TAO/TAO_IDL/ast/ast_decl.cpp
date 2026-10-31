@@ -237,8 +237,7 @@ AST_Decl::destroy ()
   if (this->last_referenced_as_)
     {
       this->last_referenced_as_->destroy ();
-      delete this->last_referenced_as_;
-      this->last_referenced_as_ = nullptr;
+      this->last_referenced_as_.reset ();
     }
 
   this->full_name_.clear ();
@@ -247,8 +246,7 @@ AST_Decl::destroy ()
   this->version_.clear ();
   this->flat_name_.clear ();
 
-  delete annotation_appls_;
-  annotation_appls_ = nullptr;
+  annotation_appls_.reset ();
 }
 
 AST_Decl *
@@ -1240,19 +1238,21 @@ AST_Decl::is_defined ()
 UTL_ScopedName *
 AST_Decl::last_referenced_as () const
 {
-  return this->last_referenced_as_;
+  return this->last_referenced_as_.get ();
 }
 
 void
 AST_Decl::last_referenced_as (UTL_ScopedName *n)
 {
-  if (this->last_referenced_as_)
+  if (this->last_referenced_as_.get () != n)
     {
-      this->last_referenced_as_->destroy ();
-    }
+      if (this->last_referenced_as_)
+        {
+          this->last_referenced_as_->destroy ();
+        }
 
-  delete this->last_referenced_as_;
-  this->last_referenced_as_ = n;
+      this->last_referenced_as_.reset (n);
+    }
 }
 
 UTL_Scope *
@@ -1404,7 +1404,7 @@ AST_Decl::annotation_appls ()
 {
   if (!annotation_appls_)
     {
-      annotation_appls_ = new AST_Annotation_Appls ();
+      annotation_appls_ = std::make_unique<AST_Annotation_Appls> ();
     }
   return *annotation_appls_;
 }

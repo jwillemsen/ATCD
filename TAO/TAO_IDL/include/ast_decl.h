@@ -428,7 +428,7 @@ protected:
   // Convert a NodeType to a string for dumping.
 
   /// Annotations applied to this IDL element
-  AST_Annotation_Appls *annotation_appls_ {};
+  std::unique_ptr<AST_Annotation_Appls> annotation_appls_;
 
   /**
    * True if defined using idl_global->eval()
@@ -479,7 +479,7 @@ private:
   bool typeid_set_ {};
   // Has our repo id been set by a typeId declaration?
 
-  UTL_ScopedName *last_referenced_as_ {};
+  std::unique_ptr<UTL_ScopedName> last_referenced_as_;
   // Temporary holder of the most recent way we were reference.
   // The top level component of this is added to pd_name_referenced.
 

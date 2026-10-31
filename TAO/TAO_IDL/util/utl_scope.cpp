@@ -63,6 +63,7 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 */
 
 #include <algorithm>
+#include <memory>
 #include <string>
 
 #include "utl_scope.h"
@@ -1678,7 +1679,7 @@ UTL_Scope::dump (ACE_OSTREAM_TYPE &o)
     {
       UTL_Indenter *idnt = nullptr;
       ACE_NEW (idnt, UTL_Indenter);
-      idl_global->set_indent (idnt);
+      idl_global->set_indent (std::unique_ptr<UTL_Indenter> (idnt));
     }
   idl_global->indent ()->increase ();
 

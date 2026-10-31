@@ -68,6 +68,10 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "idl_extern.h"
 #include "drv_private_ifr.h"
 #include "be_extern.h"
+#include "utl_err.h"
+#include "utl_indenter.h"
+
+#include <memory>
 
 
 constexpr size_t LOCAL_ESCAPES_BUFFER_SIZE = 1024;
@@ -80,11 +84,11 @@ DRV_init ()
            IDL_GlobalData);
 
   // Initialize some of its data.
-  idl_global->set_root (nullptr);
-  idl_global->set_gen (nullptr);
-  idl_global->set_err (FE_new_UTL_Error ());
+  idl_global->set_root ({});
+  idl_global->set_gen ({});
+  idl_global->set_err (std::unique_ptr<UTL_Error> (FE_new_UTL_Error ()));
   idl_global->set_err_count (0);
-  idl_global->set_indent (FE_new_UTL_Indenter ());
+  idl_global->set_indent (std::unique_ptr<UTL_Indenter> (FE_new_UTL_Indenter ()));
   idl_global->set_filename (nullptr);
   idl_global->set_main_filename (nullptr);
   idl_global->set_real_filename (nullptr);

@@ -73,7 +73,10 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "ast_predefined_type.h"
 #include "ast_generator.h"
 #include "ast_root.h"
+#include "utl_err.h"
+#include "utl_indenter.h"
 
+#include <memory>
 #include <string>
 #include <unordered_set>
 
@@ -358,11 +361,11 @@ FE_init ()
            IDL_GlobalData);
 
   // Initialize some of its data.
-  idl_global->set_root (nullptr);
-  idl_global->set_gen (nullptr);
-  idl_global->set_err (FE_new_UTL_Error ());
+  idl_global->set_root ({});
+  idl_global->set_gen ({});
+  idl_global->set_err (std::unique_ptr<UTL_Error> (FE_new_UTL_Error ()));
   idl_global->set_err_count (0);
-  idl_global->set_indent (FE_new_UTL_Indenter ());
+  idl_global->set_indent (std::unique_ptr<UTL_Indenter> (FE_new_UTL_Indenter ()));
   idl_global->set_import (true);
   idl_global->set_in_main_file (false);
   idl_global->set_lineno (-1);
@@ -397,7 +400,7 @@ FE_populate ()
   Identifier root_id ("");
   UTL_ScopedName root_name (&root_id, nullptr);
   r = idl_global->gen ()->create_root (&root_name);
-  idl_global->set_root (r);
+  idl_global->set_root (std::unique_ptr<AST_Root> (r));
 
   if (r == nullptr)
     {

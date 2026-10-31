@@ -71,11 +71,13 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 #include "fe_extern.h"
 
 #include "ast_root.h"
+#include "ast_generator.h"
 #include "ast_extern.h"
 
 #include "utl_string.h"
 #include "utl_identifier.h"
 
+#include <memory>
 #include <string>
 
 #include "drv_extern.h"
@@ -356,7 +358,7 @@ ACE_TMAIN (int argc, ACE_TCHAR *argv[])
         }
       else
         {
-          idl_global->set_gen (gen);
+          idl_global->set_gen (std::unique_ptr<AST_Generator> (gen));
         }
 
       // Initialize AST and load predefined types.

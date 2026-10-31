@@ -137,6 +137,8 @@ IDL_GlobalData::IDL_GlobalData ()
   this->reset_flag_seen ();
 }
 
+IDL_GlobalData::~IDL_GlobalData () = default;
+
 // When starting to process the next command line input idl file, reset.
 void
 IDL_GlobalData::reset_flag_seen ()
@@ -216,26 +218,26 @@ IDL_GlobalData::scopes ()
 AST_Root *
 IDL_GlobalData::root () const
 {
-  return this->pd_root;
+  return this->pd_root.get ();
 }
 
 void
-IDL_GlobalData::set_root (AST_Root *r)
+IDL_GlobalData::set_root (std::unique_ptr<AST_Root> r)
 {
-  this->pd_root = r;
+  this->pd_root = std::move (r);
 }
 
 // Get or set generator object
 AST_Generator *
 IDL_GlobalData::gen () const
 {
-  return this->pd_gen;
+  return this->pd_gen.get ();
 }
 
 void
-IDL_GlobalData::set_gen (AST_Generator *g)
+IDL_GlobalData::set_gen (std::unique_ptr<AST_Generator> g)
 {
-  this->pd_gen = g;
+  this->pd_gen = std::move (g);
 }
 
 // Get or set PrimaryKeyBase object
@@ -255,13 +257,13 @@ IDL_GlobalData::primary_key_base (AST_ValueType *v)
 UTL_Error *
 IDL_GlobalData::err () const
 {
-  return this->pd_err;
+  return this->pd_err.get ();
 }
 
 void
-IDL_GlobalData::set_err (UTL_Error *e)
+IDL_GlobalData::set_err (std::unique_ptr<UTL_Error> e)
 {
-  this->pd_err = e;
+  this->pd_err = std::move (e);
 }
 
 // Get or set error count
@@ -453,13 +455,13 @@ IDL_GlobalData::set_local_escapes (std::string const& escapes)
 UTL_Indenter *
 IDL_GlobalData::indent () const
 {
-  return this->pd_indent;
+  return this->pd_indent.get ();
 }
 
 void
-IDL_GlobalData::set_indent (UTL_Indenter *i)
+IDL_GlobalData::set_indent (std::unique_ptr<UTL_Indenter> i)
 {
-  this->pd_indent = i;
+  this->pd_indent = std::move (i);
 }
 
 // Have we seen this #include file name before?
@@ -1163,16 +1165,12 @@ IDL_GlobalData::fini ()
   if (nullptr != this->pd_root)
     {
       this->pd_root->fini ();
-      delete this->pd_root;
-      this->pd_root = nullptr;
+      this->pd_root.reset ();
     }
 
-  delete this->pd_err;
-  this->pd_err = nullptr;
-  delete this->pd_gen;
-  this->pd_gen = nullptr;
-  delete this->pd_indent;
-  this->pd_indent = nullptr;
+  this->pd_err.reset ();
+  this->pd_gen.reset ();
+  this->pd_indent.reset ();
   this->pd_local_escapes.clear ();
   this->tao_root_.clear ();
   this->gperf_path_.clear ();

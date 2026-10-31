@@ -324,7 +324,7 @@ public:
   };
 
   IDL_GlobalData ();
-  ~IDL_GlobalData () = default;
+  ~IDL_GlobalData ();
   IDL_GlobalData (IDL_GlobalData const&) = delete;
   IDL_GlobalData (IDL_GlobalData&&) = delete;
   IDL_GlobalData& operator= (IDL_GlobalData const&) = delete;
@@ -334,16 +334,16 @@ public:
   UTL_ScopeStack   &scopes ();              // Scopes stack
 
   AST_Root         *root () const;          // Root of AST
-  void             set_root (AST_Root *);       // Set it
+  void             set_root (std::unique_ptr<AST_Root>);
 
   AST_Generator    *gen () const;           // Generator
-  void             set_gen (AST_Generator *);   // Set it
+  void             set_gen (std::unique_ptr<AST_Generator>);
 
   AST_ValueType    *primary_key_base () const; // PrimaryKeyBase
   void             primary_key_base (AST_ValueType *);   // Set it
 
   UTL_Error        *err () const;           // Error reporter
-  void             set_err (UTL_Error *);       // Set it
+  void             set_err (std::unique_ptr<UTL_Error>);
 
   int              err_count () const;      // How many errors?
   void             set_err_count (int);         // Set it
@@ -385,7 +385,7 @@ public:
   void             set_local_escapes (std::string const& escapes);
 
   UTL_Indenter     *indent () const;        // Get indenter
-  void             set_indent (UTL_Indenter *); // Set it
+  void             set_indent (std::unique_ptr<UTL_Indenter>);
 
   void store_include_file_name (std::string const& filename);
 
@@ -892,10 +892,10 @@ public:
 private:
   // Data
   UTL_ScopeStack             pd_scopes;              // Store scopes stack
-  AST_Root                   *pd_root {};             // Store AST root
-  AST_Generator              *pd_gen {};              // Store generator
+  std::unique_ptr<AST_Root>      pd_root;              // Store AST root
+  std::unique_ptr<AST_Generator> pd_gen;               // Store generator
   AST_ValueType              *pd_primary_key_base {}; // Store PrimaryKeyBase
-  UTL_Error                  *pd_err {};              // Error object
+  std::unique_ptr<UTL_Error>     pd_err;               // Error object
   int                        pd_err_count {};         // Count of errors
   long                       pd_lineno {};            // What line #
   std::string                pd_filename;          // What file
@@ -908,7 +908,7 @@ private:
   std::string pd_cpp_location;
   long                       pd_compile_flags {};      // Compile flags
   std::string                 pd_local_escapes {};     // Trapdoor argument
-  UTL_Indenter               *pd_indent {};            // Indent object
+  std::unique_ptr<UTL_Indenter>  pd_indent;            // Indent object
                                                      // as it's being built
   std::vector<std::string> pd_include_file_names_;
   std::vector<long> include_file_seen_count_;

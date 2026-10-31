@@ -61,9 +61,6 @@ public:
   /// An alias for the underlying iterator
   using Iterator = TAO_ESF_Proxy_RB_Tree_Iterator<PROXY>;
 
-  /// Constructor
-  TAO_ESF_Proxy_RB_Tree ();
-
   /// Return the first element in the collection, or end() if there
   /// are none
   TAO_ESF_Proxy_RB_Tree_Iterator<PROXY> begin ();

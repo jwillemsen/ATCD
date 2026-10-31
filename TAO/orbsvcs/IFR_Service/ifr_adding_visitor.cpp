@@ -1,5 +1,6 @@
 /* -*- c++ -*- */
 #include <string>
+#include <memory>
 
 #include "orbsvcs/Log_Macros.h"
 #include "ast_argument.h"
@@ -2257,13 +2258,11 @@ ifr_adding_visitor::visit_array (AST_Array *node)
 
       this->element_type (bt, owned);
 
-      AST_Expression **dims = node->dims ();
-
       for (unsigned long i = node->n_dims (); i > 0; --i)
         {
           this->ir_current_ =
             be_global->repository ()->create_array (
-                dims[i - 1]->ev ()->u.ulval,
+                node->dims ()[i - 1]->ev ()->u.ulval,
                 this->ir_current_.in ()
               );
         }
@@ -2662,15 +2661,14 @@ ifr_adding_visitor::load_any (AST_Expression::AST_ExprValue *ev,
       any <<= CORBA::Any::from_boolean ((CORBA::Boolean) ev->u.bval);
       break;
     case AST_Expression::EV_string:
-      any <<= ev->u.strval->get_string ();
+      any <<= ev->strval.c_str ();
       break;
     case AST_Expression::EV_wstring:
       {
-        char *str = ev->u.wstrval;
-        size_t len = ACE_OS::strlen (str);
-        CORBA::WChar *wstr = nullptr;
-        ACE_NEW (wstr,
-                 CORBA::WChar[len + 1]);
+        std::string const& str = ev->strval;
+        size_t const len = str.size ();
+        std::unique_ptr<CORBA::WChar[]> wstr =
+          std::make_unique<CORBA::WChar[]> (len + 1);
 
         for (size_t i = 0; i < len; ++i)
           {
@@ -2678,8 +2676,7 @@ ifr_adding_visitor::load_any (AST_Expression::AST_ExprValue *ev,
           }
 
         wstr[len] = 0;
-        any <<= wstr;
-        delete [] wstr;
+        any <<= wstr.get ();
         break;
       }
     case AST_Expression::EV_enum:

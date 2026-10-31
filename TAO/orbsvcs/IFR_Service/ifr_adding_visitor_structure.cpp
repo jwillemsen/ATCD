@@ -30,7 +30,7 @@ ifr_adding_visitor_structure::visit_scope (UTL_Scope *node)
   AST_Structure *s = dynamic_cast<AST_Structure*> (node);
   CORBA::ULong const nfields = static_cast<CORBA::ULong> (s->nfields ());
   this->members_.length (nfields);
-  AST_Field **f = nullptr;
+  AST_Field *f = nullptr;
 
   try
     {
@@ -47,7 +47,7 @@ ifr_adding_visitor_structure::visit_scope (UTL_Scope *node)
                -1);
             }
 
-          AST_Type *ft = (*f)->field_type ();
+          AST_Type *ft = f->field_type ();
           bool defined_here = ft->is_child (this->scope_);
 
           // If the struct member is defined in the struct, we have to
@@ -94,7 +94,7 @@ ifr_adding_visitor_structure::visit_scope (UTL_Scope *node)
             }
 
           this->members_[i].name =
-            CORBA::string_dup ((*f)->local_name ()->get_string ().c_str ());
+            CORBA::string_dup (f->local_name ()->get_string ().c_str ());
 
           // IfR method create_struct does not use this - it just needs
           // to be non-zero for marshaling.

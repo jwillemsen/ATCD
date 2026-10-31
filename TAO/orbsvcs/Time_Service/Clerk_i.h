@@ -19,6 +19,8 @@
 #include "orbsvcs/Naming/Naming_Client.h"
 #include "orbsvcs/Time/TAO_Time_Service_Clerk.h"
 
+#include <vector>
+
 /**
  * @class Clerk_i
  *
@@ -48,7 +50,7 @@ public:
   Clerk_i &operator= (Clerk_i &&) = delete;
 
   /// Set of available Time servers.
-  using IORS = ACE_Array_Base<CosTime::TimeService_var>;
+  using IORS = std::vector<CosTime::TimeService_var>;
 
   /// Initialize the Clerk state - parsing arguments and waiting.
   int init (int argc,
@@ -130,7 +132,7 @@ private:
   // Helper class for using the IR.
 
   /// The unbounded set of server IORS.
-  IORS server_ {Clerk_i::DEFAULT_SERVER_COUNT};
+  IORS server_ {};
 
   /// Read IORs from a file.
   bool ior_file_provided_ {};

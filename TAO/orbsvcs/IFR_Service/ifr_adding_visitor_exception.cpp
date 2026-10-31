@@ -39,7 +39,7 @@ ifr_adding_visitor_exception::visit_scope (UTL_Scope *node)
 
   this->members_.length (nfields);
 
-  AST_Field **f = nullptr;
+  AST_Field *f = nullptr;
 
   try
     {
@@ -58,7 +58,7 @@ ifr_adding_visitor_exception::visit_scope (UTL_Scope *node)
               );
             }
 
-          AST_Type *ft = (*f)->field_type ();
+          AST_Type *ft = f->field_type ();
 
           bool defined_here = ft->is_child (this->scope_);
 
@@ -85,7 +85,7 @@ ifr_adding_visitor_exception::visit_scope (UTL_Scope *node)
             }
 
           this->members_[i].name =
-            CORBA::string_dup ((*f)->local_name ()->get_string ().c_str ());
+            CORBA::string_dup (f->local_name ()->get_string ().c_str ());
 
           // IfR method create_exception does not use this - it just needs
           // to be non-zero for marshaling.

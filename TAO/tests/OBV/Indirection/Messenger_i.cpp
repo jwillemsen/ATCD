@@ -2,7 +2,9 @@
 
 #include "tao/AnyTypeCode/TypeCode.h"
 
+#include <algorithm>
 #include <sstream>
+#include <vector>
 
 char * Messenger_i::receive_boxedvalue (::demo::value::idl::boxedValue * b)
 {
@@ -48,35 +50,26 @@ char * Messenger_i::receive_string (
 char * Messenger_i::receive_list (::demo::value::idl::Node * node)
 {
   std::ostringstream os;
-  using NodeVector = ACE_Vector< ::demo::value::idl::Node *>;
-  NodeVector l;
+  std::vector<::demo::value::idl::Node *> nodes;
   ::demo::value::idl::Node *x = node;
 
   while (x != nullptr)
   {
-    size_t const len = l.size ();
-    size_t i = 0;
-    for (i = 0; i < len; ++i)
-    {
-      if (l[i] == x)
-        break;
-    }
-
-    if (l[i] == x)
+    if (std::find (nodes.begin (), nodes.end (), x) != nodes.end ())
       break;
 
-    l.push_back (x);
+    nodes.push_back (x);
     x = x->next ();
   }
 
-  size_t const len = l.size ();
+  size_t const len = nodes.size ();
 
   os << "list of length: " << len << " -- ";
 
   for (size_t i = 0; i < len; ++i)
   {
-    os << l[i]->id ();
-    if (l[i]->next () != nullptr)
+    os << nodes[i]->id ();
+    if (nodes[i]->next () != nullptr)
       os << " ";
   }
   return CORBA::string_dup (os.str().c_str());

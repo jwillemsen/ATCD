@@ -18,6 +18,7 @@
 #include "tao/IIOP_Endpoint.h" // TAO_IIOP_Endpoint::find_preferred_interfaces ()
 
 #include "ace/Vector_T.h"
+#include "ace/Basic_Types.h"
 
 TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 
@@ -229,7 +230,13 @@ TAO_UIPMC_Mcast_Connection_Handler::open (void *)
     }
 
   // Pass the connection over to the transport.
-  this->transport ()->id (static_cast<size_t> (this->peer ().get_handle ()));
+  ACE_HANDLE const handle = this->peer ().get_handle ();
+#if defined (ACE_WIN32)
+  this->transport ()->id (
+    static_cast<size_t> (reinterpret_cast<uintptr_t> (handle)));
+#else
+  this->transport ()->id (static_cast<size_t> (handle));
+#endif
   return 0;
 }
 

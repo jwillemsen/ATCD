@@ -37,7 +37,7 @@ ifr_adding_visitor_union::visit_scope (UTL_Scope *node)
 
   this->members_.length (nfields);
 
-  AST_Field **f = nullptr;
+  AST_Field *f = nullptr;
 
   // Index into members_.
   CORBA::ULong index = 0;
@@ -59,7 +59,7 @@ ifr_adding_visitor_union::visit_scope (UTL_Scope *node)
               );
             }
 
-          AST_Type *ft = (*f)->field_type ();
+          AST_Type *ft = f->field_type ();
 
           bool defined_here = ft->is_child (this->scope_);
 
@@ -109,7 +109,7 @@ ifr_adding_visitor_union::visit_scope (UTL_Scope *node)
           // Get the case label(s).
 
           AST_UnionLabel *case_label = nullptr;
-          AST_UnionBranch *ub = dynamic_cast<AST_UnionBranch*> (*f);
+          AST_UnionBranch *ub = dynamic_cast<AST_UnionBranch*> (f);
           unsigned long len = ub->label_list_length ();
 
           // If there are multiple case labels, we will have an element
@@ -158,7 +158,7 @@ ifr_adding_visitor_union::visit_scope (UTL_Scope *node)
                 }
 
               this->members_[index].name =
-                CORBA::string_dup ((*f)->local_name ()->get_string ().c_str ());
+                CORBA::string_dup (f->local_name ()->get_string ().c_str ());
 
               // IfR method create_union does not use this - it just needs
               // to be non-zero for marshaling.

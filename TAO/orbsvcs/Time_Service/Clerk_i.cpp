@@ -390,8 +390,7 @@ Clerk_i::init (int argc,
       ACE_Argv_Type_Converter command (argc, argv);
 
       // Set the size of the Server IOR Array.
-      this->server_.max_size (10);
-      this->server_.size (0);
+      this->server_.reserve (Clerk_i::DEFAULT_SERVER_COUNT);
 
       // Call the init of <TAO_ORB_Manager> to initialize the ORB and
       // create a child POA under the root POA.
@@ -480,13 +479,5 @@ void
 Clerk_i::insert_server (CosTime::TimeService_ptr server)
 {
   // We duplicate the capacity of the Array.
-  size_t s = this->server_.size ();
-
-  if (this->server_.max_size () == s)
-    this->server_.max_size (2 * s);
-
-  this->server_[s] =
-    CosTime::TimeService::_duplicate (server);
-
-  this->server_.size (s + 1);
+  this->server_.push_back (CosTime::TimeService::_duplicate (server));
 }
